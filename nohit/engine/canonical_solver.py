@@ -5,6 +5,7 @@ import time
 from pathlib import Path
 import numpy as np
 from .compact_wave import compile_wave
+from .csv_completion import AUDITED_NO_ACTION_COMMANDS, AUDITED_VITALITY_COMMANDS
 from .discrete_operator import step_action_into, initial_state
 from .cspace import bake_cspace, collision_query, bake_guidance, guidance_query,bake_navigation,navigation_query
 from .adaptive_dag import create_demand_kernel
@@ -133,7 +134,10 @@ def solve_attack(path, initial=None, seed=42, max_nodes=500000, max_expansions=5
             for f in ('discrete_operator.py','adaptive_dag.py','cspace.py','compact_wave.py','resumable_wave.py','dp_pruning.py','parametric_dag.py','parametric_environment.py','history_quotient.py','environment_state_key.py','terminal_invariant.py','terminal_completion.py','red_reachability_bounds.py','local_relation.py','parametric_kernels.py','dead_window.py','closure_search.py','parallel_expansion.py','exact_state_dedup.py','control_quotient.py','execution_schedule.py','timeline_csv.py'))).hexdigest(),
         'csv_sha256':hashlib.sha256(path.read_bytes()).hexdigest()}
     result['termination_policy']=termination_policy
-    issues=model_issues(path, allow_player_history=True,termination_policy=termination_policy)
+    audits=AUDITED_NO_ACTION_COMMANDS|AUDITED_VITALITY_COMMANDS
+    issues=[issue for issue in model_issues(path, allow_player_history=True,termination_policy=termination_policy)
+            if not (issue.get('reason')=='mechanism_not_validated' and
+                    issue.get('command','').strip().lower() in audits)]
     if issues:
         return dict(result,status='unsupported_mechanism',issues=issues)
     if initial is None:

@@ -13,7 +13,7 @@ import struct
 import numpy as np
 from .compact_wave import compile_wave,native_fixed_dt,normalize_initial_arena,initial_arena_identity
 from .compact_types import CompiledWave,GeometryArray
-from .native_function_dispatch import call_arguments, audited_no_action_function
+from .native_function_dispatch import call_arguments, audited_no_action_function, executable_resize_callback
 
 
 @dataclass(frozen=True,slots=True)
@@ -309,7 +309,7 @@ class ParametricEnvironment:
         schedule=np.empty((n,7),np.float64);schedule[:,:6]=platform[:,0,:6];schedule[:,6]=env[:,7]
         d=state.data;end_resize=d['end_resize']
         callbacks=d['unproven_callbacks']+([dict(end_resize,status='awaiting_arena_settle')]
-            if end_resize is not None and (end_resize['function'].lower()=='tlresume' or audited_no_action_function(end_resize['function'])) else [])
+            if end_resize is not None and executable_resize_callback(end_resize['function']) else [])
         details={name:len(d[name]) for name in ('active_bones','active_platforms','active_stabs','active_blasters')}
         details.update(arena_settled=d['cz']==d['tgt_cz'],player_invariant_proven=False,
             pending_dialogue=dialogue,timeline_exhausted=d['pc']>=len(state.program.parsed) and

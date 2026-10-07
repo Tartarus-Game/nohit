@@ -8,10 +8,61 @@ from .discrete_operator import step_mask_into
 from .execution_schedule import execution_schedule
 from .terminal_completion import complete_eof_tail
 from .terminal_invariant import EMPTY_PLATFORMS, certify_release_invariant
+from .timeline_csv import read_timeline_rows
 
 
 AUDITED_NO_ACTION_COMMANDS = frozenset(('score', 'mus_zz_megalovania'))
 NO_ACTION_SOURCE_AUDIT = 'jcw87-absent-function-registry-20261007'
+
+# ``DamagePlayer`` is a native Function, not an attack. Battle.xml's
+# ``On function "DamagePlayer"`` block does exactly three things:
+#     LastDamageTime = time
+#     HP -= Function.Param(0)
+#     KR += Function.Param(1)
+# and then plays PlayerDamaged. It reads and writes no world geometry, spawns no
+# hazard and moves no player, so the kinematic model may carry it as a no-op.
+# It does change the player's vitality, so it must NOT be folded into the
+# no-action audit: rows that call it are reported through
+# :func:`vitality_events` and every candidate that contains a positive one is
+# marked as scripting real damage.
+AUDITED_VITALITY_COMMANDS = frozenset(('damageplayer',))
+VITALITY_SOURCE_AUDIT = 'battle-xml-damageplayer-onfunction-20261007'
+
+
+def _numeric_cell(args, index):
+    """Return the literal value of a cell, or None when it is an expression."""
+    if index >= len(args):
+        return None
+    cell = args[index].strip()
+    if not cell:
+        return None
+    try:
+        return float(cell)
+    except ValueError:
+        return None
+
+
+def vitality_events(path):
+    """Scripted HP/KR mutations written in the CSV, in source order.
+
+    A positive ``damage`` is real HP loss. A negative one is a heal: the original
+    event sheet clamps ``HP`` back to ``MaxHP`` every tick, so a heal at full HP
+    cannot raise it. ``kr`` follows the same sign convention. A cell that holds an
+    expression instead of a literal is reported as unresolved rather than guessed.
+    """
+    events = []
+    for number, row in enumerate(read_timeline_rows(path), 1):
+        if len(row) < 2 or row[1].strip().lower() != 'damageplayer':
+            continue
+        args = [cell.strip() for cell in row[2:]]
+        damage = _numeric_cell(args, 0)
+        kr = _numeric_cell(args, 1)
+        events.append(dict(
+            line=number, delay=row[0].strip(),
+            damage=damage, kr=kr,
+            resolution='literal' if damage is not None else 'unresolved_expression',
+            source_audit=VITALITY_SOURCE_AUDIT))
+    return events
 
 
 def wave_terminal(wave):

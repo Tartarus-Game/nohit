@@ -13,7 +13,8 @@ from .compact_wave import (TimelineVM,_ActiveBone,_ActivePlatform,_ActiveBoneSta
 from .native_numbers import native_int, native_parameter_in_range, native_for_count_indices
 from .dialogue_operator import DialogueState,step_dialogue
 from .timeline_csv import parse_timeline_rows
-from .native_function_dispatch import call_arguments, audited_no_action_function, NO_ACTION_FUNCTION_AUDIT
+from .native_function_dispatch import (call_arguments, audited_no_action_function,
+    executable_resize_callback, modeled_timeline_callback, NO_ACTION_FUNCTION_AUDIT)
 
 # Full static bytes, not a digest accepted without a collision check. A branch
 # shares its Program object, so this is not copied into each tick's live state.
@@ -27,6 +28,52 @@ class Program:
     labels: dict
     identity: bytes
     dt_schedule: tuple | None
+
+
+def clone_simulation_value(value):
+    """Exact copy of one value held in a saved environment state.
+
+    ``copy.deepcopy`` is the reference behaviour, but its ``__reduce_ex__`` path
+    dominated the dialogue relation phase: it was 51% of the wall clock, 10.3 s of
+    20 s, and it is what turned a two-second search into a forty-minute one. The
+    values here are a closed domain -- scalars, containers and the flat hazard
+    records, whose every field is itself a scalar -- so copying them field by field
+    is exact and far cheaper.
+
+    Anything not recognised falls back to ``copy.deepcopy`` for that value, so an
+    unknown type can never be silently aliased; the fallback is correctness
+    preserving, never a shortcut.
+    """
+    kind = type(value)
+    if value is None or kind in (bool,int,float,str,bytes):
+        return value
+    if kind is list:
+        return [clone_simulation_value(item) for item in value]
+    if kind is tuple:
+        return tuple(clone_simulation_value(item) for item in value)
+    if kind is dict:
+        return {key: clone_simulation_value(item) for key, item in value.items()}
+    if kind is np.ndarray:
+        return value.copy()
+    slots = getattr(kind,'__slots__',None)
+    if slots is not None:
+        result = kind.__new__(kind)
+        for name in slots:
+            setattr(result,name,clone_simulation_value(getattr(value,name)))
+        return result
+    state = getattr(value,'__dict__',None)
+    if state is not None and not hasattr(value,'__deepcopy__'):
+        result = kind.__new__(kind)
+        result.__dict__.update({key:clone_simulation_value(item) for key,item in state.items()})
+        return result
+    return copy.deepcopy(value)
+
+
+def clone_simulation_state(state):
+    """Copy a saved ``data``/``request`` mapping without ``deepcopy`` overhead."""
+    if state is None:
+        return None
+    return {key:clone_simulation_value(value) for key,value in state.items()}
 
 @dataclass
 class EnvState:
@@ -46,8 +93,11 @@ class EnvState:
     dialogue_current_input: tuple | None=None
     dialogue_blocked_callback: str | None=None
     def clone(self):
-        return EnvState(self.program,copy.deepcopy(self.vm),copy.deepcopy(self.data),self.max_ticks,
-            self.phase,self.supplied_target,copy.deepcopy(self.request),self.clock_timestamp,
+        # The VM's own clone copies exactly its three mutable fields and shares the
+        # read-only configuration; deep-copying it here was the dominant cost of
+        # the dialogue relation phase.
+        return EnvState(self.program,self.vm.clone(),clone_simulation_state(self.data),self.max_ticks,
+            self.phase,self.supplied_target,clone_simulation_state(self.request),self.clock_timestamp,
             self.initial_dt,dict(self.stats),self.dialogue,self.dialogue_coupled,
             self.dialogue_last_input,self.dialogue_current_input,self.dialogue_blocked_callback)
     def __deepcopy__(self,memo):
@@ -308,8 +358,15 @@ def _advance_owned_tick(state,*,_preview=False):
     def finish_resize(phase):
         nonlocal end_resize,running
         if end_resize is None or cz!=tgt_cz:return
-        if end_resize['function'].lower()=='tlresume':
-            running=True;callback_events.append(dict(end_resize,executed_tick=tick,phase=phase));end_resize=None
+        # Function.CallFunction lowercases names (native runtime:374).
+        callback=end_resize['function'].lower()
+        if modeled_timeline_callback(callback):
+            # Timeline.xml TLResume is exactly Running=1 and TLPause is exactly
+            # Running=0. A custom script already in the requested run state
+            # therefore has no timer side effect.
+            running=callback=='tlresume'
+            callback_events.append(dict(end_resize,executed_tick=tick,phase=phase))
+            end_resize=None
         elif audited_no_action_function(end_resize['function']):
             callback_events.append(dict(end_resize,executed_tick=tick,phase=phase,
                 no_action_audit=NO_ACTION_FUNCTION_AUDIT));end_resize=None
@@ -458,7 +515,7 @@ def _advance_owned_tick(state,*,_preview=False):
                       float(self.eval_arg(args[2])), float(self.eval_arg(args[3]))]
             end_resize=({'source_line':pc+1,'tick':tick,'function':self.variable_key(args[4])}
                 if args[4]!='' else None)
-            if end_resize is not None and end_resize['function'].lower()!='tlresume' and not audited_no_action_function(end_resize['function']):
+            if end_resize is not None and not executable_resize_callback(end_resize['function']):
                 # Settled bounds do not prove that an arbitrary native
                 # callback has executed or that its effects are modeled.
                 unproven_callbacks.append(dict(end_resize,status='execution_unproven'))

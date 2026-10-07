@@ -83,3 +83,56 @@ def test_paused_timeline_cannot_reach_its_own_later_resume_without_callback(tmp_
     wave=ParametricEnvironment(path,backend=backend,dt_schedule=[1/60]*4,max_ticks=4).bind().wave
     assert not wave.complete and wave.termination_reason=='tick_budget'
     assert [cmd for tick,cmd,args in wave.source_events]==['tlpause']
+
+
+@pytest.mark.parametrize('settled,callback_tick',[(True,0),(False,1)])
+@pytest.mark.parametrize('backend',['reference','resumable'])
+def test_tlpause_resize_callback_is_executable_and_stops_the_timeline(tmp_path,backend,settled,callback_tick):
+    """``CombatZoneResize`` may name ``TLPause`` as its completion callback.
+
+    Timeline.xml implements ``TLPause`` as exactly ``Running = 0`` and this model
+    already executes it as a CSV command, so it is an *executable* callback: the
+    resize settles, the pause runs, no unproven-callback record survives, and the
+    paused Timeline cannot reach its own later rows. Before this was modeled, the
+    callback was recorded as ``execution_unproven`` and every world built from
+    such a CSV was rejected with ``unknown_callbacks`` -- the state a whole family
+    of haoge rounds died in.
+    """
+    path=tmp_path/'pauseresize.csv'
+    path.write_text('0,CombatZoneResize,116,200,500,400,TLPause\n0,SET,resumed,1\n'
+                    '0.016666666666666666,EndAttack\n')
+    left=116. if settled else 100.
+    initial=[left,200.,500.,400.,0.,1.,0.,1/60,750.,0.,0.,0.,0.]
+    settings=dict(initial_environment=initial,dt_schedule=[1/60]*10,max_ticks=10,capture_state_keys=True)
+    wave=ParametricEnvironment(path,backend=backend,**settings).bind().wave
+    details=wave.terminal_details
+    assert details['pending_callbacks']==[]
+    calls=details['executed_callbacks']
+    assert len(calls)==1 and calls[0]['function'].lower()=='tlpause'
+    assert calls[0]['executed_tick']==callback_tick
+    # The callback fires in the post-timeline CombatZoneTick phase, i.e. after the
+    # Timeline phase of its own tick. When the zone is already at target the pause
+    # lands on tick 0 and the Timeline can never reach its own later rows; when it
+    # has to settle first, the row already due on the settling tick still runs and
+    # the pause takes effect from the tick after it.
+    assert calls[0]['phase']=='post_timeline_combatzonetick'
+    expected=['combatzoneresize','set'] + (['endattack'] if not settled else [])
+    assert [cmd for tick,cmd,args in wave.source_events]==expected
+    # EndAttack is what completes a wave, so the two cases differ in outcome as
+    # well as in ordering: the early pause leaves the Timeline short of it.
+    assert wave.complete is (not settled)
+    assert wave.environment_state_keys==compile_wave(path,**settings).environment_state_keys
+
+
+@pytest.mark.parametrize('backend',['reference','resumable'])
+def test_unknown_resize_callback_still_stays_unproven(tmp_path,backend):
+    """Widening the callback set must not turn arbitrary callbacks into trusted ones."""
+    path=tmp_path/'unknown.csv'
+    path.write_text('0,CombatZoneResize,116,200,500,400,SomethingElse\n0,EndAttack\n')
+    initial=[116.,200.,500.,400.,0.,1.,0.,1/60,750.,0.,0.,0.,0.]
+    wave=ParametricEnvironment(path,backend=backend,initial_environment=initial,
+        dt_schedule=[1/60]*4,max_ticks=4).bind().wave
+    pending=wave.terminal_details['pending_callbacks']
+    assert [entry['function'] for entry in pending]==['SomethingElse']
+    assert all(entry['status']=='execution_unproven' for entry in pending)
+    assert wave.terminal_details['executed_callbacks']==[]

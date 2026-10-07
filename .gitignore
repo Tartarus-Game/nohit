@@ -20,9 +20,23 @@ scratch/
 # upstream reference copies (not ours to publish)
 repo_badtime/
 repo_jcw87/
+repo_haoge/
 jcw87-c2-sans-fight/
 c2-sans-fight-derivative-backup/
 .vendor-git/
+
+# leaked credential material must never be tracked
+*git-credentials*
+UserslfDocumentsWorkspacenohit.git-credentials-local
+
+# haoge-runtime: upstream Construct 2 build output, re-extracted from gh-pages.
+# Only our instrumentation, the attack tables and the published routes are ours.
+haoge-runtime/c2runtime.js
+haoge-runtime/data.js
+haoge-runtime/jquery-3.4.1.min.js
+haoge-runtime/sw.js
+haoge-runtime/images/
+haoge-runtime/media/
 
 # user-supplied CSV kept local
 data/user/

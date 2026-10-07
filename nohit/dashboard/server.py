@@ -29,7 +29,13 @@ from nohit.dashboard.acceptance_clock import validate_compensated_clock
 from nohit.benchmark import run_benchmark, create_synthetic_deadlock_wave, create_synthetic_feasible_wave
 
 STATIC_DIR = Path(__file__).resolve().parent / "static"
-C2_REPO_DIR = Path(__file__).resolve().parent.parent.parent / "c2-sans-fight"
+# The vendored jcw87 export is the default game served at /game/. A different
+# build of the SAME Construct 2 project (identical event sheets, different CSVs
+# and assets) can be served without touching this checkout by setting
+# NOHIT_GAME_DIR to its directory. Nothing else about the pipeline changes: the
+# driver, the solver and the acceptance verifiers all read the served bytes.
+C2_REPO_DIR = Path(os.environ.get("NOHIT_GAME_DIR")
+                   or Path(__file__).resolve().parent.parent.parent / "c2-sans-fight").resolve()
 
 def extract_hazard_runs(B_hazard: np.ndarray) -> List[List[List[int]]]:
     """Encodes B_hazard into list of [y, x, width] runs per frame for fast Canvas rendering."""
@@ -266,10 +272,33 @@ class DashboardHandler(BaseHTTPRequestHandler):
                     data['script_text_sha256'] = {path.name:hashlib.sha256(
                         path.read_bytes().decode('utf-8-sig').replace('\r\n', '\n').encode('utf-8')).hexdigest()
                         for path in C2_REPO_DIR.glob('sans_*.csv')}
+                    # The no-damage criterion is "HP never falls below full", where
+                    # full is the served build's own MaxHP. Records carry it
+                    # explicitly; 92 is the vendored jcw87 build's baseline and stays
+                    # the default so older records keep their original meaning.
+                    baseline_hp = observed.get('baselineHP', 92)
+                    if (type(baseline_hp) not in (int, float) or not 0 < baseline_hp <= 100000):
+                        raise ValueError('Continuous game record has an invalid HP baseline')
+                    # KR used to be required to stay 0 as a proxy for "was hit". That
+                    # proxy is exact for the vendored build but wrong for a build whose
+                    # scripts inject KR 1 alongside a heal, so the authoritative check
+                    # is HP. A record may only relax the KR requirement by declaring
+                    # its policy and bounding the excursion below the build's lowest
+                    # HP-drain bucket; an undeclared or unbounded excursion still fails.
+                    max_kr = observed.get('maxKR')
+                    if max_kr is None:
+                        kr_ok = all(row['KR'] == 0 for row in observed.get('rows', []))
+                    else:
+                        if not observed.get('krPolicy'):
+                            raise ValueError('Continuous game record declares KR excursions without a policy')
+                        if type(max_kr) not in (int, float) or not 0 <= max_kr <= 10:
+                            raise ValueError('Continuous game record has a KR excursion above the drain bucket')
+                        kr_ok = True
                     if observed.get('result', {}).get('passed') and (
                         not observed.get('winObserved') or observed.get('firstDamage') or observed.get('tickGaps') or
                         observed.get('clockErrors') or observed.get('protocolErrors') or not observed.get('checkedTicks') or
-                        any(row['HP'] != 92 or row['KR'] != 0 for row in observed.get('rows', []))):
+                        not kr_ok or
+                        any(row['HP'] != baseline_hp for row in observed.get('rows', []))):
                         raise ValueError('Continuous game record does not satisfy no-hit victory')
                 trace.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
                 if screenshot:

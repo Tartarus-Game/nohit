@@ -20,7 +20,8 @@ from .compact_types import CompiledWave, GeometryArray
 from .native_numbers import (native_int, native_local_number,
     native_parameter_in_range, native_for_count_indices)
 from .timeline_csv import read_timeline_rows
-from .native_function_dispatch import call_arguments, audited_no_action_function, NO_ACTION_FUNCTION_AUDIT
+from .native_function_dispatch import (call_arguments, audited_no_action_function,
+    executable_resize_callback, modeled_timeline_callback, NO_ACTION_FUNCTION_AUDIT)
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -59,6 +60,12 @@ class XorShift32:
     """32-bit xorshift RNG matching Construct 2 / attack_seed.js bit-for-bit."""
     def __init__(self, seed: int = 42):
         self.state = (int(seed) & 0xFFFFFFFF) or 0x6D2B79F5
+
+    def copy(self):
+        """Exact copy of the generator's stream position; it has one field."""
+        result = XorShift32.__new__(XorShift32)
+        result.state = self.state
+        return result
 
     def random(self) -> float:
         x = self.state
@@ -169,7 +176,7 @@ def normalize_initial_arena(arena):
     if len(target)!=4 or len(size)!=2 or not all(math.isfinite(x) for x in (*target,*size,speed)):
         raise ValueError('initial_arena requires 4 finite target bounds, 2 finite sizes and finite speed')
     if not isinstance(callback,str):raise ValueError('initial_arena callback must be a string')
-    if callback!='' and callback.lower()!='tlresume' and not audited_no_action_function(callback):
+    if callback!='' and not executable_resize_callback(callback):
         raise ValueError('unsupported_initial_arena_callback:'+callback)
     return dict(target=target,size=size,speed=speed,callback=callback)
 
@@ -436,6 +443,24 @@ class TimelineVM:
         except ValueError:
             return s
 
+    def clone(self):
+        """Exact, cheap copy of this VM's mutable simulation state.
+
+        Only ``vars``, ``heart_pos`` and the RNG stream position change once the
+        VM is constructed; the rest of ``__dict__`` is configuration that is only
+        ever read, so it is shared by reference. ``copy.deepcopy`` produced the
+        same values but dominated the dialogue relation phase -- 52% of its wall
+        clock, 8.3 s of 16 s here -- which is what turned a two-second search into
+        a forty-minute one. Every copied field is reproduced exactly: the RNG
+        keeps its bit-for-bit stream position and the containers keep their type.
+        """
+        result = TimelineVM.__new__(TimelineVM)
+        result.__dict__.update(self.__dict__)
+        result.vars = dict(self.vars)
+        result.heart_pos = list(self.heart_pos)
+        result.rng = self.rng.copy()
+        return result
+
     @staticmethod
     def variable_key(value):
         """Dictionary property-key coercion for loaded numeric/string names."""
@@ -585,10 +610,12 @@ class TimelineVM:
             nonlocal end_resize,running
             if end_resize is None or cz!=tgt_cz:return
             # Function.CallFunction lowercases names (native runtime:374).
-            if end_resize['function'].lower()=='tlresume':
-                # Timeline.xml TLResume is exactly Running=1. A custom script
-                # which is already running therefore has no timer side effect.
-                running=True
+            callback=end_resize['function'].lower()
+            if modeled_timeline_callback(callback):
+                # Timeline.xml TLResume is exactly Running=1 and TLPause is
+                # exactly Running=0. A custom script which is already in the
+                # requested run state therefore has no timer side effect.
+                running=callback=='tlresume'
                 callback_events.append(dict(end_resize,executed_tick=tick,phase=phase))
                 end_resize=None
             elif audited_no_action_function(end_resize['function']):
@@ -747,7 +774,7 @@ class TimelineVM:
                               float(self.eval_arg(args[2])), float(self.eval_arg(args[3]))]
                     end_resize=({'source_line':pc+1,'tick':tick,'function':self.variable_key(args[4])}
                         if args[4]!='' else None)
-                    if end_resize is not None and end_resize['function'].lower()!='tlresume' and not audited_no_action_function(end_resize['function']):
+                    if end_resize is not None and not executable_resize_callback(end_resize['function']):
                         # Settled bounds do not prove that an arbitrary native
                         # callback has executed or that its effects are modeled.
                         unproven_callbacks.append(dict(end_resize,status='execution_unproven'))
@@ -1037,7 +1064,7 @@ class TimelineVM:
                 'arena_settled':cz==tgt_cz,'player_invariant_proven':False,'pending_dialogue':pending_dialogue,
                 'timeline_exhausted':pc>=len(parsed_rows) and loaded_line is None and pending_target is None and pending_dialogue is None,
                 'pending_callbacks':unproven_callbacks+([dict(end_resize,status='awaiting_arena_settle')]
-                    if end_resize is not None and (end_resize['function'].lower()=='tlresume' or audited_no_action_function(end_resize['function'])) else []),
+                    if end_resize is not None and executable_resize_callback(end_resize['function']) else []),
                 'end_resize':end_resize,'executed_callbacks':callback_events,
                 'initial_callback_contract':('explicit_initial_arena' if self.initial_arena is not None
                     else 'assumed_none_not_encoded_in_initial_environment')},

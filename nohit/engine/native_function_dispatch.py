@@ -39,3 +39,21 @@ def _original_registry_matches():
 
 def audited_no_action_function(name):
     return name.lower() == '0' and _original_registry_matches()
+
+
+# Timeline run-state functions. Timeline.xml implements ``TLResume`` as exactly
+# ``Running = 1`` and ``TLPause`` as exactly ``Running = 0``, and this model
+# already executes both as CSV commands. A ``CombatZoneResize`` may name either
+# one as its completion callback, so both are callbacks whose effect the model
+# actually applies -- they are executable, not unproven. Anything else still
+# falls through to the unproven-callback record.
+MODELED_TIMELINE_CALLBACKS = ('tlresume', 'tlpause')
+
+
+def modeled_timeline_callback(name):
+    return str(name).strip().lower() in MODELED_TIMELINE_CALLBACKS
+
+
+def executable_resize_callback(name):
+    """A resize completion callback this model can execute to completion."""
+    return modeled_timeline_callback(name) or audited_no_action_function(name)

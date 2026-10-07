@@ -16,7 +16,8 @@ from .discrete_operator import initial_state, sample_position, step_mask_into
 from .parametric_environment import ParametricEnvironment
 from .initial_target_history import bind_initial_target_history, normalize_initial_target_history
 from .compact_wave import normalize_initial_arena
-from .csv_completion import (AUDITED_NO_ACTION_COMMANDS, NO_ACTION_SOURCE_AUDIT,
+from .csv_completion import (AUDITED_NO_ACTION_COMMANDS, AUDITED_VITALITY_COMMANDS,
+    NO_ACTION_SOURCE_AUDIT, VITALITY_SOURCE_AUDIT, vitality_events,
     wave_terminal, clock_sequence, compose_csv_completion)
 
 
@@ -84,9 +85,16 @@ clamp and differ from ``initial``. Future samples must not be supplied here.
         original_replay_passed=False,complete_in_original_game=False,verified=False)
     result['termination_policy']=termination_policy
     result['no_action_source_audit']=NO_ACTION_SOURCE_AUDIT
+    # Scripted vitality is reported, never silently absorbed: a CSV that writes a
+    # positive DamagePlayer scripts real HP loss that no player input can avoid.
+    result['vitality_source_audit']=VITALITY_SOURCE_AUDIT
+    result['scripted_vitality_events']=vitality_events(path)
+    result['scripted_damage_present']=any(
+        event['damage'] is not None and event['damage']>0 for event in result['scripted_vitality_events'])
+    audits=AUDITED_NO_ACTION_COMMANDS|AUDITED_VITALITY_COMMANDS
     issues=[issue for issue in model_issues(path,allow_player_history=True,termination_policy=termination_policy)
             if not (issue.get('reason')=='mechanism_not_validated' and
-                    issue.get('command','').strip().lower() in AUDITED_NO_ACTION_COMMANDS)]
+                    issue.get('command','').strip().lower() in audits)]
     if issues:return dict(result,reason='unsupported_mechanism',issues=issues)
     settings=dict(seed=seed,initial_environment=initial_environment,initial_arena=initial_arena,dt_schedule=dt_schedule,
                   clock_start_ms=clock_start_ms,max_ticks=max_ticks,termination_policy=termination_policy)
