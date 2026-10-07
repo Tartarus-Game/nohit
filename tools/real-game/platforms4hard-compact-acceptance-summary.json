@@ -1,0 +1,723 @@
+{
+  "current_status": "realtime_robustness_incomplete",
+  "records": [
+    {
+      "trace": "tools/real-game/bonesgap1-20261005-001929-408627.json",
+      "sha256": "b9aaa48f5de38cb16d59fc4f2c2e9b3bd6ef4e2bd0b84801bd21aa3a281743c0",
+      "candidate_id": null,
+      "result": null,
+      "runs": []
+    },
+    {
+      "trace": "tools/real-game/bonesgap1-20261005-134400-314295.json",
+      "sha256": "81536fe69c27e0dfed782c92e13b40331b21cdcab00af26ce7d0c4e60f40081c",
+      "candidate_id": null,
+      "result": null,
+      "runs": []
+    },
+    {
+      "trace": "tools/real-game/bonesgap1-20261005-134500-678140.json",
+      "sha256": "e367df10ff12c46f855e7933cbd02bdd9fc995bfe5d1869c420ade6bff04b422",
+      "candidate_id": "68f2729cbbd0f351ec9eb592f203a1d3c40b3303689c0487d87a43434a56f7b7",
+      "result": {
+        "passed": true,
+        "complete_rounds": 3
+      },
+      "runs": [
+        {
+          "startHP": 92,
+          "end": {
+            "HP": 92,
+            "T": 0.008299999999955624,
+            "running": 1,
+            "endAttackObserved": true
+          },
+          "hit_count": 0,
+          "first_hit": null
+        },
+        {
+          "startHP": 92,
+          "end": {
+            "HP": 92,
+            "T": 0.008399999999982904,
+            "running": 1,
+            "endAttackObserved": true
+          },
+          "hit_count": 0,
+          "first_hit": null
+        },
+        {
+          "startHP": 92,
+          "end": {
+            "HP": 92,
+            "T": 0.008299999999944014,
+            "running": 1,
+            "endAttackObserved": true
+          },
+          "hit_count": 0,
+          "first_hit": null
+        }
+      ]
+    },
+    {
+      "trace": "tools/real-game/bonesgap1-20261005-145841-163536.json",
+      "sha256": "4b483333035a9ca29ffb534aa211dee40e3acfe385472ad03120879d3ec99d5d",
+      "candidate_id": "eb68b8f59cf87e5f1b457b8eaaf7d74c16be82d210cf26f9dfa80191f8d1c86a",
+      "result": {
+        "passed": true,
+        "complete_rounds": 3
+      },
+      "runs": [
+        {
+          "startHP": 92,
+          "end": {
+            "HP": 92,
+            "T": 0.004099999999940259,
+            "running": 1,
+            "endAttackObserved": true
+          },
+          "hit_count": 0,
+          "first_hit": null
+        },
+        {
+          "startHP": 92,
+          "end": {
+            "HP": 92,
+            "T": 0.008199999999980109,
+            "running": 1,
+            "endAttackObserved": true
+          },
+          "hit_count": 0,
+          "first_hit": null
+        },
+        {
+          "startHP": 92,
+          "end": {
+            "HP": 92,
+            "T": 0.008199999999933923,
+            "running": 1,
+            "endAttackObserved": true
+          },
+          "hit_count": 0,
+          "first_hit": null
+        }
+      ]
+    },
+    {
+      "trace": "tools/real-game/bonesgap1-20261005-150755-574528.json",
+      "sha256": "6ffeaef556a9b8d27664fd686b9f2e0eb9bebeaae400671c8c8345879276c33a",
+      "candidate_id": null,
+      "result": {
+        "passed": false,
+        "complete_rounds": 1
+      },
+      "runs": [
+        {
+          "startHP": 13,
+          "end": {
+            "HP": 1,
+            "T": 0.008399999999981419,
+            "running": 1,
+            "endAttackObserved": true
+          },
+          "hit_count": 12,
+          "first_hit": {
+            "T": 0,
+            "x": 320,
+            "y": 376.5334623999999,
+            "dx": 0,
+            "dy": 14.238000000000065,
+            "planned": 0,
+            "clock": 135,
+            "dt": 0.004199999999998909,
+            "HP": 12,
+            "KR": 11
+          }
+        },
+        {
+          "startHP": 1,
+          "end": {
+            "HP": 0,
+            "T": 3.045899999999988,
+            "running": 0,
+            "endAttackObserved": false
+          },
+          "hit_count": 1,
+          "first_hit": {
+            "T": 3.045899999999988,
+            "x": 441.3429999999984,
+            "y": 327.95,
+            "dx": 0,
+            "dy": -179.22600000000014,
+            "planned": 183,
+            "clock": 182,
+            "dt": 0.004299999999999272,
+            "HP": 0,
+            "KR": -1
+          }
+        }
+      ]
+    },
+    {
+      "trace": "tools/real-game/bonesgap1-20261005-151132-894965.json",
+      "sha256": "f9ca984426da5eb218ea0708afefdd7ccaac833ff8f634df282d180296d542de",
+      "candidate_id": null,
+      "result": {
+        "passed": false,
+        "complete_rounds": 3
+      },
+      "runs": [
+        {
+          "startHP": 92,
+          "end": {
+            "HP": 92,
+            "T": 0.008299999999965706,
+            "running": 1,
+            "endAttackObserved": true
+          },
+          "hit_count": 0,
+          "first_hit": null
+        },
+        {
+          "startHP": 92,
+          "end": {
+            "HP": 81,
+            "T": 0.004299999999976514,
+            "running": 1,
+            "endAttackObserved": true
+          },
+          "hit_count": 11,
+          "first_hit": {
+            "T": 3.0458000000000007,
+            "x": 441.01900000000023,
+            "y": 327.95,
+            "dx": 0,
+            "dy": -179.26200000000026,
+            "planned": 183,
+            "clock": 182,
+            "dt": 0.004099999999998545,
+            "HP": 91,
+            "KR": 6
+          }
+        },
+        {
+          "startHP": 80,
+          "end": {
+            "HP": 73,
+            "T": 0.004399999999931787,
+            "running": 1,
+            "endAttackObserved": true
+          },
+          "hit_count": 7,
+          "first_hit": {
+            "T": 0.9165999999999993,
+            "x": 247.6749999999995,
+            "y": 327.95,
+            "dx": 90,
+            "dy": 0,
+            "planned": 55,
+            "clock": 54,
+            "dt": 0.0042000000000007275,
+            "HP": 79,
+            "KR": 6
+          }
+        }
+      ]
+    },
+    {
+      "trace": "tools/real-game/bonesgap1-20261005-151551-846104.json",
+      "sha256": "c916b8ef186064ad3eaf30d75958ae7eb4f1f56fe68872a7831e794048f64460",
+      "candidate_id": null,
+      "result": {
+        "passed": false,
+        "complete_rounds": 3
+      },
+      "runs": [
+        {
+          "startHP": 92,
+          "end": {
+            "HP": 92,
+            "T": 0.008299999999983178,
+            "running": 1,
+            "endAttackObserved": true
+          },
+          "hit_count": 0,
+          "first_hit": null
+        },
+        {
+          "startHP": 92,
+          "end": {
+            "HP": 91,
+            "T": 0.004199999999959566,
+            "running": 1,
+            "endAttackObserved": true
+          },
+          "hit_count": 1,
+          "first_hit": {
+            "T": 7.174999999999961,
+            "x": 293.4970000000019,
+            "y": 335.7750898999999,
+            "dx": 150,
+            "dy": 143.61000000000035,
+            "planned": 430,
+            "clock": 429,
+            "dt": 0.0042000000000007275,
+            "HP": 91,
+            "KR": 6
+          }
+        },
+        {
+          "startHP": 91,
+          "end": {
+            "HP": 85,
+            "T": 0.008299999999941434,
+            "running": 1,
+            "endAttackObserved": true
+          },
+          "hit_count": 6,
+          "first_hit": {
+            "T": 0.5333000000000023,
+            "x": 216.07000000000056,
+            "y": 327.95,
+            "dx": 90,
+            "dy": 0,
+            "planned": 32,
+            "clock": 31,
+            "dt": 0.004,
+            "HP": 90,
+            "KR": 5
+          }
+        }
+      ]
+    },
+    {
+      "trace": "tools/real-game/bonesgap1-20261005-151605-362987.json",
+      "sha256": "dff004bb10cca2b944bc68acad29c34636d146c9a08a8942ce8bf62977d3856a",
+      "candidate_id": "38f3c0ab3c0a35339074a4fc527deb3dcc37b183f290241db356771a2547a1d9",
+      "result": {
+        "passed": true,
+        "complete_rounds": 3
+      },
+      "runs": [
+        {
+          "startHP": 92,
+          "end": {
+            "HP": 92,
+            "T": 0.008199999999948467,
+            "running": 1,
+            "endAttackObserved": true
+          },
+          "hit_count": 0,
+          "first_hit": null
+        },
+        {
+          "startHP": 92,
+          "end": {
+            "HP": 92,
+            "T": 0.008399999999983834,
+            "running": 1,
+            "endAttackObserved": true
+          },
+          "hit_count": 0,
+          "first_hit": null
+        },
+        {
+          "startHP": 92,
+          "end": {
+            "HP": 92,
+            "T": 0.008299999999929,
+            "running": 1,
+            "endAttackObserved": true
+          },
+          "hit_count": 0,
+          "first_hit": null
+        }
+      ]
+    },
+    {
+      "trace": "tools/real-game/bonesgap1-20261005-152217-041402.json",
+      "sha256": "6782d24110f30dca17958beb09e38819b7dcbcde7bf6ce9ef37be9ae15cae516",
+      "candidate_id": "19397d5bdad481d9a092fd8cebc409fab2148b4f541b69856ca466dfeec9efed",
+      "result": {
+        "passed": false,
+        "complete_rounds": 3
+      },
+      "runs": [
+        {
+          "startHP": 92,
+          "end": {
+            "HP": 85,
+            "T": 0.008200000000003798,
+            "running": 1,
+            "endAttackObserved": true
+          },
+          "hit_count": 6,
+          "first_hit": {
+            "T": 7.112400000000004,
+            "x": 299.0110000000036,
+            "y": 364.0007852,
+            "dx": 0,
+            "dy": 211.14599999999965,
+            "planned": 427,
+            "clock": 426,
+            "dt": 0.004100000000000364,
+            "HP": 91,
+            "KR": 6
+          }
+        },
+        {
+          "startHP": 85,
+          "end": {
+            "HP": 65,
+            "T": 0.004299999999987172,
+            "running": 1,
+            "endAttackObserved": true
+          },
+          "hit_count": 20,
+          "first_hit": {
+            "T": 0.13759999999999858,
+            "x": 177.49000000000007,
+            "y": 321.27349319999996,
+            "dx": 150,
+            "dy": -8.59800000000055,
+            "planned": 8,
+            "clock": 7,
+            "dt": 0.004199999999998909,
+            "HP": 84,
+            "KR": 18
+          }
+        },
+        {
+          "startHP": 65,
+          "end": {
+            "HP": 49,
+            "T": 0.008199999999944026,
+            "running": 1,
+            "endAttackObserved": true
+          },
+          "hit_count": 15,
+          "first_hit": {
+            "T": 0.03319999999999709,
+            "x": 171.2350000000002,
+            "y": 323.18481179999986,
+            "dx": -150,
+            "dy": -27.354000000000198,
+            "planned": 2,
+            "clock": 1,
+            "dt": 0.00419999999999709,
+            "HP": 64,
+            "KR": 11
+          }
+        }
+      ]
+    },
+    {
+      "trace": "tools/real-game/bonesgap1-20261005-152227-544828.json",
+      "sha256": "14a4d31b4f086b5faf510662eadcecdd8a44fc91dfae960817576073b831d360",
+      "candidate_id": null,
+      "result": {
+        "passed": false,
+        "complete_rounds": 3
+      },
+      "runs": [
+        {
+          "startHP": 92,
+          "end": {
+            "HP": 85,
+            "T": 0.004099999999948253,
+            "running": 1,
+            "endAttackObserved": true
+          },
+          "hit_count": 6,
+          "first_hit": {
+            "T": 7.1123999999999485,
+            "x": 298.53399999999937,
+            "y": 364.8257110999993,
+            "dx": 0,
+            "dy": 213.2789999999993,
+            "planned": 427,
+            "clock": 426,
+            "dt": 0.004099999999998545,
+            "HP": 91,
+            "KR": 6
+          }
+        },
+        {
+          "startHP": 85,
+          "end": {
+            "HP": 66,
+            "T": 0.008099999999929799,
+            "running": 1,
+            "endAttackObserved": true
+          },
+          "hit_count": 19,
+          "first_hit": {
+            "T": 0.1625000000000001,
+            "x": 179.36500000000032,
+            "y": 321.0878916,
+            "dx": 150,
+            "dy": -4.115999999999801,
+            "planned": 10,
+            "clock": 9,
+            "dt": 0.004299999999999272,
+            "HP": 84,
+            "KR": 18
+          }
+        },
+        {
+          "startHP": 64,
+          "end": {
+            "HP": 48,
+            "T": 0.004199999999958514,
+            "running": 1,
+            "endAttackObserved": true
+          },
+          "hit_count": 16,
+          "first_hit": {
+            "T": 0.054100000000002174,
+            "x": 171.86500000000032,
+            "y": 323.32013820000003,
+            "dx": 150,
+            "dy": -22.899000000000523,
+            "planned": 3,
+            "clock": 2,
+            "dt": 0.0042000000000007275,
+            "HP": 63,
+            "KR": 23
+          }
+        }
+      ]
+    },
+    {
+      "trace": "tools/real-game/bonesgap1-20261005-152508-444711.json",
+      "sha256": "8b18119863b3dc98acd77af1776d5c77e9a445099c95803fc14c28ab53ce08a2",
+      "candidate_id": null,
+      "result": {
+        "passed": false,
+        "complete_rounds": 2
+      },
+      "runs": [
+        {
+          "startHP": 92,
+          "end": {
+            "HP": 28,
+            "T": 0.008299999999992948,
+            "running": 1,
+            "endAttackObserved": true
+          },
+          "hit_count": 45,
+          "first_hit": {
+            "T": 3.1333000000000095,
+            "x": 441.05200000000406,
+            "y": 314.09112349999987,
+            "dx": 150,
+            "dy": -20.24399999999993,
+            "planned": 188,
+            "clock": 187,
+            "dt": 0.004300000000000182,
+            "HP": 91,
+            "KR": 6
+          }
+        },
+        {
+          "startHP": 26,
+          "end": {
+            "HP": 2,
+            "T": 0.008299999999980514,
+            "running": 1,
+            "endAttackObserved": true
+          },
+          "hit_count": 24,
+          "first_hit": {
+            "T": 0.029099999999998547,
+            "x": 171.86500000000007,
+            "y": 323.8929882000001,
+            "dx": -150,
+            "dy": -27.34500000000033,
+            "planned": 2,
+            "clock": 1,
+            "dt": 0.004,
+            "HP": 25,
+            "KR": 24
+          }
+        },
+        {
+          "startHP": 1,
+          "end": {
+            "HP": 0,
+            "T": 7.116999999999959,
+            "running": 0,
+            "endAttackObserved": false
+          },
+          "hit_count": 1,
+          "first_hit": {
+            "T": 7.116999999999959,
+            "x": 300.4329999999987,
+            "y": 364.85479310000085,
+            "dx": 0,
+            "dy": 213.35100000000187,
+            "planned": 427,
+            "clock": 426,
+            "dt": 0.0042000000000007275,
+            "HP": 0,
+            "KR": -1
+          }
+        }
+      ]
+    },
+    {
+      "trace": "tools/real-game/bonesgap1-20261005-153018-302563.json",
+      "sha256": "c5f9a84946ddde76ad626e07aa403f93980347008ff9ef99d4e869e8cea1cbdc",
+      "candidate_id": null,
+      "result": {
+        "passed": false,
+        "complete_rounds": 3
+      },
+      "runs": [
+        {
+          "startHP": 92,
+          "end": {
+            "HP": 91,
+            "T": 0.008499999999964864,
+            "running": 1,
+            "endAttackObserved": true
+          },
+          "hit_count": 1,
+          "first_hit": {
+            "T": 7.304299999999968,
+            "x": 294.4540000000005,
+            "y": 334.1209646000005,
+            "dx": 0,
+            "dy": 109.84200000000125,
+            "planned": 438,
+            "clock": 438,
+            "dt": 0.00430000000000291,
+            "HP": 91,
+            "KR": 6
+          }
+        },
+        {
+          "startHP": 91,
+          "end": {
+            "HP": 85,
+            "T": 0.008099999999948367,
+            "running": 1,
+            "endAttackObserved": true
+          },
+          "hit_count": 6,
+          "first_hit": {
+            "T": 0.6538999999999978,
+            "x": 223.91200000000043,
+            "y": 327.95,
+            "dx": 90,
+            "dy": 0,
+            "planned": 39,
+            "clock": 38,
+            "dt": 0.00419999999999709,
+            "HP": 90,
+            "KR": 5
+          }
+        },
+        {
+          "startHP": 85,
+          "end": {
+            "HP": 78,
+            "T": 0.00839999999995372,
+            "running": 1,
+            "endAttackObserved": true
+          },
+          "hit_count": 6,
+          "first_hit": {
+            "T": 7.112399999999955,
+            "x": 300.475000000001,
+            "y": 364.02362659999983,
+            "dx": 0,
+            "dy": 211.1640000000012,
+            "planned": 427,
+            "clock": 426,
+            "dt": 0.004200000000004365,
+            "HP": 84,
+            "KR": 6
+          }
+        }
+      ]
+    },
+    {
+      "trace": "tools/real-game/bonesgap1-20261005-153308-372075.json",
+      "sha256": "c15d2fc74488f37d068afc51392ceb7224951d8443a7be04a996e959bbfbee47",
+      "candidate_id": null,
+      "result": {
+        "passed": false,
+        "complete_rounds": 3
+      },
+      "runs": [
+        {
+          "startHP": 92,
+          "end": {
+            "HP": 85,
+            "T": 0.008399999999977283,
+            "running": 1,
+            "endAttackObserved": true
+          },
+          "hit_count": 6,
+          "first_hit": {
+            "T": 7.11669999999998,
+            "x": 302.72800000000444,
+            "y": 364.88805199999996,
+            "dx": 0,
+            "dy": 213.41400000000004,
+            "planned": 427,
+            "clock": 426,
+            "dt": 0.004300000000001091,
+            "HP": 91,
+            "KR": 6
+          }
+        },
+        {
+          "startHP": 85,
+          "end": {
+            "HP": 20,
+            "T": 0.008299999999967191,
+            "running": 1,
+            "endAttackObserved": true
+          },
+          "hit_count": 64,
+          "first_hit": {
+            "T": 0.1625,
+            "x": 179.40999999999994,
+            "y": 321.9905628,
+            "dx": 0,
+            "dy": -6.384000000000353,
+            "planned": 10,
+            "clock": 9,
+            "dt": 0.0042000000000007275,
+            "HP": 84,
+            "KR": 18
+          }
+        },
+        {
+          "startHP": 20,
+          "end": {
+            "HP": 8,
+            "T": 0.008299999999954451,
+            "running": 1,
+            "endAttackObserved": true
+          },
+          "hit_count": 12,
+          "first_hit": {
+            "T": 0.16280000000000297,
+            "x": 180.00999999999968,
+            "y": 322.01622479999963,
+            "dx": 0,
+            "dy": -6.338999999998882,
+            "planned": 10,
+            "clock": 9,
+            "dt": 0.004400000000001455,
+            "HP": 19,
+            "KR": 18
+          }
+        }
+      ]
+    }
+  ]
+}

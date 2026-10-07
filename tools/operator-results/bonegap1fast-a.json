@@ -1,0 +1,1 @@
+{"wave": "sans_bonegap1fast.csv", "seed": 42, "operator": "a", "candidate_found": false, "deadlock_proven": false, "realtime_accepted": false, "actions": null, "trajectory": null, "fingerprint": "2646fd3185bc3cf2217fc33a03bd31e607a72cf69e99536cae78ac1de878816c", "options": {"max_states": 512, "phase_diversity": false}}

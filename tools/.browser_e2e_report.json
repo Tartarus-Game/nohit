@@ -1,0 +1,1020 @@
+{
+  "checks": 26,
+  "failures": 1,
+  "consoleLogs": [
+    {
+      "level": "log",
+      "text": "%c[TAS Runner] Initializing Undertale 5D Lattice DP TAS Engine... color: #00ffff; font-weight: bold; font-size: 14px;"
+    },
+    {
+      "level": "log",
+      "text": "%c[TAS Auto-Pilot] Hooking Construct 2 Engine... color: #ff9900; font-weight: bold;"
+    },
+    {
+      "level": "log",
+      "text": "%c[TAS Auto-Pilot] Successfully hooked Runtime.prototype.trigger (OnFunction bus)! color: #00ff66;"
+    },
+    {
+      "level": "log",
+      "text": "%c[TAS Engine] Successfully hooked Runtime.prototype.tick! color: #00ff66;"
+    },
+    {
+      "level": "log",
+      "text": "%c[TAS Runner] 5D Lattice DP In-Game Runner successfully mounted with Auto-Pilot! color: #00ff66; font-weight: bold;"
+    },
+    {
+      "level": "log",
+      "text": "%c[TAS Engine] Hooked C2 Keyboard Instance in onCreate! color: #00ff66;"
+    },
+    {
+      "level": "log",
+      "text": "[TAS Auto-Pilot] preloaded attack script: sans_bluebone.csv"
+    },
+    {
+      "level": "log",
+      "text": "Registered service worker on http://127.0.0.1:8099/game/"
+    },
+    {
+      "level": "log",
+      "text": "[TAS Auto-Pilot] preloaded attack script: sans_bonegap1.csv"
+    },
+    {
+      "level": "log",
+      "text": "[TAS Auto-Pilot] preloaded attack script: sans_bonegap1fast.csv"
+    },
+    {
+      "level": "log",
+      "text": "[TAS Auto-Pilot] preloaded attack script: sans_bonegap2.csv"
+    },
+    {
+      "level": "log",
+      "text": "[TAS Auto-Pilot] preloaded attack script: sans_boneslideh.csv"
+    },
+    {
+      "level": "log",
+      "text": "[TAS Auto-Pilot] preloaded attack script: sans_boneslidev.csv"
+    },
+    {
+      "level": "log",
+      "text": "[TAS Auto-Pilot] preloaded attack script: sans_bonestab1.csv"
+    },
+    {
+      "level": "log",
+      "text": "[TAS Auto-Pilot] preloaded attack script: sans_bonestab2.csv"
+    },
+    {
+      "level": "log",
+      "text": "[TAS Auto-Pilot] preloaded attack script: sans_bonestab3.csv"
+    },
+    {
+      "level": "log",
+      "text": "[TAS Auto-Pilot] preloaded attack script: sans_final.csv"
+    },
+    {
+      "level": "log",
+      "text": "[TAS Auto-Pilot] preloaded attack script: sans_intro.csv"
+    },
+    {
+      "level": "log",
+      "text": "[TAS Auto-Pilot] preloaded attack script: sans_multi1.csv"
+    },
+    {
+      "level": "log",
+      "text": "[TAS Auto-Pilot] preloaded attack script: sans_multi2.csv"
+    },
+    {
+      "level": "log",
+      "text": "[TAS Auto-Pilot] preloaded attack script: sans_multi3.csv"
+    },
+    {
+      "level": "log",
+      "text": "[TAS Auto-Pilot] preloaded attack script: sans_platformblaster.csv"
+    },
+    {
+      "level": "log",
+      "text": "[TAS Auto-Pilot] preloaded attack script: sans_platformblasterfast.csv"
+    },
+    {
+      "level": "log",
+      "text": "[TAS Auto-Pilot] preloaded attack script: sans_platforms1.csv"
+    },
+    {
+      "level": "log",
+      "text": "[TAS Auto-Pilot] preloaded attack script: sans_platforms2.csv"
+    },
+    {
+      "level": "log",
+      "text": "[TAS Auto-Pilot] preloaded attack script: sans_platforms3.csv"
+    },
+    {
+      "level": "log",
+      "text": "[TAS Auto-Pilot] preloaded attack script: sans_platforms4.csv"
+    },
+    {
+      "level": "log",
+      "text": "[TAS Auto-Pilot] preloaded attack script: sans_platforms4hard.csv"
+    },
+    {
+      "level": "log",
+      "text": "[TAS Auto-Pilot] preloaded attack script: sans_randomblaster1.csv"
+    },
+    {
+      "level": "log",
+      "text": "[TAS Auto-Pilot] preloaded attack script: sans_randomblaster2.csv"
+    },
+    {
+      "level": "log",
+      "text": "[TAS Auto-Pilot] preloaded attack script: sans_spare.csv"
+    },
+    {
+      "level": "error",
+      "text": "Error executing Javascript:  ReferenceError: ysdk is not defined\n    at eval (eval at Acts.ExecJs (http://127.0.0.1:8099/game/c2runtime.js:18079:17), <anonymous>:1:1)\n    at Acts.ExecJs (http://127.0.0.1:8099/game/c2runtime.js:18079:17)\n    at Action.run_object (http://127.0.0.1:8099/game/c2runtime.js:10392:22)\n    at EventBlock.run_actions_and_subevents (http://127.0.0.1:8099/game/c2runtime.js:9968:47)\n    at EventBlock.run (http://127.0.0.1:8099/game/c2runtime.js:9946:18)\n    at EventBlock.run_subevents (http://127.0.0.1:8099/game/c2runtime.js:9994:23)\n    at EventBlock.run_actions_and_subevents (http://127.0.0.1:8099/game/c2runtime.js:9971:14)\n    at EventBlock.run_orblocktrigger (http://127.0.0.1:8099/game/c2runtime.js:9960:18)\n    at Runtime.executeSingleTrigger (http://127.0.0.1:8099/game/c2runtime.js:6824:22)\n    at Runtime.triggerOnSheetForTypeName (http://127.0.0.1:8099/game/c2runtime.js:6779:25)"
+    },
+    {
+      "level": "log",
+      "text": "%c[TAS Auto-Pilot] Battle Attack Started (tlplay)! Starting TAS... color: #00ff00; font-weight: bold; font-size: 14px;"
+    },
+    {
+      "level": "log",
+      "text": "%c[TAS Auto-Pilot] PlayerHeart located: type \"t55\" (centre-anchored) color: #00ff66;"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 0: drift Δx=-120.0 Δy=268.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "log",
+      "text": "%c[TAS Auto-Pilot] Attack started (Timeline.Running 0->1). Arming TAS... color: #00ff66; font-weight: bold;"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 1: drift Δx=-125.0 Δy=262.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 2: drift Δx=-130.0 Δy=256.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 3: drift Δx=-135.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 4: drift Δx=-140.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 5: drift Δx=-135.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 6: drift Δx=-130.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 7: drift Δx=-125.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 8: drift Δx=-120.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 9: drift Δx=-120.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 10: drift Δx=-120.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 11: drift Δx=-120.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 12: drift Δx=-120.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 13: drift Δx=-120.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 14: drift Δx=-120.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 15: drift Δx=-120.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 16: drift Δx=-120.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 17: drift Δx=-120.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 18: drift Δx=-120.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 19: drift Δx=-120.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 20: drift Δx=-120.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 21: drift Δx=-120.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 22: drift Δx=-120.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 23: drift Δx=-120.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 24: drift Δx=-120.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 25: drift Δx=-125.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 26: drift Δx=-130.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 27: drift Δx=-135.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 28: drift Δx=-140.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 29: drift Δx=-145.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 30: drift Δx=-150.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 31: drift Δx=-155.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 32: drift Δx=-160.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 33: drift Δx=-165.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 34: drift Δx=-170.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 35: drift Δx=-175.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 36: drift Δx=-180.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 37: drift Δx=-185.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 38: drift Δx=-190.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 39: drift Δx=-195.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 40: drift Δx=-200.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 41: drift Δx=-205.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 42: drift Δx=-210.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 43: drift Δx=-215.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 44: drift Δx=-220.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 45: drift Δx=-225.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 46: drift Δx=-230.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 47: drift Δx=-235.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 48: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 49: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 50: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 51: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 52: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 53: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 54: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 55: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 56: drift Δx=-245.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 57: drift Δx=-250.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 58: drift Δx=-245.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 59: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 60: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 61: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 62: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 63: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 64: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 65: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 66: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 67: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 68: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 69: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 70: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 71: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 72: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 73: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 74: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 75: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 76: drift Δx=-245.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 77: drift Δx=-250.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 78: drift Δx=-245.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 79: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 80: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 81: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 82: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 83: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 84: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 85: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 86: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 87: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 88: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 89: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 90: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 91: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 92: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 93: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 94: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 95: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 96: drift Δx=-245.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 97: drift Δx=-250.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 98: drift Δx=-245.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 99: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 100: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 101: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 102: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 103: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 104: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 105: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 106: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 107: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 108: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 109: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 110: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 111: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 112: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 113: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 114: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 115: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 116: drift Δx=-245.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 117: drift Δx=-250.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 118: drift Δx=-245.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 119: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 120: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 121: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 122: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 123: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 124: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 125: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 126: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 127: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 128: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 129: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 130: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 131: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 132: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 133: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 134: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 135: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 136: drift Δx=-245.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 137: drift Δx=-250.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 138: drift Δx=-245.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 139: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 140: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 141: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 142: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 143: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 144: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 145: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 146: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 147: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 148: drift Δx=-240.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 0: drift Δx=-120.0 Δy=268.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 1: drift Δx=-125.0 Δy=262.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 2: drift Δx=-130.0 Δy=256.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 3: drift Δx=-135.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 4: drift Δx=-140.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 5: drift Δx=-135.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 6: drift Δx=-130.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 7: drift Δx=-125.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 8: drift Δx=-120.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 9: drift Δx=-120.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 10: drift Δx=-120.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 11: drift Δx=-120.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 12: drift Δx=-120.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 13: drift Δx=-120.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 14: drift Δx=-120.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 15: drift Δx=-120.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 16: drift Δx=-120.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 17: drift Δx=-120.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 18: drift Δx=-120.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 19: drift Δx=-120.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 20: drift Δx=-120.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 21: drift Δx=-120.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 22: drift Δx=-120.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 23: drift Δx=-120.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 24: drift Δx=-120.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 25: drift Δx=-125.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 26: drift Δx=-130.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 27: drift Δx=-135.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 28: drift Δx=-140.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 29: drift Δx=-145.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 30: drift Δx=-150.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 31: drift Δx=-155.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 32: drift Δx=-160.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 33: drift Δx=-165.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 34: drift Δx=-170.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 35: drift Δx=-175.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 36: drift Δx=-180.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 37: drift Δx=-185.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 38: drift Δx=-190.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 39: drift Δx=-195.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 40: drift Δx=-200.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 41: drift Δx=-205.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 42: drift Δx=-210.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 43: drift Δx=-215.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 44: drift Δx=-220.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 45: drift Δx=-225.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 46: drift Δx=-230.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    },
+    {
+      "level": "warning",
+      "text": "[TAS Auto-Pilot] frame 47: drift Δx=-235.0 Δy=250.0 exceeds deadzone (2px) — closed-loop bias applied"
+    }
+  ],
+  "pageErrors": [
+    "Framing 'https://googleads.g.doubleclick.net/' violates the following Content Security Policy directive: \"child-src 'self'\". The request has been blocked. Note that 'frame-src' was not explicitly set, so 'child-src' is used as a fallback.\n",
+    "Framing 'https://googleads.g.doubleclick.net/' violates the following Content Security Policy directive: \"child-src 'self'\". The request has been blocked. Note that 'frame-src' was not explicitly set, so 'child-src' is used as a fallback.\n",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "EncodingError: Unable to decode audio data",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "EncodingError: Unable to decode audio data",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "EncodingError: Unable to decode audio data",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "EncodingError: Unable to decode audio data",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "EncodingError: Unable to decode audio data",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "EncodingError: Unable to decode audio data",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "EncodingError: Unable to decode audio data",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "EncodingError: Unable to decode audio data",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "EncodingError: Unable to decode audio data",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "EncodingError: Unable to decode audio data",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "EncodingError: Unable to decode audio data",
+    "EncodingError: Unable to decode audio data",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "EncodingError: Unable to decode audio data",
+    "EncodingError: Unable to decode audio data",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "EncodingError: Unable to decode audio data",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "EncodingError: Unable to decode audio data",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "EncodingError: Unable to decode audio data",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "EncodingError: Unable to decode audio data",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "EncodingError: Unable to decode audio data",
+    "Framing 'https://ep2.adtrafficquality.google/' violates the following Content Security Policy directive: \"child-src 'self'\". The request has been blocked. Note that 'frame-src' was not explicitly set, so 'child-src' is used as a fallback.\n",
+    "Framing 'https://www.google.com/' violates the following Content Security Policy directive: \"child-src 'self'\". The request has been blocked. Note that 'frame-src' was not explicitly set, so 'child-src' is used as a fallback.\n"
+  ],
+  "attackResult": {
+    "idx": -1,
+    "listFound": false,
+    "wave": "sans_bonegap1.csv",
+    "actionCount": 149,
+    "physicsMode": "c2",
+    "arena": {
+      "c2_left": 146,
+      "c2_floor": 378,
+      "W": 349,
+      "H": 114,
+      "soul_w": 4,
+      "soul_h": 4,
+      "v_walk": 5,
+      "v_jump": 6
+    }
+  },
+  "heartProbe": {
+    "found": true,
+    "typeName": "t55",
+    "x": 200,
+    "y": 108,
+    "local": {
+      "x": 54,
+      "y": 270
+    }
+  },
+  "driveResult": {
+    "advanced": 45,
+    "sawDirection": true,
+    "sawRelease": true,
+    "maxAbsDrift": 0,
+    "localAfter": {
+      "x": 54,
+      "y": 270
+    },
+    "initial": [
+      174,
+      2
+    ],
+    "timelineRunning": true
+  }
+}

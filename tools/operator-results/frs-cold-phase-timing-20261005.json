@@ -1,0 +1,26 @@
+{
+  "status": 0,
+  "frame": 438,
+  "expansions": 433117,
+  "exact_state_folding": true,
+  "max_beam": 1000,
+  "complete_search_configuration": false,
+  "actions_sha256": "abc93f77ec83d39156bda10d796797d5298824e02ce531a064992290009feaa6",
+  "kernel_sha256": "05274dff41dd88d468a2eeb9b9fd7e35278e9f7cd133452b6d6a93a7d4dbfa81",
+  "kernel_load": {
+    "collision": "compiled",
+    "search": "compiled",
+    "reconstruction": "compiled"
+  },
+  "timing_ms": {
+    "python_import": 502.1250999998301,
+    "csv_compile": 12.29440001770854,
+    "collision_compile_or_load": 422.78799999621697,
+    "collision_prepare_hot": 6.037999992258847,
+    "search_compile_or_load": 8178.538200008916,
+    "search_hot": 2410.699400003068,
+    "reconstruction_compile_or_load": 3013.896399992518,
+    "reconstruction_hot": 0.050000002374872565
+  },
+  "scope": "Process import through hot witness; excludes OS process launch and browser startup. Warmup uses one-frame native input, never a saved route."
+}

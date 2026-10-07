@@ -1,0 +1,19 @@
+{
+  "same_mask": true,
+  "geometry_cache_for_operator_comparison": true,
+  "route_input_used": false,
+  "milliseconds": {
+    "python_word_mask": [
+      333.56060000369325,
+      331.7686000082176,
+      332.2170000174083
+    ],
+    "native_word_mask": [
+      7.270600006449968,
+      6.394700001692399,
+      6.4971999963745475
+    ]
+  },
+  "mask_bytes": 15706880,
+  "python": "3.12.10"
+}

@@ -1,0 +1,16 @@
+{
+ "tick": 301,
+ "vberr": null,
+ "births": [],
+ "live": [],
+ "tlRunning": 1,
+ "HP": 92,
+ "mode": 2,
+ "layerXf": {
+  "scale": 1,
+  "parallaxX": 1,
+  "parallaxY": 1,
+  "zoomRate": 1
+ },
+ "layoutScale": 1
+}

@@ -1,0 +1,46 @@
+{
+  "records": [
+    {
+      "wave": "sans_bonegap2.csv",
+      "candidate": "a987f31007edc6a884b73217f69cb5565fc83e6c9b3ce1bd343ad8406b6a5ff7",
+      "elapsed_ms": 15.343000006396323,
+      "status": "certified",
+      "radius_microticks": 0,
+      "radius_ms": 0.0,
+      "frame": 419,
+      "peak_uncertainty_states": 1,
+      "uncertainty_model": "independent integer command-boundary shifts; fixed 240Hz physics",
+      "native_dt_robustness_proven": false,
+      "execution_probability": null
+    },
+    {
+      "wave": "sans_bonegap2.csv",
+      "candidate": "a987f31007edc6a884b73217f69cb5565fc83e6c9b3ce1bd343ad8406b6a5ff7",
+      "elapsed_ms": 2306.7680000094697,
+      "status": "resource_limit",
+      "radius_microticks": 1,
+      "radius_ms": 4.166666666666667,
+      "frame": 376,
+      "peak_uncertainty_states": 91513,
+      "uncertainty_model": "independent integer command-boundary shifts; fixed 240Hz physics",
+      "native_dt_robustness_proven": false,
+      "execution_probability": null
+    },
+    {
+      "wave": "sans_bonegap2.csv",
+      "candidate": "a987f31007edc6a884b73217f69cb5565fc83e6c9b3ce1bd343ad8406b6a5ff7",
+      "elapsed_ms": 334.97739999438636,
+      "status": "resource_limit",
+      "radius_microticks": 2,
+      "radius_ms": 8.333333333333334,
+      "frame": 252,
+      "peak_uncertainty_states": 39985,
+      "uncertainty_model": "independent integer command-boundary shifts; fixed 240Hz physics",
+      "native_dt_robustness_proven": false,
+      "execution_probability": null
+    }
+  ],
+  "max_states": 100000,
+  "original_game_acceptance": false,
+  "optimality_proven": false
+}

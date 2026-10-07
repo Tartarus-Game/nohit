@@ -41,7 +41,7 @@ class TestTier4RealWorldScenarios(unittest.TestCase):
         self.baker = get_baker()
         self.engine = get_engine()
         self.verifier = get_verifier()
-        self.sample_csv_dir = Path(r"c:\Users\lf\Documents\Workspace\nohit\c2-sans-fight")
+        self.sample_csv_dir = Path(r"<repo>\c2-sans-fight")
 
     def test_s1_real_scenario_sans_bonegap1(self):
         """Scenario 1: sans_bonegap1.csv end-to-end bake, solve, and forward verify."""

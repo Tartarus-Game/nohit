@@ -1,0 +1,49 @@
+[
+  {
+    "wave": "sans_bluebone",
+    "api_ms": 293,
+    "stats": {
+      "bake_ms": 79.04,
+      "dp_ms": 82.4,
+      "total_ms": 161.44,
+      "attempts_ms": [
+        82.4
+      ],
+      "peak_states": 512
+    },
+    "deadlock": false,
+    "deadlock_frame": null
+  },
+  {
+    "wave": "sans_boneslideh",
+    "api_ms": 606,
+    "stats": {
+      "bake_ms": 68.24,
+      "dp_ms": 526.97,
+      "total_ms": 595.21,
+      "attempts_ms": [
+        72.79,
+        454.18
+      ],
+      "peak_states": 3600
+    },
+    "deadlock": false,
+    "deadlock_frame": null
+  },
+  {
+    "wave": "sans_bonegap1fast",
+    "api_ms": 198,
+    "stats": {
+      "bake_ms": 53.14,
+      "dp_ms": 135.67,
+      "total_ms": 188.82,
+      "attempts_ms": [
+        41.32,
+        94.36
+      ],
+      "peak_states": 3600
+    },
+    "deadlock": true,
+    "deadlock_frame": 111
+  }
+]

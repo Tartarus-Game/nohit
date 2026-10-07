@@ -1,0 +1,150 @@
+[
+  {
+    "file": "bonesgap1-20261005-004515-384014.json",
+    "wave": "sans_bluebone.csv",
+    "operator": "a",
+    "no_hit": true,
+    "action_parity": null,
+    "stats": {
+      "bake_ms": 259.97,
+      "dp_ms": 853.93,
+      "total_ms": 1113.9,
+      "attempts_ms": [
+        212.56,
+        641.37
+      ],
+      "last_attempt_prepare_ms": 163.17,
+      "last_attempt_search_ms": 475.77,
+      "peak_states": 3599
+    }
+  },
+  {
+    "file": "bonesgap1-20261005-004517-444792.json",
+    "wave": "sans_bluebone.csv",
+    "operator": "b",
+    "no_hit": true,
+    "action_parity": true,
+    "stats": {
+      "bake_ms": 185.42,
+      "dp_ms": 688.98,
+      "total_ms": 874.4,
+      "attempts_ms": [
+        165.41,
+        523.57
+      ],
+      "last_attempt_prepare_ms": 149.27,
+      "last_attempt_search_ms": 372.48,
+      "peak_states": 3599
+    }
+  },
+  {
+    "file": "bonesgap1-20261005-004518-998211.json",
+    "wave": "sans_bonegap1.csv",
+    "operator": "a",
+    "no_hit": true,
+    "action_parity": null,
+    "stats": {
+      "bake_ms": 150.98,
+      "dp_ms": 262.57,
+      "total_ms": 413.55,
+      "attempts_ms": [
+        262.57
+      ],
+      "last_attempt_prepare_ms": 86.7,
+      "last_attempt_search_ms": 173.85,
+      "peak_states": 3506
+    }
+  },
+  {
+    "file": "bonesgap1-20261005-004520-476243.json",
+    "wave": "sans_bonegap1.csv",
+    "operator": "b",
+    "no_hit": true,
+    "action_parity": true,
+    "stats": {
+      "bake_ms": 134.4,
+      "dp_ms": 196.16,
+      "total_ms": 330.56,
+      "attempts_ms": [
+        196.16
+      ],
+      "last_attempt_prepare_ms": 70.53,
+      "last_attempt_search_ms": 123.79,
+      "peak_states": 3506
+    }
+  },
+  {
+    "file": "bonesgap1-20261005-004522-430080.json",
+    "wave": "sans_bonegap2.csv",
+    "operator": "a",
+    "no_hit": true,
+    "action_parity": null,
+    "stats": {
+      "bake_ms": 138.12,
+      "dp_ms": 632.45,
+      "total_ms": 770.57,
+      "attempts_ms": [
+        632.45
+      ],
+      "last_attempt_prepare_ms": 86.4,
+      "last_attempt_search_ms": 543.64,
+      "peak_states": 3597
+    }
+  },
+  {
+    "file": "bonesgap1-20261005-004524-226156.json",
+    "wave": "sans_bonegap2.csv",
+    "operator": "b",
+    "no_hit": true,
+    "action_parity": true,
+    "stats": {
+      "bake_ms": 130.33,
+      "dp_ms": 510.3,
+      "total_ms": 640.63,
+      "attempts_ms": [
+        510.3
+      ],
+      "last_attempt_prepare_ms": 73.65,
+      "last_attempt_search_ms": 434.64,
+      "peak_states": 3597
+    }
+  },
+  {
+    "file": "bonesgap1-20261005-004526-654368.json",
+    "wave": "sans_boneslideh.csv",
+    "operator": "a",
+    "no_hit": true,
+    "action_parity": null,
+    "stats": {
+      "bake_ms": 180.04,
+      "dp_ms": 1092.94,
+      "total_ms": 1272.98,
+      "attempts_ms": [
+        207.63,
+        885.31
+      ],
+      "last_attempt_prepare_ms": 145.25,
+      "last_attempt_search_ms": 691.02,
+      "peak_states": 3591
+    }
+  },
+  {
+    "file": "bonesgap1-20261005-004528-749470.json",
+    "wave": "sans_boneslideh.csv",
+    "operator": "b",
+    "no_hit": true,
+    "action_parity": true,
+    "stats": {
+      "bake_ms": 145.15,
+      "dp_ms": 797.77,
+      "total_ms": 942.92,
+      "attempts_ms": [
+        155.86,
+        641.92
+      ],
+      "last_attempt_prepare_ms": 112.36,
+      "last_attempt_search_ms": 527.43,
+      "peak_states": 3591
+    }
+  }
+]

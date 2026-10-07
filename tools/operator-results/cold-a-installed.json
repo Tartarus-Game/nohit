@@ -1,0 +1,15 @@
+{
+  "operator": "a",
+  "import_ms": 494.39629999687895,
+  "bake_ms": 73.50610000139568,
+  "first_prepare_ms": 176.98429999290965,
+  "first_search_ms": 122.82030000642408,
+  "candidate_ms": 307.2035999939544,
+  "process_work_ms": 875.105999992229,
+  "candidate_found": true,
+  "route_cache": false,
+  "new_process": true,
+  "empty_compiler_cache": false,
+  "wall_ms": 1204.5160999987274,
+  "startup_and_exit_ms": 329.4101000064984
+}

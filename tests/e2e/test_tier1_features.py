@@ -49,7 +49,7 @@ class TestTier1BakerAndGeometry(unittest.TestCase):
 
     def setUp(self):
         self.baker = get_baker()
-        self.sample_csv_dir = Path(r"c:\Users\lf\Documents\Workspace\nohit\c2-sans-fight")
+        self.sample_csv_dir = Path(r"<repo>\c2-sans-fight")
 
     def test_f1_csv_parser_parses_standard_commands(self):
         """Feature 1 (CSV_PARSER) & Feature 2 (TIMELINE_VM): CSV timeline commands."""
@@ -340,7 +340,7 @@ class TestTier1VerifierAndBenchmark(unittest.TestCase):
     def test_f18_real_wave_benchmark_execution(self):
         """Feature 18 (REAL_WAVE_BENCHMARK): Verify on real CSV."""
         baker = get_baker()
-        csv_file = Path(r"c:\Users\lf\Documents\Workspace\nohit\c2-sans-fight\sans_bonegap1.csv")
+        csv_file = Path(r"<repo>\c2-sans-fight\sans_bonegap1.csv")
         if csv_file.exists():
             bake_res = baker(csv_file, T=30)
             sol = self.engine(bake_res)
@@ -397,7 +397,7 @@ class TestTier1DashboardAndAPI(unittest.TestCase):
 
     def test_f22_web_server_api_waves_listing(self):
         """Feature 22 (WEB_SERVER): GET /api/waves mockable contract."""
-        csv_dir = Path(r"c:\Users\lf\Documents\Workspace\nohit\c2-sans-fight")
+        csv_dir = Path(r"<repo>\c2-sans-fight")
         csv_files = [f.name for f in csv_dir.glob("*.csv")] if csv_dir.exists() else ["sans_bonegap1.csv"]
         response_payload = {"waves": csv_files, "count": len(csv_files)}
         self.assertIn("waves", response_payload)
@@ -407,7 +407,7 @@ class TestTier1DashboardAndAPI(unittest.TestCase):
         """Feature 22: POST /api/solve payload schema contract."""
         baker = get_baker()
         engine = get_engine()
-        csv_file = Path(r"c:\Users\lf\Documents\Workspace\nohit\c2-sans-fight\sans_bonegap1.csv")
+        csv_file = Path(r"<repo>\c2-sans-fight\sans_bonegap1.csv")
 
         bake_res = baker(csv_file if csv_file.exists() else "dummy.csv", T=15)
         sol = engine(bake_res)

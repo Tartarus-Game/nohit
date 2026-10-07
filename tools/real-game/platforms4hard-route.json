@@ -1,0 +1,39 @@
+{
+  "wave": "sans_platforms4hard.csv",
+  "seed": null,
+  "T": 439,
+  "fps": 60,
+  "planner": "lattice-candidate",
+  "planning": null,
+  "physics_mode": "c2",
+  "is_deadlock": null,
+  "deadlock_proven": false,
+  "deadlock_frame": null,
+  "search_status": "model_not_validated",
+  "candidate_found": false,
+  "search_exhausted_frame": 150,
+  "search_limited": true,
+  "action_sequence": null,
+  "trajectory": null,
+  "initial_state": [
+    49,
+    51
+  ],
+  "arena": {
+    "c2_left": 126.0,
+    "c2_floor": 378.0,
+    "W": 409,
+    "H": 134,
+    "soul_w": 4,
+    "soul_h": 4,
+    "v_walk": 150,
+    "v_jump": 180
+  },
+  "stats": {
+    "bake_ms": 106.67,
+    "dp_ms": 931.37,
+    "total_ms": 1038.03,
+    "attempts_ms": [],
+    "peak_states": 4204
+  }
+}

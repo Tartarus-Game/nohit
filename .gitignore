@@ -1,0 +1,39 @@
+# environments and caches (regenerable, machine-specific)
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.cold-cache/
+.uvcache/
+build/kernels/
+
+# browser automation profiles and logs
+.chrome-run/
+.chrome-tas-profile/
+.chrome-tas-win/
+chrome.log
+
+# local working evidence (verdicts/reports only are committed deliberately)
+scratch/
+*.expanded.json
+
+# upstream reference copies (not ours to publish)
+repo_badtime/
+repo_jcw87/
+jcw87-c2-sans-fight/
+c2-sans-fight-derivative-backup/
+.vendor-git/
+
+# user-supplied CSV kept local
+data/user/
+
+# OS noise
+Thumbs.db
+Desktop.ini
+
+# process noise with no documentation value
+docs/archive/agents/
+docs/archive/capx_extract/
+
+# heavyweight working evidence
+*.raw.json

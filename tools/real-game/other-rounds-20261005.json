@@ -1,0 +1,74 @@
+[
+  {
+    "wave": "sans_randomblaster1.csv",
+    "seed": 42,
+    "status": "passed_three_realtime",
+    "candidate_id": "e9806b37edd48a19ca56883bc6b88f0ab0952a59e0dc57735f292bd1fb9ec030",
+    "method": "original-engine-time-dag",
+    "frames": 510,
+    "solve_ms": 54161.29999998212,
+    "marginPx": 1,
+    "hold": null,
+    "settleFrames": null,
+    "trace": "tools\\real-game\\bonesgap1-20261005-135711-483332.json",
+    "rounds": [
+      {
+        "startHP": 92,
+        "endHP": 92,
+        "hits": 0,
+        "maxKR": 0,
+        "EndAttack": true
+      },
+      {
+        "startHP": 92,
+        "endHP": 92,
+        "hits": 0,
+        "maxKR": 0,
+        "EndAttack": true
+      },
+      {
+        "startHP": 92,
+        "endHP": 92,
+        "hits": 0,
+        "maxKR": 0,
+        "EndAttack": true
+      }
+    ]
+  },
+  {
+    "wave": "sans_bonestab3.csv",
+    "seed": 42,
+    "status": "passed_three_realtime",
+    "candidate_id": "8e29b7faffb1d29ce48658f675544e09d4842274ba080af2e92cc9bc9895e83d",
+    "method": "original-engine-event-policies",
+    "frames": 378,
+    "solve_ms": 510.7000000178814,
+    "marginPx": 1,
+    "hold": 32,
+    "settleFrames": 2,
+    "trace": "tools\\real-game\\bonesgap1-20261005-141947-642302.json",
+    "rounds": [
+      {
+        "startHP": 92,
+        "endHP": 92,
+        "hits": 0,
+        "maxKR": 0,
+        "EndAttack": true
+      },
+      {
+        "startHP": 92,
+        "endHP": 92,
+        "hits": 0,
+        "maxKR": 0,
+        "EndAttack": true
+      },
+      {
+        "startHP": 92,
+        "endHP": 92,
+        "hits": 0,
+        "maxKR": 0,
+        "EndAttack": true
+      }
+    ]
+  }
+]

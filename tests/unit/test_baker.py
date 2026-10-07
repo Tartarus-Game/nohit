@@ -44,7 +44,7 @@ class TestParser(unittest.TestCase):
 
     def setUp(self):
         self.parser = AttackScriptParser(fps=30)
-        self.sample_dir = Path(r"c:\Users\lf\Documents\Workspace\nohit\c2-sans-fight")
+        self.sample_dir = Path(r"<repo>\c2-sans-fight")
 
     def test_linear_script_with_trailing_commas(self):
         csv_text = (
@@ -268,7 +268,7 @@ class TestBakePipeline(unittest.TestCase):
     """Verifies end-to-end `bake_cspace` pipeline and engineering performance requirements."""
 
     def setUp(self):
-        self.sample_dir = Path(r"c:\Users\lf\Documents\Workspace\nohit\c2-sans-fight")
+        self.sample_dir = Path(r"<repo>\c2-sans-fight")
 
     def test_bake_real_wave_bonegap1_performance(self):
         csv_file = self.sample_dir / "sans_bonegap1.csv"

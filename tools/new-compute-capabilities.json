@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "specification": "docs/new-compute-implementation.md",
+  "main_solver": "compact-state-lattice-dp",
+  "original_engine_role": ["rule_calibration", "microstep_differential", "independent_replay", "realtime_acceptance"],
+  "first_target": "sans_platforms4hard.csv",
+  "clock": "fixed_240hz_with_60hz_inputs",
+  "implementation_status": "platforms4hard_pure_kernel_implemented_realtime_robustness_incomplete",
+  "implementation_record": "docs/new-compute-platforms4hard.md",
+  "implemented": ["audited_csv_geometry_compiler", "calibrated_float64_microsteps", "packed_cspace_masks", "bit_exact_state_equality", "unpruned_breadth_reference", "lazy_boolean_reachability_with_exact_dead_state_memo", "explicit_resource_failure", "fresh_compute_api", "startup_wait_for_route"],
+  "calibration": {"wave":"sans_platforms4hard.csv","clock":"calibrated_fixed_240hz","control_hz":60,"microsteps":1752,"player_differential_cases":4,"comparison":"absolute_tolerance_1e-8","bit_identical_to_original_proven":false},
+  "collision_model": "conservative_bbox_fractional_cell_cover",
+  "original_replay_verified_new_kernel_waves": ["sans_platforms4hard.csv"],
+  "realtime_observations": "Some candidates passed three rounds; other runs produced counterexamples. Not a robustness guarantee.",
+  "reusable": ["numba_native_loops", "preallocated_buffers", "open_addressed_tables", "parent_reconstruction", "collision_rasterization", "operator_a_b", "original_acceptance_observer"],
+  "required_before_target_enabled": ["actual_source_rule_audit", "complete_future_state", "verified_platform_microsteps", "verified_environment_microphases", "collision_model_declared", "exact_key_comparison", "no_beam_pruning", "resource_limit_status", "fresh_full_route_search", "independent_original_replay", "realtime_three_rounds"],
+  "supported_verified_new_kernel_waves": [],
+  "unsupported_behavior": "return_unsupported_mechanism_without_silent_oracle_search",
+  "search_exhaustion_is_original_deadlock_proof": false,
+  "timing_scope_required": ["compile_cache_hit", "environment_cache_hit", "route_cache_hit", "process_startup_ms", "environment_prepare_ms", "search_ms", "first_route_wall_ms", "independent_replay_ms", "realtime_acceptance_ms"]
+}

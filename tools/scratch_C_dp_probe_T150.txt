@@ -1,0 +1,10 @@
+T=150 H=114 W=349 x0=174 has_hazards=False slam_frames={148}
+  step 145 -> frame 146: alive= 14760 x_range=[0,341] min_key=(0, 0, 0, 1, 0) sorted=True init_alive=True curr_vals_all_zero=True
+  step 146 -> frame 147: alive= 14832 x_range=[0,341] min_key=(0, 0, 0, 1, 0) sorted=True init_alive=True curr_vals_all_zero=True
+  step 147 -> frame 148: alive= 14904 x_range=[0,341] min_key=(0, 0, 0, 1, 0) sorted=True init_alive=True curr_vals_all_zero=True
+  step 148 -> frame 149: alive=   208 x_range=[0,341] min_key=(0, 0, 0, 1, 0) sorted=True init_alive=True curr_vals_all_zero=True
+
+terminal: argmax(curr_vals)=0 of 208  curr_vals[0]=np.float32(0.0) max=np.float32(0.0) all_equal=True
+  curr_packed[0]      = (0, 0, 0, 1, 0)
+  curr_packed[argmax] = (0, 0, 0, 1, 0)
+  final alive x range = [0, 341]  n=208

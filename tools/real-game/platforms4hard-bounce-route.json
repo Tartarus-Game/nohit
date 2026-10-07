@@ -1,0 +1,49 @@
+{
+  "wave": "sans_platforms4hard.csv",
+  "seed": null,
+  "T": 439,
+  "fps": 60,
+  "planner": "source-compiled-xy-candidate",
+  "planning": {
+    "objective": "max_min_clearance_then_input",
+    "landing_wait_frames": 3,
+    "blue_rest_frames": 6,
+    "white_spatial_margin_px": 1,
+    "white_timing_margin_frames": 1,
+    "clearance_cap_px": 8
+  },
+  "physics_mode": "c2",
+  "is_deadlock": null,
+  "deadlock_proven": false,
+  "deadlock_frame": null,
+  "search_status": "no_candidate",
+  "candidate_found": false,
+  "search_exhausted_frame": 154,
+  "search_limited": true,
+  "action_sequence": null,
+  "trajectory": null,
+  "initial_state": [
+    49,
+    51
+  ],
+  "arena": {
+    "c2_left": 126.0,
+    "c2_floor": 378.0,
+    "W": 409,
+    "H": 134,
+    "soul_w": 4,
+    "soul_h": 4,
+    "v_walk": 150,
+    "v_jump": 180
+  },
+  "stats": {
+    "bake_ms": 111.97,
+    "dp_ms": 673.46,
+    "total_ms": 785.43,
+    "attempts_ms": [
+      249.72,
+      423.74
+    ],
+    "peak_states": 11971
+  }
+}

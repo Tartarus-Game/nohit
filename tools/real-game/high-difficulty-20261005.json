@@ -1,0 +1,110 @@
+{
+  "clock": "original-runtime-realtime",
+  "criterion": "three-original-EndAttack-no-damage",
+  "results": [
+    {
+      "wave": "sans_platformblasterfast.csv",
+      "seed": 42,
+      "candidate_id": "25732de4f2fd1c6c2bd3413c28701985e76f8729e5fdab12ac62c27000550dad",
+      "solve_ms": 66262.59999999404,
+      "frames": 504,
+      "beam": 24,
+      "segment": 8,
+      "margin_px": 1,
+      "status": "passed_three_realtime",
+      "trace": "tools\\real-game\\bonesgap1-20261005-132420-798633.json",
+      "screenshot": "tools/real-game/platformblasterfast-20261005.png",
+      "rounds": [
+        {
+          "start_hp": 92,
+          "end_hp": 92,
+          "min_hp": 92,
+          "max_kr": 0,
+          "hits": 0,
+          "end_attack_observed": true
+        },
+        {
+          "start_hp": 92,
+          "end_hp": 92,
+          "min_hp": 92,
+          "max_kr": 0,
+          "hits": 0,
+          "end_attack_observed": true
+        },
+        {
+          "start_hp": 92,
+          "end_hp": 92,
+          "min_hp": 92,
+          "max_kr": 0,
+          "hits": 0,
+          "end_attack_observed": true
+        }
+      ]
+    },
+    {
+      "wave": "sans_multi3.csv",
+      "seed": 42,
+      "candidate_id": "dad97feb02f587401d19c78023b6701252f644226cf7956cf375da1178dd1a1b",
+      "solve_ms": 45606.90000000596,
+      "frames": 498,
+      "beam": 24,
+      "segment": 8,
+      "margin_px": 1,
+      "status": "passed_three_realtime",
+      "trace": "tools\\real-game\\bonesgap1-20261005-132650-672040.json",
+      "screenshot": "tools/real-game/multi3-20261005.png",
+      "rounds": [
+        {
+          "start_hp": 92,
+          "end_hp": 92,
+          "min_hp": 92,
+          "max_kr": 0,
+          "hits": 0,
+          "end_attack_observed": true
+        },
+        {
+          "start_hp": 92,
+          "end_hp": 92,
+          "min_hp": 92,
+          "max_kr": 0,
+          "hits": 0,
+          "end_attack_observed": true
+        },
+        {
+          "start_hp": 92,
+          "end_hp": 92,
+          "min_hp": 92,
+          "max_kr": 0,
+          "hits": 0,
+          "end_attack_observed": true
+        }
+      ]
+    },
+    {
+      "wave": "sans_platforms4hard.csv",
+      "seed": 42,
+      "beam": 48,
+      "segment": 4,
+      "margin_px": 1,
+      "status": "no_candidate",
+      "frames": 240,
+      "solve_ms": 102569.09999999404,
+      "trace": "tools\\real-game\\platforms4hard-seed42-beam48-segment4-margin1.json",
+      "deadlock_proven": false,
+      "realtime_tested": false
+    },
+    {
+      "wave": "sans_platforms4hard.csv",
+      "seed": 42,
+      "beam": 24,
+      "segment": 8,
+      "margin_px": 0,
+      "status": "no_candidate",
+      "frames": 264,
+      "solve_ms": 42519.69999998808,
+      "trace": "tools\\real-game\\platforms4hard-seed42-beam24-segment8-margin0.json",
+      "deadlock_proven": false,
+      "realtime_tested": false
+    }
+  ]
+}

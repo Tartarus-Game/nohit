@@ -1,0 +1,32 @@
+[
+  {
+    "wave": "sans_bluebone",
+    "api_ms": 673,
+    "stats": {
+      "bake_ms": 80.05,
+      "dp_ms": 521.11,
+      "total_ms": 601.16,
+      "attempts_ms": [
+        147.02,
+        374.09
+      ],
+      "peak_states": 3600
+    },
+    "deadlock": false
+  },
+  {
+    "wave": "sans_boneslideh",
+    "api_ms": 604,
+    "stats": {
+      "bake_ms": 65.88,
+      "dp_ms": 517.3,
+      "total_ms": 583.18,
+      "attempts_ms": [
+        120.19,
+        397.11
+      ],
+      "peak_states": 3600
+    },
+    "deadlock": false
+  }
+]

@@ -1,0 +1,1 @@
+{"suite": "continuous-normal-victory-screenshot", "sourceTrace": "<repo>\\tools\\real-game\\bonesgap1-20261006-115516-273476.json", "result": {"status": "passed", "rounds": 24, "checkedTicks": 68242, "winObserved": true}}

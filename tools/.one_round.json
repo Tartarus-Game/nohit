@@ -1,0 +1,612 @@
+{
+  "plan": {
+    "wave": "sans_bonegap1",
+    "arena": {
+      "c2_left": 146,
+      "c2_floor": 378,
+      "W": 349,
+      "H": 114,
+      "soul_w": 4,
+      "soul_h": 4,
+      "v_walk": 5,
+      "v_jump": 6
+    },
+    "init": [
+      174,
+      2
+    ]
+  },
+  "menu": [
+    {
+      "tag": "boot",
+      "layout": "MainMenu",
+      "SimulatorMode": 0,
+      "SingleAttack": "",
+      "HP": 92,
+      "tlRunning": 0,
+      "bones": 0,
+      "heartVisible": true,
+      "heartPos": [
+        200,
+        108
+      ]
+    },
+    {
+      "tag": "before-press-0",
+      "layout": "MainMenu",
+      "SimulatorMode": 0,
+      "SingleAttack": "",
+      "HP": 92,
+      "tlRunning": 0,
+      "bones": 0,
+      "heartVisible": true,
+      "heartPos": [
+        200,
+        108
+      ]
+    },
+    {
+      "tag": "after-press-0",
+      "layout": "BattleScreen",
+      "SimulatorMode": 0,
+      "SingleAttack": "",
+      "HP": 92,
+      "tlRunning": 0,
+      "bones": 0,
+      "heartVisible": true,
+      "heartPos": [
+        390.95,
+        301.5
+      ]
+    },
+    {
+      "tag": "before-press-1",
+      "layout": "BattleScreen",
+      "SimulatorMode": 0,
+      "SingleAttack": "",
+      "HP": 92,
+      "tlRunning": 0,
+      "bones": 0,
+      "heartVisible": true,
+      "heartPos": [
+        390.95,
+        301.5
+      ]
+    },
+    {
+      "tag": "after-press-1",
+      "layout": "BattleScreen",
+      "SimulatorMode": 0,
+      "SingleAttack": "",
+      "HP": 92,
+      "tlRunning": 0,
+      "bones": 0,
+      "heartVisible": true,
+      "heartPos": [
+        390.95,
+        301.5
+      ]
+    },
+    {
+      "tag": "before-press-2",
+      "layout": "BattleScreen",
+      "SimulatorMode": 0,
+      "SingleAttack": "",
+      "HP": 92,
+      "tlRunning": 0,
+      "bones": 0,
+      "heartVisible": true,
+      "heartPos": [
+        390.95,
+        301.5
+      ]
+    },
+    {
+      "tag": "after-press-2",
+      "layout": "BattleScreen",
+      "SimulatorMode": 0,
+      "SingleAttack": "",
+      "HP": 92,
+      "tlRunning": 0,
+      "bones": 0,
+      "heartVisible": true,
+      "heartPos": [
+        390.95,
+        301.5
+      ]
+    },
+    {
+      "tag": "before-press-3",
+      "layout": "BattleScreen",
+      "SimulatorMode": 0,
+      "SingleAttack": "",
+      "HP": 92,
+      "tlRunning": 0,
+      "bones": 0,
+      "heartVisible": true,
+      "heartPos": [
+        390.95,
+        301.5
+      ]
+    },
+    {
+      "tag": "after-press-3",
+      "layout": "BattleScreen",
+      "SimulatorMode": 0,
+      "SingleAttack": "",
+      "HP": 92,
+      "tlRunning": 0,
+      "bones": 0,
+      "heartVisible": true,
+      "heartPos": [
+        390.95,
+        301.5
+      ]
+    },
+    {
+      "tag": "before-press-4",
+      "layout": "BattleScreen",
+      "SimulatorMode": 0,
+      "SingleAttack": "",
+      "HP": 92,
+      "tlRunning": 0,
+      "bones": 0,
+      "heartVisible": true,
+      "heartPos": [
+        390.95,
+        301.5
+      ]
+    },
+    {
+      "tag": "after-press-4",
+      "layout": "BattleScreen",
+      "SimulatorMode": 0,
+      "SingleAttack": "",
+      "HP": 92,
+      "tlRunning": 0,
+      "bones": 0,
+      "heartVisible": true,
+      "heartPos": [
+        390.95,
+        301.5
+      ]
+    },
+    {
+      "tag": "before-press-5",
+      "layout": "BattleScreen",
+      "SimulatorMode": 0,
+      "SingleAttack": "",
+      "HP": 92,
+      "tlRunning": 0,
+      "bones": 0,
+      "heartVisible": true,
+      "heartPos": [
+        390.95,
+        301.5
+      ]
+    },
+    {
+      "tag": "after-press-5",
+      "layout": "BattleScreen",
+      "SimulatorMode": 0,
+      "SingleAttack": "",
+      "HP": 92,
+      "tlRunning": 0,
+      "bones": 0,
+      "heartVisible": true,
+      "heartPos": [
+        390.95,
+        301.5
+      ]
+    },
+    {
+      "tag": "before-press-6",
+      "layout": "BattleScreen",
+      "SimulatorMode": 0,
+      "SingleAttack": "",
+      "HP": 92,
+      "tlRunning": 0,
+      "bones": 0,
+      "heartVisible": true,
+      "heartPos": [
+        390.95,
+        301.5
+      ]
+    },
+    {
+      "tag": "after-press-6",
+      "layout": "BattleScreen",
+      "SimulatorMode": 0,
+      "SingleAttack": "",
+      "HP": 92,
+      "tlRunning": 0,
+      "bones": 0,
+      "heartVisible": true,
+      "heartPos": [
+        390.95,
+        301.5
+      ]
+    },
+    {
+      "tag": "before-press-7",
+      "layout": "BattleScreen",
+      "SimulatorMode": 0,
+      "SingleAttack": "",
+      "HP": 92,
+      "tlRunning": 0,
+      "bones": 0,
+      "heartVisible": true,
+      "heartPos": [
+        390.95,
+        301.5
+      ]
+    },
+    {
+      "tag": "after-press-7",
+      "layout": "BattleScreen",
+      "SimulatorMode": 0,
+      "SingleAttack": "",
+      "HP": 92,
+      "tlRunning": 0,
+      "bones": 0,
+      "heartVisible": true,
+      "heartPos": [
+        390.95,
+        301.5
+      ]
+    },
+    {
+      "tag": "final",
+      "layout": "BattleScreen",
+      "SimulatorMode": 0,
+      "SingleAttack": "",
+      "HP": 92,
+      "tlRunning": 0,
+      "bones": 0,
+      "heartVisible": true,
+      "heartPos": [
+        390.95,
+        301.5
+      ]
+    }
+  ],
+  "run": {
+    "hp0": 92,
+    "hpEnd": 92,
+    "n": 150,
+    "distinctX": 16,
+    "distinctY": 4,
+    "hpSeries": [
+      92
+    ],
+    "cmp": [
+      {
+        "i": 0,
+        "real": [
+          244.94,
+          76.5
+        ],
+        "plan": [
+          174,
+          2
+        ],
+        "dx": 70.94,
+        "dy": 74.5
+      },
+      {
+        "i": 10,
+        "real": [
+          242.45,
+          78.38
+        ],
+        "plan": [
+          174,
+          20
+        ],
+        "dx": 68.45,
+        "dy": 58.38
+      },
+      {
+        "i": 20,
+        "real": [
+          242.45,
+          78.38
+        ],
+        "plan": [
+          174,
+          20
+        ],
+        "dx": 68.45,
+        "dy": 58.38
+      },
+      {
+        "i": 30,
+        "real": [
+          244.93,
+          78.38
+        ],
+        "plan": [
+          204,
+          20
+        ],
+        "dx": 40.93,
+        "dy": 58.38
+      },
+      {
+        "i": 40,
+        "real": [
+          244.93,
+          78.38
+        ],
+        "plan": [
+          254,
+          20
+        ],
+        "dx": -9.07,
+        "dy": 58.38
+      },
+      {
+        "i": 50,
+        "real": [
+          244.93,
+          78.38
+        ],
+        "plan": [
+          294,
+          20
+        ],
+        "dx": -49.07,
+        "dy": 58.38
+      },
+      {
+        "i": 60,
+        "real": [
+          243.67,
+          78.38
+        ],
+        "plan": [
+          294,
+          20
+        ],
+        "dx": -50.33,
+        "dy": 58.38
+      },
+      {
+        "i": 70,
+        "real": [
+          243.67,
+          78.38
+        ],
+        "plan": [
+          294,
+          20
+        ],
+        "dx": -50.33,
+        "dy": 58.38
+      },
+      {
+        "i": 80,
+        "real": [
+          243.67,
+          78.38
+        ],
+        "plan": [
+          294,
+          20
+        ],
+        "dx": -50.33,
+        "dy": 58.38
+      },
+      {
+        "i": 90,
+        "real": [
+          243.67,
+          78.38
+        ],
+        "plan": [
+          294,
+          20
+        ],
+        "dx": -50.33,
+        "dy": 58.38
+      },
+      {
+        "i": 100,
+        "real": [
+          243.67,
+          78.38
+        ],
+        "plan": [
+          294,
+          20
+        ],
+        "dx": -50.33,
+        "dy": 58.38
+      },
+      {
+        "i": 110,
+        "real": [
+          243.67,
+          78.38
+        ],
+        "plan": [
+          294,
+          20
+        ],
+        "dx": -50.33,
+        "dy": 58.38
+      },
+      {
+        "i": 120,
+        "real": [
+          243.65,
+          78.38
+        ],
+        "plan": [
+          294,
+          20
+        ],
+        "dx": -50.35,
+        "dy": 58.38
+      },
+      {
+        "i": 130,
+        "real": [
+          243.65,
+          78.38
+        ],
+        "plan": [
+          294,
+          20
+        ],
+        "dx": -50.35,
+        "dy": 58.38
+      },
+      {
+        "i": 140,
+        "real": [
+          243.67,
+          78.38
+        ],
+        "plan": [
+          294,
+          20
+        ],
+        "dx": -50.33,
+        "dy": 58.38
+      }
+    ],
+    "head": [
+      {
+        "i": 0,
+        "x": 390.945,
+        "y": 301.495,
+        "hp": 92,
+        "vis": 1,
+        "cdx": 150,
+        "cdy": -150,
+        "a": [
+          1,
+          1
+        ]
+      },
+      {
+        "i": 1,
+        "x": 390.945,
+        "y": 300.85,
+        "hp": 92,
+        "vis": 1,
+        "cdx": 150,
+        "cdy": -150,
+        "a": [
+          1,
+          1
+        ]
+      },
+      {
+        "i": 2,
+        "x": 390.945,
+        "y": 300.25,
+        "hp": 92,
+        "vis": 1,
+        "cdx": 150,
+        "cdy": -150,
+        "a": [
+          1,
+          1
+        ]
+      },
+      {
+        "i": 3,
+        "x": 390.945,
+        "y": 299.62,
+        "hp": 92,
+        "vis": 1,
+        "cdx": 150,
+        "cdy": 0,
+        "a": [
+          1,
+          0
+        ]
+      },
+      {
+        "i": 4,
+        "x": 390.945,
+        "y": 299.62,
+        "hp": 92,
+        "vis": 1,
+        "cdx": -150,
+        "cdy": 0,
+        "a": [
+          -1,
+          0
+        ]
+      },
+      {
+        "i": 5,
+        "x": 390.33,
+        "y": 299.62,
+        "hp": 92,
+        "vis": 1,
+        "cdx": -150,
+        "cdy": 0,
+        "a": [
+          -1,
+          0
+        ]
+      },
+      {
+        "i": 6,
+        "x": 389.715,
+        "y": 299.62,
+        "hp": 92,
+        "vis": 1,
+        "cdx": -150,
+        "cdy": 0,
+        "a": [
+          -1,
+          0
+        ]
+      },
+      {
+        "i": 7,
+        "x": 389.085,
+        "y": 299.62,
+        "hp": 92,
+        "vis": 1,
+        "cdx": -150,
+        "cdy": 0,
+        "a": [
+          -1,
+          0
+        ]
+      },
+      {
+        "i": 8,
+        "x": 388.455,
+        "y": 299.62,
+        "hp": 92,
+        "vis": 1,
+        "cdx": 0,
+        "cdy": 0,
+        "a": [
+          0,
+          0
+        ]
+      },
+      {
+        "i": 9,
+        "x": 388.455,
+        "y": 299.62,
+        "hp": 92,
+        "vis": 1,
+        "cdx": 0,
+        "cdy": 0,
+        "a": [
+          0,
+          0
+        ]
+      }
+    ]
+  }
+}

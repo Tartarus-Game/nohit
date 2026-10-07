@@ -1,0 +1,67 @@
+ACTIONS as defined in nohit/common/constants.py:108-115
+  index 0: (ux=-1, uy=0)   <-- LEFT
+  index 1: (ux=-1, uy=1)   <-- LEFT
+  index 2: (ux=+0, uy=0)
+  index 3: (ux=+0, uy=1)
+  index 4: (ux=+1, uy=0)
+  index 5: (ux=+1, uy=1)
+=> (-1,0) [LEFT] is index 0; (+1,0) [RIGHT] is index 4.
+
+(1) candidate array order + np.unique(return_index=True)
+  parent x=0: 6 candidates -> 4 unique keys (2 collisions)
+      cand[0] action=(-1, 0)  -> state (0, 0, 0, 1, 0) key=199753728
+      cand[1] action=(-1, 1)  -> state (0, 8, 8, 0, 1) key=335024128
+      cand[2] action=(0, 0)   -> state (0, 0, 0, 1, 0) key=199753728
+      cand[3] action=(0, 1)   -> state (0, 8, 8, 0, 1) key=335024128
+      cand[4] action=(1, 0)   -> state (3, 0, 0, 1, 0) key=199753731
+      cand[5] action=(1, 1)   -> state (3, 8, 8, 0, 1) key=335024131
+      np.unique(return_index=True) kept:
+        first-occurrence index 0 -> action (-1, 0) -> state (0, 0, 0, 1, 0)
+        first-occurrence index 4 -> action (1, 0) -> state (3, 0, 0, 1, 0)
+        first-occurrence index 1 -> action (-1, 1) -> state (0, 8, 8, 0, 1)
+        first-occurrence index 5 -> action (1, 1) -> state (3, 8, 8, 0, 1)
+  parent x=3: 6 candidates -> 6 unique keys (0 collisions)
+      cand[0] action=(-1, 0)  -> state (0, 0, 0, 1, 0) key=199753728
+      cand[1] action=(-1, 1)  -> state (0, 8, 8, 0, 1) key=335024128
+      cand[2] action=(0, 0)   -> state (3, 0, 0, 1, 0) key=199753731
+      cand[3] action=(0, 1)   -> state (3, 8, 8, 0, 1) key=335024131
+      cand[4] action=(1, 0)   -> state (6, 0, 0, 1, 0) key=199753734
+      cand[5] action=(1, 1)   -> state (6, 8, 8, 0, 1) key=335024134
+      np.unique(return_index=True) kept:
+        first-occurrence index 0 -> action (-1, 0) -> state (0, 0, 0, 1, 0)
+        first-occurrence index 2 -> action (0, 0) -> state (3, 0, 0, 1, 0)
+        first-occurrence index 4 -> action (1, 0) -> state (6, 0, 0, 1, 0)
+        first-occurrence index 1 -> action (-1, 1) -> state (0, 8, 8, 0, 1)
+        first-occurrence index 3 -> action (0, 1) -> state (3, 8, 8, 0, 1)
+        first-occurrence index 5 -> action (1, 1) -> state (6, 8, 8, 0, 1)
+  parent x=174: 6 candidates -> 6 unique keys (0 collisions)
+      cand[0] action=(-1, 0)  -> state (171, 0, 0, 1, 0) key=199753899
+      cand[1] action=(-1, 1)  -> state (171, 8, 8, 0, 1) key=335024299
+      cand[2] action=(0, 0)   -> state (174, 0, 0, 1, 0) key=199753902
+      cand[3] action=(0, 1)   -> state (174, 8, 8, 0, 1) key=335024302
+      cand[4] action=(1, 0)   -> state (177, 0, 0, 1, 0) key=199753905
+      cand[5] action=(1, 1)   -> state (177, 8, 8, 0, 1) key=335024305
+      np.unique(return_index=True) kept:
+        first-occurrence index 0 -> action (-1, 0) -> state (171, 0, 0, 1, 0)
+        first-occurrence index 2 -> action (0, 0) -> state (174, 0, 0, 1, 0)
+        first-occurrence index 4 -> action (1, 0) -> state (177, 0, 0, 1, 0)
+        first-occurrence index 1 -> action (-1, 1) -> state (171, 8, 8, 0, 1)
+        first-occurrence index 3 -> action (0, 1) -> state (174, 8, 8, 0, 1)
+        first-occurrence index 5 -> action (1, 1) -> state (177, 8, 8, 0, 1)
+
+(2) terminal tie-break on an all-tied value array
+  curr_packed (key-sorted, as np.unique/argsort produce it):
+    key=199753728 -> (0, 0, 0, 1, 0)
+    key=199753731 -> (3, 0, 0, 1, 0)
+    key=199753899 -> (171, 0, 0, 1, 0)
+    key=199753902 -> (174, 0, 0, 1, 0)
+  curr_vals = [0. 0. 0. 0.]  -> np.argmax = 0
+  curr_packed[argmax] = (0, 0, 0, 1, 0)
+  i.e. the x smallest state wins whenever the values tie.
+
+  packed key = x | (y<<9) | ((vy+500)<<17) | (kappa<<27) | (tau<<28),
+  so for a fixed (y, vy, kappa, tau) the key is monotone in x:
+    x=  0 -> key 199753728
+    x=  3 -> key 199753731
+    x=174 -> key 199753902
+    x=341 -> key 199754069

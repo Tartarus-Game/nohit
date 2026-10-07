@@ -1,0 +1,41 @@
+{
+  "candidate_id": "8f6adba922a08012c706c83286a9e518ac1504e4826715f77eb7d185904d484f",
+  "actions_sha256": "abc93f77ec83d39156bda10d796797d5298824e02ce531a064992290009feaa6",
+  "browser": "Codex in-app browser (visible)",
+  "offline_trace": "<repo>\\tools\\real-game\\bonesgap1-20261005-201735-661147.json",
+  "realtime_trace": "<repo>\\tools\\real-game\\bonesgap1-20261005-201810-041300.json",
+  "rounds": [
+    {
+      "ticks": 1755,
+      "min_hp": 92,
+      "max_kr": 0,
+      "hits": 0,
+      "end_attack_observed": true,
+      "min_dt": 0.0038999999999996364,
+      "max_dt": 0.0045
+    },
+    {
+      "ticks": 1754,
+      "min_hp": 92,
+      "max_kr": 0,
+      "hits": 0,
+      "end_attack_observed": true,
+      "min_dt": 0.0036000000000003638,
+      "max_dt": 0.004700000000000728
+    },
+    {
+      "ticks": 1755,
+      "min_hp": 92,
+      "max_kr": 0,
+      "hits": 0,
+      "end_attack_observed": true,
+      "min_dt": 0.0032000000000007274,
+      "max_dt": 0.004900000000001455
+    }
+  ],
+  "screenshot": "<repo>\\tools\\real-game\\bonesgap1-20261005-201831-003550.png",
+  "horizontal_action_changes": 32,
+  "jump_action_changes": 9,
+  "min_frame_boundary_clearance_px": 4.625,
+  "complete_search_configuration": false
+}

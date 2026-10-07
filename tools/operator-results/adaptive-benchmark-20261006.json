@@ -1,0 +1,246 @@
+{
+  "seed": 42,
+  "preferred_margin": 4.0,
+  "margin_is_pruning": false,
+  "lookahead": 60,
+  "max_nodes": 300000,
+  "kernel_load_ms": 5092.8112999827135,
+  "original_game_acceptance": false,
+  "process_startup_excluded": true,
+  "records": [
+    {
+      "wave": "sans_bonegap1",
+      "algorithm": "deferred-dag",
+      "run": 0,
+      "bake_ms": 29.78,
+      "ms": 2987.101,
+      "status": 0,
+      "frame": 396,
+      "expanded": 14129,
+      "generated": 25254,
+      "peak_layer": 955
+    },
+    {
+      "wave": "sans_bonegap1",
+      "algorithm": "deferred-dag",
+      "run": 1,
+      "bake_ms": 29.78,
+      "ms": 136.259,
+      "status": 0,
+      "frame": 396,
+      "expanded": 14129,
+      "generated": 25254,
+      "peak_layer": 955
+    },
+    {
+      "wave": "sans_bonegap1",
+      "algorithm": "full_fresh_solve",
+      "status": "candidate_found",
+      "timing_ms": {
+        "csv_compile": 29.786799976136535,
+        "search_including_load": 133.54390001040883,
+        "hot_search": 133.54390001040883,
+        "reconstruction": 2.6954000059049577,
+        "first_route_wall": 166.02629999397323
+      },
+      "kernel_sha256": "623f123a842d5ad550b231ef2ff348bd2a06fd2cc1d91c259f9a4c30a9bd7a87",
+      "route_cache_hit": false,
+      "environment_cache_hit": false
+    },
+    {
+      "wave": "sans_bonegap1fast",
+      "algorithm": "deferred-dag",
+      "run": 0,
+      "bake_ms": 27.893,
+      "ms": 244.447,
+      "status": 0,
+      "frame": 384,
+      "expanded": 26010,
+      "generated": 41243,
+      "peak_layer": 2309
+    },
+    {
+      "wave": "sans_bonegap1fast",
+      "algorithm": "deferred-dag",
+      "run": 1,
+      "bake_ms": 27.893,
+      "ms": 242.171,
+      "status": 0,
+      "frame": 384,
+      "expanded": 26010,
+      "generated": 41243,
+      "peak_layer": 2309
+    },
+    {
+      "wave": "sans_bonegap1fast",
+      "algorithm": "full_fresh_solve",
+      "status": "candidate_found",
+      "timing_ms": {
+        "csv_compile": 26.62429999327287,
+        "search_including_load": 250.3658999921754,
+        "hot_search": 250.3658999921754,
+        "reconstruction": 2.4301999947056174,
+        "first_route_wall": 279.4205999816768
+      },
+      "kernel_sha256": "623f123a842d5ad550b231ef2ff348bd2a06fd2cc1d91c259f9a4c30a9bd7a87",
+      "route_cache_hit": false,
+      "environment_cache_hit": false
+    },
+    {
+      "wave": "sans_bonegap2",
+      "algorithm": "deferred-dag",
+      "run": 0,
+      "bake_ms": 20.944,
+      "ms": 53.373,
+      "status": 0,
+      "frame": 420,
+      "expanded": 2378,
+      "generated": 4949,
+      "peak_layer": 414
+    },
+    {
+      "wave": "sans_bonegap2",
+      "algorithm": "deferred-dag",
+      "run": 1,
+      "bake_ms": 20.944,
+      "ms": 53.868,
+      "status": 0,
+      "frame": 420,
+      "expanded": 2378,
+      "generated": 4949,
+      "peak_layer": 414
+    },
+    {
+      "wave": "sans_bonegap2",
+      "algorithm": "full_fresh_solve",
+      "status": "candidate_found",
+      "timing_ms": {
+        "csv_compile": 19.581900007324293,
+        "search_including_load": 55.6088000012096,
+        "hot_search": 55.6088000012096,
+        "reconstruction": 2.678299992112443,
+        "first_route_wall": 77.86920000216924
+      },
+      "kernel_sha256": "623f123a842d5ad550b231ef2ff348bd2a06fd2cc1d91c259f9a4c30a9bd7a87",
+      "route_cache_hit": false,
+      "environment_cache_hit": false
+    },
+    {
+      "wave": "sans_boneslideh",
+      "algorithm": "deferred-dag",
+      "run": 0,
+      "bake_ms": 17.027,
+      "ms": 45.472,
+      "status": 0,
+      "frame": 462,
+      "expanded": 462,
+      "generated": 2773,
+      "peak_layer": 6
+    },
+    {
+      "wave": "sans_boneslideh",
+      "algorithm": "deferred-dag",
+      "run": 1,
+      "bake_ms": 17.027,
+      "ms": 44.81,
+      "status": 0,
+      "frame": 462,
+      "expanded": 462,
+      "generated": 2773,
+      "peak_layer": 6
+    },
+    {
+      "wave": "sans_boneslideh",
+      "algorithm": "full_fresh_solve",
+      "status": "candidate_found",
+      "timing_ms": {
+        "csv_compile": 17.209300014656037,
+        "search_including_load": 46.56550000072457,
+        "hot_search": 46.56550000072457,
+        "reconstruction": 3.0337999924086034,
+        "first_route_wall": 66.80870000855066
+      },
+      "kernel_sha256": "623f123a842d5ad550b231ef2ff348bd2a06fd2cc1d91c259f9a4c30a9bd7a87",
+      "route_cache_hit": false,
+      "environment_cache_hit": false
+    },
+    {
+      "wave": "sans_boneslidev",
+      "algorithm": "deferred-dag",
+      "run": 0,
+      "bake_ms": 12.237,
+      "ms": 41.118,
+      "status": 0,
+      "frame": 358,
+      "expanded": 358,
+      "generated": 3223,
+      "peak_layer": 9
+    },
+    {
+      "wave": "sans_boneslidev",
+      "algorithm": "deferred-dag",
+      "run": 1,
+      "bake_ms": 12.237,
+      "ms": 40.469,
+      "status": 0,
+      "frame": 358,
+      "expanded": 358,
+      "generated": 3223,
+      "peak_layer": 9
+    },
+    {
+      "wave": "sans_boneslidev",
+      "algorithm": "full_fresh_solve",
+      "status": "candidate_found",
+      "timing_ms": {
+        "csv_compile": 12.022299983073026,
+        "search_including_load": 40.76780000468716,
+        "hot_search": 40.76780000468716,
+        "reconstruction": 2.3904000117909163,
+        "first_route_wall": 55.180700001074
+      },
+      "kernel_sha256": "623f123a842d5ad550b231ef2ff348bd2a06fd2cc1d91c259f9a4c30a9bd7a87",
+      "route_cache_hit": false,
+      "environment_cache_hit": false
+    },
+    {
+      "wave": "sans_bluebone",
+      "algorithm": "deferred-dag",
+      "run": 0,
+      "bake_ms": 7.894,
+      "ms": 30.712,
+      "status": 0,
+      "frame": 382,
+      "expanded": 382,
+      "generated": 2183,
+      "peak_layer": 6
+    },
+    {
+      "wave": "sans_bluebone",
+      "algorithm": "deferred-dag",
+      "run": 1,
+      "bake_ms": 7.894,
+      "ms": 31.127,
+      "status": 0,
+      "frame": 382,
+      "expanded": 382,
+      "generated": 2183,
+      "peak_layer": 6
+    },
+    {
+      "wave": "sans_bluebone",
+      "algorithm": "full_fresh_solve",
+      "status": "candidate_found",
+      "timing_ms": {
+        "csv_compile": 8.50590001209639,
+        "search_including_load": 31.313399987993762,
+        "hot_search": 31.313399987993762,
+        "reconstruction": 2.4062999873422086,
+        "first_route_wall": 42.22579998895526
+      },
+      "kernel_sha256": "623f123a842d5ad550b231ef2ff348bd2a06fd2cc1d91c259f9a4c30a9bd7a87",
+      "route_cache_hit": false,
+      "environment_cache_hit": false
+    }
+  ]
+}

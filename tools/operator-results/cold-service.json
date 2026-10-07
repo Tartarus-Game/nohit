@@ -1,0 +1,26 @@
+{
+  "startup_ms": 1142.7000999974553,
+  "built_code": true,
+  "request_time_compilation_enabled": false,
+  "route_cache_separate": true,
+  "first_request_wall_ms": 383.9004000037676,
+  "first_request": {
+    "candidate_found": true,
+    "operator": "b",
+    "cache_hit": false,
+    "stats": {
+      "bake_ms": 146.75,
+      "dp_ms": 221.02,
+      "total_ms": 367.77,
+      "attempts_ms": [
+        221.02
+      ],
+      "last_attempt_prepare_ms": 74.46,
+      "last_attempt_search_ms": 144.53,
+      "peak_states": 3506
+    }
+  },
+  "startup_plus_first_request_ms": 1526.6005000012228,
+  "kernel_target": "host",
+  "build_ms": 24409.016000005067
+}

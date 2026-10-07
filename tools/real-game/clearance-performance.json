@@ -1,0 +1,36 @@
+[
+  {
+    "wave": "sans_bluebone",
+    "api_ms": 867,
+    "stats": {
+      "bake_ms": 80.56,
+      "dp_ms": 653.68,
+      "total_ms": 734.23,
+      "attempts_ms": [
+        156.34,
+        497.34
+      ],
+      "peak_states": 3600
+    },
+    "deadlock": false,
+    "deadlock_frame": null,
+    "inputs": 95
+  },
+  {
+    "wave": "sans_boneslideh",
+    "api_ms": 792,
+    "stats": {
+      "bake_ms": 67.94,
+      "dp_ms": 702.88,
+      "total_ms": 770.82,
+      "attempts_ms": [
+        128.35,
+        574.53
+      ],
+      "peak_states": 3600
+    },
+    "deadlock": false,
+    "deadlock_frame": null,
+    "inputs": 230
+  }
+]

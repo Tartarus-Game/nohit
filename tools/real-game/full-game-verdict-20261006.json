@@ -1,0 +1,26 @@
+{
+  "passed": true,
+  "errors": [],
+  "summary": {
+    "seed": 42,
+    "finished_rounds": 24,
+    "fresh_candidates": 24,
+    "failed_search_attempts": 0,
+    "checked_native_ticks": 68242,
+    "first_tick": 11,
+    "last_tick": 68252,
+    "verified_hp_kr_samples": 1068,
+    "verified_raw_hp_kr_ticks": 68242,
+    "matched_planned_input_ticks": 54413,
+    "checked_source_files": 9,
+    "checked_original_attack_scripts": 23,
+    "successful_fights": 23,
+    "fight_count_evidence": "recorded HitAttempts 0 to 23"
+  },
+  "limits": [
+    "Complete per-tick HP/KR, mode and FIGHT counters were recorded and checked.",
+    "Source hashes attest files recorded at save time, not an independent hash of loaded browser bytecode.",
+    "This validates one seeded normal campaign, not every random seed or the optional platformblasterfast attack."
+  ],
+  "trace": "<repo>\\tools\\real-game\\bonesgap1-20261006-115516-273476.json"
+}
