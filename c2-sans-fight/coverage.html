@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN"><meta charset="utf-8"><title>原版回合覆盖</title>
+<style>body{margin:24px;background:#111824;color:#eee;font:15px system-ui}button,input{padding:8px}table{border-collapse:collapse;margin-top:15px;width:100%;max-width:1200px}td,th{padding:7px 10px;border:1px solid #38455b;text-align:left}iframe{width:640px;height:480px;border:0;position:fixed;right:10px;top:10px;opacity:.7}small{display:block;color:#bbb;margin:12px 0}.ok{color:#8f8}.bad{color:#f99}a{color:#9df}button{cursor:pointer}#status{padding:12px;background:#202d43}</style>
+<h1>原版全部回合的引擎回放</h1>
+<p>使用原版 C2 引擎逐步执行。加速回放用于覆盖与候选检查；正常游戏时间的三回合无伤另行验收。</p>
+<p><a href="operators.html">两版算子的新路线对比与原版回放</a></p>
+<label>固定 seed <input id="seed" type="number" min="0" max="4294967295" value="42" style="width:90px"></label>
+<button id="run">执行全部原版例子</button><button id="stop">停止</button><button id="export">导出运行记录</button>
+<small id="status">待执行。失败及死亡也保留记录，不表示原版无解。</small>
+<table><thead><tr><th>回合 / 原版求解入口</th><th>输入</th><th>原版运行结果</th><th>HP / KR</th><th>帧数</th><th>实时三回合</th></tr></thead><tbody id="rows"></tbody></table>
+<script>
+let cancelled=false,activeFrame;
+window.coverage={results:[],running:false,acceptance:{},seed:42};
+const rows=document.getElementById('rows'),status=document.getElementById('status');
+coverage.render=()=>{
+ rows.textContent='';
+ for(const result of coverage.results){
+  const end=result.rows?.at(-1), tr=document.createElement('tr'),first=document.createElement('td'),link=document.createElement('a');
+  link.href='/game/index.html?mode=single&attack='+result.wave.replace('.csv','')+'&seed='+coverage.seed+'&oracle=1';
+  link.textContent=result.wave.replace('sans_','').replace('.csv','');first.appendChild(link);tr.appendChild(first);
+  const record=coverage.acceptance[result.wave],accepted=record?.seed===undefined||record?.seed===coverage.seed?record:null;
+  const texts=[result.input_source==='candidate'?'路线候选':'待机基线',result.status+(result.no_hit?' · 加速无伤':''),end?end.HP+' / '+end.KR:'—',result.frames??'—',accepted?.status==='passed_three'?'已通过 · HP 92 / KR 0':accepted?.status==='passed_one'?'仅一回合记录':'待验收'];
+  for(let i=0;i<texts.length;i++){let td=document.createElement('td');td.textContent=texts[i];if(i===1&&result.no_hit||i===4&&accepted?.status==='passed_three')td.className='ok';tr.appendChild(td);}
+  rows.appendChild(tr);
+ }
+ const passed=coverage.results.filter(r=>r.no_hit).length,real=Object.values(coverage.acceptance).filter(r=>r.status==='passed_three'&&(r.seed===undefined||r.seed===coverage.seed)).length;
+ status.textContent=(coverage.running?'执行中 · ':'')+coverage.results.length+' / 24 原版例子已运行 · '+passed+' 个加速无伤 · '+real+' 个已有实时三回合记录。待机失败不表示无解。';
+};
+coverage.save=async()=>{
+ const response=await fetch('/api/coverage',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({results:coverage.results,acceptance:coverage.acceptance,seed:coverage.seed})});
+ if(!response.ok)throw Error('保存运行矩阵失败');return response.json();
+};
+fetch('/api/coverage').then(r=>r.json()).then(saved=>{if(saved.results?.length&&!coverage.running){Object.assign(coverage,saved);document.getElementById('seed').value=coverage.seed;coverage.render();}}).catch(()=>{});
+document.getElementById('stop').onclick=()=>{cancelled=true;activeFrame?.contentWindow.EngineOracle?.cancel();};
+document.getElementById('export').onclick=()=>{
+ const url=URL.createObjectURL(new Blob([JSON.stringify({seed:coverage.seed,results:coverage.results,acceptance:coverage.acceptance},null,2)],{type:'application/json'}));
+ const a=document.createElement('a');a.href=url;a.download='original-runtime-coverage.json';a.click();URL.revokeObjectURL(url);
+};
+document.getElementById('run').onclick=async()=>{
+ if(coverage.running)return;
+ const seed=Number(document.getElementById('seed').value);if(!Number.isInteger(seed)||seed<0||seed>=4294967296){status.textContent='seed 必须为 32 位无符号整数';return;}
+ cancelled=false;coverage.running=true;coverage.results=[];coverage.seed=seed;rows.textContent='';document.getElementById('run').disabled=true;
+ const waves=(await fetch('/api/waves').then(r=>r.json())).waves.filter(w=>/^sans_.*\.csv$/.test(w.file||''));
+ const fast=new Set(['sans_bluebone.csv','sans_bonegap1.csv','sans_bonegap1fast.csv','sans_bonegap2.csv','sans_boneslideh.csv','sans_randomblaster2.csv']);
+ for(const wave of waves){
+  if(cancelled)break;
+  document.getElementById('status').textContent='执行 '+wave.file;
+  let frame=document.createElement('iframe');activeFrame=frame;frame.src='/game/index.html?mode=single&attack='+wave.file.replace('.csv','')+'&seed='+seed+'&oracle=1';document.body.appendChild(frame);
+  let result;
+  try{
+   let started=performance.now();
+   while(!frame.contentWindow.EngineOracle?.ready){
+    if(cancelled)throw Error('cancelled');
+    if(performance.now()-started>30000)throw Error('attack start timeout');
+    await new Promise(resolve=>setTimeout(resolve,20));
+   }
+   let actions=[];
+   if(fast.has(wave.file)){
+    const plan=await fetch('/api/tas?wave='+wave.file+'&seed='+seed).then(r=>r.json());
+    if(plan.candidate_found)actions=plan.action_sequence;
+   }
+   result=await frame.contentWindow.EngineOracle.replay(actions);
+   result.input_source=actions.length?'candidate':'idle_baseline';
+  }catch(e){result={wave:wave.file,status:'error',error:String(e),rows:[],realtime_accepted:false};}
+  coverage.results.push(result);
+  coverage.render();
+  await fetch('/api/acceptance',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({wave:wave.file,suite:'all-original-runtime',trace:result})});
+  frame.remove();activeFrame=null;await coverage.save();
+ }
+ coverage.running=false;coverage.render();document.getElementById('run').disabled=false;
+};
+</script></html>

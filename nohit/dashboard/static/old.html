@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sans TAS 候选与原版验收</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Top Header -->
+    <header class="header">
+      <div class="logo-area">
+        <span class="heart-icon">♥</span>
+        <div class="title-wrap">
+          <h1>SANS TAS ROUTE SYSTEM</h1>
+          <p class="subtitle">模型生成候选；原版游戏连续三回合无伤验收</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <a href="/" class="btn btn-primary" style="text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">📄 CSV 解算（可选引擎 + 实时进度）</a>
+        <a href="/game/coverage.html" class="btn btn-secondary">全部 24 回合与原版求解</a>
+        <a href="/game/index.html" target="_blank" class="btn btn-primary" style="text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+          <span>🎮</span> 启动游戏内 TAS 自动测试
+        </a>
+        <button id="btn-benchmark-modal" class="btn btn-secondary">⚡ 运行基准评测报告</button>
+        <span class="badge" id="sys-status">系统就绪</span>
+      </div>
+    </header>
+
+    <!-- Main Content Layout -->
+    <main class="main-content">
+      <!-- Left Panel: Controls & Telemetry -->
+      <aside class="sidebar">
+        <!-- Control Panel Card -->
+        <section class="card control-card">
+          <h2 class="card-title">🎮 弹幕样本与配置</h2>
+          
+          <div class="form-group">
+            <label for="wave-select">选择攻击脚本 (c2-sans-fight):</label>
+            <select id="wave-select" class="form-control">
+              <option value="">正在载入样本列表...</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <div class="label-row">
+              <label for="horizon-slider">时间步长时域 T (帧):</label>
+              <span id="horizon-val" class="param-val">150 帧 (5.0s)</span>
+            </div>
+            <input type="range" id="horizon-slider" min="30" max="300" step="10" value="150" class="slider">
+          </div>
+
+          <div class="form-group">
+            <button id="toggle-custom-csv" class="btn-text">+ 编辑 / 粘贴自定义 CSV 指令</button>
+            <textarea id="custom-csv-input" class="custom-csv-area hidden" placeholder="例如:&#10;0,BoneVRepeat,128,257,95,0,180,8,120&#10;0,SansSlam,1&#10;6.4,EndAttack"></textarea>
+          </div>
+
+          <button id="btn-solve" class="btn btn-primary btn-block">
+            <span class="btn-icon">▶</span> 生成模型候选
+          </button>
+          <p class="hint">本面板是旧引擎（栅格晶格 DP，只认仓库波次名或粘贴内容）。要丢入任意 CSV、选择引擎并看实时进度，请用上方 <a href="/">CSV 解算</a>。</p>
+        </section>
+
+        <!-- Verification Verdict Card -->
+        <section class="card verdict-card">
+          <h2 class="card-title">⚖️ 判定结论 (充要性判定)</h2>
+          
+          <div id="verdict-banner" class="verdict-banner waiting">
+            <div class="verdict-icon">?</div>
+            <div class="verdict-text">
+              <h3 id="verdict-title">等待执行</h3>
+              <p id="verdict-sub">请选择波次并点击启动判定</p>
+            </div>
+          </div>
+
+          <div class="metrics-grid">
+            <div class="metric-item">
+              <span class="metric-label">预烘焙耗时</span>
+              <span id="stat-bake-ms" class="metric-value">-- ms</span>
+            </div>
+            <div class="metric-item">
+              <span class="metric-label">DP 状态格求解</span>
+              <span id="stat-dp-ms" class="metric-value">-- ms</span>
+            </div>
+            <div class="metric-item">
+              <span class="metric-label">存活态峰值 |R|</span>
+              <span id="stat-peak-states" class="metric-value">--</span>
+            </div>
+            <div class="metric-item">
+              <span class="metric-label">运行时峰值内存</span>
+              <span id="stat-peak-ram" class="metric-value">-- MB</span>
+            </div>
+            <div class="metric-item full-width">
+              <span class="metric-label">独立物理回放检验</span>
+              <span id="stat-verify-replay" class="metric-value">--</span>
+            </div>
+          </div>
+        </section>
+      </aside>
+
+      <!-- Center & Right: Canvas, Playback, Telemetry -->
+      <section class="stage-container">
+        <!-- Visualizer Area -->
+        <div class="card stage-card">
+          <div class="stage-header">
+            <div class="stage-title">
+              <span class="dot"></span> 战斗框空间演化 (200 × 160 px)
+            </div>
+            <div class="stage-toggles">
+              <label class="toggle-label">
+                <input type="checkbox" id="toggle-cspace" checked> 显示构型空间障碍 (C-space Hazard)
+              </label>
+              <label class="toggle-label">
+                <input type="checkbox" id="toggle-trail" checked> 运动轨迹尾迹
+              </label>
+            </div>
+          </div>
+
+          <div class="canvas-wrapper">
+            <canvas id="game-canvas" width="600" height="480"></canvas>
+            <div id="slam-flash" class="slam-flash hidden"></div>
+            <div id="deadlock-overlay" class="deadlock-overlay hidden">
+              <div class="deadlock-msg">
+                <span class="skull">☠</span>
+                <h2>当前搜索未找到候选</h2>
+                <p id="deadlock-frame-text">此结果不构成原版死局证明</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Playback Bar -->
+          <div class="playback-bar">
+            <div class="playback-buttons">
+              <button id="btn-prev" class="btn-ctrl" title="上一帧">⏮</button>
+              <button id="btn-play" class="btn-ctrl btn-play" title="播放/暂停">▶</button>
+              <button id="btn-next" class="btn-ctrl" title="下一帧">⏭</button>
+              <button id="btn-reset" class="btn-ctrl" title="重置回起点">↺</button>
+            </div>
+
+            <div class="scrubber-wrap">
+              <input type="range" id="frame-scrubber" min="0" max="0" value="0" class="slider scrubber">
+              <div class="scrubber-meta">
+                <span id="frame-counter">帧: 0 / 0</span>
+                <span id="time-counter">0.00s / 0.00s</span>
+              </div>
+            </div>
+
+            <div class="speed-toggle">
+              <label>速度:</label>
+              <select id="speed-select" class="form-control select-sm">
+                <option value="0.25">0.25x</option>
+                <option value="0.5">0.5x</option>
+                <option value="1" selected>1.0x (30 FPS)</option>
+                <option value="2">2.0x</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Virtual Soul & Input Telemetry -->
+          <div class="telemetry-bar">
+            <div class="telemetry-item">
+              <span class="t-label">自机状态 (x, y, vy, κ, τ):</span>
+              <span id="telemetry-state" class="t-value">( -- , -- , -- , -- , -- )</span>
+            </div>
+            
+            <div class="telemetry-item">
+              <span class="t-label">当前帧见证按键:</span>
+              <div class="key-indicators">
+                <span id="key-left" class="key-badge">← LEFT</span>
+                <span id="key-right" class="key-badge">→ RIGHT</span>
+                <span id="key-jump" class="key-badge">↑ JUMP</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase Space Alive States Evolution Chart -->
+        <div class="card chart-card">
+          <div class="chart-header">
+            <h3>📈 当前搜索保留状态数量</h3>
+            <span class="chart-legend">
+              <span class="legend-box safe"></span> 候选节点数
+              <span class="legend-box slam"></span> SansSlam 事件
+            </span>
+          </div>
+          <div class="chart-wrapper">
+            <canvas id="chart-canvas" width="800" height="120"></canvas>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Benchmark Report Modal -->
+    <div id="benchmark-modal" class="modal hidden">
+      <div class="modal-backdrop"></div>
+      <div class="modal-box">
+        <div class="modal-header">
+          <h2>⚡ 本地模型性能评测</h2>
+          <button id="btn-close-modal" class="btn-close">×</button>
+        </div>
+        <div class="modal-body">
+          <p class="modal-desc">仅统计本地模型耗时与模型内部一致性。它不能证明原版游戏无伤或无解；原版记录请查看全部回合页面。</p>
+          <div id="modal-loading" class="modal-loading hidden">正在执行基准评测中，请稍候...</div>
+          <div class="table-wrap">
+            <table id="benchmark-table" class="data-table">
+              <thead>
+                <tr>
+                  <th>波次 / 测试用例</th>
+                  <th>类别</th>
+                  <th>判定结论</th>
+                  <th>烘焙 (ms)</th>
+                  <th>DP 求解 (ms)</th>
+                  <th>总耗时 (ms)</th>
+                  <th>峰值态数</th>
+                  <th>峰值 RAM</th>
+                  <th>回放校验</th>
+                </tr>
+              </thead>
+              <tbody id="benchmark-tbody">
+                <!-- Injected via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

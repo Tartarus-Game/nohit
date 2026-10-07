@@ -1,0 +1,67 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8">
+<title>两版算子 · 原版验证</title>
+<style>body{background:#111824;color:#eee;margin:24px;font:15px system-ui}button{padding:10px;margin:4px}a{color:#9df}table{border-collapse:collapse;width:100%;max-width:1100px}th,td{padding:10px;border:1px solid #38455b;text-align:left}iframe{width:640px;height:480px;border:0}#status{padding:12px;background:#202d43}.pass{color:#8f8}</style>
+<h1>两版算子 · 原版引擎验证</h1>
+<p>A：并行距离场与精确四角查表；B：在 A 上复用垂直微步、按代价保留每个状态带的候选、使用访问代数标记。</p>
+<p>固定 seed 42，每次重新求解完整时域，保留原有安全余量及两次搜索预算。此页检查加速原版回放；正常三回合无伤见<a href="coverage.html">全部回合矩阵</a>。</p>
+<button id="run">对比 A / B 并回放原版</button><button id="stop">停止</button>
+<p id="status">待执行。新路线不替换已有实时验收路线。</p>
+<p id="runtime">读取冷启动信息…</p>
+<table><thead><tr><th>回合</th><th>版本</th><th>新路线端到端</th><th>搜索含重试</th><th>原版回放</th><th>HP / KR</th><th>动作一致</th></tr></thead><tbody id="rows"></tbody></table>
+<script>
+let running=false,cancelled=false,active;
+const records=[];
+const status=document.getElementById('status');
+fetch('/api/runtime-status').then(r=>r.json()).then(r=>{
+ document.getElementById('runtime').textContent='服务冷启动到就绪：'+(r.startup_ms?.toFixed(1)??'未记录')+
+ 'ms · '+(r.built_code?'加载构建产物，请求期禁止编译':'开发模式，首用可能触发编译')+
+ '。表中求解时间不包含服务启动；几何与路线每次重新计算。';
+}).catch(()=>document.getElementById('runtime').textContent='旧服务没有冷启动记录；请运行新版本入口。');
+document.getElementById('stop').onclick=()=>{cancelled=true;active?.contentWindow.EngineOracle?.cancel();};
+document.getElementById('run').onclick=async()=>{
+ if(running)return;
+ running=true;cancelled=false;records.length=0;document.getElementById('rows').textContent='';
+ document.getElementById('run').disabled=true;
+ try{
+  for(const wave of ['bluebone','bonegap1','bonegap2','boneslideh']){
+   let previous;
+   for(const operator of ['a','b']){
+    if(cancelled)break;
+    status.textContent='求解并回放 '+wave+' / '+operator.toUpperCase();
+    const response=await fetch('/api/tas?wave=sans_'+wave+'.csv&seed=42&fresh=1&operator='+operator);
+    const plan=await response.json();if(!response.ok)throw Error(plan.error);
+    let replay={status:plan.search_status,rows:[]};
+    if(plan.candidate_found){
+     const frame=document.createElement('iframe');active=frame;
+     frame.src='/game/index.html?mode=single&attack=sans_'+wave+'&seed=42&oracle=1';document.body.appendChild(frame);
+     try{
+      const started=performance.now();
+      while(!frame.contentWindow.EngineOracle?.ready){
+       if(cancelled)throw Error('cancelled');
+       if(performance.now()-started>30000)throw Error('original attack start timeout');
+       await new Promise(resolve=>setTimeout(resolve,20));
+      }
+      replay=await frame.contentWindow.EngineOracle.replay(plan.action_sequence);
+     }finally{frame.remove();active=null;}
+    }
+    const same=previous?JSON.stringify(previous)===JSON.stringify(plan.action_sequence):null;
+    previous=plan.action_sequence;
+    const entry={wave:'sans_'+wave+'.csv',operator,plan_stats:plan.stats,cache_hit:plan.cache_hit,
+      actions:plan.action_sequence,action_parity:same,trace:replay};records.push(entry);
+    const end=replay.rows?.at(-1),tr=document.createElement('tr');
+    for(const text of [wave,operator.toUpperCase(),plan.stats?.total_ms+'ms',plan.stats?.dp_ms+'ms',
+      replay.status+(replay.no_hit?' · 加速无伤':''),end?end.HP+' / '+end.KR:'—',same===null?'—':same?'一致':'不同']){
+      const cell=document.createElement('td');cell.textContent=text;tr.appendChild(cell);
+    }
+    if(replay.no_hit)tr.className='pass';document.getElementById('rows').appendChild(tr);
+    const save=await fetch('/api/acceptance',{method:'POST',headers:{'Content-Type':'application/json'},
+     body:JSON.stringify({wave:entry.wave,suite:'operator-'+operator+'-original-replay',trace:entry})});
+    if(!save.ok)throw Error('cannot save operator evidence');
+   }
+   if(cancelled)break;
+  }
+  status.textContent=(cancelled?'已停止':'已完成')+' · '+records.length+' 次全时域求解与原版回放，记录已保存。';
+ }catch(error){status.textContent='失败：'+error;}
+ finally{running=false;document.getElementById('run').disabled=false;}
+};
+</script></html>

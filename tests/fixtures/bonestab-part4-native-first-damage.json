@@ -1,0 +1,227 @@
+{
+  "record": "scratch/dialogue-target-continuation-20261007/part4-native-failure.expanded.json",
+  "record_sha256": "5d0cdbd792c381ee2e6a73b4cf514ca5e02c711b987bc0ae1fd45783e861c411",
+  "source_sha256": "f1f4245f27e5ba870d48aac1948b355c167c0dfe82a97d44fef918ae95c80ac8",
+  "battle_xml_sha256": "92161897251b4cade135b52292cfb0ae3a3e437c82ffdca06e564c7479b32467",
+  "runtime_sha256": "664b5d93dbd5159976d490663ac64c49c8eb7dc68c9aac92fba940b6fa2a3de9",
+  "native_damage_tick": 1828,
+  "relative_model_tick": 1823,
+  "native_player": [
+    65.66666666666667,
+    321,
+    11,
+    0,
+    0,
+    1,
+    1,
+    0,
+    11,
+    0,
+    0
+  ],
+  "model_player": [
+    65.66666666666667,
+    321,
+    11,
+    0,
+    0,
+    1,
+    1,
+    0,
+    11,
+    0,
+    0
+  ],
+  "arena": [
+    -10,
+    264,
+    650,
+    369
+  ],
+  "dt": 0.03333333333333333,
+  "damage_args": [
+    1,
+    6,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "bodies": [
+    {
+      "uid": 1560,
+      "typeSid": 8140934880742138,
+      "x": -10.000000000000064,
+      "y": -9,
+      "width": 660,
+      "height": 53,
+      "angle": 0,
+      "vars": [
+        3,
+        45,
+        -10,
+        261,
+        0,
+        1,
+        1,
+        6,
+        0
+      ],
+      "behaviors": []
+    },
+    {
+      "uid": 1562,
+      "typeSid": 8140934880742138,
+      "x": -10,
+      "y": 319,
+      "width": 660,
+      "height": 53,
+      "angle": 0,
+      "vars": [
+        1,
+        45,
+        -10,
+        319,
+        0,
+        1,
+        1,
+        6,
+        0
+      ],
+      "behaviors": []
+    }
+  ],
+  "lifecycle": [
+    {
+      "tick": 1792,
+      "kind": "created",
+      "object": {
+        "uid": 1559,
+        "typeSid": 4163262150020477,
+        "x": -2,
+        "y": 272,
+        "width": 644,
+        "height": 42,
+        "angle": 0,
+        "vars": [
+          0,
+          0,
+          0,
+          3,
+          45,
+          0.4666666666666667,
+          0
+        ],
+        "behaviors": []
+      }
+    },
+    {
+      "tick": 1808,
+      "kind": "created",
+      "object": {
+        "uid": 1560,
+        "typeSid": 8140934880742138,
+        "x": -9.999999999999996,
+        "y": 231,
+        "width": 660,
+        "height": 53,
+        "angle": 0,
+        "vars": [
+          3,
+          45,
+          -10,
+          261,
+          0,
+          0,
+          1,
+          6,
+          0
+        ],
+        "behaviors": []
+      }
+    },
+    {
+      "tick": 1810,
+      "kind": "created",
+      "object": {
+        "uid": 1561,
+        "typeSid": 4163262150020477,
+        "x": -2,
+        "y": 319,
+        "width": 644,
+        "height": 42,
+        "angle": 0,
+        "vars": [
+          0,
+          0,
+          0,
+          1,
+          45,
+          0.4666666666666667,
+          0
+        ],
+        "behaviors": []
+      }
+    },
+    {
+      "tick": 1826,
+      "kind": "created",
+      "object": {
+        "uid": 1562,
+        "typeSid": 8140934880742138,
+        "x": -10.000000000000002,
+        "y": 349,
+        "width": 660,
+        "height": 53,
+        "angle": 0,
+        "vars": [
+          1,
+          45,
+          -10,
+          319,
+          0,
+          0,
+          1,
+          6,
+          0
+        ],
+        "behaviors": []
+      }
+    }
+  ],
+  "command_events": [
+    {
+      "tick": 1791,
+      "fn": "bonestab",
+      "args": [
+        "3",
+        "45",
+        "0.5",
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "tick": 1809,
+      "fn": "bonestab",
+      "args": [
+        "1",
+        "45",
+        "0.5",
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ]
+}

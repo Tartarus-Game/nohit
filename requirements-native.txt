@@ -1,0 +1,2 @@
+# Install in the existing venv: uv pip install --python .venv/Scripts/python.exe -r requirements-native.txt
+numba==0.68.0

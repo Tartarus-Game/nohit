@@ -1,0 +1,117 @@
+{
+  "caller": "dialogue",
+  "original_start": 1157,
+  "hold": 1,
+  "states": 1000,
+  "controls": 9,
+  "edges": 9000,
+  "safe_edges": 8550,
+  "hazard": "wp",
+  "bucket": "dialogue:2^13:wp",
+  "ox": 33.0,
+  "oy": 226.0,
+  "cell_size": 8.0,
+  "original_array_layouts": {
+    "states": {
+      "shape": [
+        1000,
+        11
+      ],
+      "strides": [
+        88,
+        8
+      ],
+      "c_contiguous": true
+    },
+    "controls": {
+      "shape": [
+        9
+      ],
+      "strides": [
+        8
+      ],
+      "c_contiguous": true
+    },
+    "env": {
+      "shape": [
+        2284,
+        22
+      ],
+      "strides": [
+        176,
+        8
+      ],
+      "c_contiguous": true
+    },
+    "platforms": {
+      "shape": [
+        2284,
+        0,
+        9
+      ],
+      "strides": [
+        0,
+        0,
+        0
+      ],
+      "c_contiguous": true
+    },
+    "white": {
+      "shape": [
+        2284,
+        41,
+        4
+      ],
+      "strides": [
+        1312,
+        32,
+        8
+      ],
+      "c_contiguous": true
+    },
+    "blue": {
+      "shape": [
+        2284,
+        0,
+        4
+      ],
+      "strides": [
+        0,
+        0,
+        0
+      ],
+      "c_contiguous": true
+    },
+    "cells": {
+      "shape": [
+        2284,
+        2,
+        22,
+        73
+      ],
+      "strides": [
+        3212,
+        1606,
+        73,
+        1
+      ],
+      "c_contiguous": true
+    },
+    "polygons": {
+      "shape": [
+        2284,
+        4,
+        8
+      ],
+      "strides": [
+        256,
+        64,
+        8
+      ],
+      "c_contiguous": true
+    }
+  },
+  "path": "layer-009.npz",
+  "sha256": "69d19de4e17bfcc9c490996d4b3ee9c939f8853297f1a0d0ae64941fe269ff95",
+  "provenance": "Real Normal Intro request, width1000, tick1157; captured by benchmark_expansion_crossover.py on 2026-10-07. Rows were rebased from 1157 to 0 and scalar output bytes verified before saving."
+}

@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CSV 解算与逐帧检查 · NOHIT</title>
+<style>
+:root{color-scheme:dark;--bg:#101217;--panel:#181c24;--line:#303744;--text:#edf0f5;--muted:#a1acbc;--accent:#8be0b7;--red:#ff7188;--blue:#64c8ff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px/1.55 system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif}button,input,textarea,select{font:inherit}button,a,input,textarea,select{outline-offset:4px}button{cursor:pointer}button:disabled{cursor:default;opacity:.4}a{color:var(--muted);text-decoration:none}a:hover{color:var(--text)}header{max-width:1260px;margin:auto;padding:28px 24px 20px;display:flex;align-items:center;justify-content:space-between;gap:24px}.eyebrow{color:var(--accent);font:600 11px/1.5 ui-monospace,Consolas,monospace;letter-spacing:2px}h1{margin:4px 0 3px;font-size:25px;letter-spacing:-.5px}p{margin:0;color:var(--muted)}.tag{display:inline-block;border:1px solid var(--line);border-radius:20px;padding:5px 11px;color:var(--muted);font-size:12px}main{max-width:1260px;margin:auto;padding:0 24px 32px;display:grid;grid-template-columns:340px minmax(0,1fr);gap:20px}.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}.config{padding:20px;align-self:start}h2{font-size:15px;margin:0 0 16px}.section-number{font-family:ui-monospace,Consolas,monospace;color:var(--muted);margin-right:9px}.tabs{display:flex;background:#11151c;padding:4px;border-radius:7px;margin-bottom:14px}.tabs button{border:0;border-radius:5px;background:transparent;color:var(--muted);padding:8px;flex:1}.tabs button[aria-selected="true"]{background:#303a49;color:var(--text)}label,.label{display:block;margin-bottom:6px;color:#d2d9e4;font-size:12px}input,textarea,select{width:100%;background:#10151d;color:var(--text);border:1px solid #3a4352;border-radius:6px;padding:9px 10px}input:focus,textarea:focus,select:focus{border-color:var(--accent)}textarea{resize:vertical;min-height:74px;font:12px/1.6 ui-monospace,Consolas,monospace;tab-size:2}#custom-csv{min-height:152px}.hint{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.65}.field{margin-top:15px}.pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}.divider{height:1px;background:var(--line);margin:20px 0}.primary{background:var(--accent);color:#10261d;border:0;border-radius:7px;padding:11px 16px;font-weight:650;width:100%;margin-top:20px}.primary:hover:not(:disabled){background:#acf2cf}.small-btn{background:#252c38;color:var(--text);border:1px solid var(--line);border-radius:6px;padding:7px 12px}.small-btn:hover:not(:disabled){background:#354154}.result{padding:18px 20px;border-bottom:1px solid var(--line)}.status-row{display:flex;justify-content:space-between;align-items:center;gap:12px}.status{font-weight:650;font-size:16px}.status[data-kind="success"]{color:var(--accent)}.status[data-kind="error"]{color:var(--red)}.status[data-kind="unknown"]{color:#ffd58b}#status-detail{font-size:12px;margin-top:5px;min-height:20px;overflow-wrap:anywhere}.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:17px}.metric span{font-size:11px;color:var(--muted);display:block}.metric strong{font:500 19px/1.6 ui-monospace,Consolas,monospace}.stage-wrap{padding:16px 20px 0}.stage{position:relative;background:#070a0f;border:1px solid #313a47;border-radius:7px;overflow:hidden;aspect-ratio:4/3;width:100%;max-width:760px;margin:auto}canvas{display:block;width:100%;height:100%;aspect-ratio:4/3}#empty-stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;text-align:center;color:#8d9aac;font-size:13px;white-space:pre-line}#empty-stage[hidden]{display:none}.legend{display:flex;flex-wrap:wrap;gap:7px 16px;font-size:11px;color:var(--muted);padding:11px 0}.legend i{display:inline-block;width:9px;height:9px;margin-right:5px;border-radius:2px;background:var(--swatch)}.playback{padding:8px 20px 18px}#timeline{padding:0;margin:10px 0 11px;accent-color:var(--accent)}.transport{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.transport-left{display:flex;gap:7px;align-items:center}.transport select{width:auto;padding:6px 7px}.counter{font:12px/1.5 ui-monospace,Consolas,monospace;color:var(--muted)}.keys{display:flex;align-items:center;gap:6px}.key{border:1px solid #3c4657;border-radius:5px;background:#11151d;padding:5px 9px;min-width:29px;text-align:center;color:#8190a4;font:12px/1.5 ui-monospace,Consolas,monospace}.key.active{background:#274d3c;border-color:var(--accent);color:#c8ffe5}.key-label{font-size:11px;color:var(--muted);margin-right:3px}.options{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-top:12px}.check{display:flex;align-items:center;gap:7px;margin:0}.check input{width:auto;margin:0;accent-color:var(--accent)}details{border-top:1px solid var(--line);padding:13px 20px;font-size:12px}summary{cursor:pointer;color:var(--muted)}pre{font:11px/1.65 ui-monospace,Consolas,monospace;white-space:pre-wrap;word-break:break-word;max-height:240px;overflow:auto;color:#cad4e3;margin-bottom:0}.note{padding:0 20px 17px;color:var(--muted);font-size:11px}.vis-error{color:#ffd58b;font-size:12px;margin-top:10px;white-space:pre-line}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}[hidden]{display:none!important}@media(max-width:950px){main{grid-template-columns:300px minmax(0,1fr);gap:14px}header,main{padding-left:16px;padding-right:16px}.config{padding:16px}.stage-wrap,.playback{padding-left:12px;padding-right:12px}.metrics{gap:5px}.metric strong{font-size:16px}}@media(max-width:740px){header{padding-top:20px;align-items:flex-start}.tag{display:none}main{grid-template-columns:1fr}.config{padding:18px}.metrics{gap:12px}.stage{max-width:640px}h1{font-size:22px}.transport{gap:10px}}
+</style>
+</head>
+<body>
+<header><div><div class="eyebrow">NOHIT / CSV LAB</div><h1>解算与逐帧检查</h1><p>从 CSV 到完整输入序列，按真实模型几何检查每一帧。</p></div><div><span class="tag">640 × 480 原生坐标</span><a href="/" style="display:block;text-align:right;margin-top:8px;font-size:12px">返回项目面板 ↗</a></div></header>
+<main>
+<form id="solve-form" class="panel config">
+  <h2><span class="section-number">01</span>加载攻击脚本</h2>
+  <div class="tabs" role="tablist" aria-label="CSV 输入方式"><button type="button" id="path-tab" role="tab" aria-selected="true" aria-controls="path-panel">本机路径</button><button type="button" id="file-tab" role="tab" aria-selected="false" aria-controls="file-panel">选择文件</button><button type="button" id="text-tab" role="tab" aria-selected="false" aria-controls="text-panel">粘贴 CSV</button></div>
+  <div id="path-panel" role="tabpanel" aria-labelledby="path-tab"><label for="csv-path">CSV 文件路径</label><input id="csv-path" placeholder="C:\Users\…\Downloads\welcome_to_hell.csv" autocomplete="off" spellcheck="false"><p class="hint">由本机服务直接读取文件，字节身份与源文件完全一致。</p></div>
+  <div id="file-panel" role="tabpanel" aria-labelledby="file-tab" hidden><label for="csv-file">CSV 文件</label><input id="csv-file" type="file" accept=".csv,text/csv"><p class="hint">浏览器读取后作为文本提交给已有的 custom_csv 通道（上限 8 MB）。路径模式才是字节级身份；含 BOM 或 CRLF 的文件在两种模式下 sha256 会不同，结果里会显示实际使用的哈希。</p></div>
+  <div id="text-panel" role="tabpanel" aria-labelledby="text-tab" hidden><label for="custom-csv">完整 CSV 内容</label><textarea id="custom-csv" spellcheck="false" placeholder="0,HeartMode,0&#10;1,EndAttack"></textarea></div>
+  <div class="divider"></div>
+  <h2><span class="section-number">02</span>引擎与计算预算</h2>
+  <div class="field"><label for="engine">解算引擎</label><select id="engine"><option value="new" selected>新引擎 · 精确前沿（推荐）</option><option value="old">旧引擎 · 栅格晶格 DP</option></select><p class="hint">新引擎支持本机 CSV 路径、对话阶段与 EOF 判据，并给出逐帧验证几何与原版自动执行入口。旧引擎只在它自己的栅格模型内判定，只认仓库内波次名或粘贴内容，不产生可执行路线。</p></div>
+  <div class="field"><label for="initial-state">初始玩家状态 · 11 个数值</label><textarea id="initial-state" spellcheck="false">[320, 304, 0, 0, 0, 0, 0, 1, 750, 0, 0]</textarea><p class="hint">x, y, vx, vy, 上次按键掩码, slammed, 模式, 重力方向, 最大落速, slam 伤害, 本帧伤害。模式 0 = 红心、1 = 蓝心。</p></div>
+  <div class="field"><label for="initial-environment">初始环境 · JSON 数组或 null</label><textarea id="initial-environment" spellcheck="false">null</textarea><p class="hint">null 使用脚本默认环境；自定义时填完整 22 项环境状态。</p></div>
+  <div class="pair field"><div><label for="fps">固定物理帧率 · <output id="fps-value">30</output> Hz</label><input id="fps" type="range" min="30" max="240" step="30" value="30"><p class="hint">30 / 60 / 120 / 240 是原版入口支持的档位。</p></div><div><label for="seconds">搜索预算 · <output id="seconds-value">30</output> 秒</label><input id="seconds" type="range" min="0" max="300" step="5" value="30"><p class="hint">只限制搜索阶段，准备与逐帧验证另计。</p></div></div>
+  <div class="pair field"><div><label for="width">每层保留状态上限 · <output id="width-value">3000</output></label><input id="width" type="range" min="100" max="20000" step="100" value="3000"><p class="hint">宽度越大越不容易漏解，代价是内存与时间。</p></div><div><label for="bindings">环境分支上限 · <output id="bindings-value">1</output></label><input id="bindings" type="range" min="1" max="8" step="1" value="1"><p class="hint">玩家历史相关的环境（GetHeartPos）保留多少条分支。</p></div></div>
+  <p class="hint"><button type="button" class="small-btn" id="reset-params">恢复默认参数</button> 滑杆容易被误拖（尤其宽度那一根），一键回到 30 Hz / 30 秒 / 3000 / 1。</p>
+  <p class="hint">有限宽度搜索。预算控制搜索阶段；准备与逐帧验证会额外耗时。</p>
+  <button class="primary" id="solve-button" type="submit">开始解算</button>
+  <button class="primary" id="native-button" type="button">在原版中自动解算并执行</button>
+      <p class="hint">原版入口会自动读取实际起点，支持 30、60、120、240 Hz，按原版实际步长解算并执行。</p>
+  <p id="request-progress" class="hint" role="status" aria-live="polite"></p>
+</form>
+<section class="panel" aria-label="解算进度">
+  <div class="status-row"><strong>解算进度</strong><span class="tag" id="progress-state">空闲</span></div>
+  <div class="metrics">
+    <div class="metric"><span>已用时间</span><strong id="p-elapsed">—</strong></div>
+    <div class="metric"><span>阶段</span><strong id="p-phase">—</strong></div>
+    <div class="metric"><span>进度</span><strong id="p-fraction">—</strong></div>
+    <div class="metric"><span>tick</span><strong id="p-tick">—</strong></div>
+    <div class="metric"><span>前沿状态</span><strong id="p-alive">—</strong></div>
+    <div class="metric"><span>峰值状态</span><strong id="p-peak">—</strong></div>
+    <div class="metric"><span>展开 / 丢弃</span><strong id="p-expanded">—</strong></div>
+    <div class="metric"><span>状态 / 秒</span><strong id="p-rate">—</strong></div>
+    <div class="metric"><span>预计剩余</span><strong id="p-eta">—</strong></div>
+  </div>
+  <div style="height:6px;background:#1b2430;border-radius:3px;overflow:hidden;margin:2px 0 8px"><div id="p-fill" style="height:100%;width:0;background:#6cc4ff;transition:width .2s"></div></div>
+  <p class="hint">预计剩余 = 已用时间 × (1 − 进度) ÷ 进度，按当前进度线性外推，只覆盖这一轮搜索：找到候选会提前结束（实际更快），随后的终点证书与逐帧几何生成时间不计入（实际更慢）。</p>
+  <details><summary>进度原始记录</summary><pre id="p-detail">尚无解算。</pre></details>
+</section>
+<section class="panel" aria-label="求解结果与轨迹">
+  <div class="result"><div class="status-row"><div id="status" class="status" role="status" aria-live="polite">等待解算</div><span class="tag" id="scope-tag">有限搜索</span></div><p id="status-detail">加载 CSV，设置起点后开始。</p><div class="metrics"><div class="metric"><span>总求解耗时</span><strong id="wall-time">—</strong></div><div class="metric"><span>候选游戏时长</span><strong id="game-time">—</strong></div><div class="metric"><span>耗时 / 游戏时长</span><strong id="time-ratio">—</strong></div></div><p id="visualization-warning" class="vis-error" hidden></p></div>
+  <div class="stage-wrap"><div class="stage"><canvas id="world" width="640" height="480" aria-label="原生 640 乘 480 坐标的逐帧轨迹与危险几何"></canvas><div id="empty-stage">模型中的逐帧验证候选将在这里显示
+方向输入与 Confirm 会同步显示</div></div><div class="legend"><span><i style="--swatch:#ff7188"></i>受伤判定框 4 × 4</span><span><i style="--swatch:#e7edf5"></i>白骨</span><span><i style="--swatch:#64c8ff"></i>蓝骨</span><span><i style="--swatch:#ff9c65"></i>激光四边形</span><span><i style="--swatch:#8be0b7"></i>平台</span></div></div>
+  <div class="playback"><label class="sr-only" for="timeline">当前帧</label><input id="timeline" type="range" min="0" max="0" step="1" value="0" disabled><div class="transport"><div class="transport-left"><button id="previous" class="small-btn" type="button" title="上一帧" disabled>←</button><button id="play" class="small-btn" type="button" disabled>播放</button><button id="next" class="small-btn" type="button" title="下一帧" disabled>→</button><label class="sr-only" for="speed">播放速度</label><select id="speed"><option value="0.25">0.25 ×</option><option value="0.5">0.5 ×</option><option value="1" selected>1 ×</option><option value="2">2 ×</option><option value="4">4 ×</option></select></div><div id="frame-counter" class="counter">帧 — / — · — s</div></div><div class="options"><label class="check"><input id="show-trail" type="checkbox" checked>显示完整轨迹</label><div class="keys" aria-label="到达当前帧的输入"><span id="key-label" class="key-label">本帧输入</span><span class="key" data-bit="1">←</span><span class="key" data-bit="2">→</span><span class="key" data-bit="4">↑</span><span class="key" data-bit="8">↓</span><span class="key" data-bit="32">Confirm</span></div></div></div>
+  <p class="note">白骨始终危险；蓝骨按运动条件判伤。帧 0 是起点观测，后续每帧对应一次输入。此页显示源模型验证，不代表原版游戏验收或最优解。</p>
+  <details><summary>当前帧精确状态</summary><pre id="frame-data">尚无候选。</pre></details>
+  <details><summary>搜索记录与验证范围</summary><pre id="result-data">尚无结果。</pre></details>
+</section>
+<p class="hint" style="margin-top:10px">本页是唯一入口。旧引擎（bake_cspace + 栅格晶格 DP）面板已移到 <a href="/old.html">/old.html</a>，仅供对照，不再作为主线。</p>
+</main>
+<script>
+'use strict';
+const $ = id => document.getElementById(id);
+const canvas = $('world'), ctx = canvas.getContext('2d');
+let inputMode = 'path', response = null, frames = [], frameIndex = 0, playing = false;
+let animationId = null, lastStamp = 0, playTime = 0, busy = false;
+const finite = value => typeof value === 'number' && Number.isFinite(value);
+const numberText = value => finite(value) ? value.toFixed(3) : '—';
+function selectInput(mode) {
+  inputMode = mode;
+  $('path-panel').hidden = mode !== 'path'; $('text-panel').hidden = mode !== 'text';
+  $('file-panel').hidden = mode !== 'file';
+  $('path-tab').setAttribute('aria-selected', String(mode === 'path'));
+  $('text-tab').setAttribute('aria-selected', String(mode === 'text'));
+  $('file-tab').setAttribute('aria-selected', String(mode === 'file'));
+}
+$('path-tab').addEventListener('click', () => selectInput('path'));
+$('text-tab').addEventListener('click', () => selectInput('text'));
+$('file-tab').addEventListener('click', () => selectInput('file'));
+// Sliders keep the numeric field itself as the value: every reader (and the
+// request payload) still sees a plain number, the <output> only mirrors it.
+for (const id of ['fps', 'seconds', 'width', 'bindings']) {
+  const slider = $(id), readout = $(id + '-value');
+  const sync = () => { if (readout) readout.textContent = slider.value; };
+  slider.addEventListener('input', sync); sync();
+}
+const PARAM_DEFAULTS = { fps: 30, seconds: 30, width: 3000, bindings: 1 };
+$('reset-params').addEventListener('click', () => {
+  for (const id of Object.keys(PARAM_DEFAULTS)) {
+    const slider = $(id); slider.value = String(PARAM_DEFAULTS[id]);
+    const readout = $(id + '-value'); if (readout) readout.textContent = slider.value;
+  }
+});
+async function selectedFileText() {
+  const input = $('csv-file');
+  const file = input.files && input.files[0];
+  if (!file) throw new Error('请先选择一个 CSV 文件。');
+  if (!/\.csv$/i.test(file.name)) throw new Error('请选择 .csv 文件。');
+  if (file.size > 8000000) throw new Error('文件超过服务端 8 MB 的请求上限，请改用本机路径模式。');
+  return await file.text();
+}
+function pause() {
+  playing = false; $('play').textContent = '播放';
+  if (animationId !== null) cancelAnimationFrame(animationId);
+  animationId = null;
+}
+function resetView() {
+  pause(); frames = []; response = null; frameIndex = 0; playTime = 0;
+  $('timeline').value = 0; $('timeline').max = 0;
+  for (const id of ['timeline', 'previous', 'play', 'next']) $(id).disabled = true;
+  for (const id of ['wall-time', 'game-time', 'time-ratio']) $(id).textContent = '—';
+  $('empty-stage').hidden = false; $('visualization-warning').hidden = true;
+  $('frame-counter').textContent = '帧 — / — · — s'; $('frame-data').textContent = '尚无候选。';
+  updateKeys(0); draw();
+}
+function updateKeys(mask) {
+  document.querySelectorAll('[data-bit]').forEach(key => {
+    const active = !!(mask & Number(key.dataset.bit)); key.classList.toggle('active', active);
+    key.setAttribute('aria-label', key.textContent + (active ? ' 已按下' : ' 未按下'));
+  });
+}
+function paintRects(rows, color) {
+  ctx.fillStyle = color; ctx.globalAlpha = .82;
+  for (const [l,t,r,b] of rows) ctx.fillRect(l,t,r-l,b-t);
+  ctx.globalAlpha = 1;
+}
+function draw() {
+  ctx.clearRect(0,0,640,480); ctx.fillStyle = '#080b11'; ctx.fillRect(0,0,640,480);
+  ctx.lineWidth = .5; ctx.strokeStyle = '#1a2230'; ctx.beginPath();
+  for (let x=80;x<640;x+=80) { ctx.moveTo(x,0); ctx.lineTo(x,480); }
+  for (let y=80;y<480;y+=80) { ctx.moveTo(0,y); ctx.lineTo(640,y); } ctx.stroke();
+  ctx.fillStyle = '#566274'; ctx.font = '10px ui-monospace,Consolas,monospace';
+  ctx.fillText('0, 0',8,15); ctx.fillText('640, 480',579,470);
+  if (!frames.length) return;
+  const f = frames[frameIndex], [l,t,r,b] = f.bounds;
+  ctx.strokeStyle = '#8390a5'; ctx.lineWidth = 1; ctx.strokeRect(l,t,r-l,b-t);
+  if ($('show-trail').checked) {
+    ctx.strokeStyle = 'rgba(255,113,136,.25)'; ctx.lineWidth = 1.2; ctx.beginPath();
+    frames.forEach((row,i) => i ? ctx.lineTo(row.player[0],row.player[1]) : ctx.moveTo(row.player[0],row.player[1])); ctx.stroke();
+    ctx.strokeStyle = 'rgba(255,151,167,.7)'; ctx.beginPath();
+    for (let i=0;i<=frameIndex;i++) { const p=frames[i].player; i ? ctx.lineTo(p[0],p[1]) : ctx.moveTo(p[0],p[1]); } ctx.stroke();
+  }
+  for (const quad of f.polygons) {
+    ctx.beginPath(); ctx.moveTo(quad[0],quad[1]);
+    for (let k=2;k<8;k+=2) ctx.lineTo(quad[k],quad[k+1]);
+    ctx.closePath(); ctx.fillStyle = 'rgba(255,156,101,.3)'; ctx.fill(); ctx.lineWidth=1;ctx.strokeStyle='#ff9c65';ctx.stroke();
+  }
+  paintRects(f.white, '#e7edf5'); paintRects(f.blue, '#64c8ff');
+  ctx.fillStyle='#8be0b7';
+  for (const p of f.platforms) if (p[6] !== 0) { ctx.fillRect(p[0],p[1],p[2],p[3]); ctx.fillRect(p[0],p[1],p[2],1); }
+  const [x,y] = f.player; ctx.fillStyle = f.player[6] === 0 ? '#ff7188' : '#729bff';
+  // Hazard contact uses radius 2 in cspace.collision_query, including quads.
+  ctx.fillRect(x-2,y-2,4,4); ctx.strokeStyle='#fff';ctx.lineWidth=.5;ctx.strokeRect(x-2,y-2,4,4);
+}
+function setFrame(value) {
+  if (!frames.length) return;
+  frameIndex = Math.max(0,Math.min(frames.length-1,value));
+  const f = frames[frameIndex]; playTime = f.time_seconds; $('timeline').value = frameIndex;
+  $('frame-counter').textContent = `帧 ${f.tick} / ${frames[frames.length-1].tick} · ${numberText(f.time_seconds)} s`;
+  const mask = frameIndex ? response.actions[frameIndex-1] | (response.confirm_sequence[frameIndex-1] ? 32 : 0) : 0;
+  $('key-label').textContent = frameIndex ? '本帧输入' : '起点观测'; updateKeys(mask);
+  $('frame-data').textContent = JSON.stringify({tick:f.tick,time_seconds:f.time_seconds,dt:f.dt,player:f.player,bounds:f.bounds,input:frameIndex ? {arrows:mask&15,confirm:!!(mask&32)} : null,env:f.env},null,2);
+  draw();
+}
+function animate(stamp) {
+  if (!playing || !frames.length) return;
+  const delta = Math.max(0,(stamp-lastStamp)/1000); lastStamp=stamp;
+  const target = playTime + delta * Number($('speed').value);
+  let next=frameIndex; while(next+1<frames.length && frames[next+1].time_seconds<=target) next++;
+  if(next!==frameIndex) setFrame(next); playTime=target;
+  if(frameIndex===frames.length-1) { pause(); return; }
+  animationId=requestAnimationFrame(animate);
+}
+$('play').addEventListener('click',() => {
+  if(playing) { pause(); return; } if(!frames.length) return;
+  if(frameIndex===frames.length-1) setFrame(0);
+  playing=true;$('play').textContent='暂停';lastStamp=performance.now();animationId=requestAnimationFrame(animate);
+});
+$('previous').addEventListener('click',() => { pause();setFrame(frameIndex-1); });
+$('next').addEventListener('click',() => { pause();setFrame(frameIndex+1); });
+$('timeline').addEventListener('input',event => { pause();setFrame(Number(event.target.value)); });
+$('show-trail').addEventListener('change',draw);
+function numericArray(text, size, label, nullable=false) {
+  let value;try { value=JSON.parse(text); } catch { throw new Error(`${label}需要合法 JSON。`); }
+  if(nullable && value===null) return null;
+  if(!Array.isArray(value) || value.length!==size || !value.every(finite)) throw new Error(`${label}需要 ${size} 个有限数值。`);
+  return value;
+}
+function validateVisualization(result) {
+  const v=result.visualization,n=result.actions.length;
+  if(!v || v.schema_version!==1 || v.scope!=='verified_source_model') throw new Error('服务未返回受支持的逐帧验证几何。');
+  if(!Array.isArray(v.frames) || v.frame_count!==n+1 || v.frames.length!==n+1 || result.trajectory.length!==n+1 || result.confirm_sequence.length!==n) throw new Error('帧数、轨迹与输入长度不一致，无法播放。');
+  const tuple=(row,size) => Array.isArray(row)&&row.length===size&&row.every(finite);
+  const geometry=(rows,size) => Array.isArray(rows)&&rows.every(row=>tuple(row,size));
+  for(let i=0;i<v.frames.length;i++) {
+    const f=v.frames[i];
+    if(f.tick!==i || !finite(f.time_seconds) || !finite(f.dt) || f.dt<=0 || !tuple(f.player,11) || !tuple(f.env,22) || !tuple(f.bounds,4) || !geometry(f.white,4) || !geometry(f.blue,4) || !geometry(f.polygons,8) || !geometry(f.platforms,9) || (i && f.time_seconds<=v.frames[i-1].time_seconds)) throw new Error(`第 ${i} 帧的几何或时钟数据不完整。`);
+  }
+  return v.frames;
+}
+function showResult(result) {
+  response=result;
+  const verified=result.status==='candidate_found' && result.verified===true;
+  const kind=result.completion&&result.completion.kind;
+  const policy=typeof result.termination_policy==='string'?result.termination_policy:'';
+  const policyNote=verified&&policy?`判据 ${policy}${result.policy_retry?'（脚本无 EndAttack，自动改用 EOF 不变式）':''}。`:'';
+  $('status').textContent=verified ? '找到模型中逐帧验证的候选' : '有限搜索尚未找到完整候选';
+  $('status').dataset.kind=verified?'success':'unknown';
+  $('scope-tag').textContent=verified?'源模型验证':'有限搜索 · 未知';
+  const cost=result.input_cost;
+  const costNote=verified&&cost&&Number.isInteger(cost.total)
+    ? `操作代价 ${cost.total}（换键 ${cost.churn} × ${cost.churn_weight} + 按键帧 ${cost.held_frames} × ${cost.held_weight}，共 ${cost.frames} 帧）。` : '';
+  $('status-detail').textContent=verified
+    ? (kind==='eof_invariant'
+      ? `已证明 CSV 尾部危险耗尽（EOF 不变式），没有触发 EndAttack。${policyNote}${costNote}原版游戏尚未验收。`
+      : `输入包含移动与 Confirm，已走到模型 EndAttack。${policyNote}${costNote}原版游戏尚未验收。`)
+    : `原因：${result.reason || result.status || 'unknown'}。这个结果不能证明无解。`;
+  $('wall-time').textContent=finite(result.wall_seconds)?`${numberText(result.wall_seconds)} s`:'—';
+  $('game-time').textContent=finite(result.game_seconds)?`${numberText(result.game_seconds)} s`:'—';
+  $('time-ratio').textContent=finite(result.wall_seconds)&&finite(result.game_seconds)&&result.game_seconds>0?`${(result.wall_seconds/result.game_seconds).toFixed(2)} ×`:'—';
+  const {trajectory,actions,confirm_sequence,unified_controls,dt_sequence,visualization,...summary}=result;
+  $('result-data').textContent=JSON.stringify({...summary,action_count:actions?.length||0,visualization:visualization?{schema_version:visualization.schema_version,scope:visualization.scope,frame_count:visualization.frame_count}:null},null,2);
+  if(!verified) { $('empty-stage').textContent='没有完整候选可播放\n可调整起点或计算预算后重试';return; }
+  try {
+    frames=validateVisualization(result);$('timeline').max=frames.length-1;$('empty-stage').hidden=true;
+    for(const id of ['timeline','previous','play','next']) $(id).disabled=false;
+    setFrame(0);
+  } catch(error) {
+    frames=[];$('visualization-warning').textContent=error.message;$('visualization-warning').hidden=false;
+    $('empty-stage').textContent='候选结果已返回\n逐帧几何尚不可播放';
+  }
+}
+// ---- live solve progress -------------------------------------------------
+// The solve is one blocking POST, so the page polls the read-only progress
+// channel the server exposes for this attempt. Every field shown here comes
+// from the server snapshot; the local clock only fills the gap before the
+// first snapshot arrives.
+let progressTimer = null, progressId = null, progressBegan = 0, lastSnapshot = null;
+const PHASE_TEXT = {prepare:'准备请求',compile:'编译 CSV 环境',bake:'烘焙精确 C-space',search:'展开前沿搜索',
+  dialogue:'对话阶段',completion:'终点证书',verify:'逐帧复核',visualization:'生成逐帧几何'};
+const STATE_TEXT = {running:'解算中',done:'已完成',failed:'失败',unknown:'无实时记录'};
+function newProgressId() {
+  if (globalThis.crypto && typeof globalThis.crypto.randomUUID === 'function') return globalThis.crypto.randomUUID();
+  return `p-${Date.now()}-${Math.round(Math.random()*1e9)}`;
+}
+function countText(value) { return Number.isInteger(value) ? value.toLocaleString('en-US') : '—'; }
+function setFill(fraction) {
+  const width = finite(fraction) ? Math.max(0, Math.min(100, fraction*100)).toFixed(1) : '0';
+  $('p-fill').setAttribute('style', `height:100%;width:${width}%;background:#6cc4ff;transition:width .2s`);
+}
+function renderProgress(snap) {
+  if (!snap || typeof snap !== 'object') return;
+  lastSnapshot = snap;
+  $('progress-state').textContent = STATE_TEXT[snap.state] || snap.state || '—';
+  if (finite(snap.elapsed_seconds)) $('p-elapsed').textContent = `${snap.elapsed_seconds.toFixed(2)} s`;
+  $('p-phase').textContent = PHASE_TEXT[snap.phase] || snap.phase || '—';
+  $('p-fraction').textContent = finite(snap.fraction)
+    ? `${(snap.fraction*100).toFixed(1)} %${snap.fraction_basis ? `（${snap.fraction_basis}）` : ''}` : '—';
+  $('p-tick').textContent = Number.isInteger(snap.tick)
+    ? (Number.isInteger(snap.ticks) ? `${snap.tick} / ${snap.ticks}` : String(snap.tick)) : '—';
+  $('p-alive').textContent = countText(snap.alive_states);
+  $('p-peak').textContent = countText(snap.peak_alive_states);
+  $('p-expanded').textContent = Number.isInteger(snap.expanded_states)
+    ? `${countText(snap.expanded_states)} / ${countText(snap.discarded_states)}` : '—';
+  $('p-rate').textContent = finite(snap.states_per_second) ? Math.round(snap.states_per_second).toLocaleString('en-US') : '—';
+  // Linear extrapolation of the search phase only, and only once the fraction is
+  // past a noise floor; below that the estimate is meaningless.
+  const eta = finite(snap.fraction) && snap.fraction >= 0.02 && finite(snap.elapsed_seconds)
+    ? snap.elapsed_seconds * (1 - snap.fraction) / snap.fraction : null;
+  $('p-eta').textContent = eta !== null && eta < 86400 ? `${eta.toFixed(1)} s` : '—';
+  setFill(snap.fraction);
+  $('p-detail').textContent = JSON.stringify(snap, null, 2);
+}
+function startProgress(id) {
+  // The id must be the one the request carries: generating a second one here
+  // makes the page poll an id the server never registered.
+  progressId = typeof id === 'string' && id ? id : newProgressId();
+  progressBegan = performance.now(); lastSnapshot = null;
+  $('progress-state').textContent = STATE_TEXT.running;
+  $('p-detail').textContent = '正在等待服务端第一份进度快照。'; setFill(null); $('p-eta').textContent = '—';
+  if (progressTimer !== null) clearInterval(progressTimer);
+  progressTimer = setInterval(async () => {
+    if (!lastSnapshot || !finite(lastSnapshot.elapsed_seconds))
+      $('p-elapsed').textContent = `${((performance.now()-progressBegan)/1000).toFixed(2)} s`;
+    try {
+      const reply = await fetch(`/api/progress/${encodeURIComponent(progressId)}`);
+      if (!reply.ok) return;
+      const snap = await reply.json();
+      renderProgress(snap);
+      if (snap.state === 'done' || snap.state === 'failed') stopProgress();
+    } catch { /* keep the local clock; the solve request still owns the outcome */ }
+  }, 250);
+}
+function stopProgress() { if (progressTimer !== null) { clearInterval(progressTimer); progressTimer = null; } }
+// ---- old lattice-DP engine -------------------------------------------------
+// Engine A works on its own integer grid (default 200x160, y=0 on the floor)
+// with a 4x4 soul box, six actions and a hard-coded blue heart. It returns no
+// per-frame verified geometry, so the canvas is drawn directly from its hazard
+// runs and trajectory in that grid's own frame.
+function renderOldEngine(res) {
+  pause(); frames = []; response = null;
+  const deadlock = res.is_deadlock === true;
+  const stats = res.stats || {};
+  $('status').textContent = deadlock ? '旧引擎：其模型内可达集为空' : '旧引擎：模型内候选';
+  $('status').dataset.kind = deadlock ? 'unknown' : 'success';
+  $('scope-tag').textContent = '栅格模型 · 无原版验收';
+  $('status-detail').textContent = `栅格 ${res.W}×${res.H}：烘焙 ${numberText((stats.bake_ms||0)/1000)} s + DP ${numberText((stats.dp_ms||0)/1000)} s，峰值状态 ${stats.peak_states ?? '—'}${deadlock ? `，可达集在帧 ${res.deadlock_frame} 变空` : ''}。旧引擎的结论只在它自己的栅格模型内成立，没有逐帧验证几何，也没有原版执行通道。`;
+  $('wall-time').textContent = `${numberText((stats.total_ms||0)/1000)} s`;
+  $('game-time').textContent = '—'; $('time-ratio').textContent = '—';
+  const { hazard_runs, trajectory, action_sequence, ...summary } = res;
+  $('result-data').textContent = JSON.stringify({...summary, action_count:(action_sequence||[]).length}, null, 2);
+  $('empty-stage').hidden = true; $('visualization-warning').hidden = true;
+  for (const id of ['timeline','previous','play','next']) $(id).disabled = true;
+  drawOldGrid(res);
+}
+function drawOldGrid(res) {
+  const W = Number(res.W) || 200, H = Number(res.H) || 160;
+  const sx = canvas.width / W, sy = canvas.height / H;
+  ctx.fillStyle = '#0b0f14'; ctx.fillRect(0,0,canvas.width,canvas.height);
+  const runs = res.hazard_runs || [];
+  const lastRuns = runs[runs.length-1] || [];
+  ctx.fillStyle = 'rgba(231,237,245,.7)';
+  for (const [y, x, width] of lastRuns) ctx.fillRect(x*sx, (H-y-1)*sy, Math.max(1,width*sx), Math.max(1,sy));
+  for (const p of ((res.platforms || [])[res.platforms ? res.platforms.length-1 : 0] || [])) {
+    ctx.fillStyle = '#8be0b7';
+    ctx.fillRect(p.x_left*sx, (H-p.y_surf)*sy-2, (p.x_right-p.x_left)*sx, 4);
+  }
+  const traj = res.trajectory || [];
+  if (traj.length) {
+    ctx.beginPath(); ctx.strokeStyle = 'rgba(255,113,136,.85)'; ctx.lineWidth = 1;
+    for (let i=0;i<traj.length;i++) {
+      const s = traj[i], px = (s[0]+2)*sx, py = (H-s[1]-2)*sy;
+      if (i === 0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+    }
+    ctx.stroke();
+    const head = traj[traj.length-1];
+    ctx.fillStyle = '#fff';
+    ctx.fillRect((head[0]+2)*sx-2, (H-head[1]-2)*sy-2, 4, 4);
+  }
+  $('frame-counter').textContent = `旧引擎栅格 ${W}×${H} · 轨迹 ${traj.length} 帧（末帧危险与整条轨迹）`;
+  $('frame-data').textContent = JSON.stringify({grid:[W,H], initial_state:res.initial_state,
+    trajectory_frames:traj.length, is_deadlock:res.is_deadlock===true, deadlock_frame:res.deadlock_frame}, null, 2);
+}
+$('solve-form').addEventListener('submit',async event => {
+  event.preventDefault();if(busy)return;
+  const engine=$('engine').value||'new';
+  let payload=null,oldRequest=null;
+  try {
+    const fps=Number($('fps').value),seconds=Number($('seconds').value),width=Number($('width').value),maxBindings=Number($('bindings').value);
+    if(!finite(fps)||fps<30||!finite(seconds)||seconds<0||!Number.isInteger(width)||width<1||!Number.isInteger(maxBindings)||maxBindings<1) throw new Error('请检查帧率与搜索预算；帧率至少 30，状态和分支上限需为正整数。');
+    if(engine==='old') {
+      const horizon=Math.max(1,Math.round(seconds*fps));
+      if(inputMode==='path') {
+        const wave=$('csv-path').value.trim();
+        if(!/^sans_[a-z0-9_]+\.csv$/.test(wave)) throw new Error('旧引擎只接受仓库内波次名（例如 sans_bonegap1.csv）、选择的文件或粘贴的 CSV 内容；本机任意路径请改用新引擎。');
+        oldRequest={wave,T:horizon};
+      } else if(inputMode==='file') {
+        oldRequest={wave:null,T:horizon,custom_csv:await selectedFileText()};
+      } else {
+        const text=$('custom-csv').value;if(!text.trim())throw new Error('请粘贴完整 CSV 内容。');
+        oldRequest={wave:null,T:horizon,custom_csv:text};
+      }
+    } else {
+      const initial=numericArray($('initial-state').value,11,'初始玩家状态');
+      const environment=numericArray($('initial-environment').value,22,'初始环境',true);
+      payload={initial,initial_environment:environment,fps,seconds,width,max_bindings:maxBindings};
+      if(inputMode==='path') { const path=$('csv-path').value.trim();if(!path)throw new Error('请输入 CSV 文件路径。');payload.csv_path=path; }
+      else if(inputMode==='file') { payload.custom_csv=await selectedFileText(); }
+      else { const text=$('custom-csv').value;if(!text.trim())throw new Error('请粘贴完整 CSV 内容。');payload.custom_csv=text; }
+    }
+  } catch(error) { $('request-progress').textContent=error.message;return; }
+  resetView();busy=true;$('solve-button').disabled=true;$('solve-button').textContent='解算中…';
+  $('status').textContent='正在解算并验证';$('status').dataset.kind='';$('scope-tag').textContent=engine==='old'?'栅格模型':'有限搜索';
+  $('status-detail').textContent=engine==='old'?'旧引擎：烘焙栅格并在其上展开可达集 DP。':'准备环境、展开前沿并逐帧验证。';
+  $('result-data').textContent='正在计算。';
+  $('empty-stage').textContent=engine==='old'?'正在烘焙栅格并展开可达集':'正在计算候选\n完成验证后显示轨迹';
+  const began=performance.now();const timer=setInterval(() => $('request-progress').textContent=`已等待 ${((performance.now()-began)/1000).toFixed(1)} 秒 · 包含准备与验证`,250);
+  try {
+    if(engine==='old') {
+      const reply=await fetch('/api/solve',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(oldRequest)});
+      let result;try {result=await reply.json();} catch {throw new Error(`服务返回了非 JSON 响应（HTTP ${reply.status}）。`);}
+      if(!reply.ok || result.error) throw new Error(result.error || `HTTP ${reply.status}`);
+      renderOldEngine(result);
+    } else {
+      payload.progress_id=newProgressId();startProgress(payload.progress_id);
+      let reply=await fetch('/api/solve-csv',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+      let result;try {result=await reply.json();} catch {throw new Error(`服务返回了非 JSON 响应（HTTP ${reply.status}）。`);}
+      if(!reply.ok || result.error) throw new Error(result.error || `HTTP ${reply.status}`);
+      // A script with no EndAttack is rejected outright by the default
+      // EndAttack criterion. That rejection is instant, and the same source is
+      // admissible under the drained-EOF invariant the native CSV runner always
+      // uses, so retry once and say so instead of showing a dead end.
+      const missingEndAttack=result.status==='unknown' && result.reason==='unsupported_mechanism'
+        && Array.isArray(result.issues) && result.issues.some(issue => issue && issue.reason==='missing_endattack');
+      if(missingEndAttack && !payload.termination_policy) {
+        $('request-progress').textContent='脚本没有 EndAttack：按 EOF 危险耗尽不变式重试…';
+        payload.termination_policy='eof_hazards_drained';
+        reply=await fetch('/api/solve-csv',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+        try {result=await reply.json();} catch {throw new Error(`服务返回了非 JSON 响应（HTTP ${reply.status}）。`);}
+        if(!reply.ok || result.error) throw new Error(result.error || `HTTP ${reply.status}`);
+        result.policy_retry=true;
+      }
+      showResult(result);
+    }
+    $('request-progress').textContent=`请求完成 · 总等待 ${((performance.now()-began)/1000).toFixed(2)} 秒`;
+  } catch(error) {
+    $('status').textContent='请求未完成';$('status').dataset.kind='error';$('status-detail').textContent=error.message;
+    $('empty-stage').textContent='没有可播放的结果';$('request-progress').textContent='请检查输入和本机服务后重试。';$('result-data').textContent=error.message;
+  } finally {clearInterval(timer);stopProgress();busy=false;$('solve-button').disabled=false;$('solve-button').textContent='开始解算';}
+});
+$('native-button').addEventListener('click',async () => {
+  if(busy)return;
+  // The native entry registers a source and hands it to the original AJAX
+  // loader, so a picked file has to be read here: the paste textarea is empty
+  // in file mode, and using it silently sent an empty source.
+  let source;
+  try {
+    if(inputMode==='path') {
+      const path=$('csv-path').value.trim();
+      if(!path) throw new Error('请先填写 CSV 文件路径。');
+      source={csv_path:path};
+    } else if(inputMode==='file') {
+      source={custom_csv:await selectedFileText()};
+    } else {
+      const text=$('custom-csv').value;
+      if(!text.trim()) throw new Error('请先粘贴完整 CSV 内容。');
+      source={custom_csv:text};
+    }
+  } catch(error) { $('request-progress').textContent=error.message; return; }
+  busy=true;$('native-button').disabled=true;
+  try {
+    const reply=await fetch('/api/csv-source',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(source)});
+    const result=await reply.json();
+    if(!reply.ok || result.error)throw Error(result.error||'CSV 加载失败');
+    if(!/^[0-9a-f]{64}$/.test(result.id||''))throw Error('服务未返回有效的 CSV 标识。');
+    const params=new URLSearchParams({csvtas:'1',csv_source:result.id,attack:'custom',custom_acceptance:'1',seed:'42',fps:$('fps').value,
+      seconds:$('seconds').value,width:$('width').value,max_bindings:$('bindings').value});
+    location.assign('/game/index.html?'+params);
+  } catch(error) { $('request-progress').textContent=error.message; }
+  finally {busy=false;$('native-button').disabled=false;}
+});
+draw();
+</script>
+</body>
+</html>

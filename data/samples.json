@@ -1,0 +1,392 @@
+{
+  "schema_version": 1,
+  "samples": [
+    {
+      "id": "can/sans_bluebone-nohit",
+      "kind": "canonical",
+      "path": "c2-sans-fight/sans_bluebone.csv",
+      "source_path": "sans_bluebone.csv",
+      "raw_sha256": "d698d3a883b1409eacf159b4fe3b663dd1f5521998f82f1e74ded150552b46f7",
+      "bytes": 527,
+      "nohit": true
+    },
+    {
+      "id": "can/sans_bonegap1-nohit",
+      "kind": "canonical",
+      "path": "c2-sans-fight/sans_bonegap1.csv",
+      "source_path": "sans_bonegap1.csv",
+      "raw_sha256": "90441ab0083ed99eb7e501f2284aae7246aecfc3af7a293cc7da4a911c758306",
+      "bytes": 292,
+      "nohit": true
+    },
+    {
+      "id": "can/sans_bonegap1fast-nohit",
+      "kind": "canonical",
+      "path": "c2-sans-fight/sans_bonegap1fast.csv",
+      "source_path": "sans_bonegap1fast.csv",
+      "raw_sha256": "148ac1aa095564326aa7a071f838e15f713ff5add1aef72f63c01f9281a4bfc4",
+      "bytes": 290,
+      "nohit": true
+    },
+    {
+      "id": "can/sans_bonegap2-nohit",
+      "kind": "canonical",
+      "path": "c2-sans-fight/sans_bonegap2.csv",
+      "source_path": "sans_bonegap2.csv",
+      "raw_sha256": "4f864f4bd431ecdd712453947338358471715acc15c3e76ca98b1f76a3cc727d",
+      "bytes": 1466,
+      "nohit": true
+    },
+    {
+      "id": "can/sans_boneslideh-nohit",
+      "kind": "canonical",
+      "path": "c2-sans-fight/sans_boneslideh.csv",
+      "source_path": "sans_boneslideh.csv",
+      "raw_sha256": "5aae574bff05f236e7cdb0f9a2b6dc68cde4f449a0bff772adac290c455f26ce",
+      "bytes": 215,
+      "nohit": true
+    },
+    {
+      "id": "can/sans_boneslidev",
+      "kind": "canonical",
+      "path": "c2-sans-fight/sans_boneslidev.csv",
+      "source_path": "sans_boneslidev.csv",
+      "raw_sha256": "917ffe49cba653e25fa62f5e960fec262bc96eec5097efdee7de4609a5d12d35",
+      "bytes": 222,
+      "nohit": false
+    },
+    {
+      "id": "can/sans_bonestab1",
+      "kind": "canonical",
+      "path": "c2-sans-fight/sans_bonestab1.csv",
+      "source_path": "sans_bonestab1.csv",
+      "raw_sha256": "e8a7bd5ced93fe826cd00baba0518aeb9b3a593e8cf635633e74aa7da9cc95b1",
+      "bytes": 573,
+      "nohit": false
+    },
+    {
+      "id": "can/sans_bonestab2",
+      "kind": "canonical",
+      "path": "c2-sans-fight/sans_bonestab2.csv",
+      "source_path": "sans_bonestab2.csv",
+      "raw_sha256": "b3546228167bda3dc452935117055c946fb3801d238a0eb45051e23b61b28bce",
+      "bytes": 573,
+      "nohit": false
+    },
+    {
+      "id": "can/sans_bonestab3",
+      "kind": "canonical",
+      "path": "c2-sans-fight/sans_bonestab3.csv",
+      "source_path": "sans_bonestab3.csv",
+      "raw_sha256": "8785c4ab0687ce091a329cecca3fb49045fc0a0815eb0508de8188925b7bccc5",
+      "bytes": 571,
+      "nohit": false
+    },
+    {
+      "id": "can/sans_final",
+      "kind": "canonical",
+      "path": "c2-sans-fight/sans_final.csv",
+      "source_path": "sans_final.csv",
+      "raw_sha256": "ff3d6f0c1b2c2f3bdb290109086ec3c9f7c3f6e628809512ac943dc7408c1078",
+      "bytes": 5641,
+      "nohit": false
+    },
+    {
+      "id": "can/sans_intro",
+      "kind": "canonical",
+      "path": "c2-sans-fight/sans_intro.csv",
+      "source_path": "sans_intro.csv",
+      "raw_sha256": "d3e7e6a448e358a6f9eb70621c8dcea84a6b39b9506916fbec2ee5a0bb193620",
+      "bytes": 1432,
+      "nohit": false
+    },
+    {
+      "id": "can/sans_multi1",
+      "kind": "canonical",
+      "path": "c2-sans-fight/sans_multi1.csv",
+      "source_path": "sans_multi1.csv",
+      "raw_sha256": "ca68aee9438e7f6615566468290cb5888b975ecd51ada1a5a2292ccff9317303",
+      "bytes": 2978,
+      "nohit": false
+    },
+    {
+      "id": "can/sans_multi2",
+      "kind": "canonical",
+      "path": "c2-sans-fight/sans_multi2.csv",
+      "source_path": "sans_multi2.csv",
+      "raw_sha256": "676f7b979a5abab4986eeadd9bc836995d5ad10e370377fb406889523b117e29",
+      "bytes": 2395,
+      "nohit": false
+    },
+    {
+      "id": "can/sans_multi3",
+      "kind": "canonical",
+      "path": "c2-sans-fight/sans_multi3.csv",
+      "source_path": "sans_multi3.csv",
+      "raw_sha256": "022250e25db3cd25104fd1c1d78603db8d6edc14beafad60360b65d290a79f92",
+      "bytes": 5115,
+      "nohit": false
+    },
+    {
+      "id": "can/sans_platformblaster",
+      "kind": "canonical",
+      "path": "c2-sans-fight/sans_platformblaster.csv",
+      "source_path": "sans_platformblaster.csv",
+      "raw_sha256": "52795a976149141383a148fd69526ffbbab233a978a1b77627f4162a3c8ae197",
+      "bytes": 504,
+      "nohit": false
+    },
+    {
+      "id": "can/sans_platformblasterfast",
+      "kind": "canonical",
+      "path": "c2-sans-fight/sans_platformblasterfast.csv",
+      "source_path": "sans_platformblasterfast.csv",
+      "raw_sha256": "0312ef3aec4f170844e72a7cef4cf8b30f41a6c1703489cb8dcf64506f10e35a",
+      "bytes": 504,
+      "nohit": false
+    },
+    {
+      "id": "can/sans_platforms1",
+      "kind": "canonical",
+      "path": "c2-sans-fight/sans_platforms1.csv",
+      "source_path": "sans_platforms1.csv",
+      "raw_sha256": "adae77d891d7b97a870c3dded34a07c2f82d67ca3d75326eeb7d64aa6148409f",
+      "bytes": 388,
+      "nohit": false
+    },
+    {
+      "id": "can/sans_platforms2",
+      "kind": "canonical",
+      "path": "c2-sans-fight/sans_platforms2.csv",
+      "source_path": "sans_platforms2.csv",
+      "raw_sha256": "964b43f2d03eec8d28493f051e6553120b1f8468f11a2069868c51568e999171",
+      "bytes": 586,
+      "nohit": false
+    },
+    {
+      "id": "can/sans_platforms3",
+      "kind": "canonical",
+      "path": "c2-sans-fight/sans_platforms3.csv",
+      "source_path": "sans_platforms3.csv",
+      "raw_sha256": "853d2bcb8fb9f0cb09eac8355fe1cc23d0d8558682e451ade592f5546eec9a7d",
+      "bytes": 549,
+      "nohit": false
+    },
+    {
+      "id": "can/sans_platforms4",
+      "kind": "canonical",
+      "path": "c2-sans-fight/sans_platforms4.csv",
+      "source_path": "sans_platforms4.csv",
+      "raw_sha256": "3fb7dfa8347f5a6f493dc56fda62142e0b985d431e91085600aa0918d19a549d",
+      "bytes": 348,
+      "nohit": false
+    },
+    {
+      "id": "can/sans_platforms4hard",
+      "kind": "canonical",
+      "path": "c2-sans-fight/sans_platforms4hard.csv",
+      "source_path": "sans_platforms4hard.csv",
+      "raw_sha256": "2c23db06eccc8f7eda2341abafb4ebfe9162f3e7ed5bfe026f73f4ea19a42cd2",
+      "bytes": 348,
+      "nohit": false
+    },
+    {
+      "id": "can/sans_randomblaster1",
+      "kind": "canonical",
+      "path": "c2-sans-fight/sans_randomblaster1.csv",
+      "source_path": "sans_randomblaster1.csv",
+      "raw_sha256": "f880224de616df00f44a583706223eee3378692e1b1554440b3b2de2a1a8627a",
+      "bytes": 810,
+      "nohit": false
+    },
+    {
+      "id": "can/sans_randomblaster2-nohit",
+      "kind": "canonical",
+      "path": "c2-sans-fight/sans_randomblaster2.csv",
+      "source_path": "sans_randomblaster2.csv",
+      "raw_sha256": "431246d750826a061a1bfd1668ab7f2f3e43a3d30c2ed5e51a2c76e253690e90",
+      "bytes": 810,
+      "nohit": true
+    },
+    {
+      "id": "can/sans_realhell_extreme",
+      "kind": "canonical",
+      "path": "c2-sans-fight/sans_realhell_extreme.csv",
+      "source_path": "sans_realhell_extreme.csv",
+      "raw_sha256": "3b6252bc2d97a6ae5f82d63b8c8e82175cf1d819e85728e2f1fe9b1001106299",
+      "bytes": 310271,
+      "nohit": false
+    },
+    {
+      "id": "can/sans_spare-nohit",
+      "kind": "canonical",
+      "path": "c2-sans-fight/sans_spare.csv",
+      "source_path": "sans_spare.csv",
+      "raw_sha256": "bed1eb8e0b97bcba6478183b58f435f605e3754469eb8d80a24b40afe7ebba8e",
+      "bytes": 128,
+      "nohit": true
+    },
+    {
+      "id": "hrzq/branch1",
+      "kind": "pack",
+      "path": "hrzq/branch1.csv",
+      "source_path": "第三章——勇气/特殊的sans战 特殊分支①.csv",
+      "raw_sha256": "211be9878e22bc24d8186f2ebc508b70b6cb558eeec7eae49f27cadb3800faae",
+      "bytes": 67393,
+      "nohit": false
+    },
+    {
+      "id": "hrzq/branch2",
+      "kind": "pack",
+      "path": "hrzq/branch2.csv",
+      "source_path": "第三章——勇气/特殊的sans战 特殊分支②.csv",
+      "raw_sha256": "af745d4f922a5d0438042d09eb5e5de29c447277df28f28f9fc0fb38c2173dd1",
+      "bytes": 52343,
+      "nohit": false
+    },
+    {
+      "id": "hrzq/branch3",
+      "kind": "pack",
+      "path": "hrzq/branch3.csv",
+      "source_path": "第三章——勇气/特殊的sans战 特殊分支③.csv",
+      "raw_sha256": "fcccaf46fb01294c886103bdca049bea321f7f58c073af090859b69c09239ca2",
+      "bytes": 14821,
+      "nohit": false
+    },
+    {
+      "id": "hrzq/cece-nohit",
+      "kind": "pack",
+      "path": "hrzq/cece.csv",
+      "source_path": "一些UP需要用的东西/测测测！试.csv",
+      "raw_sha256": "9a0c94b547cc15685ce357339aeb79ce69b3e2eb426819a499088eae5920ff11",
+      "bytes": 5230,
+      "nohit": true
+    },
+    {
+      "id": "hrzq/hell",
+      "kind": "pack",
+      "path": "hrzq/hell.csv",
+      "source_path": "第五章——再见/特殊的sans战 h e l l.csv",
+      "raw_sha256": "fa221a13765917da458d0660c94be7d79aad6bbd975fe2543d0acedce6502a5e",
+      "bytes": 77184,
+      "nohit": false
+    },
+    {
+      "id": "hrzq/hot-nohit",
+      "kind": "pack",
+      "path": "hrzq/hot.csv",
+      "source_path": "第四章——回忆/特殊的sans战 THE HOT.csv",
+      "raw_sha256": "9bbae16d26a0f0e6658aca92245f13a5d7aba1a44665220bbd0eb090d0cbbe7f",
+      "bytes": 3101,
+      "nohit": true
+    },
+    {
+      "id": "hrzq/part1",
+      "kind": "pack",
+      "path": "hrzq/part1.csv",
+      "source_path": "第一章——相遇/特殊的Sans战 Part1.csv",
+      "raw_sha256": "9ecb8be1d430c52ddaeb80c45c4e8c0d21c84dfd06d4915965614025b439fb5d",
+      "bytes": 4542,
+      "nohit": false
+    },
+    {
+      "id": "hrzq/part2",
+      "kind": "pack",
+      "path": "hrzq/part2.csv",
+      "source_path": "第一章——相遇/特殊的Sans战 Part2.csv",
+      "raw_sha256": "f415587c000b804d10901f7769b3bb48b6a143fee2fc39fbb2cca88a83f22bcd",
+      "bytes": 7419,
+      "nohit": false
+    },
+    {
+      "id": "hrzq/part3",
+      "kind": "pack",
+      "path": "hrzq/part3.csv",
+      "source_path": "第一章——相遇/特殊的Sans战 Part3.csv",
+      "raw_sha256": "9541459028bd36d8d21328e31130039388e7714202d774f73a8edec9cc2a782c",
+      "bytes": 17681,
+      "nohit": false
+    },
+    {
+      "id": "hrzq/part4-nohit",
+      "kind": "pack",
+      "path": "hrzq/part4.csv",
+      "source_path": "第二章——坚持/特殊的sans战 Part4.csv",
+      "raw_sha256": "5ff983750eacf0e5e5dd38b50b6e25a4ae2ff4a88779770cb66720d3ac7bb9e3",
+      "bytes": 15581,
+      "nohit": true
+    },
+    {
+      "id": "hrzq/part5",
+      "kind": "pack",
+      "path": "hrzq/part5.csv",
+      "source_path": "第二章——坚持/特殊的sans战 Part5.csv",
+      "raw_sha256": "c1b4838f66cbe8b11f32c37d68ce066b1ebad04228b6add6ce12dcc9b952b3a1",
+      "bytes": 25386,
+      "nohit": false
+    },
+    {
+      "id": "hrzq/ruins",
+      "kind": "pack",
+      "path": "hrzq/ruins.csv",
+      "source_path": "第四章——回忆/特殊的sans战 THE RUINS.csv",
+      "raw_sha256": "ff3c5a785f7bce10ab5ab8cad7f08d96f527f26af31aec63c8739d2006fb88dc",
+      "bytes": 2803,
+      "nohit": false
+    },
+    {
+      "id": "hrzq/snowdin",
+      "kind": "pack",
+      "path": "hrzq/snowdin.csv",
+      "source_path": "第四章——回忆/特殊的sans战 THE SNOWDIN.csv",
+      "raw_sha256": "bdae958ac1384840f04ae1d4efbc2b073209a44c8d59681d561e1ee6a20b5ba2",
+      "bytes": 4050,
+      "nohit": false
+    },
+    {
+      "id": "hrzq/test-short",
+      "kind": "pack",
+      "path": "hrzq/test-short.csv",
+      "source_path": "一些UP需要用的东西/测试.csv",
+      "raw_sha256": "1a4406db2312d7d6b383eeea0f5184b4931e118697c89e71b8c3c2360a53a214",
+      "bytes": 174,
+      "nohit": false
+    },
+    {
+      "id": "hrzq/waterfall",
+      "kind": "pack",
+      "path": "hrzq/waterfall.csv",
+      "source_path": "第四章——回忆/特殊的sans战 THE WATERFALL.csv",
+      "raw_sha256": "65faa2dfc440d84fceed408f01f3143a6df83463b8b4a8169d0a2880962ed2da",
+      "bytes": 7400,
+      "nohit": false
+    },
+    {
+      "id": "hrzq/xinxin-nohit",
+      "kind": "pack",
+      "path": "hrzq/xinxin.csv",
+      "source_path": "一些UP需要用的东西/新新测试（研究官方攻击专用）.csv",
+      "raw_sha256": "810bbd0647c5878589b6bbeb1abe02f77ff9dbf7ad9c01674b46b79e822dc845",
+      "bytes": 2397,
+      "nohit": true
+    },
+    {
+      "id": "hrzq/xtest",
+      "kind": "pack",
+      "path": "hrzq/xtest.csv",
+      "source_path": "一些UP需要用的东西/新测试.csv",
+      "raw_sha256": "37c0b7fa7704c15da41025e6b711a6dcfd8753fd76dd9672220ef8f22fd92a34",
+      "bytes": 55870,
+      "nohit": false
+    },
+    {
+      "id": "user/real-hell",
+      "kind": "user",
+      "path": "data/user/real-hell.csv",
+      "source_path": "Real HELL 困难模式(1).csv",
+      "raw_sha256": "3b6252bc2d97a6ae5f82d63b8c8e82175cf1d819e85728e2f1fe9b1001106299",
+      "bytes": 310271,
+      "nohit": false
+    }
+  ]
+}
