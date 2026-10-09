@@ -10,16 +10,64 @@ import numpy as np
 from .compact_wave import (TimelineVM,_ActiveBone,_ActivePlatform,_ActiveBoneStab,
     _ActiveGasterBlaster,_resize_combat_zone,_initial_arena_state,initial_arena_identity,
     _bone_from_command,_platform_from_command,_repeat_command_children)
+from .native_math import native_atan2
 from .native_numbers import native_int, native_parameter_in_range, native_for_count_indices
 from .dialogue_operator import DialogueState,step_dialogue
 from .timeline_csv import parse_timeline_rows
-from .native_function_dispatch import (call_arguments, audited_no_action_function,
-    executable_resize_callback, modeled_timeline_callback, NO_ACTION_FUNCTION_AUDIT)
+from .native_function_dispatch import call_arguments, audited_no_action_function, NO_ACTION_FUNCTION_AUDIT
 
 # Full static bytes, not a digest accepted without a collision check. A branch
 # shares its Program object, so this is not copied into each tick's live state.
 _SEMANTIC_SOURCE=tuple(Path(__file__).with_name(name).read_bytes() for name in
     ('resumable_wave.py','compact_wave.py','dialogue_operator.py','timeline_csv.py','native_function_dispatch.py'))
+
+class _BoneArrays:
+    """Private owned continuation storage; scalar iteration preserves public keys."""
+    def __init__(self,items=(),native=False):
+        self.native=native;self.count=0;self.rows=np.empty((max(16,len(items)),8),np.float64,order="C" if native else "F")
+        for item in items:self.append(item)
+    def __len__(self):return self.count
+    def __iter__(self):
+        for row in self.rows[:self.count]:
+            item=_ActiveBone.__new__(_ActiveBone)
+            for key,value in zip(_ActiveBone.__slots__,row):setattr(item,key,float(value))
+            yield item
+    def append(self,item):
+        if self.count==len(self.rows):
+            expanded=np.empty((max(16,self.count*2),8),np.float64,order="C" if self.native else "F")
+            expanded[:self.count]=self.rows[:self.count];self.rows=expanded
+        self.rows[self.count]=tuple(getattr(item,key) for key in _ActiveBone.__slots__);self.count+=1
+    def clear(self):self.count=0
+    def advance(self,dt):
+        if self.native and self.count>=64:
+            from .native_backend import _bones_advance
+            self.count=_bones_advance(self.rows,self.count,dt);return
+        rows=self.rows[:self.count];old=rows[:,:2]
+        following=old+rows[:,4:6]*dt
+        np.copyto(old,following,where=old!=following)
+        direction=rows[:,7]
+        keep=~(((direction==0)&(rows[:,0]>640.))|((direction==1)&(rows[:,1]>480.))|
+            ((direction==2)&(rows[:,0]<-rows[:,2]))|((direction==3)&(rows[:,1]<-rows[:,3])))
+        if not keep.all():
+            kept=rows[keep];self.count=len(kept);self.rows[:self.count]=kept
+    def geometry(self):
+        if self.native and self.count>=64:
+            from .native_backend import _bones_geometry
+            return _bones_geometry(self.rows,self.count)
+        rows=self.rows[:self.count];first=rows[:,:2];second=first+rows[:,2:4]
+        boxes=np.concatenate((np.where(second<first,second,first),np.where(second>first,second,first)),axis=1)
+        blue=rows[:,6]==1.
+        return boxes[~blue],boxes[blue]
+
+
+def _enable_bone_arrays(state,*,native=False):
+    if not isinstance(state.data['active_bones'],_BoneArrays):
+        state.data['active_bones']=_BoneArrays(state.data['active_bones'],native=native)
+    bones=state.data['active_bones']
+    if native and not bones.rows.flags.c_contiguous:bones.rows=np.ascontiguousarray(bones.rows)
+    bones.native=native
+    return state
+
 
 @dataclass(frozen=True)
 class Program:
@@ -28,52 +76,6 @@ class Program:
     labels: dict
     identity: bytes
     dt_schedule: tuple | None
-
-
-def clone_simulation_value(value):
-    """Exact copy of one value held in a saved environment state.
-
-    ``copy.deepcopy`` is the reference behaviour, but its ``__reduce_ex__`` path
-    dominated the dialogue relation phase: it was 51% of the wall clock, 10.3 s of
-    20 s, and it is what turned a two-second search into a forty-minute one. The
-    values here are a closed domain -- scalars, containers and the flat hazard
-    records, whose every field is itself a scalar -- so copying them field by field
-    is exact and far cheaper.
-
-    Anything not recognised falls back to ``copy.deepcopy`` for that value, so an
-    unknown type can never be silently aliased; the fallback is correctness
-    preserving, never a shortcut.
-    """
-    kind = type(value)
-    if value is None or kind in (bool,int,float,str,bytes):
-        return value
-    if kind is list:
-        return [clone_simulation_value(item) for item in value]
-    if kind is tuple:
-        return tuple(clone_simulation_value(item) for item in value)
-    if kind is dict:
-        return {key: clone_simulation_value(item) for key, item in value.items()}
-    if kind is np.ndarray:
-        return value.copy()
-    slots = getattr(kind,'__slots__',None)
-    if slots is not None:
-        result = kind.__new__(kind)
-        for name in slots:
-            setattr(result,name,clone_simulation_value(getattr(value,name)))
-        return result
-    state = getattr(value,'__dict__',None)
-    if state is not None and not hasattr(value,'__deepcopy__'):
-        result = kind.__new__(kind)
-        result.__dict__.update({key:clone_simulation_value(item) for key,item in state.items()})
-        return result
-    return copy.deepcopy(value)
-
-
-def clone_simulation_state(state):
-    """Copy a saved ``data``/``request`` mapping without ``deepcopy`` overhead."""
-    if state is None:
-        return None
-    return {key:clone_simulation_value(value) for key,value in state.items()}
 
 @dataclass
 class EnvState:
@@ -93,11 +95,8 @@ class EnvState:
     dialogue_current_input: tuple | None=None
     dialogue_blocked_callback: str | None=None
     def clone(self):
-        # The VM's own clone copies exactly its three mutable fields and shares the
-        # read-only configuration; deep-copying it here was the dominant cost of
-        # the dialogue relation phase.
-        return EnvState(self.program,self.vm.clone(),clone_simulation_state(self.data),self.max_ticks,
-            self.phase,self.supplied_target,clone_simulation_state(self.request),self.clock_timestamp,
+        return EnvState(self.program,copy.deepcopy(self.vm),copy.deepcopy(self.data),self.max_ticks,
+            self.phase,self.supplied_target,copy.deepcopy(self.request),self.clock_timestamp,
             self.initial_dt,dict(self.stats),self.dialogue,self.dialogue_coupled,
             self.dialogue_last_input,self.dialogue_current_input,self.dialogue_blocked_callback)
     def __deepcopy__(self,memo):
@@ -193,12 +192,34 @@ def initialize(path_or_rows,seed=42,initial_environment=None,termination_policy=
 
 def supply_target(suspension,position):
     prior=suspension.state if isinstance(suspension,NeedTarget) else suspension
+    return _supply_target_owned(prior.clone(),position)
+
+def _supply_target_owned(state,position):
+    """Consume an exclusively owned suspension, without cloning its world."""
+    prior=state
     if prior.phase!='await_target' or prior.request is None:raise ValueError('state is not awaiting a target')
     if len(position)!=2 or not all(math.isfinite(x) for x in position):raise ValueError('target must have two finite coordinates')
-    state=prior.clone()
     state.supplied_target=tuple(state.request['preceding_teleport'] or position)
     state.phase='timeline';state.request=None
     return state
+
+def _observation_sampling_arrays(suspension):
+    """Read only the pre-timeline movement fields needed by sample_position.
+
+    This is not a committed frame. No hazard, callback, RNG or entity is
+    advanced. The public full preview remains the independent oracle.
+    """
+    state=suspension.state if isinstance(suspension,(NeedTarget,NeedDialogue)) else suspension
+    if state.phase not in ('await_target','await_dialogue'):
+        raise ValueError('sampling requires an unresolved observation or dialogue')
+    data=state.data;dt=data['dt_nominal']
+    env=np.zeros(22,dtype=np.float64);env[7]=dt;env[14:18]=data['previous_cz']
+    rows=[(p.x if p.born else p.x+p.vx*dt,
+           p.y if p.born else p.y+p.vy*dt,
+           p.w,p.h,p.vx,p.vy,1.,0. if p.born else 1.,p.vy)
+          for p in data['active_platforms']]
+    rows.extend(data['removed_platforms'])
+    return env,np.asarray(rows,dtype=np.float64).reshape(-1,9)
 
 _PERSISTENT = ('tick', 'pc', 'loaded_line', 'time_acc', 'running', 'ended', 'termination_reason', 'eof_tick', 'cz', 'cz_size', 'tgt_cz', 'cz_speed', 'heart_mode', 'gravity_dir', 'max_fall_speed', 'slam_damage', 'active_bones', 'active_platforms', 'active_stabs', 'active_blasters', 'end_resize', 'unproven_callbacks')
 _IN_FLIGHT = ('dt_nominal', 'previous_cz', 'teleport_pulse', 'mode_pulse', 'removed_platforms', 'run_count', 'source_events', 'target_history', 'callback_events')
@@ -265,9 +286,14 @@ def advance_with_dialogue_input(prior,*,confirm,cancel,previous_confirm=None,pre
     No waiting tick or live hazard is skipped. A suspended GetHeartPos retains
     this tick's inputs, which cannot be changed when that transaction resumes.
     """
+    return _advance_with_dialogue_input_owned(prior.clone(),confirm=confirm,cancel=cancel,
+        previous_confirm=previous_confirm,previous_cancel=previous_cancel)
+
+
+def _advance_with_dialogue_input_owned(state,*,confirm,cancel,previous_confirm=None,previous_cancel=None):
+    """Private collector: owns its entire state and retains committed Frames only."""
     if any(value not in (0,1) for value in (confirm,cancel)):
         raise ValueError('Confirm and Cancel must be zero or one')
-    state=prior.clone()
     if not state.dialogue_coupled:
         if any(value not in (0,1) for value in (previous_confirm,previous_cancel)):
             raise ValueError('first dialogue coupling requires previous Confirm and Cancel')
@@ -358,15 +384,8 @@ def _advance_owned_tick(state,*,_preview=False):
     def finish_resize(phase):
         nonlocal end_resize,running
         if end_resize is None or cz!=tgt_cz:return
-        # Function.CallFunction lowercases names (native runtime:374).
-        callback=end_resize['function'].lower()
-        if modeled_timeline_callback(callback):
-            # Timeline.xml TLResume is exactly Running=1 and TLPause is exactly
-            # Running=0. A custom script already in the requested run state
-            # therefore has no timer side effect.
-            running=callback=='tlresume'
-            callback_events.append(dict(end_resize,executed_tick=tick,phase=phase))
-            end_resize=None
+        if end_resize['function'].lower()=='tlresume':
+            running=True;callback_events.append(dict(end_resize,executed_tick=tick,phase=phase));end_resize=None
         elif audited_no_action_function(end_resize['function']):
             callback_events.append(dict(end_resize,executed_tick=tick,phase=phase,
                 no_action_audit=NO_ACTION_FUNCTION_AUDIT));end_resize=None
@@ -439,19 +458,19 @@ def _advance_owned_tick(state,*,_preview=False):
         elif cmd_l == "floor":
             self.vars[self.variable_key(args[0])] = math.floor(float(self.eval_arg(args[1])))
         elif cmd_l == "sin":
-            self.vars[self.variable_key(args[0])] = math.sin(math.radians(float(self.eval_arg(args[1]))))
+            self.vars[self.variable_key(args[0])] = math.sin(float(self.eval_arg(args[1])) / (180.0 / math.pi))
         elif cmd_l == "cos":
-            self.vars[self.variable_key(args[0])] = math.cos(math.radians(float(self.eval_arg(args[1]))))
+            self.vars[self.variable_key(args[0])] = math.cos(float(self.eval_arg(args[1])) / (180.0 / math.pi))
         elif cmd_l == "deg":
-            self.vars[self.variable_key(args[0])] = float(self.eval_arg(args[1])) * 180.0 / math.pi
+            self.vars[self.variable_key(args[0])] = float(self.eval_arg(args[1])) * (180.0 / math.pi)
         elif cmd_l == "rad":
-            self.vars[self.variable_key(args[0])] = float(self.eval_arg(args[1])) * math.pi / 180.0
+            self.vars[self.variable_key(args[0])] = float(self.eval_arg(args[1])) / (180.0 / math.pi)
         elif cmd_l == "angle":
             x1, y1 = float(self.eval_arg(args[1])), float(self.eval_arg(args[2]))
             x2, y2 = float(self.eval_arg(args[3])), float(self.eval_arg(args[4]))
             # Native Ka(Pa(...)) preserves signed degrees and multiplies
             # by 180/pi first; normalizing changes blaster entry timing.
-            self.vars[self.variable_key(args[0])] = (180.0 / math.pi) * math.atan2(y2 - y1, x2 - x1)
+            self.vars[self.variable_key(args[0])] = (180.0 / math.pi) * native_atan2(y2 - y1, x2 - x1)
         elif cmd_l == "rnd":
             self.vars[self.variable_key(args[0])] = math.floor(self.rng.random() * float(self.eval_arg(args[1])))
         elif cmd_l == "jmpabs":
@@ -515,7 +534,7 @@ def _advance_owned_tick(state,*,_preview=False):
                       float(self.eval_arg(args[2])), float(self.eval_arg(args[3]))]
             end_resize=({'source_line':pc+1,'tick':tick,'function':self.variable_key(args[4])}
                 if args[4]!='' else None)
-            if end_resize is not None and not executable_resize_callback(end_resize['function']):
+            if end_resize is not None and end_resize['function'].lower()!='tlresume' and not audited_no_action_function(end_resize['function']):
                 # Settled bounds do not prove that an arbitrary native
                 # callback has executed or that its effects are modeled.
                 unproven_callbacks.append(dict(end_resize,status='execution_unproven'))
@@ -547,6 +566,7 @@ def _advance_owned_tick(state,*,_preview=False):
             heart_mode = 1.0
             mode_pulse=1.
             self.vars["_last_slam_tick"] = tick
+            self.vars["_last_slam_speed"] = max_fall_speed
         elif cmd_l in ("bonev", "boneh"):
             active_bones.append(_bone_from_command(cmd_l == "boneh", args))
         elif cmd_l in ("bonevrepeat", "bonehrepeat"):
@@ -625,16 +645,18 @@ def _advance_owned_tick(state,*,_preview=False):
                         'unsupported_dialogue_callback:'+dialogue_step.callback)
     middle_cz=list(cz)
 
-    # Advance kinematics (inlined for high performance)
-    for b in active_bones:
-        next_x = b.x + b.vx * dt_nominal
-        next_y = b.y + b.vy * dt_nominal
-        if b.x != next_x: b.x = next_x
-        if b.y != next_y: b.y = next_y
-    active_bones=[b for b in active_bones if not
-        ((b.direction==0 and b.x>640.) or (b.direction==1 and b.y>480.) or
-         (b.direction==2 and b.x<-b.w) or (b.direction==3 and b.y<-b.h))]
-
+    if isinstance(active_bones,_BoneArrays):
+        active_bones.advance(dt_nominal)
+    else:
+        # Advance kinematics (inlined for high performance)
+        for b in active_bones:
+            next_x = b.x + b.vx * dt_nominal
+            next_y = b.y + b.vy * dt_nominal
+            if b.x != next_x: b.x = next_x
+            if b.y != next_y: b.y = next_y
+        active_bones=[b for b in active_bones if not
+            ((b.direction==0 and b.x>640.) or (b.direction==1 and b.y>480.) or
+             (b.direction==2 and b.x<-b.w) or (b.direction==3 and b.y<-b.h))]
     cz_l = cz[0]
     cz_r = cz[2]
     for p in active_platforms:
@@ -662,14 +684,33 @@ def _advance_owned_tick(state,*,_preview=False):
 
     env=np.array([*cz,heart_mode,gravity_dir,1. if self.vars.get('_last_slam_tick')==tick else 0.,dt_nominal,
         max_fall_speed,teleport_pulse,*self.heart_pos,slam_damage,mode_pulse,*previous_cz,*middle_cz],dtype=float)
+    if self.vars.get("_last_slam_tick")==tick and self.vars["_last_slam_speed"] != max_fall_speed:
+        env[6]=self.vars["_last_slam_speed"]
+        env[13]=mode_pulse+2.
     platforms=np.asarray([(p.x,p.y,p.w,p.h,p.vx,p.vy,1.,p.pre_active,p.pre_dy) for p in active_platforms]+removed_platforms,dtype=float).reshape(-1,9)
-    white=[];blue=[]
-    for b in active_bones:
-        box=(min(b.x,b.x+b.w),min(b.y,b.y+b.h),max(b.x,b.x+b.w),max(b.y,b.y+b.h))
-        (blue if b.color==1 else white).append(box)
-    for stab in active_stabs:
-        box=stab.bbox()
-        if box is not None:white.append(box)
+    if isinstance(active_bones,_BoneArrays):
+        white,blue=active_bones.geometry()
+        stabs=[box for stab in active_stabs if (box:=stab.bbox()) is not None]
+        if stabs:white=np.concatenate((white,np.asarray(stabs,dtype=float)),axis=0)
+    elif len(active_bones)>=64:
+        # Pack dense geometry in arrays. Strict comparisons keep the original
+        # first operand on ties, including signed zero and NaN semantics.
+        raw=np.asarray([(b.x,b.y,b.w,b.h) for b in active_bones],dtype=float)
+        first=raw[:,:2];second=first+raw[:,2:]
+        boxes=np.concatenate((np.where(second<first,second,first),
+            np.where(second>first,second,first)),axis=1)
+        colors=np.fromiter((b.color==1 for b in active_bones),dtype=bool,count=len(active_bones))
+        white=boxes[~colors];blue=boxes[colors]
+        stabs=[box for stab in active_stabs if (box:=stab.bbox()) is not None]
+        if stabs:white=np.concatenate((white,np.asarray(stabs,dtype=float)),axis=0)
+    else:
+        white=[];blue=[]
+        for b in active_bones:
+            box=(min(b.x,b.x+b.w),min(b.y,b.y+b.h),max(b.x,b.x+b.w),max(b.y,b.y+b.h))
+            (blue if b.color==1 else white).append(box)
+        for stab in active_stabs:
+            box=stab.bbox()
+            if box is not None:white.append(box)
     polygons=[poly for gb in active_blasters if (poly:=gb.polygon()) is not None]
     if timeline_running:time_acc+=dt_nominal
     _resize_combat_zone(cz,cz_size,tgt_cz,cz_speed,dt_nominal);env[:4]=cz

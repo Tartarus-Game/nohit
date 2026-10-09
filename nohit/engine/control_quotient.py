@@ -46,3 +46,29 @@ def control_classes(rows,controls,*,next_environment=None):
             signature.append(('next_jump',bool(mask&_jump_bit(next_environment))))
         groups.setdefault(tuple(signature),[]).append(mask)
     return tuple(tuple(group) for group in groups.values())
+
+
+def single_tick_control_table(environment,controls=tuple(range(16))):
+    """Batch identical one-tick quotient contexts, preserving first masks.
+
+    Only current red/blue + gravity jump, and next input-latch jump can
+    distinguish signatures. The terminal row keeps every actual mask.
+    """
+    env=np.asarray(environment)
+    if env.ndim!=2 or env.shape[1]<7 or len(env)<1 or not np.isfinite(env).all():
+        raise ValueError('finite nonempty environment rows required')
+    controls=tuple(controls);n=len(env)-1
+    if not n:return np.empty((0,len(controls)),np.int64),np.empty(0,np.int64)
+    blue=(env[:,4]!=0.)|(env[:,6]!=0.)
+    direction=env[:,5]
+    jump=np.select((direction==0.,direction==1.,direction==2.),(1,2,3),default=4)
+    codes=np.where(blue,jump,0)
+    next_codes=np.empty(n,np.int64);next_codes[:-1]=codes[2:];next_codes[-1]=5
+    keys=codes[1:]+next_codes*8
+    unique,first,inverse=np.unique(keys,return_index=True,return_inverse=True)
+    table=np.zeros((len(unique),len(controls)),np.int64);counts=np.empty(len(unique),np.int64)
+    for index,tick in enumerate(first):
+        following=env[tick+2] if tick+2<len(env) else None
+        masks=[group[0] for group in control_classes(env[tick+1:tick+2],controls,next_environment=following)]
+        counts[index]=len(masks);table[index,:len(masks)]=masks
+    return table[inverse],counts[inverse]

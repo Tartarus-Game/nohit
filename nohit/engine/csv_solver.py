@@ -9,19 +9,20 @@ import time
 
 import numpy as np
 
-from .bounded_frontier import find_bounded_candidate
-from .canonical_solver import model_issues
-from .cspace import bake_cspace, collision_query
-from .discrete_operator import initial_state, sample_position, step_mask_into
+def find_bounded_candidate(*args, **kwargs):
+    from .bounded_frontier import find_bounded_candidate as legacy
+    return legacy(*args, **kwargs)
+from .source_contract import model_issues
 from .parametric_environment import ParametricEnvironment
 from .initial_target_history import bind_initial_target_history, normalize_initial_target_history
 from .compact_wave import normalize_initial_arena
-from .csv_completion import (AUDITED_NO_ACTION_COMMANDS, AUDITED_VITALITY_COMMANDS,
-    NO_ACTION_SOURCE_AUDIT, VITALITY_SOURCE_AUDIT, vitality_events,
+from .csv_completion import (AUDITED_NO_ACTION_COMMANDS, NO_ACTION_SOURCE_AUDIT,
     wave_terminal, clock_sequence, compose_csv_completion)
 
 
 def _verify_prefix(path, initial, settings, actions, expected, history, initial_target_history=None):
+    from .cspace import bake_cspace, collision_query
+    from .discrete_operator import initial_state, sample_position, step_mask_into
     template=ParametricEnvironment(path,backend='reference',**settings)
     binding=bind_initial_target_history(template,initial_target_history)
     state=initial_state(initial,binding.wave.env_schedule[0]);trace=[state.copy()];spaces={}
@@ -55,7 +56,8 @@ def solve_csv(path, initial, *, initial_environment=None, initial_arena=None, dt
               width=3000, seconds=30., max_bindings=1, max_ticks=40000, seed=42,
               selection_seed=42, dialogue_max_ticks=None, dialogue_max_states=100000,
               initial_confirm=False, previous_confirm=False, initial_target_history=None,
-              termination_policy='endattack', progress=None):
+              termination_policy='endattack', progress=None, search_strategy='auto', workers=None, memory_mb=64,
+              allow_scripted_healing=False,allow_scripted_damage=False):
     """Return a verified source-model candidate, or an explicit unknown result.
 
 Inputs use arrows only. Confirm is emitted separately for every physical tick.
@@ -67,6 +69,12 @@ mandatory verification are included separately in the returned wall time.
 GetHeartPos reads, [0, source_line, x, y]. These samples can precede a late arena
 clamp and differ from ``initial``. Future samples must not be supplied here.
 """
+    if search_strategy not in ('auto','native','fixed'):
+        raise ValueError('invalid search_strategy')
+    if type(allow_scripted_healing) is not bool:
+        raise ValueError('allow_scripted_healing must be boolean')
+    if type(allow_scripted_damage) is not bool:
+        raise ValueError('allow_scripted_damage must be boolean')
     if type(initial_confirm) is not bool or type(previous_confirm) is not bool:
         raise ValueError('initial_confirm and previous_confirm must be boolean')
     if termination_policy not in ('endattack','eof_hazards_drained'):
@@ -85,35 +93,62 @@ clamp and differ from ``initial``. Future samples must not be supplied here.
         original_replay_passed=False,complete_in_original_game=False,verified=False)
     result['termination_policy']=termination_policy
     result['no_action_source_audit']=NO_ACTION_SOURCE_AUDIT
-    # Scripted vitality is reported, never silently absorbed: a CSV that writes a
-    # positive DamagePlayer scripts real HP loss that no player input can avoid.
-    result['vitality_source_audit']=VITALITY_SOURCE_AUDIT
-    result['scripted_vitality_events']=vitality_events(path)
-    result['scripted_damage_present']=any(
-        event['damage'] is not None and event['damage']>0 for event in result['scripted_vitality_events'])
-    audits=AUDITED_NO_ACTION_COMMANDS|AUDITED_VITALITY_COMMANDS
-    issues=[issue for issue in model_issues(path,allow_player_history=True,termination_policy=termination_policy)
+    result['health_model']='scripted_damage_native_replay_required' if allow_scripted_damage else 'native_replay_required' if allow_scripted_healing else 'no_scripted_healing_admitted'
+    issues=[issue for issue in model_issues(path,allow_player_history=True,termination_policy=termination_policy,
+                                          allow_scripted_healing=allow_scripted_healing,allow_scripted_damage=allow_scripted_damage)
             if not (issue.get('reason')=='mechanism_not_validated' and
-                    issue.get('command','').strip().lower() in audits)]
+                    issue.get('command','').strip().lower() in AUDITED_NO_ACTION_COMMANDS)]
     if issues:return dict(result,reason='unsupported_mechanism',issues=issues)
     settings=dict(seed=seed,initial_environment=initial_environment,initial_arena=initial_arena,dt_schedule=dt_schedule,
                   clock_start_ms=clock_start_ms,max_ticks=max_ticks,termination_policy=termination_policy)
+    clock=ParametricEnvironment(path,**settings)
+    if dt_schedule is not None:settings['dt_schedule']=clock.dt_schedule
     if progress is not None:progress(phase='search')
-    frontier=find_bounded_candidate(path,initial,**settings,width=width,seconds=seconds,
-        max_bindings=max_bindings,selection_seed=selection_seed,initial_target_history=initial_target_history,
-        progress=progress)
+    frontier=None
+    # Width is a search resource, not a reason to start a different compiler.
+    # Keep explicit legacy dialogue-resource controls on their existing path.
+    if search_strategy!='fixed' and (search_strategy=='native' or
+            (dialogue_max_ticks is None and dialogue_max_states==100000)):
+        from .native_candidate import find_native_candidate
+        try:
+            frontier=find_native_candidate(path,initial,**settings,width=width,seconds=seconds,
+                selection_seed=selection_seed,workers=workers,memory_mb=memory_mb,
+                initial_target_history=initial_target_history,progress=progress)
+            if frontier is None:
+                from .native_dynamic import find_dynamic_candidate
+                frontier=find_dynamic_candidate(path,initial,**settings,width=width,seconds=seconds,
+                    selection_seed=selection_seed,workers=workers,memory_mb=memory_mb,
+                    initial_target_history=initial_target_history,initial_confirm=initial_confirm,
+                    previous_confirm=previous_confirm,progress=progress)
+        except (OSError,RuntimeError) as exc:
+            if search_strategy=='native':raise
+            result['native_fallback_reason']=str(exc)
+    if frontier is None:
+        if search_strategy=='native':
+            return dict(result,reason='native_scope_or_resource_limit',wall_seconds=time.perf_counter()-began)
+        frontier=find_bounded_candidate(path,initial,**settings,width=width,seconds=seconds,
+            max_bindings=max_bindings,selection_seed=selection_seed,initial_target_history=initial_target_history,
+            progress=progress)
+    result['search_strategy']=search_strategy
     result.update(reason=frontier.reason,reached_tick=frontier.reached_tick,
                   search_stats=frontier.stats,clock=frontier.clock)
     # Input-cost ranking is a preference, never a safety or completeness claim:
     # it only decides which equally-safe candidates survive the width cut.
     result['input_cost']=frontier.stats.get('input_cost')
     actions=frontier.actions;trace=frontier.trajectory;history=frontier.target_history
-    base_history=history;controlled_identity=None
-    confirms=[False]*len(actions)
+    base_history=getattr(frontier,'base_target_history',history)
+    controlled_identity=getattr(frontier,'controlled_identity',None)
+    confirms=getattr(frontier,'confirm_sequence',[False]*len(actions))
     valid=frontier.status=='candidate_found' and frontier.verified
     terminal=None
     if valid:
-        terminal=wave_terminal(next(item.wave for item in frontier.bindings if item.history==history))
+        terminal=getattr(frontier,'source_terminal',None)
+        if terminal is None:terminal=wave_terminal(next(item.wave for item in frontier.bindings if item.history==history))
+        if controlled_identity is not None:
+            result['dialogue_start_tick']=frontier.dialogue_start_tick
+            if frontier.primed_initial_frame:
+                result['primed_initial_frame']=True
+                result['initial_frame_control']=int(trace[0,4])|(32 if initial_confirm else 0)
     if not valid and frontier.reason=='dialogue_boundary':
         if progress is not None:progress(phase='dialogue')
         from .dialogue_frontier import solve_dialogue_frontier
@@ -165,7 +200,7 @@ clamp and differ from ``initial``. Future samples must not be supplied here.
     if valid:
         if progress is not None:progress(phase='completion')
         completion=compose_csv_completion(actions,confirms,trace,terminal,
-            clock_sequence(ParametricEnvironment(path,**settings)),max_ticks)
+            clock_sequence(clock),max_ticks)
         if completion['status']!='proven':
             valid=False;result['reason']='terminal_invariant_unproven'
             result['terminal_reasons']=completion['reasons']
@@ -177,6 +212,7 @@ clamp and differ from ``initial``. Future samples must not be supplied here.
             actions=[int(x) for x in actions],confirm_sequence=[bool(x) for x in confirms],
             trajectory=np.asarray(trace).tolist(),target_history=[list(row) for row in history])
         result['source_terminal']=dict(terminal,environment=np.asarray(terminal['environment']).tolist())
+        result['scripted_damage_events']=getattr(frontier,'scripted_damage_events',[])
         result['environment_binding_identity']=next(
             item.identity.hex() for item in frontier.bindings if item.history==base_history)
         if controlled_identity is not None:
@@ -189,7 +225,6 @@ clamp and differ from ``initial``. Future samples must not be supplied here.
     else:
         result['diagnostic_prefix_masks']=[int(x) for x in actions]
         result['diagnostic_state']=trace[-1].tolist() if len(trace) else None
-    clock=ParametricEnvironment(path,**settings)
     sequence=clock.dt_schedule
     if sequence is None:
         hz=240

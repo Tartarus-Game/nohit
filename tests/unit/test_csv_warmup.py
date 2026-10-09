@@ -29,7 +29,7 @@ def test_synthetic_warmup_preserves_thread_mask_and_materializes_reusable_signat
         selection_buckets._checked_selection_buckets, selection_buckets._first_representatives, discrete_operator.sample_position,
         discrete_operator.step_mask_into, cspace.collision_query)
     previous_threads = get_num_threads()
-    result = csv_warmup.warm_csv_kernels()
+    result = csv_warmup.warm_csv_kernels(backend='legacy')
     assert get_num_threads() == previous_threads
     assert set(result['stages_seconds']) == {
         'geometry', 'cspace', 'expansion', 'held_trace', 'state_dedup',
@@ -42,12 +42,12 @@ def test_synthetic_warmup_preserves_thread_mask_and_materializes_reusable_signat
 
     # Repeated startup preparation must not introduce a new specialization or
     # leave a different thread mask; this deliberately avoids timing thresholds.
-    csv_warmup.warm_csv_kernels()
+    csv_warmup.warm_csv_kernels(backend='legacy')
     assert tuple(tuple(kernel.signatures) for kernel in kernels) == signatures
     assert get_num_threads() == previous_threads
 
 
-def test_launcher_warms_both_interfaces_before_binding_server(monkeypatch):
+def test_launcher_warms_native_interface_before_binding_server(monkeypatch):
     calls = []
 
     def module(name, **attributes):
@@ -70,4 +70,4 @@ def test_launcher_warms_both_interfaces_before_binding_server(monkeypatch):
     module('nohit.engine.csv_warmup', warm_csv_kernels=lambda: calls.append('csv') or {'wall_seconds': 0.})
     monkeypatch.setattr(sys, 'argv', ['start_dashboard.py', '8123'])
     runpy.run_path(str(Path(__file__).resolve().parents[2]/'start_dashboard.py'), run_name='__main__')
-    assert calls == ['runtime', 'canonical', 'csv', 'bind', 'serve']
+    assert calls == ['runtime', 'csv', 'bind', 'serve']

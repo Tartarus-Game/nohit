@@ -73,3 +73,15 @@ def test_rejects_unsafe_use_without_state_latch_quotient(tmp_path):
     wave=compile_wave(path)
     with pytest.raises(ValueError,match='requires input latch'):
         full_local_relation(wave,0,4,np.zeros(11),control_quotient=True)
+
+
+def test_batch_contexts_keep_original_control_representatives():
+    from nohit.engine.control_quotient import single_tick_control_table,control_classes
+    rng=np.random.default_rng(770)
+    env=np.zeros((601,22));env[:,4]=rng.integers(0,2,len(env));env[:,5]=rng.choice([0.,1.,2.,3.,.5,7.],len(env))
+    env[:,6]=rng.choice([0.,1.,750.],len(env))
+    table,counts=single_tick_control_table(env,tuple(range(32)))
+    for tick in range(len(env)-1):
+        next_row=env[tick+2] if tick+2<len(env) else None
+        expected=[g[0] for g in control_classes(env[tick+1:tick+2],tuple(range(32)),next_environment=next_row)]
+        assert table[tick,:counts[tick]].tolist()==expected

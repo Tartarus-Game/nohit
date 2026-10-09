@@ -23,6 +23,28 @@ Then open <http://127.0.0.1:8080/>.
 | `/` | The single entry point: pick one of the bundled attacks or your own CSV, choose the engine, watch live solve telemetry, then run it in the original game |
 | `/old.html` | The retired first-generation engine (raster `bake_cspace` + 5-D lattice DP). Kept for comparison only |
 
+## Cold native CSV backend
+
+CSV solves now use a portable C++17 frontier by default, with code compiled on
+first use. Install `g++` or `clang++` and the existing Python requirements. The
+native CSV path does not import Numba/LLVM; `--search-strategy fixed` and
+`start_dashboard.py --warm-legacy` explicitly select the old kernels.
+
+```bash
+python -m tools.solve_csv c2-sans-fight/sans_bonegap1.csv \
+  --entry tools/optimization-results/sans_bonegap1-entry.json \
+  --search-strategy native --seconds 8 --workers 8 --memory-mb 64 \
+  --out result.json
+python -m tools.benchmark_cold_native --repeats 3 --workers 8
+python -m tools.benchmark_dashboard_cold
+```
+
+The memory option budgets search workspaces; it is not a process RSS limit.
+The search budget excludes compilation and mandatory replay. Measured complete
+cold-process timings, original-engine replay coverage, and the unresolved 240 Hz
+Final case are documented in [the current optimization report](docs/optimization-round8-20261008.md).
+Only code is cached; routes and observation-dependent worlds are computed anew.
+
 ## Layout
 
 | Path | Contents |

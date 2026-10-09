@@ -16,7 +16,7 @@ from . import solve_progress
 _ROOT = Path(__file__).resolve().parents[2]
 IMPLEMENTATION_PATHS = tuple(sorted(
     [path.relative_to(_ROOT).as_posix() for path in (_ROOT/'nohit/engine').glob('*.py')]
-    + ['nohit/dashboard/csv_api.py', 'nohit/dashboard/csv_visualization.py']))
+    + ['nohit/engine/native_frontier.cpp', 'nohit/__init__.py', 'nohit/dashboard/csv_api.py', 'nohit/dashboard/csv_visualization.py', 'nohit/dashboard/server.py', 'start_dashboard.py']))
 
 
 def implementation_hashes():
@@ -125,7 +125,9 @@ def _solve_csv_request(data, reporter):
             seconds=data.get('seconds', 30), max_bindings=data.get('max_bindings', 1),
             initial_confirm=data.get('initial_confirm',False),
             previous_confirm=data.get('previous_confirm',False),
-            initial_target_history=data.get('initial_target_history'), progress=progress)
+            initial_target_history=data.get('initial_target_history'), progress=progress,
+            search_strategy=data.get('search_strategy','auto'),workers=data.get('workers'),
+            memory_mb=data.get('memory_mb',64))
         result['initial'] = initial.tolist()
         result['initial_environment'] = environment
         if result['status'] == 'candidate_found':

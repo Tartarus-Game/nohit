@@ -10,13 +10,27 @@ from types import SimpleNamespace
 
 import numpy as np
 
-from nohit.engine.discrete_operator import sample_position, step_mask_into
-from nohit.engine.joint_transition import frame_collision, JointState, step_joint
+from nohit.engine.source_oracle import scalar_module
 from nohit.engine.parametric_environment import ParametricEnvironment
 from nohit.engine.initial_target_history import bind_initial_target_history
 from nohit.engine.environment_state_key import encode_typed
 from nohit.engine.csv_completion import (wave_terminal, controlled_terminal,
     clock_sequence, compose_csv_completion)
+
+
+def sample_position(*args):
+    return scalar_module('discrete_operator').sample_position(*args)
+
+
+def step_mask_into(*args):
+    return scalar_module('discrete_operator').step_mask_into(*args)
+
+
+def frame_collision(frame, state):
+    # The same source collision equations, without building a grid or JIT.
+    payload=(np.empty((1,2,0,0),np.uint8),np.asarray(frame.polygons)[None],0.,0.,1.)
+    return scalar_module('cspace').collision_query(np.asarray(frame.white)[None],
+        np.asarray(frame.blue)[None],0,state,0.,payload)
 
 
 def _finite_rows(values, width):
@@ -182,6 +196,8 @@ def build_csv_visualization(path, result, *, initial_environment=None, initial_a
             current=template.extend(current,float(x),float(y))
     if current.identity!=final_binding.identity:raise ValueError('target history does not match player samples')
     if first is not None:
+        joint=scalar_module('joint_transition')
+        JointState,step_joint=joint.JointState,joint.step_joint
         previous_confirm=confirms[first-2] if first>=2 else False
         if not primed:
             controlled=template.begin_controlled(final_binding,

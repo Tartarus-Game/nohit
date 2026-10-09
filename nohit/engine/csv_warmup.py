@@ -4,16 +4,23 @@ import time
 
 import numpy as np
 
-from .bounded_frontier import _held_trace
-from .compact_wave import _build_geometry_fast_njit
-from .cspace import bake_cspace, collision_query
-from .discrete_operator import initial_state, sample_position, step_mask_into
-from .exact_state_dedup import unique_state_indices
-from .expansion_dispatch import prepare_expansion
-from .selection_buckets import build_selection_buckets, unique_bucket_indices
 
 
-def warm_csv_kernels():
+def warm_csv_kernels(backend='native'):
+    """Load native code only by default; legacy JIT remains explicitly opt-in."""
+    if backend=='legacy':
+        return _warm_legacy()
+    if backend!='native':
+        raise ValueError('invalid warmup backend')
+    from .native_backend import load_backend
+    began=time.perf_counter()
+    _,metadata=load_backend()
+    return dict(wall_seconds=time.perf_counter()-began,
+                stages_seconds={'native_code':time.perf_counter()-began},
+                backend='native',native_code=metadata)
+
+
+def _warm_legacy():
     """Materialize shared CSV signatures without loading or solving any CSV.
 
     Array lengths do not specialize Numba code. These two synthetic ticks have
@@ -21,6 +28,13 @@ def warm_csv_kernels():
     calls. Empty frontiers prepare both expansion kernels and held-trace code
     without advancing a player. No world, route or binding is retained.
     """
+    from .bounded_frontier import _held_trace
+    from .compact_wave import _build_geometry_fast_njit
+    from .cspace import bake_cspace, collision_query
+    from .discrete_operator import initial_state, sample_position, step_mask_into
+    from .exact_state_dedup import unique_state_indices
+    from .expansion_dispatch import prepare_expansion
+    from .selection_buckets import build_selection_buckets, unique_bucket_indices
     began = time.perf_counter()
     stages = {}
 
