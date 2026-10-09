@@ -3,8 +3,32 @@
 Profile sums wall time across concurrent probes; it is neither process CPU time
 nor additive request latency. No route or world cache is used.
 """
-import argparse,ctypes,hashlib,json,os,resource,subprocess,sys,tempfile,time
+import argparse,ctypes,hashlib,json,os,subprocess,sys,tempfile,time
 from pathlib import Path
+try:
+    import resource
+except ImportError:  # Windows reports peak RSS through psapi instead
+    resource = None
+
+
+def peak_rss_bytes():
+    """Peak resident set size of this process, or 0 when the host cannot report it."""
+    if resource is not None:
+        return resource.getrusage(resource.RUSAGE_SELF).ru_maxrss * 1024
+    class Counters(ctypes.Structure):
+        _fields_ = [('cb', ctypes.c_ulong), ('PageFaultCount', ctypes.c_ulong),
+                    ('PeakWorkingSetSize', ctypes.c_size_t), ('WorkingSetSize', ctypes.c_size_t),
+                    ('QuotaPeakPagedPoolUsage', ctypes.c_size_t), ('QuotaPagedPoolUsage', ctypes.c_size_t),
+                    ('QuotaPeakNonPagedPoolUsage', ctypes.c_size_t), ('QuotaNonPagedPoolUsage', ctypes.c_size_t),
+                    ('PagefileUsage', ctypes.c_size_t), ('PeakPagefileUsage', ctypes.c_size_t)]
+    counters = Counters(); counters.cb = ctypes.sizeof(Counters)
+    kernel32 = ctypes.windll.kernel32
+    query = getattr(kernel32, 'K32GetProcessMemoryInfo', None) or ctypes.windll.psapi.GetProcessMemoryInfo
+    query.argtypes = [ctypes.c_void_p, ctypes.POINTER(Counters), ctypes.c_ulong]
+    query.restype = ctypes.c_int
+    if not query(kernel32.GetCurrentProcess(), ctypes.byref(counters), counters.cb):
+        return 0
+    return int(counters.PeakWorkingSetSize)
 
 
 def profiled_source(source):
@@ -56,7 +80,7 @@ def main():
             print(json.dumps(dict(status=r['status'],verified=r['verified'],solve_seconds=elapsed,solve_cpu_seconds=cpu,
                 effective_solve_cores=cpu/elapsed,search_stats=r.get('search_stats'),source_sha256=original_sha,
                 compiled_source_sha256=code['source_sha256'],compiler_flags=code['compiler_flags'],code_was_compiled=code['compiled'],profile=phases,
-                peak_rss_bytes=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*1024,fingerprint=hashlib.sha256(witness).hexdigest(),
+                peak_rss_bytes=peak_rss_bytes(),fingerprint=hashlib.sha256(witness).hexdigest(),
                 csv_sha256=r['csv_sha256'],entry_sha256=hashlib.sha256(a.entry.read_bytes()).hexdigest(),
                 baseline=a.baseline,numba_imported='numba' in sys.modules,route_cache=False,environment_cache=False)))
         return
