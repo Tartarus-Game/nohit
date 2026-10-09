@@ -16,6 +16,22 @@ from .compact_types import CompiledWave,GeometryArray
 from .native_function_dispatch import call_arguments, audited_no_action_function
 
 
+class _FrozenDT(tuple):
+    """One validated immutable clock shared only inside an individual request."""
+    def __new__(cls,values):
+        try:schedule=np.asarray(values,dtype=np.float64)
+        except (TypeError,ValueError,OverflowError) as exc:
+            raise ValueError('dt_schedule must be a nonempty sequence of finite positive numbers') from exc
+        if schedule.ndim!=1 or not len(schedule) or not np.isfinite(schedule).all() or np.any(schedule<=0.):
+            raise ValueError('dt_schedule must be a nonempty sequence of finite positive numbers')
+        result=tuple.__new__(cls,schedule.tolist())
+        object.__setattr__(result,'identity',b'S'+struct.pack('<Q',len(result))+
+            hashlib.sha256(np.asarray(schedule,dtype='<f8').tobytes()).digest())
+        return result
+    def __setattr__(self,name,value):raise AttributeError('clock is immutable')
+    def __delattr__(self,name):raise AttributeError('clock is immutable')
+
+
 @dataclass(frozen=True,slots=True)
 class EnvironmentBinding:
     identity: bytes
@@ -81,18 +97,11 @@ class ParametricEnvironment:
         if dt_schedule is not None and clock_start_ms is not None:
             raise ValueError('supply either clock_start_ms or dt_schedule')
         if dt_schedule is not None:
-            try:
-                schedule=np.asarray(dt_schedule,dtype=np.float64)
-            except (TypeError,ValueError,OverflowError) as exc:
-                raise ValueError('dt_schedule must be a nonempty sequence of finite positive numbers') from exc
-            if schedule.ndim!=1 or not len(schedule) or not np.isfinite(schedule).all() or np.any(schedule<=0.):
-                raise ValueError('dt_schedule must be a nonempty sequence of finite positive numbers')
-            self._dt_schedule=tuple(float(value) for value in schedule)
+            self._dt_schedule=dt_schedule if type(dt_schedule) is _FrozenDT else _FrozenDT(dt_schedule)
             # Hash every IEEE-754 word, not just the executed prefix. Keep the
             # clock in the base identity so history remains a 32-byte suffix
             # per observation, as required by bind() and history quotients.
-            packed=np.asarray(self._dt_schedule,dtype='<f8').tobytes()
-            self._clock_identity=b'S'+struct.pack('<Q',len(self._dt_schedule))+hashlib.sha256(packed).digest()
+            self._clock_identity=self._dt_schedule.identity
         else:
             self._dt_schedule=None if clock_start_ms is None else tuple(native_fixed_dt(clock_start_ms,max_ticks,
                 initial_environment[7] if initial_environment is not None and len(initial_environment)>7 else None))
@@ -177,8 +186,7 @@ class ParametricEnvironment:
         result=advance_with_dialogue_input(state,confirm=confirm,cancel=cancel)
         return self._store_controlled_result(key,binding,binding.input_code,result)
 
-    def bind(self,history=()):
-        history=tuple(tuple(row) for row in history)
+    def _history_key(self,history):
         # Full bit-pattern identity: no spatial bins, no approximate equality,
         # and no folding different target histories into the same player state.
         key=self.source_digest+struct.pack('<I',self.seed)
@@ -193,6 +201,11 @@ class ParametricEnvironment:
             if not math.isfinite(x) or not math.isfinite(y):
                 raise ValueError('target coordinates must be finite')
             key+=struct.pack('<qqdd',int(tick),int(line),float(x),float(y))
+        return key
+
+    def bind(self,history=()):
+        history=tuple(tuple(row) for row in history)
+        key=self._history_key(history)
         if key in self._bindings:
             return self._bindings[key]
         if hashlib.sha256(self.path.read_bytes()).digest()!=self.source_digest:
@@ -226,6 +239,67 @@ class ParametricEnvironment:
         self.stats['committed_ticks']+=len(wave.env_schedule)-preview_count
         self.stats['commands_executed']+=len(wave.source_events)
         self.stats['bindings_compiled']+=1
+        self._bindings[key]=binding
+        return binding
+
+    def bind_history_once(self,history=()):
+        """Replay a known history once without materializing all its ancestors.
+
+        Every row is still checked against the actual suspended source read.
+        Only the final immutable binding is published; search branches continue
+        to use bind/extend and their ordinary persistent checkpoints.
+        """
+        if self.backend=='reference':return self.bind(history)
+        from .resumable_wave import (initialize,_advance_owned_tick,_supply_target_owned,
+            preview_observation_frame,TickCommitted,Terminal,NeedTarget,NeedDialogue,ResourceLimit)
+        history=tuple(tuple(row) for row in history)
+        key=self._history_key(history)
+        if key in self._bindings:return self._bindings[key]
+        if hashlib.sha256(self.path.read_bytes()).digest()!=self.source_digest:
+            raise ValueError('source timeline changed while binding an environment')
+        state=initialize(self.path,seed=self.seed,initial_environment=self.initial_environment,
+            termination_policy=self.termination_policy,dt_schedule=self.dt_schedule,
+            max_ticks=self.max_ticks,initial_arena=self.initial_arena)
+        frames=[];keys=[];consumed=0
+        while True:
+            result=_advance_owned_tick(state);state=result.state
+            if isinstance(result,NeedTarget) and consumed<len(history):
+                row=history[consumed]
+                if tuple(row[:2])!=(result.request['tick'],result.request['line']):
+                    raise ValueError('history does not match the source program')
+                _supply_target_owned(state,row[2:])
+                if struct.pack('<dd',*state.supplied_target)!=struct.pack('<dd',*row[2:]):
+                    raise ValueError('history contradicts preceding source teleport')
+                consumed+=1
+                continue
+            if isinstance(result,(TickCommitted,Terminal)):
+                if result.frame is not None:
+                    frames.append(result.frame)
+                    if self.capture_state_keys:
+                        from .resumable_wave import state_environment_key
+                        keys.append(state_environment_key(state))
+                if isinstance(result,Terminal):break
+                continue
+            if isinstance(result,(NeedTarget,NeedDialogue,ResourceLimit)):break
+            raise RuntimeError('unexpected environment continuation')
+        if consumed!=len(history):raise ValueError('history does not match the source program')
+        committed=tuple(frames);committed_keys=tuple(keys)
+        pending=dialogue=None
+        if isinstance(result,(NeedTarget,NeedDialogue)):
+            frames.append(preview_observation_frame(state))
+            self.stats['preview_ticks']+=1
+            if self.capture_state_keys:keys.append(None)
+            if isinstance(result,NeedTarget):
+                pending={k:v for k,v in result.request.items() if k!='instruction_accounted'}
+                reason='pending_target'
+            else:dialogue=result.request;reason='dialogue_boundary'
+        else:reason=result.reason if isinstance(result,Terminal) else 'tick_budget'
+        self.stats['committed_ticks']+=len(committed)
+        self.stats['executed_ticks']+=len(frames)
+        self.stats['commands_executed']+=state.stats['commands_executed']
+        self.stats['bindings_compiled']+=1
+        wave=self._materialize(frames,state,history,pending,dialogue,reason,tuple(keys),isinstance(result,Terminal))
+        binding=EnvironmentBinding(key,history,wave,state,committed,committed_keys)
         self._bindings[key]=binding
         return binding
 
@@ -280,7 +354,7 @@ class ParametricEnvironment:
         wave=self._materialize(frames,state,history,pending,dialogue,reason,tuple(keys),isinstance(result,Terminal))
         return EnvironmentBinding(key,history,wave,state,committed,committed_keys)
 
-    def _materialize(self,frames,state,history,pending,dialogue,reason,keys,complete):
+    def _materialize(self,frames,state,history,pending,dialogue,reason,keys,complete,*,include_combined_geometry=True):
         """Compatibility collector; reuses executed frames, never reexecutes a prefix."""
         n=len(frames)
         if not n:raise RuntimeError('environment boundary has no initial frame')
@@ -288,15 +362,16 @@ class ParametricEnvironment:
         platform=np.zeros((n,max(4,max(len(f.platforms) for f in frames)),9),np.float64)
         white=np.full((n,max(len(f.white) for f in frames),4),np.nan,np.float64)
         blue=np.full((n,max(len(f.blue) for f in frames),4),np.nan,np.float64)
-        geometry=np.full((n,max(len(f.white)+len(f.blue) for f in frames),4),np.nan,np.float64)
+        geometry=np.full((n,max(len(f.white)+len(f.blue) for f in frames) if include_combined_geometry else 0,4),np.nan,np.float64)
         polygons=np.full((n,max(len(f.polygons) for f in frames),8),np.nan,np.float64)
         counts=np.zeros(n,np.int32)
         for t,f in enumerate(frames):
             platform[t,:len(f.platforms)]=f.platforms
             counts[t]=int(np.count_nonzero(f.platforms[:,6]))
             white[t,:len(f.white)]=f.white;blue[t,:len(f.blue)]=f.blue
-            geometry[t,:len(f.white)]=f.white
-            geometry[t,len(f.white):len(f.white)+len(f.blue)]=f.blue
+            if include_combined_geometry:
+                geometry[t,:len(f.white)]=f.white
+                geometry[t,len(f.white):len(f.white)+len(f.blue)]=f.blue
             polygons[t,:len(f.polygons)]=f.polygons
         events=[event for f in frames for event in f.events]
         if pending is not None or dialogue is not None:

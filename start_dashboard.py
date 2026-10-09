@@ -18,18 +18,28 @@ os.environ.setdefault('OMP_WAIT_POLICY', 'PASSIVE')
 # Add project root to sys.path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from nohit import _configure_solver_process
+_configure_solver_process()
 from nohit.native_runtime import select_built_runtime
 select_built_runtime()
 
 from nohit.dashboard.server import start_server
 
 if __name__ == "__main__":
-    from nohit.engine.canonical_solver import warm_kernel
+    import argparse
+    parser=argparse.ArgumentParser()
+    parser.add_argument('port',type=int,nargs='?',default=8080)
+    parser.add_argument('--warm-legacy',action='store_true',help='also prepare the retired Numba/DAG engines')
+    args=parser.parse_args()
     from nohit.engine.csv_warmup import warm_csv_kernels
-    print(f"  Adaptive DAG code ready: {warm_kernel():.1f} ms (startup only; no route cache)", flush=True)
-    csv_warmup = warm_csv_kernels()
-    print(f"  CSV kernel code ready: {csv_warmup['wall_seconds']*1000:.1f} ms (synthetic inputs; no route cache)", flush=True)
-    port = int(sys.argv[1]) if len(sys.argv) > 1 else 8080
+    csv_warmup=warm_csv_kernels()
+    print(f"  Native CSV code ready: {csv_warmup['wall_seconds']*1000:.1f} ms (code only; no routes)",flush=True)
+    if args.warm_legacy:
+        os.environ['NOHIT_WARM_LEGACY']='1'
+        from nohit.engine.canonical_solver import warm_kernel
+        print(f"  Adaptive DAG code ready: {warm_kernel():.1f} ms",flush=True)
+        warm_csv_kernels(backend='legacy')
+    port=args.port
     server = start_server(port=port)
     server.startup_ms = (time.perf_counter() - boot_started) * 1000
     print(f"  Cold startup to ready: {server.startup_ms:.1f} ms", flush=True)

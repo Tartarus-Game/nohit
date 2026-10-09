@@ -174,10 +174,12 @@ The caller checks hazards after this operator and rejects out[10] != 0.
         x,y=clamp_to_arena(x,y,env,18)
     if len(env)>9 and env[9]:
         x,y=env[10],env[11]
-    if env[6]:
+    captured_slam=len(env)>13 and env[13]>=2.
+    if env[6] or captured_slam:
         mode=1.
         gx,gy=direction_xy(direction)
-        dx,dy=gx*max_fall,gy*max_fall
+        slam_speed=env[6] if captured_slam else max_fall
+        dx,dy=gx*slam_speed,gy*slam_speed
         slammed=1.
 
     speed=75. if mask&CANCEL else 150.

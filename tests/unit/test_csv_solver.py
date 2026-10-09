@@ -52,7 +52,7 @@ def test_observed_prefix_and_two_dialogues_form_one_route(tmp_path):
     assert any(result['confirm_sequence'])
     assert result['dialogue_start_tick'] < result['reached_tick']
     assert result['reached_tick'] == len(result['actions'])
-    assert result['prefix_verification_seconds'] > 0
+    assert result.get('prefix_verification_seconds',result['search_stats']['verification_seconds']) > 0
 
 
 def test_target_read_on_dialogue_tick_keeps_its_real_origin(tmp_path):

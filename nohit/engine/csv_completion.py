@@ -4,10 +4,7 @@ from types import SimpleNamespace
 
 import numpy as np
 
-from .discrete_operator import step_mask_into
 from .execution_schedule import execution_schedule
-from .terminal_completion import complete_eof_tail
-from .terminal_invariant import EMPTY_PLATFORMS, certify_release_invariant
 
 
 AUDITED_NO_ACTION_COMMANDS = frozenset(('score', 'mus_zz_megalovania'))
@@ -58,6 +55,9 @@ def csv_eof_tail(terminal, state, sequence, max_ticks):
     to the actual source terminal. Its returned tick coordinates are restored
     before publishing. No state latch is changed without a physical step.
     """
+    from .discrete_operator import step_mask_into
+    from .terminal_completion import complete_eof_tail
+    from .terminal_invariant import EMPTY_PLATFORMS, certify_release_invariant
     if terminal['reason']!='eof_hazards_drained':
         return None
     start=terminal['tick'];sequence=np.asarray(sequence,dtype=np.float64)

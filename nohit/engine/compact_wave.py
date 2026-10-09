@@ -14,9 +14,10 @@ from pathlib import Path
 from typing import Any
 
 import numpy as np
-from numba import njit
+from .lazy_jit import njit
 
 from .compact_types import CompiledWave, GeometryArray
+from .native_math import native_atan2
 from .native_numbers import (native_int, native_local_number,
     native_parameter_in_range, native_for_count_indices)
 from .timeline_csv import read_timeline_rows
@@ -388,14 +389,20 @@ def _build_geometry_fast_njit(
     return geom_white, geom_blue, geom_all
 
 
-# Warm up JIT so first compile_wave incurs zero compilation overhead
-_build_geometry_fast_njit(
-    np.empty((0, 4), dtype=np.float64),
-    np.zeros(1, dtype=np.int32),
-    np.empty((0, 4), dtype=np.float64),
-    np.zeros(1, dtype=np.int32),
-    1, 0, 0, 0
-)
+def _build_geometry_packed(flat_w, counts_w, flat_b, counts_b, n, max_w, max_b, max_all):
+    """Pack source geometry using bounded array copies, without request-time JIT."""
+    white = np.full((n, max_w, 4), np.nan, dtype=np.float64)
+    blue = np.full((n, max_b, 4), np.nan, dtype=np.float64)
+    both = np.full((n, max_all, 4), np.nan, dtype=np.float64)
+    iw = ib = 0
+    for t in range(n):
+        cw, cb = int(counts_w[t]), int(counts_b[t])
+        white[t, :cw] = flat_w[iw:iw+cw]
+        blue[t, :cb] = flat_b[ib:ib+cb]
+        both[t, :cw] = flat_w[iw:iw+cw]
+        both[t, cw:cw+cb] = flat_b[ib:ib+cb]
+        iw += cw; ib += cb
+    return white, blue, both
 
 
 class TimelineVM:
@@ -671,19 +678,19 @@ class TimelineVM:
                 elif cmd_l == "floor":
                     self.vars[self.variable_key(args[0])] = math.floor(float(self.eval_arg(args[1])))
                 elif cmd_l == "sin":
-                    self.vars[self.variable_key(args[0])] = math.sin(math.radians(float(self.eval_arg(args[1]))))
+                    self.vars[self.variable_key(args[0])] = math.sin(float(self.eval_arg(args[1])) / (180.0 / math.pi))
                 elif cmd_l == "cos":
-                    self.vars[self.variable_key(args[0])] = math.cos(math.radians(float(self.eval_arg(args[1]))))
+                    self.vars[self.variable_key(args[0])] = math.cos(float(self.eval_arg(args[1])) / (180.0 / math.pi))
                 elif cmd_l == "deg":
-                    self.vars[self.variable_key(args[0])] = float(self.eval_arg(args[1])) * 180.0 / math.pi
+                    self.vars[self.variable_key(args[0])] = float(self.eval_arg(args[1])) * (180.0 / math.pi)
                 elif cmd_l == "rad":
-                    self.vars[self.variable_key(args[0])] = float(self.eval_arg(args[1])) * math.pi / 180.0
+                    self.vars[self.variable_key(args[0])] = float(self.eval_arg(args[1])) / (180.0 / math.pi)
                 elif cmd_l == "angle":
                     x1, y1 = float(self.eval_arg(args[1])), float(self.eval_arg(args[2]))
                     x2, y2 = float(self.eval_arg(args[3])), float(self.eval_arg(args[4]))
                     # Native Ka(Pa(...)) preserves signed degrees and multiplies
                     # by 180/pi first; normalizing changes blaster entry timing.
-                    self.vars[self.variable_key(args[0])] = (180.0 / math.pi) * math.atan2(y2 - y1, x2 - x1)
+                    self.vars[self.variable_key(args[0])] = (180.0 / math.pi) * native_atan2(y2 - y1, x2 - x1)
                 elif cmd_l == "rnd":
                     self.vars[self.variable_key(args[0])] = math.floor(self.rng.random() * float(self.eval_arg(args[1])))
                 elif cmd_l == "jmpabs":
@@ -770,7 +777,17 @@ class TimelineVM:
                 elif cmd_l == "getheartpos":
                     sample_key=(tick,pc+1)
                     available=self.heart_samples or {}
-                    sample=available.get(sample_key,available.get(tick))
+                    if callable(available):
+                        # The observation precedes the remaining Timeline.
+                        # Preview only the already-existing platforms' world
+                        # phase, retaining the original movement-contact rows.
+                        observed_platforms=tuple((p.x+(0. if p.born else p.vx*dt_nominal),
+                            p.y+(0. if p.born else p.vy*dt_nominal),p.w,p.h,p.vx,p.vy,
+                            1.,0. if p.born else 1.,p.vy) for p in active_platforms)+tuple(removed_platforms)
+                        sample=available(tick,pc+1,tuple(self.heart_pos) if teleport_pulse else None,
+                            (dt_nominal,tuple(previous_cz),observed_platforms))
+                    else:
+                        sample=available.get(sample_key,available.get(tick))
                     if sample is None:
                         if not self.allow_partial:
                             raise ValueError(f"player_history_required: GetHeartPos at tick {tick}, row {pc+1}")
@@ -790,6 +807,7 @@ class TimelineVM:
                     heart_mode = 1.0
                     mode_pulse=1.
                     self.vars["_last_slam_tick"] = tick
+                    self.vars["_last_slam_speed"] = max_fall_speed
                 elif cmd_l in ("bonev", "boneh"):
                     active_bones.append(_bone_from_command(cmd_l == "boneh", args))
                 elif cmd_l in ("bonevrepeat", "bonehrepeat"):
@@ -907,6 +925,11 @@ class TimelineVM:
             env_schedule[tick, 6] = slam_active
             env_schedule[tick, 7] = dt_nominal
             env_schedule[tick, 8:14]=[max_fall_speed,teleport_pulse,*self.heart_pos,slam_damage,mode_pulse]
+            # Bit 1 tags an exact speed captured at SansSlam dispatch.
+            # A later same-tick MaxFallSpeed command must not change it.
+            if slam_active and self.vars["_last_slam_speed"] != max_fall_speed:
+                env_schedule[tick,6]=self.vars["_last_slam_speed"]
+                env_schedule[tick,13]=mode_pulse+2.
             env_schedule[tick, 14:18]=previous_cz
             env_schedule[tick, 18:22]=middle_cz
 
@@ -1010,7 +1033,7 @@ class TimelineVM:
         counts_w_arr = np.asarray(counts_white, dtype=np.int32)
         counts_b_arr = np.asarray(counts_blue, dtype=np.int32)
 
-        geom_white, geom_blue, geom_all = _build_geometry_fast_njit(
+        geom_white, geom_blue, geom_all = _build_geometry_packed(
             flat_w_arr, counts_w_arr, flat_b_arr, counts_b_arr, tick, max_w, max_b, max_all
         )
 

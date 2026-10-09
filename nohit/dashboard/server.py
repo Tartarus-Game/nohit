@@ -22,11 +22,37 @@ import numpy as np
 
 from nohit.common.constants import DEFAULT_W, DEFAULT_H, DEFAULT_T
 from nohit.common.types import BakeResult, PlatformInstance
-from nohit.baker.dilator import bake_cspace
-from nohit.engine.solver import solve_lattice_dp
-from nohit.verifier.replayer import replay_and_verify
 from nohit.dashboard.acceptance_clock import validate_compensated_clock
-from nohit.benchmark import run_benchmark, create_synthetic_deadlock_wave, create_synthetic_feasible_wave
+
+def bake_cspace(*args, **kwargs):
+    from nohit.baker.dilator import bake_cspace as implementation
+    return implementation(*args, **kwargs)
+
+
+def solve_lattice_dp(*args, **kwargs):
+    from nohit.engine.solver import solve_lattice_dp as implementation
+    return implementation(*args, **kwargs)
+
+
+def replay_and_verify(*args, **kwargs):
+    from nohit.verifier.replayer import replay_and_verify as implementation
+    return implementation(*args, **kwargs)
+
+
+def run_benchmark(*args, **kwargs):
+    from nohit.benchmark import run_benchmark as implementation
+    return implementation(*args, **kwargs)
+
+
+def create_synthetic_deadlock_wave(*args, **kwargs):
+    from nohit.benchmark import create_synthetic_deadlock_wave as implementation
+    return implementation(*args, **kwargs)
+
+
+def create_synthetic_feasible_wave(*args, **kwargs):
+    from nohit.benchmark import create_synthetic_feasible_wave as implementation
+    return implementation(*args, **kwargs)
+
 
 STATIC_DIR = Path(__file__).resolve().parent / "static"
 C2_REPO_DIR = Path(__file__).resolve().parent.parent.parent / "c2-sans-fight"
@@ -744,22 +770,26 @@ class DashboardHandler(BaseHTTPRequestHandler):
 
 
 def start_server(port: int = 8080, host: str = "127.0.0.1") -> ThreadingHTTPServer:
-    # Compile/load machine code once before accepting solve requests. Route
-    # searches still run afresh; startup compilation is not a route cache hit.
-    from numba import types
-    from nohit.engine.source_compiled import _search, _clearance, _clearance_anchors
-    _clearance.compile((types.Array(types.boolean, 3, 'C'),))
-    _clearance_anchors.compile((types.Array(types.boolean, 3, 'C'),))
-    for dtype in (types.uint8, types.uint16):
-        _search.compile((types.Array(types.boolean, 3, 'C'), types.Array(types.boolean, 3, 'C'),
-                     types.Array(dtype, 3, 'C'), types.Array(dtype, 3, 'C'),
-                     types.boolean, types.float64, types.int64, types.int64, types.boolean,
-                     types.Array(types.float64, 3, 'C'), types.float64, types.float64, types.int64))
-    if os.environ.get('NOHIT_BUILT_RUNTIME') == '1':
-        for dispatcher in (_search, _clearance, _clearance_anchors):
-            if sum(dispatcher._cache_misses.values()):
-                raise RuntimeError('Built code was not loaded; rebuild with tools/build_kernels.py')
-            dispatcher.disable_compile()
+    # Native code only by default; retired raster kernels are opt-in.
+    from nohit.engine.csv_warmup import warm_csv_kernels
+    warm_csv_kernels()
+    if os.environ.get('NOHIT_WARM_LEGACY') == '1':
+        # Compile/load machine code once before accepting solve requests. Route
+        # searches still run afresh; startup compilation is not a route cache hit.
+        from numba import types
+        from nohit.engine.source_compiled import _search, _clearance, _clearance_anchors
+        _clearance.compile((types.Array(types.boolean, 3, 'C'),))
+        _clearance_anchors.compile((types.Array(types.boolean, 3, 'C'),))
+        for dtype in (types.uint8, types.uint16):
+            _search.compile((types.Array(types.boolean, 3, 'C'), types.Array(types.boolean, 3, 'C'),
+                         types.Array(dtype, 3, 'C'), types.Array(dtype, 3, 'C'),
+                         types.boolean, types.float64, types.int64, types.int64, types.boolean,
+                         types.Array(types.float64, 3, 'C'), types.float64, types.float64, types.int64))
+        if os.environ.get('NOHIT_BUILT_RUNTIME') == '1':
+            for dispatcher in (_search, _clearance, _clearance_anchors):
+                if sum(dispatcher._cache_misses.values()):
+                    raise RuntimeError('Built code was not loaded; rebuild with tools/build_kernels.py')
+                dispatcher.disable_compile()
     server = ThreadingHTTPServer((host, port), DashboardHandler)
     return server
 

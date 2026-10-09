@@ -202,7 +202,7 @@ def test_await_target_is_idempotent_and_keeps_loaded_destination_snapshot(tmp_pa
 @pytest.mark.parametrize('line',[844,862,880,898,916,934])
 def test_original_realhell_dynamic_destination_rows_match_old_oracle(tmp_path,line):
     root=Path(__file__).resolve().parents[2]
-    rows=list(csv.reader(next(root.glob('Real HELL*.csv')).read_text(encoding='utf-8-sig').splitlines()))
+    rows=list(csv.reader((root/'c2-sans-fight'/'sans_realhell_extreme.csv').read_text(encoding='utf-8-sig').splitlines()))
     text='0,Set,HeartY,297.5\n'+','.join(rows[line-1])+'\n0,BoneV,$HeartX,$297.5,10,0,0\n0.01,EndAttack\n'
     path=source(tmp_path,text)
     frames,finished,samples,_,_=drive(initialize(path,max_ticks=100))
