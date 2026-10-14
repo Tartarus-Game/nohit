@@ -1,0 +1,146 @@
+[
+  {
+    "delay": 180,
+    "horizontal": 1,
+    "status": "hit",
+    "ticks": 217
+  },
+  {
+    "delay": 180,
+    "horizontal": 2,
+    "status": "hit",
+    "ticks": 200
+  },
+  {
+    "delay": 180,
+    "horizontal": 0,
+    "status": "hit",
+    "ticks": 448
+  },
+  {
+    "delay": 240,
+    "horizontal": 1,
+    "status": "hit",
+    "ticks": 258
+  },
+  {
+    "delay": 240,
+    "horizontal": 2,
+    "status": "hit",
+    "ticks": 258
+  },
+  {
+    "delay": 240,
+    "horizontal": 0,
+    "status": "hit",
+    "ticks": 448
+  },
+  {
+    "delay": 300,
+    "horizontal": 1,
+    "status": "hit",
+    "ticks": 318
+  },
+  {
+    "delay": 300,
+    "horizontal": 2,
+    "status": "hit",
+    "ticks": 318
+  },
+  {
+    "delay": 300,
+    "horizontal": 0,
+    "status": "hit",
+    "ticks": 448
+  },
+  {
+    "delay": 330,
+    "horizontal": 1,
+    "status": "hit",
+    "ticks": 336
+  },
+  {
+    "delay": 330,
+    "horizontal": 2,
+    "status": "hit",
+    "ticks": 377
+  },
+  {
+    "delay": 330,
+    "horizontal": 0,
+    "status": "hit",
+    "ticks": 448
+  },
+  {
+    "delay": 360,
+    "horizontal": 1,
+    "status": "hit",
+    "ticks": 377
+  },
+  {
+    "delay": 360,
+    "horizontal": 2,
+    "status": "hit",
+    "ticks": 377
+  },
+  {
+    "delay": 360,
+    "horizontal": 0,
+    "status": "hit",
+    "ticks": 448
+  },
+  {
+    "delay": 390,
+    "horizontal": 1,
+    "status": "hit",
+    "ticks": 397
+  },
+  {
+    "delay": 390,
+    "horizontal": 2,
+    "status": "hit",
+    "ticks": 458
+  },
+  {
+    "delay": 390,
+    "horizontal": 0,
+    "status": "hit",
+    "ticks": 448
+  },
+  {
+    "delay": 420,
+    "horizontal": 1,
+    "status": "hit",
+    "ticks": 451
+  },
+  {
+    "delay": 420,
+    "horizontal": 2,
+    "status": "hit",
+    "ticks": 448
+  },
+  {
+    "delay": 420,
+    "horizontal": 0,
+    "status": "hit",
+    "ticks": 448
+  },
+  {
+    "delay": 440,
+    "horizontal": 1,
+    "status": "hit",
+    "ticks": 445
+  },
+  {
+    "delay": 440,
+    "horizontal": 2,
+    "status": "hit",
+    "ticks": 564
+  },
+  {
+    "delay": 440,
+    "horizontal": 0,
+    "status": "hit",
+    "ticks": 448
+  }
+]

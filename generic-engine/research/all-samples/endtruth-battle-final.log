@@ -1,0 +1,58 @@
+Godot Engine v4.6.1.stable.official.14d19694e - https://godotengine.org
+
+BattleManager 初始化完成
+PuzzleManager 初始化完成
+StoryManager 初始化完成
+  已加载默认剧情脚本: (res://stories/all_stories.gd):<GDScript#-9223372000297220652>
+[Enemy] 创建新的 BulletContainer
+玩家灵魂初始化完成
+(1152.0, 648.0)
+NOHIT_PROBE_LOADED
+ERROR: [AttackPatterns] 无法加载桌面时间线: /Desktop/au_timelines.json
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _load_timelines (res://attack_patterns.gd:65)
+       [1] _timeline (res://attack_patterns.gd:240)
+       [2] execute_turn (res://attack_patterns.gd:261)
+       [3] execute_attack_pattern (res://enemy.gd:325)
+ERROR: [AttackPatterns] 无法加载桌面时间线: /Desktop/au_timelines.json
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _load_timelines (res://attack_patterns.gd:65)
+       [1] _timeline (res://attack_patterns.gd:240)
+       [2] execute_turn (res://attack_patterns.gd:261)
+       [3] execute_attack_pattern (res://enemy.gd:325)
+ERROR: [AttackPatterns] 无法加载桌面时间线: /Desktop/au_timelines.json
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _load_timelines (res://attack_patterns.gd:65)
+       [1] _timeline (res://attack_patterns.gd:240)
+       [2] execute_turn (res://attack_patterns.gd:261)
+       [3] execute_attack_pattern (res://enemy.gd:325)
+ERROR: [AttackPatterns] 无法加载桌面时间线: /Desktop/au_timelines.json
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _load_timelines (res://attack_patterns.gd:65)
+       [1] _timeline (res://attack_patterns.gd:240)
+       [2] execute_turn (res://attack_patterns.gd:261)
+       [3] execute_attack_pattern (res://enemy.gd:325)
+ERROR: [AttackPatterns] 无法加载桌面时间线: /Desktop/au_timelines.json
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _load_timelines (res://attack_patterns.gd:65)
+       [1] _timeline (res://attack_patterns.gd:240)
+       [2] execute_turn (res://attack_patterns.gd:261)
+       [3] execute_attack_pattern (res://enemy.gd:325)
+ERROR: [AttackPatterns] 无法加载桌面时间线: /Desktop/au_timelines.json
+   at: push_error (core/variant/variant_utility.cpp:1024)
+   GDScript backtrace (most recent call first):
+       [0] _load_timelines (res://attack_patterns.gd:65)
+       [1] _timeline (res://attack_patterns.gd:240)
+       [2] execute_turn (res://attack_patterns.gd:261)
+       [3] execute_attack_pattern (res://enemy.gd:325)
+NOHIT_PROBE_FINISHED 600 nodes=61 collision_objects=1
+NOHIT_PROBE_SCRIPTS { "/root/BattleManager": "res://BattleManager.gd", "/root/GameSettings": "res://GameSettings.gd", "/root/MobileInput": "res://mobile_input_manager.gd", "/root/PuzzleManager": "res://PuzzleManager.gd", "/root/SoundManager": "res://SoundManager.gd", "/root/StoryManager": "res://StoryManager.gd", "/root/NoHitStartupProbe": "res://nohit_probe.gd", "/root/NoHitStartupProbe/BulletHellScene": "res://bullet_hell_scene.gd", "/root/NoHitStartupProbe/BulletHellScene/ColorRect/Enemy": "res://enemy.gd", "/root/NoHitStartupProbe/BulletHellScene/PlayerSoul": "res://player_soul.gd" }
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+     at: cleanup (core/object/object.cpp:2641)
+ERROR: 2 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:810)

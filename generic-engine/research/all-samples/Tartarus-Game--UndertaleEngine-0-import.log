@@ -1,0 +1,129 @@
+Godot Engine v4.6.1.stable.official.14d19694e - https://godotengine.org
+
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Started Project initialization (5 steps)[39m[0m
+[  16% ] [90m[1mfirst_scan_filesystem[22m | Loading global class names...[39m[0m
+[  33% ] [90m[1mfirst_scan_filesystem[22m | Verifying GDExtensions...[39m[0m
+[  50% ] [90m[1mfirst_scan_filesystem[22m | Creating autoload scripts...[39m[0m
+[  66% ] [90m[1mfirst_scan_filesystem[22m | Initializing plugins...[39m[0m
+[  83% ] [90m[1mfirst_scan_filesystem[22m | Starting file scan...[39m[0m
+[92m[ DONE ][39m [1mfirst_scan_filesystem[22m
+[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | Started Registering global classes... (29 steps)[39m[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   3% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   6% ] [90m[1mupdate_scripts_classes[22m | Item[39m[0m
+[  10% ] [90m[1mupdate_scripts_classes[22m | ItemTest[39m[0m
+[  13% ] [90m[1mupdate_scripts_classes[22m | TextTyper[39m[0m
+[  16% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  20% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  23% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  26% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  30% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  33% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  36% ] [90m[1mupdate_scripts_classes[22m | BattleSoulRed[39m[0m
+[  40% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  43% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  46% ] [90m[1mupdate_scripts_classes[22m | BattleButton[39m[0m
+[  50% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  53% ] [90m[1mupdate_scripts_classes[22m | BattleEnemy[39m[0m
+[  56% ] [90m[1mupdate_scripts_classes[22m | BattleUI[39m[0m
+[  60% ] [90m[1mupdate_scripts_classes[22m | EnemyActionSelection[39m[0m
+[  63% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  66% ] [90m[1mupdate_scripts_classes[22m | EnemySelection[39m[0m
+[  70% ] [90m[1mupdate_scripts_classes[22m | BattleItemManager[39m[0m
+[  73% ] [90m[1mupdate_scripts_classes[22m | Battle[39m[0m
+[  76% ] [90m[1mupdate_scripts_classes[22m | BattleEnemyActions[39m[0m
+[  80% ] [90m[1mupdate_scripts_classes[22m | BattleUIManager[39m[0m
+[  83% ] [90m[1mupdate_scripts_classes[22m | EnemyManager[39m[0m
+[  86% ] [90m[1mupdate_scripts_classes[22m | BattleEnemySelections[39m[0m
+[  90% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  93% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[92m[ DONE ][39m [1mupdate_scripts_classes[22m
+[0m
+[   0% ] [90m[1m_update_scan_actions[22m | Started Scanning actions... (21 steps)[39m[0m
+[   0% ] [90m[1m_update_scan_actions[22m | text2.wav[39m[0m
+[   4% ] [90m[1m_update_scan_actions[22m | heart_red.png[39m[0m
+[   9% ] [90m[1m_update_scan_actions[22m | spr_actbt_center_0.png[39m[0m
+[  13% ] [90m[1m_update_scan_actions[22m | spr_actbt_center_1.png[39m[0m
+[  18% ] [90m[1m_update_scan_actions[22m | spr_fightbt_0.png[39m[0m
+[  22% ] [90m[1m_update_scan_actions[22m | spr_fightbt_1.png[39m[0m
+[  27% ] [90m[1m_update_scan_actions[22m | spr_itembt_0.png[39m[0m
+[  31% ] [90m[1m_update_scan_actions[22m | spr_itembt_1.png[39m[0m
+[  36% ] [90m[1m_update_scan_actions[22m | spr_sparebt_0.png[39m[0m
+[  40% ] [90m[1m_update_scan_actions[22m | spr_sparebt_1.png[39m[0m
+[  45% ] [90m[1m_update_scan_actions[22m | 0RGAPO}S_WTG({WHT2~V704.png[39m[0m
+[  50% ] [90m[1m_update_scan_actions[22m | 0RGAPO}S_WTG({WHT2~V704.png[39m[0m
+[  54% ] [90m[1m_update_scan_actions[22m | HWY)OFN$1B]8{H]M`J])A59.png[39m[0m
+[  59% ] [90m[1m_update_scan_actions[22m | item_scrollbar_arrow.png[39m[0m
+[  63% ] [90m[1m_update_scan_actions[22m | snd_select.wav[39m[0m
+[  68% ] [90m[1m_update_scan_actions[22m | snd_squeak.wav[39m[0m
+[  72% ] [90m[1m_update_scan_actions[22m | spr_hpname_0.png[39m[0m
+[  77% ] [90m[1m_update_scan_actions[22m | DTM-momo.otf[39m[0m
+[  81% ] [90m[1m_update_scan_actions[22m | Mars Needs Cunnilingus.ttf[39m[0m
+[  86% ] [90m[1m_update_scan_actions[22m | SIMSUNB.TTF[39m[0m
+[  90% ] [90m[1m_update_scan_actions[22m | icon.svg[39m[0m
+[92m[ DONE ][39m [1m_update_scan_actions[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started (Re)Importing Assets (21 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   4% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   9% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  13% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  18% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  22% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  27% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  31% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  36% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  40% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  45% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  50% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  54% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  59% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  63% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  68% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  72% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  77% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  81% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  86% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  90% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   0% ] [90m[1mreimport[22m | Executing pre-reimport operations...[39m[0m
+[   0% ] [90m[1mreimport[22m | SIMSUNB.TTF[39m[0m
+res://font/Mars Needs Cunnilingus.ttf: Pixel font detected, disabling subpixel positioning.
+[   4% ] [90m[1mreimport[22m | Mars Needs Cunnilingus.ttf[39m[0m
+[   9% ] [90m[1mreimport[22m | DTM-momo.otf[39m[0m
+[  13% ] [90m[1mreimport[22m | SIMSUNB.TTF[39m[0m
+[  18% ] [90m[1mreimport[22m | Mars Needs Cunnilingus.ttf[39m[0m
+[  22% ] [90m[1mreimport[22m | DTM-momo.otf[39m[0m
+[  27% ] [90m[1mreimport[22m | icon.svg[39m[0m
+[  31% ] [90m[1mreimport[22m | spr_hpname_0.png[39m[0m
+[  36% ] [90m[1mreimport[22m | item_scrollbar_arrow.png[39m[0m
+[  40% ] [90m[1mreimport[22m | HWY)OFN$1B]8{H]M`J])A59.png[39m[0m
+[  45% ] [90m[1mreimport[22m | 0RGAPO}S_WTG({WHT2~V704.png[39m[0m
+[  50% ] [90m[1mreimport[22m | 0RGAPO}S_WTG({WHT2~V704.png[39m[0m
+[  54% ] [90m[1mreimport[22m | spr_sparebt_1.png[39m[0m
+[  59% ] [90m[1mreimport[22m | spr_sparebt_0.png[39m[0m
+[  63% ] [90m[1mreimport[22m | spr_itembt_1.png[39m[0m
+[  68% ] [90m[1mreimport[22m | spr_itembt_0.png[39m[0m
+[  72% ] [90m[1mreimport[22m | spr_fightbt_1.png[39m[0m
+[  77% ] [90m[1mreimport[22m | spr_fightbt_0.png[39m[0m
+[  81% ] [90m[1mreimport[22m | SIMSUNB.TTF[39m[0m
+[  86% ] [90m[1mreimport[22m | Mars Needs Cunnilingus.ttf[39m[0m
+[  90% ] [90m[1mreimport[22m | DTM-momo.otf[39m[0m
+[  95% ] [90m[1mreimport[22m | Finalizing Asset Import...[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started (Re)Importing Assets (21 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | Executing post-reimport operations...[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Started Loading editor (5 steps)[39m[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Loading editor layout...[39m[0m
+[  16% ] [90m[1mloading_editor_layout[22m | Loading docks...[39m[0m
+[92m[ DONE ][39m [1mloading_editor_layout[22m
+[0m
+WARNING: res://auto_load/SceneManager.tscn:3 - ext_resource, invalid UID: uid://b86onmpys06k5 - using text path instead: res://auto_load/SceneManager.gd
+     at: load (scene/resources/resource_format_text.cpp:500)
+WARNING: res://auto_load/audio/AudioManager.tscn:3 - ext_resource, invalid UID: uid://3ajmtkjr0gu0 - using text path instead: res://auto_load/audio/AudioManager.gd
+     at: load (scene/resources/resource_format_text.cpp:500)
+WARNING: res://overworld/test_level/test.tscn:3 - ext_resource, invalid UID: uid://bsnnqtiv5ncun - using text path instead: res://overworld/test_level/test.gd
+     at: load (scene/resources/resource_format_text.cpp:500)

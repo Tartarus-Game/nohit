@@ -1,0 +1,86 @@
+[
+  {
+    "strategy": 0,
+    "status": "hit",
+    "ticks": 102,
+    "wall": 0.819715442000188,
+    "script_errors": false
+  },
+  {
+    "strategy": 4,
+    "status": "hit",
+    "ticks": 110,
+    "wall": 0.7819631529998787,
+    "script_errors": false
+  },
+  {
+    "strategy": 5,
+    "status": "hit",
+    "ticks": 36,
+    "wall": 1.229176730000063,
+    "script_errors": false
+  },
+  {
+    "strategy": 6,
+    "status": "hit",
+    "ticks": 367,
+    "wall": 1.4500802659999863,
+    "script_errors": false
+  },
+  {
+    "strategy": 1,
+    "status": "hit",
+    "ticks": 36,
+    "wall": 1.7498597020000943,
+    "script_errors": false
+  },
+  {
+    "strategy": 2,
+    "status": "hit",
+    "ticks": 185,
+    "wall": 1.3192769079998925,
+    "script_errors": false
+  },
+  {
+    "strategy": 16,
+    "status": "hit",
+    "ticks": 448,
+    "wall": 0.9461851060000299,
+    "script_errors": false
+  },
+  {
+    "strategy": 17,
+    "status": "hit",
+    "ticks": 110,
+    "wall": 0.7850361430000703,
+    "script_errors": false
+  },
+  {
+    "strategy": 8,
+    "status": "hit",
+    "ticks": 102,
+    "wall": 1.221399609999935,
+    "script_errors": false
+  },
+  {
+    "strategy": 9,
+    "status": "hit",
+    "ticks": 36,
+    "wall": 0.9645278970001527,
+    "script_errors": false
+  },
+  {
+    "strategy": 10,
+    "status": "hit",
+    "ticks": 185,
+    "wall": 1.2946412339999824,
+    "script_errors": false
+  },
+  {
+    "strategy": 12,
+    "status": "hit",
+    "ticks": 110,
+    "wall": 0.7171008969999093,
+    "script_errors": false
+  }
+]

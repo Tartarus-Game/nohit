@@ -1,0 +1,14 @@
+{
+  "scope": "full original bonegap attack, not six-attack campaign",
+  "verdict": "native_nohit_fresh_process",
+  "ticks": 421,
+  "hp": 92,
+  "kr": 0,
+  "damage_calls": 0,
+  "observed_bullets": 32,
+  "states_sha256": "f6eff0029949f9efdc1d31f1e4e04c8959e0d3a64c53e8c5a4d2b807bf320977",
+  "negative": "control teleports soul to an actual bullet shape at tick 90; not used in winning runs",
+  "negative_hp": 91,
+  "negative_kr": 6,
+  "negative_tick": 92
+}

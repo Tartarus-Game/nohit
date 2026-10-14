@@ -1,5 +1,7 @@
 # nohit
 
+新方向：GameMaker／Godot 通用接入研究与原生碰撞原型，见 [generic-engine/README.zh-CN.md](generic-engine/README.zh-CN.md)。目前为已测试的示例后端，真实上游游戏适配尚未完成。
+
 Compute a verified **no-hit route** for an Undertale Sans fight from a CSV attack
 description, then execute it in the original game and check it independently.
 

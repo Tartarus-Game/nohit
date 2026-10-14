@@ -1,0 +1,12 @@
+Godot Engine v3.3.stable.official - https://godotengine.org
+ 
+NOHIT_PROBE_LOADED
+PLAYER TURN TAKE ACTION
+NOHIT_PROBE_FINISHED 600 nodes=45 collision_objects=5
+NOHIT_PROBE_SCRIPTS {/root/NoHitStartupProbe:res://nohit_probe.gd, /root/NoHitStartupProbe/Battle screen:res://Battle screen.gd, /root/NoHitStartupProbe/Battle screen/Battle:res://Battle.gd, /root/NoHitStartupProbe/Battle screen/Battle/Player:res://KinematicBody2D.gd}
+ERROR: get_language_code: Invalid locale 'C'.
+   At: core/translation.cpp:958.
+ERROR: set_locale: Unsupported locale 'C', falling back to 'en'.
+   At: core/translation.cpp:982.
+WARNING: _update_root_rect: Font oversampling only works with the stretch modes "Keep Width", "Keep Height" and "Expand", not "Ignore". To remove this warning, disable Rendering > Quality > Dynamic Fonts > Use Oversampling in the Project Settings.
+   At: scene/main/scene_tree.cpp:1161.

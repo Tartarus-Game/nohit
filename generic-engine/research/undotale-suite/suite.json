@@ -1,0 +1,122 @@
+{
+  "adapter": "undotale",
+  "attempts": [
+    {
+      "label": "0-0",
+      "status": "hit",
+      "ticks": 102,
+      "damage_calls": 1,
+      "wall_seconds": 0.5518396190000203
+    },
+    {
+      "label": "0-4",
+      "status": "hit",
+      "ticks": 110,
+      "damage_calls": 1,
+      "wall_seconds": 0.5404320460002054
+    },
+    {
+      "label": "0-5",
+      "status": "hit",
+      "ticks": 36,
+      "damage_calls": 1,
+      "wall_seconds": 0.5540591000003587
+    },
+    {
+      "label": "0-6",
+      "status": "hit",
+      "ticks": 367,
+      "damage_calls": 1,
+      "wall_seconds": 0.5486658329996317
+    },
+    {
+      "label": "0-1",
+      "status": "hit",
+      "ticks": 36,
+      "damage_calls": 1,
+      "wall_seconds": 0.5493380990001242
+    },
+    {
+      "label": "0-2",
+      "status": "hit",
+      "ticks": 185,
+      "damage_calls": 1,
+      "wall_seconds": 0.40705836300003284
+    },
+    {
+      "label": "0-16",
+      "status": "hit",
+      "ticks": 448,
+      "damage_calls": 1,
+      "wall_seconds": 0.563041432999853
+    },
+    {
+      "label": "0-17",
+      "status": "hit",
+      "ticks": 110,
+      "damage_calls": 1,
+      "wall_seconds": 0.5421675869997671
+    },
+    {
+      "label": "0-8",
+      "status": "hit",
+      "ticks": 102,
+      "damage_calls": 1,
+      "wall_seconds": 0.5324713049999446
+    },
+    {
+      "label": "0-9",
+      "status": "hit",
+      "ticks": 36,
+      "damage_calls": 1,
+      "wall_seconds": 0.5209914520000893
+    },
+    {
+      "label": "0-10",
+      "status": "hit",
+      "ticks": 185,
+      "damage_calls": 1,
+      "wall_seconds": 0.3808186050000586
+    },
+    {
+      "label": "0-12",
+      "status": "hit",
+      "ticks": 110,
+      "damage_calls": 1,
+      "wall_seconds": 0.5031706899999335
+    },
+    {
+      "label": "three-bones",
+      "status": "native_nohit",
+      "ticks": 400,
+      "damage_calls": 0,
+      "wall_seconds": 0.41487012800007506
+    }
+  ],
+  "verified": [
+    {
+      "pattern": "three-bones",
+      "candidate": {
+        "label": "three-bones",
+        "status": "native_nohit",
+        "ticks": 400,
+        "damage_calls": 0,
+        "wall_seconds": 0.41487012800007506
+      },
+      "replay": {
+        "label": "replay-three-bones",
+        "status": "native_nohit",
+        "ticks": 400,
+        "damage_calls": 0,
+        "wall_seconds": 0.597997906999808
+      },
+      "negative": {
+        "label": "negative-three-bones",
+        "status": "hit",
+        "ticks": 102,
+        "damage_calls": 1,
+        "wall_seconds": 0.6301673029997801
+      }
+    }
+  ]
+}

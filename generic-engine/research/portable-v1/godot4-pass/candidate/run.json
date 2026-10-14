@@ -1,0 +1,656 @@
+{
+  "attack_completed": true,
+  "contract": {
+    "damage_audit": true,
+    "input_bits": [
+      "ui_left",
+      "ui_right",
+      "ui_up",
+      "ui_down"
+    ],
+    "observation": "game supplied JSON projection",
+    "schema": "nohit.live.v1"
+  },
+  "damage_events": 0,
+  "engine": {
+    "build": "official",
+    "hash": "14d19694e0c88a3f9e82d899a0400f27a24c176e",
+    "hex": 263681,
+    "major": 4,
+    "minor": 6,
+    "patch": 1,
+    "status": "stable",
+    "string": "4.6.1-stable (official)",
+    "timestamp": 0
+  },
+  "frames": [
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 1.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 48.0
+      },
+      "tick": 1
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 2.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 46.0
+      },
+      "tick": 2
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 3.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 44.0
+      },
+      "tick": 3
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 4.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 42.0
+      },
+      "tick": 4
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 5.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 40.0
+      },
+      "tick": 5
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 6.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 38.0
+      },
+      "tick": 6
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 7.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 36.0
+      },
+      "tick": 7
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 8.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 34.0
+      },
+      "tick": 8
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 9.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 32.0
+      },
+      "tick": 9
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 10.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 30.0
+      },
+      "tick": 10
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 11.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 28.0
+      },
+      "tick": 11
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 12.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 26.0
+      },
+      "tick": 12
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 13.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 24.0
+      },
+      "tick": 13
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 14.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 22.0
+      },
+      "tick": 14
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 15.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 20.0
+      },
+      "tick": 15
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 16.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 18.0
+      },
+      "tick": 16
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 17.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 16.0
+      },
+      "tick": 17
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 18.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 14.0
+      },
+      "tick": 18
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 19.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 12.0
+      },
+      "tick": 19
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 20.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 10.0
+      },
+      "tick": 20
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 21.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 8.0
+      },
+      "tick": 21
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 22.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 6.0
+      },
+      "tick": 22
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 23.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 5.0
+      },
+      "tick": 23
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 24.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 5.0
+      },
+      "tick": 24
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 25.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 5.0
+      },
+      "tick": 25
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 26.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 5.0
+      },
+      "tick": 26
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 27.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 5.0
+      },
+      "tick": 27
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 28.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 5.0
+      },
+      "tick": 28
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 29.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 5.0
+      },
+      "tick": 29
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 30.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 5.0
+      },
+      "tick": 30
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 31.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 5.0
+      },
+      "tick": 31
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 32.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 5.0
+      },
+      "tick": 32
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 33.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 5.0
+      },
+      "tick": 33
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 34.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 5.0
+      },
+      "tick": 34
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 35.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 5.0
+      },
+      "tick": 35
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 36.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 5.0
+      },
+      "tick": 36
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 37.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 5.0
+      },
+      "tick": 37
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 38.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 5.0
+      },
+      "tick": 38
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 39.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 5.0
+      },
+      "tick": 39
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 40.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 5.0
+      },
+      "tick": 40
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 41.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 5.0
+      },
+      "tick": 41
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 42.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 5.0
+      },
+      "tick": 42
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 43.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 5.0
+      },
+      "tick": 43
+    },
+    {
+      "damage_events": 0,
+      "finished": false,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 44.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 5.0
+      },
+      "tick": 44
+    },
+    {
+      "damage_events": 0,
+      "finished": true,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 45.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 5.0
+      },
+      "tick": 45
+    },
+    {
+      "damage_events": 0,
+      "finished": true,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 45.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 5.0
+      },
+      "tick": 46
+    },
+    {
+      "damage_events": 0,
+      "finished": true,
+      "kr_events": 0,
+      "state": {
+        "attack_tick": 45.0,
+        "hp": 20.0,
+        "x": 50.0,
+        "y": 5.0
+      },
+      "tick": 47
+    }
+  ],
+  "initial": {
+    "attack_tick": 0.0,
+    "hp": 20.0,
+    "x": 50.0,
+    "y": 50.0
+  },
+  "kr_events": 0,
+  "reason": "",
+  "route": [
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4
+  ],
+  "schema": "nohit.live.result.v1",
+  "seed": 1.0,
+  "status": "native_route_candidate",
+  "ticks": 47,
+  "verification": "native frames; fresh-process replay and negative control required",
+  "wall_seconds": 1.0115530690000014,
+  "record": "/workspace/scratch/a18d135a7b14/nohit/generic-engine/research/portable-v1/godot4-pass/candidate/result.json"
+}

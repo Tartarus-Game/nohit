@@ -1,0 +1,209 @@
+Godot Engine v4.6.1.stable.official.14d19694e - https://godotengine.org
+
+NOHIT_PROBE_LOADED
+NOHIT_PROBE_FINISHED 600 nodes=43 collision_objects=0
+NOHIT_PROBE_SCRIPTS { "/root/NoHitStartupProbe": "res://nohit_probe.gd" }
+ERROR: Condition "!FileAccess::exists(path)" is true. Returning: ERR_FILE_NOT_FOUND
+   at: open_dynamic_library (drivers/unix/os_unix.cpp:1061)
+ERROR: Condition "!FileAccess::exists(path)" is true. Returning: ERR_FILE_NOT_FOUND
+   at: open_dynamic_library (drivers/unix/os_unix.cpp:1061)
+ERROR: GDExtension dynamic library not found: 'res://bin/undertale_engine.gdextension'.
+   at: open_library (core/extension/gdextension.cpp:740)
+ERROR: Error loading extension: 'res://bin/undertale_engine.gdextension'.
+   at: load_extensions (core/extension/gdextension_manager.cpp:329)
+WARNING: res://Core/autoload/stagehand.tscn:3 - ext_resource, invalid UID: uid://bhsttfwejarc4 - using text path instead: res://sfx/Clicks/generic1.wav
+     at: load (scene/resources/resource_format_text.cpp:500)
+WARNING: res://Core/autoload/stagehand.tscn:4 - ext_resource, invalid UID: uid://c4lu7m3c14u4q - using text path instead: res://assets/Fonts/sans.ttf
+     at: load (scene/resources/resource_format_text.cpp:500)
+WARNING: res://Core/autoload/stagehand.tscn:5 - ext_resource, invalid UID: uid://s6sq0p485acf - using text path instead: res://sfx/Clicks/sans.wav
+     at: load (scene/resources/resource_format_text.cpp:500)
+WARNING: res://Core/autoload/stagehand.tscn:6 - ext_resource, invalid UID: uid://coveklulwsq8e - using text path instead: res://assets/sprite/sheet/sans_sheet.png
+     at: load (scene/resources/resource_format_text.cpp:500)
+ERROR: Cannot get class 'Stagehand'.
+   at: _instantiate_internal (core/object/class_db.cpp:565)
+WARNING: Node Stagehand of type Stagehand cannot be created. A placeholder will be created instead.
+     at: instantiate (scene/resources/packed_scene.cpp:333)
+ERROR: Cannot get class 'AudioPlayer'.
+   at: _instantiate_internal (core/object/class_db.cpp:565)
+WARNING: Node AudioPlayer of type AudioPlayer cannot be created. A placeholder will be created instead.
+     at: instantiate (scene/resources/packed_scene.cpp:333)
+ERROR: Cannot get class 'CharacterSetting'.
+   at: _instantiate_internal (core/object/class_db.cpp:565)
+WARNING: Node DEFAULT of type CharacterSetting cannot be created. A placeholder will be created instead.
+     at: instantiate (scene/resources/packed_scene.cpp:333)
+ERROR: Cannot get class 'CharacterSetting'.
+   at: _instantiate_internal (core/object/class_db.cpp:565)
+WARNING: Node SANS of type CharacterSetting cannot be created. A placeholder will be created instead.
+     at: instantiate (scene/resources/packed_scene.cpp:333)
+ERROR: Cannot get class 'CharacterSetting'.
+   at: _instantiate_internal (core/object/class_db.cpp:565)
+WARNING: Node SANS_BATTLE of type CharacterSetting cannot be created. A placeholder will be created instead.
+     at: instantiate (scene/resources/packed_scene.cpp:333)
+ERROR: Cannot get class 'SceneChanger'.
+   at: _instantiate_internal (core/object/class_db.cpp:565)
+WARNING: Node SceneChanger of type SceneChanger cannot be created. A placeholder will be created instead.
+     at: instantiate (scene/resources/packed_scene.cpp:333)
+ERROR: Cannot get class 'Global'.
+   at: _instantiate_internal (core/object/class_db.cpp:565)
+WARNING: Node Global of type Global cannot be created. A placeholder will be created instead.
+     at: instantiate (scene/resources/packed_scene.cpp:333)
+WARNING: res://Engine/Main/main_scene.tscn:3 - ext_resource, invalid UID: uid://cwal68u742e4u - using text path instead: res://Shaders/blur.gdshader
+     at: load (scene/resources/resource_format_text.cpp:500)
+     GDScript backtrace (most recent call first):
+         [0] _ready (res://nohit_probe.gd:8)
+WARNING: res://Engine/Main/joystick.tscn:3 - ext_resource, invalid UID: uid://duqb3cty1u1wn - using text path instead: res://Engine/Main/assets/joystick/joystick_base.png
+     at: load (scene/resources/resource_format_text.cpp:500)
+     GDScript backtrace (most recent call first):
+         [0] _ready (res://nohit_probe.gd:8)
+WARNING: res://Engine/Main/joystick.tscn:4 - ext_resource, invalid UID: uid://0m8xybwpcma4 - using text path instead: res://Engine/Main/assets/joystick/joystick_tip.png
+     at: load (scene/resources/resource_format_text.cpp:500)
+     GDScript backtrace (most recent call first):
+         [0] _ready (res://nohit_probe.gd:8)
+WARNING: res://Engine/Main/mobile.tscn:4 - ext_resource, invalid UID: uid://cen416fn7la7x - using text path instead: res://Engine/Main/assets/button/Z.png
+     at: load (scene/resources/resource_format_text.cpp:500)
+     GDScript backtrace (most recent call first):
+         [0] _ready (res://nohit_probe.gd:8)
+WARNING: res://Engine/Main/mobile.tscn:5 - ext_resource, invalid UID: uid://bj5a6whyss7ca - using text path instead: res://Engine/Main/assets/button/Z_pressed.png
+     at: load (scene/resources/resource_format_text.cpp:500)
+     GDScript backtrace (most recent call first):
+         [0] _ready (res://nohit_probe.gd:8)
+WARNING: res://Engine/Main/mobile.tscn:6 - ext_resource, invalid UID: uid://dbwdcsm34ajuq - using text path instead: res://Engine/Main/assets/button/X.png
+     at: load (scene/resources/resource_format_text.cpp:500)
+     GDScript backtrace (most recent call first):
+         [0] _ready (res://nohit_probe.gd:8)
+WARNING: res://Engine/Main/mobile.tscn:7 - ext_resource, invalid UID: uid://dbq42hij2fpox - using text path instead: res://Engine/Main/assets/button/C.png
+     at: load (scene/resources/resource_format_text.cpp:500)
+     GDScript backtrace (most recent call first):
+         [0] _ready (res://nohit_probe.gd:8)
+WARNING: res://Engine/Main/mobile.tscn:8 - ext_resource, invalid UID: uid://c2rlad3j140tl - using text path instead: res://Engine/Main/assets/button/X_pressed.png
+     at: load (scene/resources/resource_format_text.cpp:500)
+     GDScript backtrace (most recent call first):
+         [0] _ready (res://nohit_probe.gd:8)
+WARNING: res://Engine/Main/mobile.tscn:9 - ext_resource, invalid UID: uid://ci15n3w6qdihk - using text path instead: res://Engine/Main/assets/button/C_pressed.png
+     at: load (scene/resources/resource_format_text.cpp:500)
+     GDScript backtrace (most recent call first):
+         [0] _ready (res://nohit_probe.gd:8)
+WARNING: res://Engine/Main/mobile.tscn:10 - ext_resource, invalid UID: uid://b8aisc3wx0e70 - using text path instead: res://Engine/Themes/Textures/settings.svg
+     at: load (scene/resources/resource_format_text.cpp:500)
+     GDScript backtrace (most recent call first):
+         [0] _ready (res://nohit_probe.gd:8)
+WARNING: res://Engine/Themes/GlobalBoxTexture.tres:3 - ext_resource, invalid UID: uid://6jp6gyt5wanf - using text path instead: res://Engine/Themes/Textures/box.png
+     at: load (scene/resources/resource_format_text.cpp:500)
+     GDScript backtrace (most recent call first):
+         [0] _ready (res://nohit_probe.gd:8)
+WARNING: res://Engine/Main/menu_soul.tscn:3 - ext_resource, invalid UID: uid://drb2pnehvxc4b - using text path instead: res://Engine/Battle/Soul/soul.png
+     at: load (scene/resources/resource_format_text.cpp:500)
+     GDScript backtrace (most recent call first):
+         [0] _ready (res://nohit_probe.gd:8)
+WARNING: res://Engine/Themes/DTMono24.tres:3 - ext_resource, invalid UID: uid://cce32ajxv2dce - using text path instead: res://Engine/Text/Fonts/DTM-Mono.otf
+     at: load (scene/resources/resource_format_text.cpp:500)
+     GDScript backtrace (most recent call first):
+         [0] _ready (res://nohit_probe.gd:8)
+WARNING: res://Engine/Themes/DTMono24.tres:5 - ext_resource, invalid UID: uid://drb2pnehvxc4b - using text path instead: res://Engine/Battle/Soul/soul.png
+     at: load (scene/resources/resource_format_text.cpp:500)
+     GDScript backtrace (most recent call first):
+         [0] _ready (res://nohit_probe.gd:8)
+WARNING: res://Engine/Themes/DTMono24.tres:6 - ext_resource, invalid UID: uid://b4w0b80a4dswm - using text path instead: res://Engine/Themes/Textures/switch_t.png
+     at: load (scene/resources/resource_format_text.cpp:500)
+     GDScript backtrace (most recent call first):
+         [0] _ready (res://nohit_probe.gd:8)
+WARNING: res://Engine/Themes/DTMono24.tres:7 - ext_resource, invalid UID: uid://u3mdcx7e22w1 - using text path instead: res://Engine/Battle/Soul/crack.png
+     at: load (scene/resources/resource_format_text.cpp:500)
+     GDScript backtrace (most recent call first):
+         [0] _ready (res://nohit_probe.gd:8)
+WARNING: res://Engine/Themes/DTMono24.tres:8 - ext_resource, invalid UID: uid://bhnvrxq5lxeum - using text path instead: res://Engine/Themes/Textures/switch_d.png
+     at: load (scene/resources/resource_format_text.cpp:500)
+     GDScript backtrace (most recent call first):
+         [0] _ready (res://nohit_probe.gd:8)
+WARNING: res://Engine/Themes/DTMono24.tres:9 - ext_resource, invalid UID: uid://11u0yvsw2qhm - using text path instead: res://Engine/Themes/Textures/switch_f.png
+     at: load (scene/resources/resource_format_text.cpp:500)
+     GDScript backtrace (most recent call first):
+         [0] _ready (res://nohit_probe.gd:8)
+WARNING: res://Engine/Themes/DTMono24.tres:11 - ext_resource, invalid UID: uid://budoii6xa4dow - using text path instead: res://Engine/Text/Fonts/UNDERTALE-font/main-font.ttf
+     at: load (scene/resources/resource_format_text.cpp:500)
+     GDScript backtrace (most recent call first):
+         [0] _ready (res://nohit_probe.gd:8)
+ERROR: Cannot get class 'MainNode'.
+   at: _instantiate_internal (core/object/class_db.cpp:565)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://nohit_probe.gd:13)
+WARNING: Node Scenes of type MainNode cannot be created. A placeholder will be created instead.
+     at: instantiate (scene/resources/packed_scene.cpp:333)
+     GDScript backtrace (most recent call first):
+         [0] _ready (res://nohit_probe.gd:13)
+ERROR: Cannot get class 'TextBox'.
+   at: _instantiate_internal (core/object/class_db.cpp:565)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://nohit_probe.gd:13)
+WARNING: Node TextBox of type TextBox cannot be created. A placeholder will be created instead.
+     at: instantiate (scene/resources/packed_scene.cpp:333)
+     GDScript backtrace (most recent call first):
+         [0] _ready (res://nohit_probe.gd:13)
+ERROR: Cannot get class 'MenuSoul'.
+   at: _instantiate_internal (core/object/class_db.cpp:565)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://nohit_probe.gd:13)
+WARNING: Node MenuSoul of type MenuSoul cannot be created. A placeholder will be created instead.
+     at: instantiate (scene/resources/packed_scene.cpp:333)
+     GDScript backtrace (most recent call first):
+         [0] _ready (res://nohit_probe.gd:13)
+ERROR: Cannot get class 'TextBoxWriter'.
+   at: _instantiate_internal (core/object/class_db.cpp:565)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://nohit_probe.gd:13)
+WARNING: Node Text of type TextBoxWriter cannot be created. A placeholder will be created instead.
+     at: instantiate (scene/resources/packed_scene.cpp:333)
+     GDScript backtrace (most recent call first):
+         [0] _ready (res://nohit_probe.gd:13)
+ERROR: Cannot get class 'TextBoxOptionWriter'.
+   at: _instantiate_internal (core/object/class_db.cpp:565)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://nohit_probe.gd:13)
+WARNING: Node First of type TextBoxOptionWriter cannot be created. A placeholder will be created instead.
+     at: instantiate (scene/resources/packed_scene.cpp:333)
+     GDScript backtrace (most recent call first):
+         [0] _ready (res://nohit_probe.gd:13)
+ERROR: Cannot get class 'TextBoxOptionWriter'.
+   at: _instantiate_internal (core/object/class_db.cpp:565)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://nohit_probe.gd:13)
+WARNING: Node Second of type TextBoxOptionWriter cannot be created. A placeholder will be created instead.
+     at: instantiate (scene/resources/packed_scene.cpp:333)
+     GDScript backtrace (most recent call first):
+         [0] _ready (res://nohit_probe.gd:13)
+ERROR: Cannot get class 'TextBoxOptionWriter'.
+   at: _instantiate_internal (core/object/class_db.cpp:565)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://nohit_probe.gd:13)
+WARNING: Node Third of type TextBoxOptionWriter cannot be created. A placeholder will be created instead.
+     at: instantiate (scene/resources/packed_scene.cpp:333)
+     GDScript backtrace (most recent call first):
+         [0] _ready (res://nohit_probe.gd:13)
+ERROR: Cannot get class 'TextBoxOptionWriter'.
+   at: _instantiate_internal (core/object/class_db.cpp:565)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://nohit_probe.gd:13)
+WARNING: Node Fourth of type TextBoxOptionWriter cannot be created. A placeholder will be created instead.
+     at: instantiate (scene/resources/packed_scene.cpp:333)
+     GDScript backtrace (most recent call first):
+         [0] _ready (res://nohit_probe.gd:13)
+ERROR: In Object of type 'Node': Attempt to connect nonexistent signal 'click_played' to callable 'Node::_on_click_played'.
+   at: connect (core/object/object.cpp:1638)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://nohit_probe.gd:13)
+ERROR: In Object of type 'Node': Attempt to connect nonexistent signal 'confirm' to callable 'Node::handle_confirm_signal'.
+   at: connect (core/object/object.cpp:1638)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://nohit_probe.gd:13)
+ERROR: In Object of type 'Node': Attempt to connect nonexistent signal 'skip' to callable 'Node::_on_skip'.
+   at: connect (core/object/object.cpp:1638)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://nohit_probe.gd:13)
+ERROR: Cannot get class 'Joystick'.
+   at: _instantiate_internal (core/object/class_db.cpp:565)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://nohit_probe.gd:13)
+WARNING: Node joystick of type Joystick cannot be created. A placeholder will be created instead.
+     at: instantiate (scene/resources/packed_scene.cpp:333)
+     GDScript backtrace (most recent call first):
+         [0] _ready (res://nohit_probe.gd:13)

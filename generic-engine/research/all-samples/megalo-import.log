@@ -1,0 +1,44 @@
+ERROR: get_language_code: Invalid locale 'C'.
+   At: core/translation.cpp:958.
+ERROR: set_locale: Unsupported locale 'C', falling back to 'en'.
+   At: core/translation.cpp:982.
+ERROR: get_dependencies: Cannot open file 'res://.import/mus_birdnoise.ogg-5ccf3fc2467ba5594bf08630bd881a9f.oggstr'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/mus_gameover.ogg-b9724eb7ea2de074e9cbe4bfd48ff084.oggstr'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/mus_zz_megalovania.ogg-f538b6add84578d721994ef7a1c96306.oggstr'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/GasterBlast.wav-0bb6683a140b13259b6330577e065ba3.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/GasterBlaster.wav-1daf238ae7205d5894891d1a2c51bd40.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/SpearRise.wav-53f8f6da92ce11239c0c0b3e93025ccb.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/Break2.wav-0aa2b0d549251e0e3609298548587d58.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/Break.wav-c754fab445d4611e64391fc9d5b88be1.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/Heal.wav-7517920908541cd88cc54fffd12d872b.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/Hurt.wav-acf726de70f4f3983fa3ceefd2c530ec.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/Strike.wav-6f0e3dcc11bb4ffc55b96a5953e9f633.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/Sans.wav-50020a3944d6c71317daa8af9a08d157.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/Typer.wav-e2a7afa2f90c102a706e90841625d353.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/Bell.wav-324b9b11b7e1001a9e38999fc96633f4.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/Flash.wav-0a2bb72d5a47e5e1ca84e0df6cfdca97.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/Hit.wav-b24b2af900b08f8d47d8de99a21f9e33.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/Impact.wav-29e69e8b48c10c69560517caa6593288.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/MenuConfirm.wav-fd1d5e3fda2d3611dde9487f92bd84b7.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/MenuMove.wav-6ce6292b7facd3b15b8f41e59adebafc.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/Warning.wav-997d7072b2887bc0edda729825d9ab24.sample'.
+   At: core/io/resource_format_binary.cpp:1048.

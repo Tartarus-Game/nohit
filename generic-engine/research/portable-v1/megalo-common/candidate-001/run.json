@@ -1,0 +1,987 @@
+{
+  "schema": "nohit.live.result.v1",
+  "status": "hit",
+  "reason": "",
+  "engine": {
+    "major": 3,
+    "minor": 5,
+    "patch": 3,
+    "hex": 197891,
+    "status": "stable",
+    "build": "official",
+    "year": 2023,
+    "hash": "6c814135b69d4e703956bacc2073b4b179ff5a00",
+    "string": "3.5.3-stable (official)"
+  },
+  "seed": 1,
+  "initial": {
+    "x": 320,
+    "y": 376,
+    "vx": 0,
+    "vy": 0,
+    "hp": 92,
+    "kr": 0,
+    "mode": 0,
+    "inv": 0,
+    "observed_bullets": 0
+  },
+  "route": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+  ],
+  "frames": [
+    {
+      "tick": 1,
+      "state": {
+        "x": 320,
+        "y": 376,
+        "vx": 0,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 0,
+        "inv": 0,
+        "observed_bullets": 0
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 2,
+      "state": {
+        "x": 320,
+        "y": 376,
+        "vx": 0,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 0,
+        "inv": 0,
+        "observed_bullets": 0
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 3,
+      "state": {
+        "x": 320,
+        "y": 376,
+        "vx": 0,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 0,
+        "inv": 0,
+        "observed_bullets": 0
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 4,
+      "state": {
+        "x": 320,
+        "y": 376,
+        "vx": 0,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 0,
+        "inv": 0,
+        "observed_bullets": 0
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 5,
+      "state": {
+        "x": 320,
+        "y": 376,
+        "vx": 0,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 0,
+        "inv": 0,
+        "observed_bullets": 0
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 6,
+      "state": {
+        "x": 320,
+        "y": 376,
+        "vx": 0,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 0,
+        "inv": 0,
+        "observed_bullets": 0
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 7,
+      "state": {
+        "x": 320,
+        "y": 376,
+        "vx": 0,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 0,
+        "inv": 0,
+        "observed_bullets": 0
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 8,
+      "state": {
+        "x": 320,
+        "y": 376,
+        "vx": 0,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 0,
+        "inv": 0,
+        "observed_bullets": 0
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 9,
+      "state": {
+        "x": 320,
+        "y": 376,
+        "vx": 0,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 0,
+        "inv": 0,
+        "observed_bullets": 0
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 10,
+      "state": {
+        "x": 320,
+        "y": 376,
+        "vx": 0,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 0,
+        "inv": 0,
+        "observed_bullets": 0
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 11,
+      "state": {
+        "x": 320,
+        "y": 376,
+        "vx": 0,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 0,
+        "inv": 0,
+        "observed_bullets": 0
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 12,
+      "state": {
+        "x": 320,
+        "y": 376,
+        "vx": 0,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 2,
+        "inv": 0,
+        "observed_bullets": 0
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 13,
+      "state": {
+        "x": 317.5,
+        "y": 376.049988,
+        "vx": -150,
+        "vy": 3,
+        "hp": 92,
+        "kr": 0,
+        "mode": 2,
+        "inv": 0,
+        "observed_bullets": 0
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 14,
+      "state": {
+        "x": 315,
+        "y": 376.149994,
+        "vx": -150,
+        "vy": 6,
+        "hp": 92,
+        "kr": 0,
+        "mode": 2,
+        "inv": 0,
+        "observed_bullets": 0
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 15,
+      "state": {
+        "x": 312.5,
+        "y": 376.299988,
+        "vx": -150,
+        "vy": 9.000001,
+        "hp": 92,
+        "kr": 0,
+        "mode": 2,
+        "inv": 0,
+        "observed_bullets": 0
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 16,
+      "state": {
+        "x": 310,
+        "y": 376.5,
+        "vx": -150,
+        "vy": 12.000001,
+        "hp": 92,
+        "kr": 0,
+        "mode": 2,
+        "inv": 0,
+        "observed_bullets": 0
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 17,
+      "state": {
+        "x": 307.5,
+        "y": 376.75,
+        "vx": -150,
+        "vy": 15.000001,
+        "hp": 92,
+        "kr": 0,
+        "mode": 2,
+        "inv": 0,
+        "observed_bullets": 0
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 18,
+      "state": {
+        "x": 304.999969,
+        "y": 376.925293,
+        "vx": -150,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 2,
+        "inv": 0,
+        "observed_bullets": 0
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 19,
+      "state": {
+        "x": 302.499969,
+        "y": 376.925293,
+        "vx": -150,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 2,
+        "inv": 0,
+        "observed_bullets": 0
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 20,
+      "state": {
+        "x": 299.999969,
+        "y": 376.925293,
+        "vx": -150,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 2,
+        "inv": 0,
+        "observed_bullets": 0
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 21,
+      "state": {
+        "x": 297.499969,
+        "y": 376.925293,
+        "vx": -150,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 2,
+        "inv": 0,
+        "observed_bullets": 0
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 22,
+      "state": {
+        "x": 294.999969,
+        "y": 376.925293,
+        "vx": -150,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 2,
+        "inv": 0,
+        "observed_bullets": 0
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 23,
+      "state": {
+        "x": 292.499969,
+        "y": 376.925293,
+        "vx": -150,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 2,
+        "inv": 0,
+        "observed_bullets": 32
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 24,
+      "state": {
+        "x": 289.999969,
+        "y": 376.925293,
+        "vx": -150,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 2,
+        "inv": 0,
+        "observed_bullets": 32
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 25,
+      "state": {
+        "x": 287.499969,
+        "y": 376.925293,
+        "vx": -150,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 2,
+        "inv": 0,
+        "observed_bullets": 32
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 26,
+      "state": {
+        "x": 284.999969,
+        "y": 376.925293,
+        "vx": -150,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 2,
+        "inv": 0,
+        "observed_bullets": 32
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 27,
+      "state": {
+        "x": 282.499969,
+        "y": 376.925293,
+        "vx": -150,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 2,
+        "inv": 0,
+        "observed_bullets": 32
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 28,
+      "state": {
+        "x": 279.999969,
+        "y": 376.925293,
+        "vx": -150,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 2,
+        "inv": 0,
+        "observed_bullets": 32
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 29,
+      "state": {
+        "x": 277.499969,
+        "y": 376.925293,
+        "vx": -150,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 2,
+        "inv": 0,
+        "observed_bullets": 32
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 30,
+      "state": {
+        "x": 274.999969,
+        "y": 376.925293,
+        "vx": -150,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 2,
+        "inv": 0,
+        "observed_bullets": 32
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 31,
+      "state": {
+        "x": 272.499969,
+        "y": 376.925293,
+        "vx": -150,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 2,
+        "inv": 0,
+        "observed_bullets": 32
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 32,
+      "state": {
+        "x": 269.999969,
+        "y": 376.925293,
+        "vx": -150,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 2,
+        "inv": 0,
+        "observed_bullets": 32
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 33,
+      "state": {
+        "x": 267.499969,
+        "y": 376.925293,
+        "vx": -150,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 2,
+        "inv": 0,
+        "observed_bullets": 32
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 34,
+      "state": {
+        "x": 264.999969,
+        "y": 376.925293,
+        "vx": -150,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 2,
+        "inv": 0,
+        "observed_bullets": 32
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 35,
+      "state": {
+        "x": 262.499969,
+        "y": 376.925293,
+        "vx": -150,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 2,
+        "inv": 0,
+        "observed_bullets": 32
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 36,
+      "state": {
+        "x": 259.999969,
+        "y": 376.925293,
+        "vx": -150,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 2,
+        "inv": 0,
+        "observed_bullets": 32
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 37,
+      "state": {
+        "x": 257.499969,
+        "y": 376.925293,
+        "vx": -150,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 2,
+        "inv": 0,
+        "observed_bullets": 32
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 38,
+      "state": {
+        "x": 254.999969,
+        "y": 376.925293,
+        "vx": -150,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 2,
+        "inv": 0,
+        "observed_bullets": 32
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 39,
+      "state": {
+        "x": 252.499969,
+        "y": 376.925293,
+        "vx": -150,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 2,
+        "inv": 0,
+        "observed_bullets": 32
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 40,
+      "state": {
+        "x": 249.999969,
+        "y": 376.925293,
+        "vx": -150,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 2,
+        "inv": 0,
+        "observed_bullets": 32
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 41,
+      "state": {
+        "x": 247.499969,
+        "y": 376.925293,
+        "vx": -150,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 2,
+        "inv": 0,
+        "observed_bullets": 32
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 42,
+      "state": {
+        "x": 244.999969,
+        "y": 376.925293,
+        "vx": -150,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 2,
+        "inv": 0,
+        "observed_bullets": 32
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 43,
+      "state": {
+        "x": 242.499969,
+        "y": 376.925293,
+        "vx": -150,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 2,
+        "inv": 0,
+        "observed_bullets": 32
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 44,
+      "state": {
+        "x": 239.999969,
+        "y": 376.925293,
+        "vx": -150,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 2,
+        "inv": 0,
+        "observed_bullets": 32
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 45,
+      "state": {
+        "x": 237.499969,
+        "y": 376.925293,
+        "vx": -150,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 2,
+        "inv": 0,
+        "observed_bullets": 32
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 46,
+      "state": {
+        "x": 234.999969,
+        "y": 376.925293,
+        "vx": -150,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 2,
+        "inv": 0,
+        "observed_bullets": 32
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 47,
+      "state": {
+        "x": 232.499969,
+        "y": 376.925293,
+        "vx": -150,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 2,
+        "inv": 0,
+        "observed_bullets": 32
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 48,
+      "state": {
+        "x": 229.999969,
+        "y": 376.925293,
+        "vx": -150,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 2,
+        "inv": 0,
+        "observed_bullets": 32
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 49,
+      "state": {
+        "x": 227.499969,
+        "y": 376.925293,
+        "vx": -150,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 2,
+        "inv": 0,
+        "observed_bullets": 32
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 50,
+      "state": {
+        "x": 224.999969,
+        "y": 376.925293,
+        "vx": -150,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 2,
+        "inv": 0,
+        "observed_bullets": 32
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 51,
+      "state": {
+        "x": 222.499969,
+        "y": 376.925293,
+        "vx": -150,
+        "vy": 0,
+        "hp": 92,
+        "kr": 0,
+        "mode": 2,
+        "inv": 0,
+        "observed_bullets": 32
+      },
+      "damage_events": 0,
+      "kr_events": 0,
+      "finished": false
+    },
+    {
+      "tick": 52,
+      "state": {
+        "x": 219.999969,
+        "y": 376.925293,
+        "vx": -150,
+        "vy": 0,
+        "hp": 91,
+        "kr": 6,
+        "mode": 2,
+        "inv": 0,
+        "observed_bullets": 32
+      },
+      "damage_events": 1,
+      "kr_events": 1,
+      "finished": false
+    }
+  ],
+  "ticks": 52,
+  "contract": {
+    "schema": "nohit.live.v1",
+    "damage_audit": true,
+    "input_bits": [
+      "ui_left",
+      "ui_right",
+      "ui_up",
+      "ui_down",
+      "ui_cancel"
+    ],
+    "observation": "game supplied JSON projection"
+  },
+  "attack_completed": false,
+  "damage_events": 1,
+  "kr_events": 1,
+  "verification": "native frames; fresh-process replay and negative control required",
+  "wall_seconds": 2.0715622549998898,
+  "record": "/workspace/scratch/a18d135a7b14/nohit/generic-engine/research/portable-v1/megalo-common/candidate-001/result.json"
+}

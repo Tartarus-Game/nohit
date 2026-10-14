@@ -1,0 +1,183 @@
+Godot Engine v4.6.1.stable.official.14d19694e - https://godotengine.org
+
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Started Project initialization (5 steps)[39m[0m
+[  16% ] [90m[1mfirst_scan_filesystem[22m | Loading global class names...[39m[0m
+[  33% ] [90m[1mfirst_scan_filesystem[22m | Verifying GDExtensions...[39m[0m
+[  50% ] [90m[1mfirst_scan_filesystem[22m | Creating autoload scripts...[39m[0m
+[  66% ] [90m[1mfirst_scan_filesystem[22m | Initializing plugins...[39m[0m
+[  83% ] [90m[1mfirst_scan_filesystem[22m | Starting file scan...[39m[0m
+[92m[ DONE ][39m [1mfirst_scan_filesystem[22m
+[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | Started Registering global classes... (59 steps)[39m[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   1% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   3% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   5% ] [90m[1mupdate_scripts_classes[22m | DockableContainer[39m[0m
+[   6% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   8% ] [90m[1mupdate_scripts_classes[22m | DockableReferenceControl[39m[0m
+[  10% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  11% ] [90m[1mupdate_scripts_classes[22m | DockableLayout[39m[0m
+[  13% ] [90m[1mupdate_scripts_classes[22m | DockableLayoutNode[39m[0m
+[  15% ] [90m[1mupdate_scripts_classes[22m | DockableLayoutPanel[39m[0m
+[  16% ] [90m[1mupdate_scripts_classes[22m | DockableLayoutSplit[39m[0m
+[  18% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  20% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  21% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  23% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  25% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  26% ] [90m[1mupdate_scripts_classes[22m | EditorConsole[39m[0m
+[  28% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  30% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  31% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  33% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  35% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  36% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  38% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  40% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  41% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  43% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  45% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  46% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  48% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  50% ] [90m[1mupdate_scripts_classes[22m | ProjectListItem[39m[0m
+[  51% ] [90m[1mupdate_scripts_classes[22m | TemplateListItem[39m[0m
+[  53% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  55% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  56% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  58% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  60% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  61% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  63% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  65% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  66% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  68% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  70% ] [90m[1mupdate_scripts_classes[22m | UtmxPackPicker[39m[0m
+[  71% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  73% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  75% ] [90m[1mupdate_scripts_classes[22m | ProgramExporter[39m[0m
+[  76% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  78% ] [90m[1mupdate_scripts_classes[22m | JavaScriptSyntaxHighlighter[39m[0m
+[  80% ] [90m[1mupdate_scripts_classes[22m | ArrowToggleButton[39m[0m
+[  81% ] [90m[1mupdate_scripts_classes[22m | EditorDataAccess[39m[0m
+[  83% ] [90m[1mupdate_scripts_classes[22m | UtmxProject[39m[0m
+[  85% ] [90m[1mupdate_scripts_classes[22m | UtmxProjectTemplate[39m[0m
+[  86% ] [90m[1mupdate_scripts_classes[22m | DirTools[39m[0m
+[  88% ] [90m[1mupdate_scripts_classes[22m | ProjectFileTemplates[39m[0m
+[  90% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  91% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  93% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  95% ] [90m[1mupdate_scripts_classes[22m | UtmxEditorWindow[39m[0m
+[  96% ] [90m[1mupdate_scripts_classes[22m | WinbdowsManager[39m[0m
+[92m[ DONE ][39m [1mupdate_scripts_classes[22m
+[0m
+[   0% ] [90m[1m_update_scan_actions[22m | Started Scanning actions... (30 steps)[39m[0m
+[   0% ] [90m[1m_update_scan_actions[22m | icon.svg[39m[0m
+[   3% ] [90m[1m_update_scan_actions[22m | HarmonyOS_Sans_SC_Bold.ttf[39m[0m
+[   6% ] [90m[1m_update_scan_actions[22m | HarmonyOS_Sans_SC_Regular.ttf[39m[0m
+[   9% ] [90m[1m_update_scan_actions[22m | add_hover.svg[39m[0m
+[  12% ] [90m[1m_update_scan_actions[22m | add_normal.svg[39m[0m
+[  16% ] [90m[1m_update_scan_actions[22m | down.svg[39m[0m
+[  19% ] [90m[1m_update_scan_actions[22m | top.svg[39m[0m
+[  22% ] [90m[1m_update_scan_actions[22m | clear.svg[39m[0m
+[  25% ] [90m[1m_update_scan_actions[22m | copy.svg[39m[0m
+[  29% ] [90m[1m_update_scan_actions[22m | play_normal.svg[39m[0m
+[  32% ] [90m[1m_update_scan_actions[22m | stop.svg[39m[0m
+[  35% ] [90m[1m_update_scan_actions[22m | folder_hover.svg[39m[0m
+[  38% ] [90m[1m_update_scan_actions[22m | folder_normal.svg[39m[0m
+[  41% ] [90m[1m_update_scan_actions[22m | more_focurs.svg[39m[0m
+[  45% ] [90m[1m_update_scan_actions[22m | more_normal.svg[39m[0m
+[  48% ] [90m[1m_update_scan_actions[22m | paused.svg[39m[0m
+[  51% ] [90m[1m_update_scan_actions[22m | play.svg[39m[0m
+[  54% ] [90m[1m_update_scan_actions[22m | search_hover.svg[39m[0m
+[  58% ] [90m[1m_update_scan_actions[22m | search_normal.svg[39m[0m
+[  61% ] [90m[1m_update_scan_actions[22m | star.svg[39m[0m
+[  64% ] [90m[1m_update_scan_actions[22m | star_light.svg[39m[0m
+[  67% ] [90m[1m_update_scan_actions[22m | utmx-icon-16.svg[39m[0m
+[  70% ] [90m[1m_update_scan_actions[22m | utmx-icon-256.svg[39m[0m
+[  74% ] [90m[1m_update_scan_actions[22m | icon.svg[39m[0m
+[  77% ] [90m[1m_update_scan_actions[22m | mus_prebattle1.ogg[39m[0m
+[  80% ] [90m[1m_update_scan_actions[22m | spr_battlebg_0.png[39m[0m
+[  83% ] [90m[1m_update_scan_actions[22m | spr_dummybattle_0.png[39m[0m
+[  87% ] [90m[1m_update_scan_actions[22m | dummy_icon.png[39m[0m
+[  90% ] [90m[1m_update_scan_actions[22m | translation.csv[39m[0m
+[  93% ] [90m[1m_update_scan_actions[22m | icon.svg[39m[0m
+[92m[ DONE ][39m [1m_update_scan_actions[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started (Re)Importing Assets (10 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   9% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  18% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  27% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  36% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  45% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  54% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  63% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  72% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  81% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   0% ] [90m[1mreimport[22m | Executing pre-reimport operations...[39m[0m
+[   0% ] [90m[1mreimport[22m | translation.csv[39m[0m
+[   9% ] [90m[1mreimport[22m | mus_prebattle1.ogg[39m[0m
+[  18% ] [90m[1mreimport[22m | translation.csv[39m[0m
+[  27% ] [90m[1mreimport[22m | mus_prebattle1.ogg[39m[0m
+[  36% ] [90m[1mreimport[22m | add_hover.svg[39m[0m
+[  45% ] [90m[1mreimport[22m | more_focurs.svg[39m[0m
+[  54% ] [90m[1mreimport[22m | utmx-icon-16.svg[39m[0m
+[  63% ] [90m[1mreimport[22m | icon.svg[39m[0m
+[  72% ] [90m[1mreimport[22m | spr_battlebg_0.png[39m[0m
+[  81% ] [90m[1mreimport[22m | spr_dummybattle_0.png[39m[0m
+[  90% ] [90m[1mreimport[22m | Finalizing Asset Import...[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started (Re)Importing Assets (10 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | Executing post-reimport operations...[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Started Loading editor (5 steps)[39m[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Loading editor layout...[39m[0m
+[  16% ] [90m[1mloading_editor_layout[22m | Loading docks...[39m[0m
+[92m[ DONE ][39m [1mloading_editor_layout[22m
+[0m
+ERROR: Unrecognized UID: "uid://cstntr050r5v0".
+   at: get_id_path (core/io/resource_uid.cpp:208)
+ERROR: Unrecognized UID: "uid://c6l47m2qdueeq".
+   at: get_id_path (core/io/resource_uid.cpp:208)
+ERROR: Unrecognized UID: "uid://cdqtlgi0yftg6".
+   at: get_id_path (core/io/resource_uid.cpp:208)
+ERROR: Unrecognized UID: "uid://bg4m8y3wj5x7p".
+   at: get_id_path (core/io/resource_uid.cpp:208)
+ERROR: Unrecognized UID: "uid://c8agvphypscbr".
+   at: get_id_path (core/io/resource_uid.cpp:208)
+ERROR: Unrecognized UID: "uid://6sk7jyht4ksq".
+   at: get_id_path (core/io/resource_uid.cpp:208)
+ERROR: Unrecognized UID: "uid://dc0cpqhjo00e2".
+   at: get_id_path (core/io/resource_uid.cpp:208)
+ERROR: Unrecognized UID: "uid://cdhqco8l15t1l".
+   at: get_id_path (core/io/resource_uid.cpp:208)
+ERROR: Cannot open file 'res://assets/translations/translation.zh.translation'.
+   at: load (core/io/resource_format_binary.cpp:1220)
+ERROR: Failed loading resource: res://assets/translations/translation.zh.translation.
+   at: _load (core/io/resource_loader.cpp:343)
+ERROR: Cannot open file 'res://.godot/imported/HarmonyOS_Sans_SC_Regular.ttf-0946f98e2cfd6cef225f3b3b922683d0.fontdata'.
+   at: load (core/io/resource_format_binary.cpp:1220)
+ERROR: Failed loading resource: res://.godot/imported/HarmonyOS_Sans_SC_Regular.ttf-0946f98e2cfd6cef225f3b3b922683d0.fontdata.
+   at: _load (core/io/resource_loader.cpp:343)
+ERROR: Failed loading resource: res://assets/fonts/HarmonyOS_Sans_SC_Regular.ttf.
+   at: _load (core/io/resource_loader.cpp:343)
+ERROR: res://assets/themes/editor_theme.tres:2986 - Parse Error: [ext_resource] referenced non-existent resource at: res://assets/fonts/HarmonyOS_Sans_SC_Regular.ttf.
+   at: _printerr (scene/resources/resource_format_text.cpp:40)
+ERROR: res://assets/themes/editor_theme.tres:2986 - Parse Error: [ext_resource] referenced non-existent resource at: res://assets/fonts/HarmonyOS_Sans_SC_Regular.ttf.
+   at: _printerr (scene/resources/resource_format_text.cpp:40)
+ERROR: Failed loading resource: res://assets/themes/editor_theme.tres.
+   at: _load (core/io/resource_loader.cpp:343)
+ERROR: Error loading custom project theme 'uid://b57pk8esqcvqr'
+   at: initialize_theme (scene/theme/theme_db.cpp:69)
+ERROR: Cannot open file 'res://assets/translations/translation.zh.translation'.
+   at: load (core/io/resource_format_binary.cpp:1220)
+ERROR: Failed loading resource: res://assets/translations/translation.zh.translation.
+   at: _load (core/io/resource_loader.cpp:343)
+SCRIPT ERROR: Parse Error: Assigned value for constant "ignore_files" isn't a constant expression.
+          at: GDScript::reload (res://scripts/singletons/global_editor_pack_picker.gd:9)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+          at: GDScript::reload (res://scripts/scenes/editor/editor.gd:0)
+ERROR: Failed to load script "res://scripts/scenes/editor/editor.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript.cpp:2907)

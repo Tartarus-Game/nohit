@@ -1,0 +1,94 @@
+ERROR: get_dependencies: Cannot open file 'res://.import/snd_select.wav-4e1ebedb985edfd783a154f810265f64.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/snd_squeak.wav-dbe083ad7eef139978c865dc33575f31.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/SWRevenge_-_MEGALOVANIA.mp3-f82c2b6ba04eed4212a56fc447ddc136.mp3str'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/snd_laz.wav-2dad5fa1804c44a01911aede858ec19a.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/snd_hurt1.wav-360a199c23ec598502ea2c7a063cb0d8.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/alphys.wav-3e81a93a5cf1fc0487cda85d020d640f.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/asgore.wav-cb9a1a48afb8efc76f3f438a4df65cc1.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/asriel_adult.wav-28e56bb9422fe397e297298982bbce19.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/asriel_young.wav-35b191361e59f5c53e5e8c70df4d42c6.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/flowey.wav-fe1b0021f89bffd4bf4fbcd47ad845dc.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/floweyevil.wav-f326548fd4a48a2326e488beb577d2d6.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/gaster1.wav-477d9199afab11b2ce24713217a25fb8.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/gaster2.wav-ce9a42e35e394935a2e5892f21ae1696.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/gaster3.wav-5ac5d54f5e55c9af5871c32fc85d1422.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/gaster4.wav-453db0c47213f051165d79ec8d34e836.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/gaster5.wav-808cc8c539ea1cd4410d3e77a2312137.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/gaster6.wav-062a3977742f2f4811d7805bc1871e10.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/gaster7.wav-bedd7aad5bab7e6f19104f83aed3d7c4.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/generic1.wav-f27b648775044ea815aaa41cea575e34.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/generic2.wav-0660c2a99c9676cff472180c0bc6bf12.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/mettaton1.wav-e0bf8c9d659b2c4ff51b59ec91613884.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/mettaton2.wav-5487d04c3ca0ed9adf592b8d4b5c341f.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/mettaton3.wav-c8e0a61e87e8337a98a65e15fce6b8ec.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/mettaton4.wav-b8d4b70ac2c220af220d18d118dc404d.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/mettaton5.wav-0de562786587f7e7728088a19101815b.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/mettaton6.wav-e956aa4909724517efc07c3bb1d8d9d1.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/mettaton7.wav-cebb6bcb9df027334cb9d2f4ce2727a4.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/mettaton8.wav-a2ec9dca93f4f4ac80092ba0729f12bb.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/mettaton9.wav-a2d2d3fd16206dccca44ffcff6c06307.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/papyrus.wav-7d0df5efdb03a4956253389f17e605ed.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/sans.wav-ac51413e9f5f2e4d6731dd095255b095.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/sansimpression.wav-52d69d68bc4176645c900b5cab8c0faa.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/snd_damage.wav-2b23056caf11c785a9b3604afb02200a.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/temmie1.wav-f4c09367c9df7fab17ca8982ddba2ce1.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/temmie2.wav-8f598e338021cdfbfa66d08eea4f78a5.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/temmie3.wav-4b808e3b657d5af740c48cac6a0ceb4a.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/temmie4.wav-7a5a773c59b29ab005666969e3345ba1.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/temmie5.wav-48efd7d6444bcaa0387fe08de1df4b1b.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/temmie6.wav-a4f1471e8176f1bb601736e576bf5b90.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/toriel1.wav-2bac693f4ca3c07d1f906fef4edf846c.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/toriel2.wav-c0dcf022539e41ec37e4940b62e6084d.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/toriel3.wav-b5b4f5ce3901255a5505218bbf61efae.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/undyne1.wav-9c362a63f5293fd3150df425115533c0.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/undyne2.wav-ce66ea13d4a5094f24ceb3e0dbf25f08.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/undyne3.wav-392aa232a0310aa700d6ddaec44a345f.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/undyne4.wav-b6702d100d2174d610360fe6de31149d.sample'.
+   At: core/io/resource_format_binary.cpp:1048.
+ERROR: get_dependencies: Cannot open file 'res://.import/undynetheundying.wav-f3a49f8e62fb112d3ceba87e991fc184.sample'.
+   At: core/io/resource_format_binary.cpp:1048.

@@ -1,0 +1,465 @@
+[
+  {
+    "repository": "SamuelWolfang/UNDOTALE",
+    "commit": "9dc511a5ec5225866ceaf86f1f44de8972429490",
+    "projects": [
+      {
+        "project": "project.godot",
+        "engine_major": 3,
+        "csharp": false,
+        "original_main": "res://BattleEngine/BattleEngine.tscn",
+        "patches": [],
+        "import": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/godot33/Godot_v3.3-stable_linux_headless.64",
+            "--path",
+            "/workspace/scratch/a18d135a7b14/native-retries/SamuelWolfang--UNDOTALE",
+            "--editor"
+          ],
+          "returncode": null,
+          "timeout": true,
+          "seconds": 15.035886168000161,
+          "log": "SamuelWolfang--UNDOTALE-0-import.log",
+          "errors": [
+            "ERROR: get_dependencies: Cannot open file 'res://.import/snd_select.wav-4e1ebedb985edfd783a154f810265f64.sample'.",
+            "ERROR: get_dependencies: Cannot open file 'res://.import/snd_squeak.wav-dbe083ad7eef139978c865dc33575f31.sample'.",
+            "ERROR: get_dependencies: Cannot open file 'res://.import/SWRevenge_-_MEGALOVANIA.mp3-f82c2b6ba04eed4212a56fc447ddc136.mp3str'.",
+            "ERROR: get_dependencies: Cannot open file 'res://.import/snd_laz.wav-2dad5fa1804c44a01911aede858ec19a.sample'.",
+            "ERROR: get_dependencies: Cannot open file 'res://.import/snd_hurt1.wav-360a199c23ec598502ea2c7a063cb0d8.sample'.",
+            "ERROR: get_dependencies: Cannot open file 'res://.import/alphys.wav-3e81a93a5cf1fc0487cda85d020d640f.sample'.",
+            "ERROR: get_dependencies: Cannot open file 'res://.import/asgore.wav-cb9a1a48afb8efc76f3f438a4df65cc1.sample'.",
+            "ERROR: get_dependencies: Cannot open file 'res://.import/asriel_adult.wav-28e56bb9422fe397e297298982bbce19.sample'.",
+            "ERROR: get_dependencies: Cannot open file 'res://.import/asriel_young.wav-35b191361e59f5c53e5e8c70df4d42c6.sample'.",
+            "ERROR: get_dependencies: Cannot open file 'res://.import/flowey.wav-fe1b0021f89bffd4bf4fbcd47ad845dc.sample'.",
+            "ERROR: get_dependencies: Cannot open file 'res://.import/floweyevil.wav-f326548fd4a48a2326e488beb577d2d6.sample'.",
+            "ERROR: get_dependencies: Cannot open file 'res://.import/gaster1.wav-477d9199afab11b2ce24713217a25fb8.sample'.",
+            "ERROR: get_dependencies: Cannot open file 'res://.import/gaster2.wav-ce9a42e35e394935a2e5892f21ae1696.sample'.",
+            "ERROR: get_dependencies: Cannot open file 'res://.import/gaster3.wav-5ac5d54f5e55c9af5871c32fc85d1422.sample'.",
+            "ERROR: get_dependencies: Cannot open file 'res://.import/gaster4.wav-453db0c47213f051165d79ec8d34e836.sample'.",
+            "ERROR: get_dependencies: Cannot open file 'res://.import/gaster5.wav-808cc8c539ea1cd4410d3e77a2312137.sample'.",
+            "ERROR: get_dependencies: Cannot open file 'res://.import/gaster6.wav-062a3977742f2f4811d7805bc1871e10.sample'.",
+            "ERROR: get_dependencies: Cannot open file 'res://.import/gaster7.wav-bedd7aad5bab7e6f19104f83aed3d7c4.sample'.",
+            "ERROR: get_dependencies: Cannot open file 'res://.import/generic1.wav-f27b648775044ea815aaa41cea575e34.sample'.",
+            "ERROR: get_dependencies: Cannot open file 'res://.import/generic2.wav-0660c2a99c9676cff472180c0bc6bf12.sample'.",
+            "ERROR: get_dependencies: Cannot open file 'res://.import/mettaton1.wav-e0bf8c9d659b2c4ff51b59ec91613884.sample'.",
+            "ERROR: get_dependencies: Cannot open file 'res://.import/mettaton2.wav-5487d04c3ca0ed9adf592b8d4b5c341f.sample'.",
+            "ERROR: get_dependencies: Cannot open file 'res://.import/mettaton3.wav-c8e0a61e87e8337a98a65e15fce6b8ec.sample'.",
+            "ERROR: get_dependencies: Cannot open file 'res://.import/mettaton4.wav-b8d4b70ac2c220af220d18d118dc404d.sample'.",
+            "ERROR: get_dependencies: Cannot open file 'res://.import/mettaton5.wav-0de562786587f7e7728088a19101815b.sample'."
+          ]
+        },
+        "run": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/godot33/Godot_v3.3-stable_linux_headless.64",
+            "--path",
+            "/workspace/scratch/a18d135a7b14/native-retries/SamuelWolfang--UNDOTALE",
+            "--fixed-fps",
+            "60"
+          ],
+          "returncode": 0,
+          "timeout": false,
+          "seconds": 1.2125023569999485,
+          "log": "SamuelWolfang--UNDOTALE-0-run.log",
+          "errors": []
+        },
+        "status": "startup_600_frames",
+        "probe_lines": [
+          "NOHIT_PROBE_LOADED",
+          "NOHIT_PROBE_FINISHED 600 nodes=81 collision_objects=5",
+          "NOHIT_PROBE_SCRIPTS {/root/Data:res://savedata/Data.gd, /root/NoHitStartupProbe:res://nohit_probe.gd, /root/NoHitStartupProbe/BattleEngine:res://BattleEngine/BattleEngine.gd, /root/NoHitStartupProbe/BattleEngine/ActingSelector:res://BattleEngine/ActingSelector.gd, /root/NoHitStartupProbe/BattleEngine/Box:res://Shared/Box/Box.gd, /root/NoHitStartupProbe/BattleEngine/Box/Attacks/@Bone@11:res://BattleEngine/Fight_Manager/Revenge Papyrus/Attacks/Bone.gd, /root/NoHitStartupProbe/BattleEngine/Box/Attacks/Bone:res://BattleEngine/Fight_Manager/Revenge Papyrus/Attacks/Bone.gd, /root/NoHitStartupProbe/BattleEngine/Box/Blitter:res://Shared/Text/Blitter.gd, /root/NoHitStartupProbe/BattleEngine/Buttons:res://BattleEngine/Buttons/Node/Buttons.gd, /root/NoHitStartupProbe/BattleEngine/Damage:res://BattleEngine/DamageMeter/Text/Damage.gd, /root/NoHitStartupProbe/BattleEngine/Enemies:res://BattleEngine/Fight_Manager/Revenge Papyrus/RevengePapyrus.gd, /root/NoHitStartupProbe/BattleEngine/Enemies/Papyrus:res://BattleEngine/Fight_Manager/Revenge Papyrus/Papyrus.gd, /root/NoHitStartupProbe/BattleEngine/Enemies/Papyrus/Bubble/Blitter:res://Shared/Text/Blitter.gd, /root/NoHitStartupProbe/BattleEngine/ItemSelector:res://BattleEngine/ItemSelector.gd, /root/NoHitStartupProbe/BattleEngine/Meter:res://BattleEngine/DamageMeter/DamageMeter.gd, /root/NoHitStartupProbe/BattleEngine/Soul:res://Shared/Soul/Soul.gd, /root/NoHitStartupProbe/BattleEngine/Weapon:res://BattleEngine/Weapon/Weapon.gd}"
+        ]
+      }
+    ],
+    "status": "attempted"
+  },
+  {
+    "repository": "Stoxis/Godette-Tale",
+    "commit": "e20f57daa89b8e6dfef8d4739e8edb8b5a11c1f7",
+    "projects": [
+      {
+        "project": "Godette-Tale/project.godot",
+        "engine_major": 3,
+        "csharp": false,
+        "original_main": "res://Example.tscn",
+        "patches": [],
+        "import": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/godot33/Godot_v3.3-stable_linux_headless.64",
+            "--path",
+            "/workspace/scratch/a18d135a7b14/native-retries/Stoxis--Godette-Tale/Godette-Tale",
+            "--editor"
+          ],
+          "returncode": null,
+          "timeout": true,
+          "seconds": 15.068841438999925,
+          "log": "Stoxis--Godette-Tale-0-import.log",
+          "errors": [
+            "ERROR: load_interactive: Cannot open file 'res://.import/Empty.wav-24989f25274cc6d291429d054bb18cfd.sample'.",
+            "ERROR: _load: Failed loading resource: res://.import/Empty.wav-24989f25274cc6d291429d054bb18cfd.sample. Make sure resources have been imported by opening the project in the editor at least once.",
+            "ERROR: _load: Failed loading resource: res://Assets/Music/Empty.wav. Make sure resources have been imported by opening the project in the editor at least once.",
+            "ERROR: load_interactive: Cannot open file 'res://.import/Empty.wav-24989f25274cc6d291429d054bb18cfd.sample'.",
+            "ERROR: _load: Failed loading resource: res://.import/Empty.wav-24989f25274cc6d291429d054bb18cfd.sample. Make sure resources have been imported by opening the project in the editor at least once.",
+            "ERROR: _load: Failed loading resource: res://Assets/Music/Empty.wav. Make sure resources have been imported by opening the project in the editor at least once.",
+            "ERROR: _load_data: Condition \"!f\" is true. Returned: ERR_CANT_OPEN",
+            "ERROR: _load: Failed loading resource: res://.import/GodotTIE_icon.png-06c5755e573090fa68219dcd4c5b75cc.stex. Make sure resources have been imported by opening the project in the editor at least once.",
+            "ERROR: get_dependencies: Cannot open file 'res://.import/Generic.wav-1a53642fc2feb44d0193e195b74ac8ea.sample'.",
+            "ERROR: get_dependencies: Cannot open file 'res://.import/Papyrus.wav-b1a8ff7b743a64c6da4e56ebece7c3a6.sample'.",
+            "ERROR: get_dependencies: Cannot open file 'res://.import/Sans.wav-9b8ff1cf5c16e1f8d5fbe859bb54a58d.sample'.",
+            "ERROR: get_dependencies: Cannot open file 'res://.import/Amalgam.wav-6772463069b10d3428cbd32f00cf513b.sample'.",
+            "ERROR: get_dependencies: Cannot open file 'res://.import/Empty.wav-24989f25274cc6d291429d054bb18cfd.sample'.",
+            "ERROR: get_dependencies: Cannot open file 'res://.import/Ruins.wav-6d80ffa9d290c132ddc59511e4109cda.sample'.",
+            "ERROR: get_dependencies: Cannot open file 'res://.import/BuyItem.wav-7e4563514d9f64648fa1a1a977960cf3.sample'.",
+            "ERROR: get_dependencies: Cannot open file 'res://.import/HealthRestored.wav-8379d05bf5804106c7a3492097c8d0a8.sample'.",
+            "ERROR: get_dependencies: Cannot open file 'res://.import/PhoneRing.wav-c927bec25c74e0293c0e5ae57cd5a21a.sample'.",
+            "ERROR: get_dependencies: Cannot open file 'res://.import/SavePoint.wav-854d1b158f372d71d3e7925b22ace53d.sample'.",
+            "ERROR: get_dependencies: Cannot open file 'res://.import/Ruins_Grave.tmx-8e69d2053bbf0b5b89713b4df331434c.scn'.",
+            "ERROR: open: Cannot open file 'res://Maps/Ruins/../../../../Unitytale/Assets/Maps/Ruins/Ruins1.tsx'.",
+            "ERROR: _reimport_file: Error importing 'res://Maps/Ruins/Ruins_Grave.tmx'."
+          ]
+        },
+        "run": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/godot33/Godot_v3.3-stable_linux_headless.64",
+            "--path",
+            "/workspace/scratch/a18d135a7b14/native-retries/Stoxis--Godette-Tale/Godette-Tale",
+            "--fixed-fps",
+            "60"
+          ],
+          "returncode": 0,
+          "timeout": false,
+          "seconds": 0.6009089489998587,
+          "log": "Stoxis--Godette-Tale-0-run.log",
+          "errors": [
+            "ERROR: get_node: (Node not found: \"/root/Root_Node/CanvasLayer/panel/text_interface_engine\" (absolute path attempted from \"/root/NoHitStartupProbe/Root_Node/Interactive/Sign\").)",
+            "SCRIPT ERROR: _ready: Attempt to call function 'get_parent' in base 'null instance' on a null instance.",
+            "ERROR: get_node: (Node not found: \"/root/Root_Node/CanvasLayer/panel/text_interface_engine\" (absolute path attempted from \"/root/NoHitStartupProbe/Root_Node/Interactive/Sign2\").)",
+            "SCRIPT ERROR: _ready: Attempt to call function 'get_parent' in base 'null instance' on a null instance.",
+            "ERROR: get_node: (Node not found: \"/root/Root_Node/CanvasLayer/panel/text_interface_engine\" (absolute path attempted from \"/root/NoHitStartupProbe/Root_Node/Interactive/Sign3\").)",
+            "SCRIPT ERROR: _ready: Attempt to call function 'get_parent' in base 'null instance' on a null instance.",
+            "ERROR: get_node: (Node not found: \"/root/Root_Node/CanvasLayer/panel/text_interface_engine\" (absolute path attempted from \"/root/NoHitStartupProbe/Root_Node/Interactive/Sign4\").)",
+            "ERROR: get_node: (Node not found: \"/root/Root_Node/CanvasLayer/panel/Options\" (absolute path attempted from \"/root/NoHitStartupProbe/Root_Node/Interactive/Sign4\").)",
+            "SCRIPT ERROR: _ready: Attempt to call function 'get_parent' in base 'null instance' on a null instance.",
+            "ERROR: get_node: (Node not found: \"/root/Root_Node/CanvasLayer/panel/text_interface_engine\" (absolute path attempted from \"/root/NoHitStartupProbe/Root_Node/Interactive/Papyrus\").)",
+            "ERROR: get_node: (Node not found: \"/root/Root_Node/CanvasLayer/panel/text_interface_engine/FacialTexture\" (absolute path attempted from \"/root/NoHitStartupProbe/Root_Node/Interactive/Papyrus\").)",
+            "SCRIPT ERROR: _ready: Attempt to call function 'get_parent' in base 'null instance' on a null instance.",
+            "ERROR: get_node: (Node not found: \"/root/Root_Node/CanvasLayer/panel\" (absolute path attempted from \"/root/NoHitStartupProbe/Root_Node/Player\").)",
+            "ERROR: get_node: (Node not found: \"/root/Root_Node/CanvasLayer/savePanel\" (absolute path attempted from \"/root/NoHitStartupProbe/Root_Node/Player\").)",
+            "ERROR: get_node: (Node not found: \"/root/Root_Node/CanvasLayer/infoPanel\" (absolute path attempted from \"/root/NoHitStartupProbe/Root_Node/Player\").)",
+            "ERROR: get_node: (Node not found: \"/root/Root_Node/CanvasLayer/panel/text_interface_engine\" (absolute path attempted from \"/root/NoHitStartupProbe/Root_Node/SaveStar\").)",
+            "SCRIPT ERROR: _ready: Attempt to call function 'get_parent' in base 'null instance' on a null instance.",
+            "ERROR: get_node: (Node not found: \"/root/Root_Node/CanvasLayer/panel/text_interface_engine\" (absolute path attempted from \"/root/NoHitStartupProbe/Root_Node\").)",
+            "ERROR: get_node: (Node not found: \"/root/Root_Node/CanvasLayer/panel/text_interface_engine/FacialTexture\" (absolute path attempted from \"/root/NoHitStartupProbe/Root_Node\").)",
+            "SCRIPT ERROR: _ready: Attempt to call function 'get_parent' in base 'null instance' on a null instance.",
+            "SCRIPT ERROR: Player._physics_process: Attempt to call function 'is_visible' in base 'null instance' on a null instance.",
+            "ERROR: emit_signal: Error calling method from signal 'body_entered': 'Area2D(Transition.gd)::_on_Button_body_entered': Method not found..",
+            "SCRIPT ERROR: Player._physics_process: Attempt to call function 'is_visible' in base 'null instance' on a null instance.",
+            "SCRIPT ERROR: Player._physics_process: Attempt to call function 'is_visible' in base 'null instance' on a null instance.",
+            "SCRIPT ERROR: Player._physics_process: Attempt to call function 'is_visible' in base 'null instance' on a null instance."
+          ]
+        },
+        "status": "startup_with_errors",
+        "probe_lines": [
+          "NOHIT_PROBE_LOADED",
+          "NOHIT_PROBE_FINISHED 600 nodes=150 collision_objects=23",
+          "NOHIT_PROBE_SCRIPTS {/root/MusicController:res://autoloads/MusicController.gd, /root/NoHitStartupProbe:res://nohit_probe.gd, /root/NoHitStartupProbe/Root_Node:res://Scripts/Music/Amalgam.gd, /root/NoHitStartupProbe/Root_Node/Camera2D:res://Scripts/Player/Camera2D.gd, /root/NoHitStartupProbe/Root_Node/CanvasLayer/infoPanel:res://Scripts/MenuPanel.gd, /root/NoHitStartupProbe/Root_Node/CanvasLayer/panel/Options:res://addons/GodotTIE/Options.gd, /root/NoHitStartupProbe/Root_Node/CanvasLayer/panel/text_interface_engine:res://addons/GodotTIE/text_interface_engine.gd, /root/NoHitStartupProbe/Root_Node/CanvasLayer/savePanel:res://Scripts/Save.gd, /root/NoHitStartupProbe/Root_Node/Interactive/Button:res://Scripts/Puzzles/Button.gd, /root/NoHitStartupProbe/Root_Node/Interactive/Button2:res://Scripts/Puzzles/Button.gd, /root/NoHitStartupProbe/Root_Node/Interactive/Button3:res://Scripts/Puzzles/Button.gd, /root/NoHitStartupProbe/Root_Node/Interactive/Button4:res://Scripts/Puzzles/Button.gd, /root/NoHitStartupProbe/Root_Node/Interactive/Button5:res://Scripts/Puzzles/Button.gd, /root/NoHitStartupProbe/Root_Node/Interactive/Door:res://Scripts/Puzzles/Door.gd, /root/NoHitStartupProbe/Root_Node/Interactive/Door2:res://Scripts/Puzzles/Door.gd, /root/NoHitStartupProbe/Root_Node/Interactive/Lever:res://Scripts/Puzzles/Lever.gd, /root/NoHitStartupProbe/Root_Node/Interactive/Lever2:res://Scripts/Puzzles/Lever.gd, /root/NoHitStartupProbe/Root_Node/Interactive/Papyrus:res://Scripts/Dialogue/PapyrusDialogue.gd, /root/NoHitStartupProbe/Root_Node/Interactive/Sign:res://Scripts/Dialogue/Sign.gd, /root/NoHitStartupProbe/Root_Node/Interactive/Sign2:res://Scripts/Dialogue/Sign2.gd, /root/NoHitStartupProbe/Root_Node/Interactive/Sign3:res://Scripts/Dialogue/Sign3.gd, /root/NoHitStartupProbe/Root_Node/Interactive/Sign4:res://Scripts/Dialogue/Sign4Choices.gd, /root/NoHitStartupProbe/Root_Node/Interactive/Spikes:res://Scripts/Puzzles/Spikes.gd, /root/NoHitStartupProbe/Root_Node/Interactive/Spikes2:res://Scripts/Puzzles/Spikes.gd, /root/NoHitStartupProbe/Root_Node/Interactive/Spikes3:res://Scripts/Puzzles/Spikes.gd, /root/NoHitStartupProbe/Root_Node/Interactive/Spikes4:res://Scripts/Puzzles/Spikes.gd, /root/NoHitStartupProbe/Root_Node/Node2:res://Example.tscn::3, /root/NoHitStartupProbe/Root_Node/Player:res://Scripts/Player/Player.gd, /root/NoHitStartupProbe/Root_Node/Player/InteractionComponent:res://Scripts/Player/InteractionComponent.gd, /root/NoHitStartupProbe/Root_Node/SaveStar:res://Scripts/Dialogue/SavePoints/SaveVoid.gd, /root/NoHitStartupProbe/Root_Node/Transition:res://Scripts/Transition.gd, /root/NoHitStartupProbe/Root_Node/Transition2:res://Scripts/Transition.gd, /root/SceneChanger:res://autoloads/SceneChanger.gd, /root/globalVariables:res://autoloads/globalVariables.gd, /root/itemLibrary:res://autoloads/itemLibrary.gd, /root/signalManager:res://autoloads/signalManager.gd}"
+        ]
+      }
+    ],
+    "status": "attempted"
+  },
+  {
+    "repository": "Yanxiyimengya/UndertaleMakerX",
+    "commit": "b3f9aaa1677d55e6e6e18f6ca6863907ddc1f470",
+    "projects": [
+      {
+        "project": "runtime/project.godot",
+        "engine_major": 4,
+        "csharp": true,
+        "original_main": "uid://7kjp05svklmo",
+        "patches": [
+          "GL compatibility renderer in test copy"
+        ],
+        "import": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/godot461mono/Godot_v4.6.1-stable_mono_linux_x86_64/Godot_v4.6.1-stable_mono_linux.x86_64",
+            "--path",
+            "/workspace/scratch/a18d135a7b14/native-retries/Yanxiyimengya--UndertaleMakerX/runtime",
+            "--headless",
+            "--editor",
+            "--import"
+          ],
+          "returncode": 0,
+          "timeout": false,
+          "seconds": 18.118844480999996,
+          "log": "Yanxiyimengya--UndertaleMakerX-0-import.log",
+          "errors": [
+            "ERROR: Unrecognized UID: \"uid://dcql4pstuwyqm\".",
+            "ERROR: Unrecognized UID: \"uid://dsgu7terjoihc\".",
+            "ERROR: Unrecognized UID: \"uid://q1c4vbqaqvho\".",
+            "ERROR: Unrecognized UID: \"uid://q1ypfunuuve4\".",
+            "ERROR: Unrecognized UID: \"uid://cfilp3paq1pth\".",
+            "ERROR: System.NullReferenceException: Object reference not set to an instance of an object.",
+            "ERROR: EditorSettings not instantiated yet when getting setting \"export/android/shutdown_adb_on_exit\"."
+          ]
+        },
+        "build": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/dotnet/dotnet",
+            "exec",
+            "/workspace/scratch/a18d135a7b14/runtimes/dotnet/sdk/8.0.408/MSBuild.dll",
+            "/workspace/scratch/a18d135a7b14/native-retries/Yanxiyimengya--UndertaleMakerX/runtime/UTMX-Runtime.csproj",
+            "/restore",
+            "/t:Build",
+            "/v:minimal",
+            "/nologo"
+          ],
+          "returncode": -6,
+          "timeout": false,
+          "seconds": 0.7357630100000279,
+          "log": "Yanxiyimengya--UndertaleMakerX-0-build.log",
+          "errors": [
+            "MSBUILD : error MSB1025: An internal failure occurred while running MSBuild."
+          ]
+        },
+        "run": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/godot461mono/Godot_v4.6.1-stable_mono_linux_x86_64/Godot_v4.6.1-stable_mono_linux.x86_64",
+            "--path",
+            "/workspace/scratch/a18d135a7b14/native-retries/Yanxiyimengya--UndertaleMakerX/runtime",
+            "--headless",
+            "--fixed-fps",
+            "60"
+          ],
+          "returncode": 1,
+          "timeout": false,
+          "seconds": 1.0181719619999967,
+          "log": "Yanxiyimengya--UndertaleMakerX-0-run.log",
+          "errors": []
+        },
+        "status": "startup_failed",
+        "probe_lines": []
+      },
+      {
+        "project": "editor/project.godot",
+        "engine_major": 4,
+        "csharp": false,
+        "original_main": "uid://djn5y1cfoknas",
+        "patches": [
+          "GL compatibility renderer in test copy"
+        ],
+        "import": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/godot461/Godot_v4.6.1-stable_linux.x86_64",
+            "--path",
+            "/workspace/scratch/a18d135a7b14/native-retries/Yanxiyimengya--UndertaleMakerX/editor",
+            "--headless",
+            "--editor",
+            "--import"
+          ],
+          "returncode": 0,
+          "timeout": false,
+          "seconds": 15.535027093000053,
+          "log": "Yanxiyimengya--UndertaleMakerX-1-import.log",
+          "errors": [
+            "ERROR: Unrecognized UID: \"uid://cstntr050r5v0\".",
+            "ERROR: Unrecognized UID: \"uid://c6l47m2qdueeq\".",
+            "ERROR: Unrecognized UID: \"uid://cdqtlgi0yftg6\".",
+            "ERROR: Unrecognized UID: \"uid://bg4m8y3wj5x7p\".",
+            "ERROR: Unrecognized UID: \"uid://c8agvphypscbr\".",
+            "ERROR: Unrecognized UID: \"uid://6sk7jyht4ksq\".",
+            "ERROR: Unrecognized UID: \"uid://dc0cpqhjo00e2\".",
+            "ERROR: Unrecognized UID: \"uid://cdhqco8l15t1l\".",
+            "ERROR: Cannot open file 'res://assets/translations/translation.zh.translation'.",
+            "ERROR: Failed loading resource: res://assets/translations/translation.zh.translation.",
+            "ERROR: Cannot open file 'res://.godot/imported/HarmonyOS_Sans_SC_Regular.ttf-0946f98e2cfd6cef225f3b3b922683d0.fontdata'.",
+            "ERROR: Failed loading resource: res://.godot/imported/HarmonyOS_Sans_SC_Regular.ttf-0946f98e2cfd6cef225f3b3b922683d0.fontdata.",
+            "ERROR: Failed loading resource: res://assets/fonts/HarmonyOS_Sans_SC_Regular.ttf.",
+            "ERROR: res://assets/themes/editor_theme.tres:2986 - Parse Error: [ext_resource] referenced non-existent resource at: res://assets/fonts/HarmonyOS_Sans_SC_Regular.ttf.",
+            "ERROR: res://assets/themes/editor_theme.tres:2986 - Parse Error: [ext_resource] referenced non-existent resource at: res://assets/fonts/HarmonyOS_Sans_SC_Regular.ttf.",
+            "ERROR: Failed loading resource: res://assets/themes/editor_theme.tres.",
+            "ERROR: Error loading custom project theme 'uid://b57pk8esqcvqr'",
+            "ERROR: Cannot open file 'res://assets/translations/translation.zh.translation'.",
+            "ERROR: Failed loading resource: res://assets/translations/translation.zh.translation.",
+            "SCRIPT ERROR: Parse Error: Assigned value for constant \"ignore_files\" isn't a constant expression.",
+            "SCRIPT ERROR: Compile Error: Failed to compile depended scripts.",
+            "ERROR: Failed to load script \"res://scripts/scenes/editor/editor.gd\" with error \"Parse error\"."
+          ]
+        },
+        "run": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/godot461/Godot_v4.6.1-stable_linux.x86_64",
+            "--path",
+            "/workspace/scratch/a18d135a7b14/native-retries/Yanxiyimengya--UndertaleMakerX/editor",
+            "--headless",
+            "--fixed-fps",
+            "60"
+          ],
+          "returncode": 0,
+          "timeout": false,
+          "seconds": 1.6554783320000297,
+          "log": "Yanxiyimengya--UndertaleMakerX-1-run.log",
+          "errors": []
+        },
+        "status": "startup_600_frames",
+        "probe_lines": [
+          "NOHIT_PROBE_LOADED",
+          "NOHIT_PROBE_FINISHED 600 nodes=145 collision_objects=0",
+          "NOHIT_PROBE_SCRIPTS { \"/root/EditorProjectManager\": \"res://scripts/singletons/editor_project_manager.gd\", \"/root/EditorConfigureManager\": \"res://scripts/singletons/editor_configure_manager.gd\", \"/root/EditorTemplateManager\": \"res://scripts/singletons/editor_template_manager.gd\", \"/root/EditorOutputManager\": \"res://scripts/singletons/editor_output_manager.gd\", \"/root/GlobalEditorUndoRedoManager\": \"res://scripts/singletons/global_editor_undo_redo_manager.gd\", \"/root/WindowManager\": \"res://scripts/windows/WindowManager.gd\", \"/root/WindowManager/CreateProjectWindow\": \"res://scenes/singletons/windows/create_project_window/create_project_window.tscn::GDScript_sxa8d\", \"/root/WindowManager/CreateProjectWindow/CreateProjectWindowContent/MarginContainer/VBoxContainer/PanelContainer/TabContainer/Template/ScrollContainer/TemplateGridContainer/TemplateInfoPanel\": \"res://scripts/scenes/project_manager/template_info_panel/template_info_panel.gd\", \"/root/WindowManager/CreateProjectWindow/CreateProjectWindowContent/MarginContainer/VBoxContainer/PanelContainer/TabContainer/Template/ScrollContainer/TemplateGridContainer/@PanelContainer@36\": \"res://scripts/scenes/project_manager/template_info_panel/template_info_panel.gd\", \"/root/WindowManager/ConfirmationWindow\": \"res://scripts/windows/ConfirmationWindow.gd\", \"/root/WindowManager/QuestionWindow\": \"res://scripts/windows/QuestionWindow.gd\", \"/root/WindowManager/ExportWindow\": \"res://scripts/windows/ExportWindow.gd\", \"/root/GlobalEditorFileSystem\": \"res://scripts/singletons/global_editor_file_system.gd\", \"/root/GlobalEditorResourceLoader\": \"res://scripts/singletons/global_editor_resource_loader.gd\", \"/root/GlobalEditorRunnerManager\": \"res://scripts/singletons/editor_runner_manager.gd\", \"/root/NoHitStartupProbe\": \"res://nohit_probe.gd\", \"/root/NoHitStartupProbe/ProjectManager\": \"res://scripts/scenes/project_manager/project_manager.gd\", \"/root/NoHitStartupProbe/ProjectManager/ProjectImportor\": \"res://scripts/scenes/project_manager/project_importor.gd\", \"/root/NoHitStartupProbe/ProjectManager/WindowDragFileManager\": \"res://scripts/scenes/project_manager/window_drag_file_manager.gd\", \"/root/NoHitStartupProbe/ProjectManager/VBoxContainer/MarginContainer/VBoxContainer/ProjectFilterContainer/HBoxContainer/RecentButton\": \"res://scripts/utils/nodes/ArrowToggleButton.gd\" }"
+        ]
+      }
+    ],
+    "status": "attempted"
+  },
+  {
+    "repository": "rarespawns/UndertaleFangameFramework",
+    "commit": "29923069b78dea03799365213b918792526f8a9f",
+    "projects": [
+      {
+        "project": "project.godot",
+        "engine_major": 4,
+        "csharp": true,
+        "original_main": "res://Scenes/Prefabs/mainChara.tscn",
+        "patches": [
+          "GL compatibility renderer in test copy"
+        ],
+        "import": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/godot461mono/Godot_v4.6.1-stable_mono_linux_x86_64/Godot_v4.6.1-stable_mono_linux.x86_64",
+            "--path",
+            "/workspace/scratch/a18d135a7b14/native-retries/rarespawns--UndertaleFangameFramework",
+            "--headless",
+            "--editor",
+            "--import"
+          ],
+          "returncode": 0,
+          "timeout": false,
+          "seconds": 13.89411425000003,
+          "log": "rarespawns--UndertaleFangameFramework-0-import.log",
+          "errors": [
+            "ERROR: System.NullReferenceException: Object reference not set to an instance of an object."
+          ]
+        },
+        "build": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/dotnet/dotnet",
+            "exec",
+            "/workspace/scratch/a18d135a7b14/runtimes/dotnet/sdk/8.0.408/MSBuild.dll",
+            "/workspace/scratch/a18d135a7b14/native-retries/rarespawns--UndertaleFangameFramework/unaltered nature.csproj",
+            "/restore",
+            "/t:Build",
+            "/v:minimal",
+            "/nologo"
+          ],
+          "returncode": -6,
+          "timeout": false,
+          "seconds": 0.3028774769998108,
+          "log": "rarespawns--UndertaleFangameFramework-0-build.log",
+          "errors": [
+            "MSBUILD : error MSB1025: An internal failure occurred while running MSBuild."
+          ]
+        },
+        "run": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/godot461mono/Godot_v4.6.1-stable_mono_linux_x86_64/Godot_v4.6.1-stable_mono_linux.x86_64",
+            "--path",
+            "/workspace/scratch/a18d135a7b14/native-retries/rarespawns--UndertaleFangameFramework",
+            "--headless",
+            "--fixed-fps",
+            "60"
+          ],
+          "returncode": 0,
+          "timeout": false,
+          "seconds": 1.6237440249999509,
+          "log": "rarespawns--UndertaleFangameFramework-0-run.log",
+          "errors": [
+            "ERROR: Cannot instantiate C# script because the associated class could not be found. Script: 'res://Scripts/mainChara.cs'. Make sure the script exists and contains a class definition with a name that matches the filename of the script exactly (it's case-sensitive).",
+            "ERROR: Cannot instantiate C# script because the associated class could not be found. Script: 'res://Scripts/CharaController.cs'. Make sure the script exists and contains a class definition with a name that matches the filename of the script exactly (it's case-sensitive)."
+          ]
+        },
+        "status": "startup_600_frames",
+        "probe_lines": [
+          "NOHIT_PROBE_LOADED",
+          "NOHIT_PROBE_FINISHED 600 nodes=9 collision_objects=1",
+          "NOHIT_PROBE_SCRIPTS { \"/root/NoHitStartupProbe\": \"res://nohit_probe.gd\" }"
+        ]
+      }
+    ],
+    "status": "attempted"
+  },
+  {
+    "repository": "sultansagitov/UndertaleBattle",
+    "commit": "91a171e3a9affffe903c1e1774d5a0586505c2df",
+    "projects": [
+      {
+        "project": "project.godot",
+        "engine_major": 4,
+        "csharp": true,
+        "original_main": "res://Assets/Scenes/Screens/Menu.tscn",
+        "patches": [
+          "GL compatibility renderer in test copy"
+        ],
+        "import": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/godot461mono/Godot_v4.6.1-stable_mono_linux_x86_64/Godot_v4.6.1-stable_mono_linux.x86_64",
+            "--path",
+            "/workspace/scratch/a18d135a7b14/native-retries/sultansagitov--UndertaleBattle",
+            "--headless",
+            "--editor",
+            "--import"
+          ],
+          "returncode": 0,
+          "timeout": false,
+          "seconds": 14.439926110999977,
+          "log": "sultansagitov--UndertaleBattle-0-import.log",
+          "errors": [
+            "ERROR: System.NullReferenceException: Object reference not set to an instance of an object."
+          ]
+        },
+        "build": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/dotnet/dotnet",
+            "exec",
+            "/workspace/scratch/a18d135a7b14/runtimes/dotnet/sdk/8.0.408/MSBuild.dll",
+            "/workspace/scratch/a18d135a7b14/native-retries/sultansagitov--UndertaleBattle/UndertaleBattle.csproj",
+            "/restore",
+            "/t:Build",
+            "/v:minimal",
+            "/nologo"
+          ],
+          "returncode": -6,
+          "timeout": false,
+          "seconds": 0.45125410999980886,
+          "log": "sultansagitov--UndertaleBattle-0-build.log",
+          "errors": [
+            "MSBUILD : error MSB1025: An internal failure occurred while running MSBuild."
+          ]
+        },
+        "run": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/godot461mono/Godot_v4.6.1-stable_mono_linux_x86_64/Godot_v4.6.1-stable_mono_linux.x86_64",
+            "--path",
+            "/workspace/scratch/a18d135a7b14/native-retries/sultansagitov--UndertaleBattle",
+            "--headless",
+            "--fixed-fps",
+            "60"
+          ],
+          "returncode": 0,
+          "timeout": false,
+          "seconds": 1.5610212649999085,
+          "log": "sultansagitov--UndertaleBattle-0-run.log",
+          "errors": [
+            "ERROR: Cannot instantiate C# script because the associated class could not be found. Script: 'res://Assets/Scenes/Screens/Menu.cs'. Make sure the script exists and contains a class definition with a name that matches the filename of the script exactly (it's case-sensitive).",
+            "ERROR: Cannot instantiate C# script because the associated class could not be found. Script: 'res://Camera.cs'. Make sure the script exists and contains a class definition with a name that matches the filename of the script exactly (it's case-sensitive)."
+          ]
+        },
+        "status": "startup_600_frames",
+        "probe_lines": [
+          "NOHIT_PROBE_LOADED",
+          "NOHIT_PROBE_FINISHED 600 nodes=6 collision_objects=0",
+          "NOHIT_PROBE_SCRIPTS { \"/root/NoHitStartupProbe\": \"res://nohit_probe.gd\" }"
+        ]
+      }
+    ],
+    "status": "attempted"
+  }
+]

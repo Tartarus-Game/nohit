@@ -1,0 +1,155 @@
+{
+  "status": "native_nohit_fresh_process_observed",
+  "search": "finite input portfolio; exhaustion does not prove no solution",
+  "attempts": [
+    {
+      "status": "hit",
+      "ticks": 27,
+      "record": "/workspace/scratch/a18d135a7b14/nohit/generic-engine/research/portable-v1/acceptance-v2/godot4-portfolio/candidate-000/result.json",
+      "wall_seconds": 0.7292161400000623,
+      "reason": ""
+    },
+    {
+      "status": "native_route_candidate",
+      "ticks": 47,
+      "record": "/workspace/scratch/a18d135a7b14/nohit/generic-engine/research/portable-v1/acceptance-v2/godot4-portfolio/candidate-001/result.json",
+      "wall_seconds": 1.0135013799999797,
+      "reason": ""
+    },
+    {
+      "status": "hit",
+      "ticks": 14,
+      "record": "/workspace/scratch/a18d135a7b14/nohit/generic-engine/research/portable-v1/acceptance-v2/godot4-portfolio/candidate-002/result.json",
+      "wall_seconds": 0.44793397100011134,
+      "reason": ""
+    },
+    {
+      "status": "native_route_candidate",
+      "ticks": 47,
+      "record": "/workspace/scratch/a18d135a7b14/nohit/generic-engine/research/portable-v1/acceptance-v2/godot4-portfolio/candidate-003/result.json",
+      "wall_seconds": 1.0109493140000723,
+      "reason": ""
+    },
+    {
+      "status": "native_route_candidate",
+      "ticks": 47,
+      "record": "/workspace/scratch/a18d135a7b14/nohit/generic-engine/research/portable-v1/acceptance-v2/godot4-portfolio/candidate-004/result.json",
+      "wall_seconds": 1.00139400199987,
+      "reason": ""
+    },
+    {
+      "status": "native_route_candidate",
+      "ticks": 47,
+      "record": "/workspace/scratch/a18d135a7b14/nohit/generic-engine/research/portable-v1/acceptance-v2/godot4-portfolio/candidate-005/result.json",
+      "wall_seconds": 1.011311016000036,
+      "reason": ""
+    },
+    {
+      "status": "native_route_candidate",
+      "ticks": 47,
+      "record": "/workspace/scratch/a18d135a7b14/nohit/generic-engine/research/portable-v1/acceptance-v2/godot4-portfolio/candidate-006/result.json",
+      "wall_seconds": 1.121756749000042,
+      "reason": ""
+    },
+    {
+      "status": "native_route_candidate",
+      "ticks": 47,
+      "record": "/workspace/scratch/a18d135a7b14/nohit/generic-engine/research/portable-v1/acceptance-v2/godot4-portfolio/candidate-007/result.json",
+      "wall_seconds": 1.011468681999986,
+      "reason": ""
+    },
+    {
+      "status": "native_route_candidate",
+      "ticks": 47,
+      "record": "/workspace/scratch/a18d135a7b14/nohit/generic-engine/research/portable-v1/acceptance-v2/godot4-portfolio/candidate-008/result.json",
+      "wall_seconds": 1.001134188999913,
+      "reason": ""
+    },
+    {
+      "status": "native_route_candidate",
+      "ticks": 47,
+      "record": "/workspace/scratch/a18d135a7b14/nohit/generic-engine/research/portable-v1/acceptance-v2/godot4-portfolio/candidate-009/result.json",
+      "wall_seconds": 1.0251092119999612,
+      "reason": ""
+    },
+    {
+      "status": "hit",
+      "ticks": 14,
+      "record": "/workspace/scratch/a18d135a7b14/nohit/generic-engine/research/portable-v1/acceptance-v2/godot4-portfolio/candidate-010/result.json",
+      "wall_seconds": 0.44717728099999476,
+      "reason": ""
+    },
+    {
+      "status": "native_route_candidate",
+      "ticks": 47,
+      "record": "/workspace/scratch/a18d135a7b14/nohit/generic-engine/research/portable-v1/acceptance-v2/godot4-portfolio/candidate-011/result.json",
+      "wall_seconds": 1.0188006800001403,
+      "reason": ""
+    }
+  ],
+  "schema": "nohit.live.certificate.v1",
+  "fresh_process_exact_observation_replay": true,
+  "native_damage_control": true,
+  "integration_files_unchanged": true,
+  "integration_sha256": {
+    "project.godot": "1804411858640f8fa9d4956ef15cf81718ef4965122e03f192d5e7b5029f10a0",
+    "nohit_adapter.gd": "4028136709ec2ca91278b566645947b23b5d35ff4037592fea13dc18467d5856",
+    "addons/nohit_live/adapter_base.gd": "b0a5be2412c65d3bf7dc7e90a95352bb7937bdd637baa9dbc0946420a91065f3",
+    "addons/nohit_live/session.gd": "741bb96fa33edc8358d8c1b98abdcfa87ba7671d29124a92319a3e52fca108f7",
+    "addons/nohit_live/configured_adapter.gd": "e8edbc53a9059975d61a5dd1fc5b499b4479019f142ecbe956346e6f12945a66"
+  },
+  "route": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+  ],
+  "seed": 1,
+  "candidate_record": "/workspace/scratch/a18d135a7b14/nohit/generic-engine/research/portable-v1/acceptance-v2/godot4-portfolio/candidate-001/result.json",
+  "replay_record": "/workspace/scratch/a18d135a7b14/nohit/generic-engine/research/portable-v1/acceptance-v2/godot4-portfolio/replay/result.json",
+  "control_record": "/workspace/scratch/a18d135a7b14/nohit/generic-engine/research/portable-v1/acceptance-v2/godot4-portfolio/control/result.json",
+  "scope": "Original native frames and adapter-audited damage; observations are not full world snapshots. Applies only to this scene, seed, route and audit scope."
+}

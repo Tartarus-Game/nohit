@@ -1,0 +1,117 @@
+Godot Engine v4.6.1.stable.official.14d19694e - https://godotengine.org
+
+NOHIT_PROBE_LOADED
+WARNING: res://auto_load/SceneManager.tscn:3 - ext_resource, invalid UID: uid://b86onmpys06k5 - using text path instead: res://auto_load/SceneManager.gd
+     at: load (scene/resources/resource_format_text.cpp:500)
+WARNING: res://auto_load/audio/AudioManager.tscn:3 - ext_resource, invalid UID: uid://3ajmtkjr0gu0 - using text path instead: res://auto_load/audio/AudioManager.gd
+     at: load (scene/resources/resource_format_text.cpp:500)
+WARNING: res://battle/enemy/BattleEnemy.tscn:3 - ext_resource, invalid UID: uid://216nihooed7h - using text path instead: res://battle/enemy/BattleEnemy.gd
+     at: load (scene/resources/resource_format_text.cpp:500)
+     GDScript backtrace (most recent call first):
+         [0] @implicit_new (res://auto_load/encounter/EncounterManager.gd:4)
+WARNING: res://battle/enemy/test/battle_enemy_test.tscn:4 - ext_resource, invalid UID: uid://cyhfv6rhvli62 - using text path instead: res://battle/enemy/test/BattleEnemyTest.gd
+     at: load (scene/resources/resource_format_text.cpp:500)
+     GDScript backtrace (most recent call first):
+         [0] @implicit_new (res://auto_load/encounter/EncounterManager.gd:4)
+WARNING: res://overworld/test_level/test.tscn:3 - ext_resource, invalid UID: uid://bsnnqtiv5ncun - using text path instead: res://overworld/test_level/test.gd
+     at: load (scene/resources/resource_format_text.cpp:500)
+     GDScript backtrace (most recent call first):
+         [0] _ready (res://nohit_probe.gd:8)
+WARNING: res://battle/Battle.tscn:3 - ext_resource, invalid UID: uid://cv7y1mcuui6l2 - using text path instead: res://battle/Battle.gd
+     at: load (scene/resources/resource_format_text.cpp:500)
+     GDScript backtrace (most recent call first):
+         [0] goto_scene_to_path (res://auto_load/SceneManager.gd:8)
+         [1] _encounter_animation_start (res://auto_load/SceneManager.gd:36)
+         [2] encounter (res://auto_load/encounter/EncounterManager.gd:13)
+         [3] _ready (res://overworld/test_level/test.gd:4)
+WARNING: res://battle/UI/BattleUI.tscn:3 - ext_resource, invalid UID: uid://cej26ro85xcvn - using text path instead: res://battle/UI/BattleUI.gd
+     at: load (scene/resources/resource_format_text.cpp:500)
+     GDScript backtrace (most recent call first):
+         [0] goto_scene_to_path (res://auto_load/SceneManager.gd:8)
+         [1] _encounter_animation_start (res://auto_load/SceneManager.gd:36)
+         [2] encounter (res://auto_load/encounter/EncounterManager.gd:13)
+         [3] _ready (res://overworld/test_level/test.gd:4)
+WARNING: res://battle/button/BattleButtonManager.tscn:3 - ext_resource, invalid UID: uid://b3qvy63iq3jp3 - using text path instead: res://battle/button/BattleButtonManager.gd
+     at: load (scene/resources/resource_format_text.cpp:500)
+     GDScript backtrace (most recent call first):
+         [0] goto_scene_to_path (res://auto_load/SceneManager.gd:8)
+         [1] _encounter_animation_start (res://auto_load/SceneManager.gd:36)
+         [2] encounter (res://auto_load/encounter/EncounterManager.gd:13)
+         [3] _ready (res://overworld/test_level/test.gd:4)
+WARNING: res://battle/box/BattleBox.tscn:3 - ext_resource, invalid UID: uid://ufcipaufi28o - using text path instead: res://battle/box/BattleBox.gd
+     at: load (scene/resources/resource_format_text.cpp:500)
+     GDScript backtrace (most recent call first):
+         [0] goto_scene_to_path (res://auto_load/SceneManager.gd:8)
+         [1] _encounter_animation_start (res://auto_load/SceneManager.gd:36)
+         [2] encounter (res://auto_load/encounter/EncounterManager.gd:13)
+         [3] _ready (res://overworld/test_level/test.gd:4)
+WARNING: res://battle/battle_soul/BattleSoulRed.tscn:3 - ext_resource, invalid UID: uid://00leej5hfwal - using text path instead: res://battle/battle_soul/BattleSoulRed.gd
+     at: load (scene/resources/resource_format_text.cpp:500)
+     GDScript backtrace (most recent call first):
+         [0] goto_scene_to_path (res://auto_load/SceneManager.gd:8)
+         [1] _encounter_animation_start (res://auto_load/SceneManager.gd:36)
+         [2] encounter (res://auto_load/encounter/EncounterManager.gd:13)
+         [3] _ready (res://overworld/test_level/test.gd:4)
+WARNING: res://battle/Battle.tscn:7 - ext_resource, invalid UID: uid://i6angjxr4tgp - using text path instead: res://battle/BattleUIManager.gd
+     at: load (scene/resources/resource_format_text.cpp:500)
+     GDScript backtrace (most recent call first):
+         [0] goto_scene_to_path (res://auto_load/SceneManager.gd:8)
+         [1] _encounter_animation_start (res://auto_load/SceneManager.gd:36)
+         [2] encounter (res://auto_load/encounter/EncounterManager.gd:13)
+         [3] _ready (res://overworld/test_level/test.gd:4)
+WARNING: res://battle/Battle.tscn:8 - ext_resource, invalid UID: uid://msjgj3necajq - using text path instead: res://battle/motion_blur.gdshader
+     at: load (scene/resources/resource_format_text.cpp:500)
+     GDScript backtrace (most recent call first):
+         [0] goto_scene_to_path (res://auto_load/SceneManager.gd:8)
+         [1] _encounter_animation_start (res://auto_load/SceneManager.gd:36)
+         [2] encounter (res://auto_load/encounter/EncounterManager.gd:13)
+         [3] _ready (res://overworld/test_level/test.gd:4)
+WARNING: res://auto_load/text/TextTyper.tscn:4 - ext_resource, invalid UID: uid://b6kfnt5v6kydf - using text path instead: res://auto_load/text/TextTyper.gd
+     at: load (scene/resources/resource_format_text.cpp:500)
+     GDScript backtrace (most recent call first):
+         [0] goto_scene_to_path (res://auto_load/SceneManager.gd:8)
+         [1] _encounter_animation_start (res://auto_load/SceneManager.gd:36)
+         [2] encounter (res://auto_load/encounter/EncounterManager.gd:13)
+         [3] _ready (res://overworld/test_level/test.gd:4)
+WARNING: res://battle/Battle.tscn:10 - ext_resource, invalid UID: uid://dgjryx8kkb80t - using text path instead: res://battle/EnemyManager.gd
+     at: load (scene/resources/resource_format_text.cpp:500)
+     GDScript backtrace (most recent call first):
+         [0] goto_scene_to_path (res://auto_load/SceneManager.gd:8)
+         [1] _encounter_animation_start (res://auto_load/SceneManager.gd:36)
+         [2] encounter (res://auto_load/encounter/EncounterManager.gd:13)
+         [3] _ready (res://overworld/test_level/test.gd:4)
+WARNING: res://battle/UI/EnemyActionSelection.tscn:5 - ext_resource, invalid UID: uid://f34amk1qi5vl - using text path instead: res://battle/UI/EnemyActionSelection.gd
+     at: load (scene/resources/resource_format_text.cpp:500)
+     GDScript backtrace (most recent call first):
+         [0] goto_scene_to_path (res://auto_load/SceneManager.gd:8)
+         [1] _encounter_animation_start (res://auto_load/SceneManager.gd:36)
+         [2] encounter (res://auto_load/encounter/EncounterManager.gd:13)
+         [3] _ready (res://overworld/test_level/test.gd:4)
+WARNING: res://battle/Battle.tscn:13 - ext_resource, invalid UID: uid://crl225nns03sg - using text path instead: res://battle/EnemySelectorManager.gd
+     at: load (scene/resources/resource_format_text.cpp:500)
+     GDScript backtrace (most recent call first):
+         [0] goto_scene_to_path (res://auto_load/SceneManager.gd:8)
+         [1] _encounter_animation_start (res://auto_load/SceneManager.gd:36)
+         [2] encounter (res://auto_load/encounter/EncounterManager.gd:13)
+         [3] _ready (res://overworld/test_level/test.gd:4)
+WARNING: res://battle/Battle.tscn:14 - ext_resource, invalid UID: uid://cfowiuow5fvpm - using text path instead: res://battle/BattleActions.gd
+     at: load (scene/resources/resource_format_text.cpp:500)
+     GDScript backtrace (most recent call first):
+         [0] goto_scene_to_path (res://auto_load/SceneManager.gd:8)
+         [1] _encounter_animation_start (res://auto_load/SceneManager.gd:36)
+         [2] encounter (res://auto_load/encounter/EncounterManager.gd:13)
+         [3] _ready (res://overworld/test_level/test.gd:4)
+WARNING: res://battle/UI/EnemySelector.tscn:3 - ext_resource, invalid UID: uid://nj8tyjsko31h - using text path instead: res://battle/UI/EnemySelector.gd
+     at: load (scene/resources/resource_format_text.cpp:500)
+     GDScript backtrace (most recent call first):
+         [0] goto_scene_to_path (res://auto_load/SceneManager.gd:8)
+         [1] _encounter_animation_start (res://auto_load/SceneManager.gd:36)
+         [2] encounter (res://auto_load/encounter/EncounterManager.gd:13)
+         [3] _ready (res://overworld/test_level/test.gd:4)
+WARNING: res://battle/UI/Items.tscn:3 - ext_resource, invalid UID: uid://dnossliruxob - using text path instead: res://battle/UI/items.gd
+     at: load (scene/resources/resource_format_text.cpp:500)
+     GDScript backtrace (most recent call first):
+         [0] goto_scene_to_path (res://auto_load/SceneManager.gd:8)
+         [1] _encounter_animation_start (res://auto_load/SceneManager.gd:36)
+         [2] encounter (res://auto_load/encounter/EncounterManager.gd:13)
+         [3] _ready (res://overworld/test_level/test.gd:4)

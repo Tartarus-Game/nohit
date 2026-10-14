@@ -1,0 +1,7 @@
+config_version=4
+[application]
+config/name="NoHit Portable Integration Fixture"
+run/main_scene="res://main.tscn"
+config/features=PoolStringArray("3.5", "GL Compatibility")
+[rendering]
+renderer/rendering_method="gl_compatibility"

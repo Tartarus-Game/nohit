@@ -1,0 +1,17 @@
+{
+  "schema": "nohit.config.v1",
+  "ready_path": ".",
+  "actions": ["ui_left", "ui_right", "ui_up", "ui_down"],
+  "damage_signal": {"path": ".", "signal": "damaged"},
+  "has_kr": false,
+  "finished_signal": {"path": ".", "signal": "attack_finished"},
+  "start_path": ".",
+  "start_method": "start_attack",
+  "start_arguments": ["$seed"],
+  "observations": {
+    "x": {"path": ".", "property": "soul_position:x"},
+    "y": {"path": ".", "property": "soul_position:y"},
+    "hp": {"path": ".", "property": "hp"},
+    "attack_tick": {"path": ".", "property": "tick"}
+  }
+}

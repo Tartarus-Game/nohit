@@ -1,0 +1,21 @@
+Godot Engine v4.6.1.stable.mono.official.14d19694e - https://godotengine.org
+
+Unable to load .NET runtime, specifically hostfxr.
+Attempting to create/edit a project will lead to a crash.
+
+Please install the .NET SDK 8.0 or later from https://get.dot.net and restart Godot.
+ERROR: sh: 1: dotnet: not found
+
+   at: try_get_dotnet_root_from_command_line (modules/mono/mono_gd/gd_mono.cpp:119)
+ERROR: .NET: One of the dependent libraries is missing. Typically when the `hostfxr`, `hostpolicy` or `coreclr` dynamic libraries are not present in the expected locations.
+   at: find_hostfxr (modules/mono/mono_gd/gd_mono.cpp:179)
+ERROR: .NET: Failed to load hostfxr
+   at: initialize (modules/mono/mono_gd/gd_mono.cpp:673)
+
+================================================================
+handle_crash: Program crashed with signal 11
+Engine version: Godot Engine v4.6.1.stable.mono.official (14d19694e0c88a3f9e82d899a0400f27a24c176e)
+Dumping the backtrace. Please include this when reporting the bug on: https://github.com/godotengine/godot/issues
+[1] /lib/x86_64-linux-gnu/libc.so.6(+0x45330) [0x7f9e721b0330] (??:0)
+-- END OF C++ BACKTRACE --
+================================================================

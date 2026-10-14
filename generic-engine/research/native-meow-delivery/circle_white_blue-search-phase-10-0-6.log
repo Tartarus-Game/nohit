@@ -1,0 +1,9 @@
+Godot Engine v4.6.1.stable.official.14d19694e - https://godotengine.org
+
+NOHIT_ENTRY (320.0, 350.0) mode=1 special=2
+NOHIT_RESULT hit ticks=46 damage=1
+ERROR: 1 RID allocations of type 'P12GodotShape2D' were leaked at exit.
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+     at: cleanup (core/object/object.cpp:2641)
+ERROR: 14 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:810)

@@ -1,0 +1,5 @@
+Unhandled exception. System.ComponentModel.Win32Exception (2): Unable to retrieve the specified information about the process or thread.  It may have exited or may be privileged.
+   at System.Diagnostics.Process.GetStat()
+   at System.Diagnostics.Process.get_StartTimeCore()
+   at System.Diagnostics.Process.get_StartTime()
+   at Microsoft.DotNet.Cli.Program.Main(String[] args)

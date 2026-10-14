@@ -1,0 +1,281 @@
+Godot Engine v4.6.1.stable.mono.official.14d19694e - https://godotengine.org
+
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Started Project initialization (5 steps)[39m[0m
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Scanning file structure...[39m[0m
+[  16% ] [90m[1mfirst_scan_filesystem[22m | Loading global class names...[39m[0m
+[  33% ] [90m[1mfirst_scan_filesystem[22m | Verifying GDExtensions...[39m[0m
+[  50% ] [90m[1mfirst_scan_filesystem[22m | Creating autoload scripts...[39m[0m
+[  66% ] [90m[1mfirst_scan_filesystem[22m | Initializing plugins...[39m[0m
+[  83% ] [90m[1mfirst_scan_filesystem[22m | Starting file scan...[39m[0m
+[92m[ DONE ][39m [1mfirst_scan_filesystem[22m
+[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | Started Registering global classes... (11 steps)[39m[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   8% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  16% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  25% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  33% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  41% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  50% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  58% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  66% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  75% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  83% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[92m[ DONE ][39m [1mupdate_scripts_classes[22m
+[0m
+[   0% ] [90m[1m_update_scan_actions[22m | Started Scanning actions... (74 steps)[39m[0m
+[   0% ] [90m[1m_update_scan_actions[22m | ComicSans.ttf[39m[0m
+[   1% ] [90m[1m_update_scan_actions[22m | DeterminationMono.ttf[39m[0m
+[   2% ] [90m[1m_update_scan_actions[22m | DeterminationSans.ttf[39m[0m
+[   4% ] [90m[1m_update_scan_actions[22m | Papyrus.ttf[39m[0m
+[   5% ] [90m[1m_update_scan_actions[22m | TroubleBeneathTheDome.ttf[39m[0m
+[   6% ] [90m[1m_update_scan_actions[22m | Wingdings.ttf[39m[0m
+[   8% ] [90m[1m_update_scan_actions[22m | 9 - Enemy Approaching.ogg[39m[0m
+[   9% ] [90m[1m_update_scan_actions[22m | Undertale Yellow - MEGALOVANIA.wav[39m[0m
+[  10% ] [90m[1m_update_scan_actions[22m | snd_select.wav[39m[0m
+[  12% ] [90m[1m_update_scan_actions[22m | snd_squeak.wav[39m[0m
+[  13% ] [90m[1m_update_scan_actions[22m | SND_TXT1.wav[39m[0m
+[  14% ] [90m[1m_update_scan_actions[22m | SND_TXT2.wav[39m[0m
+[  16% ] [90m[1m_update_scan_actions[22m | snd_txtal.wav[39m[0m
+[  17% ] [90m[1m_update_scan_actions[22m | snd_txtasg.wav[39m[0m
+[  18% ] [90m[1m_update_scan_actions[22m | snd_txtasr2.wav[39m[0m
+[  20% ] [90m[1m_update_scan_actions[22m | snd_txtasr.wav[39m[0m
+[  21% ] [90m[1m_update_scan_actions[22m | snd_txtpap.wav[39m[0m
+[  22% ] [90m[1m_update_scan_actions[22m | snd_txtsans2.wav[39m[0m
+[  24% ] [90m[1m_update_scan_actions[22m | snd_txtsans.wav[39m[0m
+[  25% ] [90m[1m_update_scan_actions[22m | snd_txttor2.wav[39m[0m
+[  26% ] [90m[1m_update_scan_actions[22m | snd_txttor3.wav[39m[0m
+[  28% ] [90m[1m_update_scan_actions[22m | snd_txttor.wav[39m[0m
+[  29% ] [90m[1m_update_scan_actions[22m | snd_txtund2.wav[39m[0m
+[  30% ] [90m[1m_update_scan_actions[22m | snd_txtund3.wav[39m[0m
+[  32% ] [90m[1m_update_scan_actions[22m | snd_txtund4.wav[39m[0m
+[  33% ] [90m[1m_update_scan_actions[22m | snd_txtund.wav[39m[0m
+[  34% ] [90m[1m_update_scan_actions[22m | snd_txtund_hyper.wav[39m[0m
+[  36% ] [90m[1m_update_scan_actions[22m | txtflow.wav[39m[0m
+[  37% ] [90m[1m_update_scan_actions[22m | spr_froggit_1.png[39m[0m
+[  38% ] [90m[1m_update_scan_actions[22m | spr_froggit_2.png[39m[0m
+[  40% ] [90m[1m_update_scan_actions[22m | spr_froggit_3.png[39m[0m
+[  41% ] [90m[1m_update_scan_actions[22m | spr_sansb_legs_0.png[39m[0m
+[  42% ] [90m[1m_update_scan_actions[22m | spr_sansb_torso_0.png[39m[0m
+[  44% ] [90m[1m_update_scan_actions[22m | spr_sans_bface_0.png[39m[0m
+[  45% ] [90m[1m_update_scan_actions[22m | spr_actbt.png[39m[0m
+[  46% ] [90m[1m_update_scan_actions[22m | spr_battlebg_0.png[39m[0m
+[  48% ] [90m[1m_update_scan_actions[22m | spr_fightbt.png[39m[0m
+[  49% ] [90m[1m_update_scan_actions[22m | spr_heart_battle.png[39m[0m
+[  50% ] [90m[1m_update_scan_actions[22m | spr_heart_battle_yellow_upright.png[39m[0m
+[  52% ] [90m[1m_update_scan_actions[22m | spr_itembt.png[39m[0m
+[  53% ] [90m[1m_update_scan_actions[22m | spr_sparebt.png[39m[0m
+[  54% ] [90m[1m_update_scan_actions[22m | spr_uty_fightbt.png[39m[0m
+[  56% ] [90m[1m_update_scan_actions[22m | spr_sans-Sheet.png[39m[0m
+[  57% ] [90m[1m_update_scan_actions[22m | spr_toriel-Sheet.png[39m[0m
+[  58% ] [90m[1m_update_scan_actions[22m | spr_face_papyruswacky_0.png[39m[0m
+[  60% ] [90m[1m_update_scan_actions[22m | spr_face_papyruswacky_1.png[39m[0m
+[  61% ] [90m[1m_update_scan_actions[22m | spr_face_sanschuckle2_0.png[39m[0m
+[  62% ] [90m[1m_update_scan_actions[22m | spr_face_sanswink_0.png[39m[0m
+[  64% ] [90m[1m_update_scan_actions[22m | spr_face_sans_0.png[39m[0m
+[  65% ] [90m[1m_update_scan_actions[22m | spr_face_torielblink_0.png[39m[0m
+[  66% ] [90m[1m_update_scan_actions[22m | spr_face_torielblink_1.png[39m[0m
+[  68% ] [90m[1m_update_scan_actions[22m | spr_face_torielblink_2.png[39m[0m
+[  69% ] [90m[1m_update_scan_actions[22m | spr_face_torielbody_0.png[39m[0m
+[  70% ] [90m[1m_update_scan_actions[22m | spr_face_torieltalk_0.png[39m[0m
+[  72% ] [90m[1m_update_scan_actions[22m | spr_face_torieltalk_1.png[39m[0m
+[  73% ] [90m[1m_update_scan_actions[22m | spr_face_toriel_cursed_0.png[39m[0m
+[  74% ] [90m[1m_update_scan_actions[22m | spr_face_toriel_cursed_1.png[39m[0m
+[  76% ] [90m[1m_update_scan_actions[22m | torieltalklowquality.png[39m[0m
+[  77% ] [90m[1m_update_scan_actions[22m | spr_blconabove_0.png[39m[0m
+[  78% ] [90m[1m_update_scan_actions[22m | spr_blconbelow_0.png[39m[0m
+[  80% ] [90m[1m_update_scan_actions[22m | spr_blconsm2_0.png[39m[0m
+[  81% ] [90m[1m_update_scan_actions[22m | spr_blconsm2_shrt_0.png[39m[0m
+[  82% ] [90m[1m_update_scan_actions[22m | spr_blconsm_0.png[39m[0m
+[  84% ] [90m[1m_update_scan_actions[22m | spr_blconsm_shrt_0.png[39m[0m
+[  85% ] [90m[1m_update_scan_actions[22m | spr_blcontinyabove_0.png[39m[0m
+[  86% ] [90m[1m_update_scan_actions[22m | spr_blcontiny_0.png[39m[0m
+[  88% ] [90m[1m_update_scan_actions[22m | spr_blcontl_0.png[39m[0m
+[  89% ] [90m[1m_update_scan_actions[22m | spr_blconwdshrt_0.png[39m[0m
+[  90% ] [90m[1m_update_scan_actions[22m | spr_blconwdshrt_l_0.png[39m[0m
+[  92% ] [90m[1m_update_scan_actions[22m | spr_blconwd_0.png[39m[0m
+[  93% ] [90m[1m_update_scan_actions[22m | RuinsTilemap.png[39m[0m
+[  94% ] [90m[1m_update_scan_actions[22m | spr_f_mainchara-sheet.png[39m[0m
+[  96% ] [90m[1m_update_scan_actions[22m | Black.png[39m[0m
+[  97% ] [90m[1m_update_scan_actions[22m | White.png[39m[0m
+[92m[ DONE ][39m [1m_update_scan_actions[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started (Re)Importing Assets (74 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   1% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   2% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   4% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   5% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   6% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   8% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   9% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  10% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  12% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  13% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  14% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  16% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  17% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  18% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  20% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  21% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  22% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  24% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  25% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  26% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  28% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  29% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  30% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  32% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  33% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  34% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  36% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  37% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  38% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  40% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  41% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  42% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  44% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  45% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  46% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  48% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  49% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  50% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  52% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  53% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  54% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  56% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  57% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  58% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  60% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  61% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  62% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  64% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  65% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  66% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  68% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  69% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  70% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  72% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  73% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  74% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  76% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  77% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  78% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  80% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  81% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  82% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  84% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  85% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  86% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  88% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  89% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  90% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  92% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  93% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  94% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  96% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  97% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   0% ] [90m[1mreimport[22m | Executing pre-reimport operations...[39m[0m
+[   0% ] [90m[1mreimport[22m | ComicSans.ttf[39m[0m
+[   1% ] [90m[1mreimport[22m | DeterminationMono.ttf[39m[0m
+[   2% ] [90m[1mreimport[22m | DeterminationSans.ttf[39m[0m
+[   4% ] [90m[1mreimport[22m | Papyrus.ttf[39m[0m
+[   5% ] [90m[1mreimport[22m | TroubleBeneathTheDome.ttf[39m[0m
+[   6% ] [90m[1mreimport[22m | Wingdings.ttf[39m[0m
+[   8% ] [90m[1mreimport[22m | 9 - Enemy Approaching.ogg[39m[0m
+[   9% ] [90m[1mreimport[22m | ComicSans.ttf[39m[0m
+[  10% ] [90m[1mreimport[22m | DeterminationMono.ttf[39m[0m
+[  12% ] [90m[1mreimport[22m | DeterminationSans.ttf[39m[0m
+[  13% ] [90m[1mreimport[22m | Papyrus.ttf[39m[0m
+[  14% ] [90m[1mreimport[22m | TroubleBeneathTheDome.ttf[39m[0m
+[  16% ] [90m[1mreimport[22m | Wingdings.ttf[39m[0m
+[  17% ] [90m[1mreimport[22m | 9 - Enemy Approaching.ogg[39m[0m
+[  18% ] [90m[1mreimport[22m | spr_face_toriel_cursed_1.png[39m[0m
+[  20% ] [90m[1mreimport[22m | spr_face_toriel_cursed_0.png[39m[0m
+[  21% ] [90m[1mreimport[22m | spr_face_torieltalk_1.png[39m[0m
+[  22% ] [90m[1mreimport[22m | spr_face_torieltalk_0.png[39m[0m
+[  24% ] [90m[1mreimport[22m | spr_face_torielbody_0.png[39m[0m
+[  25% ] [90m[1mreimport[22m | spr_face_torielblink_2.png[39m[0m
+[  26% ] [90m[1mreimport[22m | spr_face_torielblink_1.png[39m[0m
+[  28% ] [90m[1mreimport[22m | spr_face_torielblink_0.png[39m[0m
+[  29% ] [90m[1mreimport[22m | spr_face_sans_0.png[39m[0m
+[  30% ] [90m[1mreimport[22m | spr_face_sanswink_0.png[39m[0m
+[  32% ] [90m[1mreimport[22m | spr_face_sanschuckle2_0.png[39m[0m
+[  33% ] [90m[1mreimport[22m | spr_face_papyruswacky_1.png[39m[0m
+[  34% ] [90m[1mreimport[22m | spr_face_papyruswacky_0.png[39m[0m
+[  36% ] [90m[1mreimport[22m | spr_toriel-Sheet.png[39m[0m
+[  37% ] [90m[1mreimport[22m | spr_sans-Sheet.png[39m[0m
+[  38% ] [90m[1mreimport[22m | spr_uty_fightbt.png[39m[0m
+[  40% ] [90m[1mreimport[22m | White.png[39m[0m
+[  41% ] [90m[1mreimport[22m | Black.png[39m[0m
+[  42% ] [90m[1mreimport[22m | spr_f_mainchara-sheet.png[39m[0m
+[  44% ] [90m[1mreimport[22m | RuinsTilemap.png[39m[0m
+[  45% ] [90m[1mreimport[22m | spr_blconwd_0.png[39m[0m
+[  46% ] [90m[1mreimport[22m | spr_blconwdshrt_l_0.png[39m[0m
+[  48% ] [90m[1mreimport[22m | spr_blconwdshrt_0.png[39m[0m
+[  49% ] [90m[1mreimport[22m | spr_blcontl_0.png[39m[0m
+[  50% ] [90m[1mreimport[22m | spr_blcontiny_0.png[39m[0m
+[  52% ] [90m[1mreimport[22m | spr_blcontinyabove_0.png[39m[0m
+[  53% ] [90m[1mreimport[22m | spr_blconsm_shrt_0.png[39m[0m
+[  54% ] [90m[1mreimport[22m | spr_blconsm_0.png[39m[0m
+[  56% ] [90m[1mreimport[22m | spr_blconsm2_shrt_0.png[39m[0m
+[  57% ] [90m[1mreimport[22m | spr_blconsm2_0.png[39m[0m
+[  58% ] [90m[1mreimport[22m | spr_blconbelow_0.png[39m[0m
+[  60% ] [90m[1mreimport[22m | spr_blconabove_0.png[39m[0m
+[  61% ] [90m[1mreimport[22m | torieltalklowquality.png[39m[0m
+[  62% ] [90m[1mreimport[22m | spr_froggit_1.png[39m[0m
+[  64% ] [90m[1mreimport[22m | spr_froggit_2.png[39m[0m
+[  65% ] [90m[1mreimport[22m | spr_froggit_3.png[39m[0m
+[  66% ] [90m[1mreimport[22m | spr_sansb_legs_0.png[39m[0m
+[  68% ] [90m[1mreimport[22m | spr_sansb_torso_0.png[39m[0m
+[  69% ] [90m[1mreimport[22m | spr_sans_bface_0.png[39m[0m
+[  70% ] [90m[1mreimport[22m | ComicSans.ttf[39m[0m
+[  72% ] [90m[1mreimport[22m | DeterminationMono.ttf[39m[0m
+[  73% ] [90m[1mreimport[22m | DeterminationSans.ttf[39m[0m
+[  74% ] [90m[1mreimport[22m | Papyrus.ttf[39m[0m
+[  76% ] [90m[1mreimport[22m | TroubleBeneathTheDome.ttf[39m[0m
+[  77% ] [90m[1mreimport[22m | Wingdings.ttf[39m[0m
+[  78% ] [90m[1mreimport[22m | 9 - Enemy Approaching.ogg[39m[0m
+[  80% ] [90m[1mreimport[22m | spr_face_toriel_cursed_1.png[39m[0m
+[  81% ] [90m[1mreimport[22m | spr_face_toriel_cursed_0.png[39m[0m
+[  82% ] [90m[1mreimport[22m | spr_face_torieltalk_1.png[39m[0m
+[  84% ] [90m[1mreimport[22m | spr_face_torieltalk_0.png[39m[0m
+[  85% ] [90m[1mreimport[22m | spr_face_torielbody_0.png[39m[0m
+[  86% ] [90m[1mreimport[22m | spr_face_torielblink_2.png[39m[0m
+[  88% ] [90m[1mreimport[22m | spr_face_torielblink_1.png[39m[0m
+[  89% ] [90m[1mreimport[22m | spr_face_torielblink_0.png[39m[0m
+[  90% ] [90m[1mreimport[22m | spr_face_sans_0.png[39m[0m
+[  92% ] [90m[1mreimport[22m | spr_face_sanswink_0.png[39m[0m
+[  93% ] [90m[1mreimport[22m | spr_face_sanschuckle2_0.png[39m[0m
+[  94% ] [90m[1mreimport[22m | spr_face_papyruswacky_1.png[39m[0m
+[  96% ] [90m[1mreimport[22m | spr_face_papyruswacky_0.png[39m[0m
+[  97% ] [90m[1mreimport[22m | spr_toriel-Sheet.png[39m[0m
+[  98% ] [90m[1mreimport[22m | Finalizing Asset Import...[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started (Re)Importing Assets (74 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | Executing post-reimport operations...[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Started Loading editor (5 steps)[39m[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Loading editor layout...[39m[0m
+[  16% ] [90m[1mloading_editor_layout[22m | Loading docks...[39m[0m
+[92m[ DONE ][39m [1mloading_editor_layout[22m
+[0m
+ERROR: System.NullReferenceException: Object reference not set to an instance of an object.
+   at Microsoft.Build.Shared.BuildEnvironmentHelper.get_Instance()
+   at Microsoft.Build.Internal.Utilities.GetEnvironmentProperties()
+   at Microsoft.Build.Evaluation.ProjectCollection.get_EnvironmentProperties()
+   at Microsoft.Build.Evaluation.ProjectCollection.InitializeToolsetCollection(ToolsetConfigurationReader configReader)
+   at Microsoft.Build.Evaluation.ProjectCollection..ctor(IDictionary`2 globalProperties, IEnumerable`1 loggers, IEnumerable`1 remoteLoggers, ToolsetDefinitionLocations toolsetDefinitionLocations, Int32 maxNodeCount, Boolean onlyLogCriticalEvents, Boolean loadProjectsReadOnly, Boolean useAsynchronousLogging, Boolean reuseProjectRootElementCache)
+   at Microsoft.Build.Evaluation.ProjectCollection.get_GlobalProjectCollection()
+   at GodotTools.ProjectEditor.ProjectUtils.Open(String path) in /root/godot/modules/mono/editor/GodotTools/GodotTools.ProjectEditor/ProjectUtils.cs:line 56
+   at GodotTools.GodotSharpEditor.ApplyNecessaryChangesToSolution() in /root/godot/modules/mono/editor/GodotTools/GodotTools/GodotSharpEditor.cs:line 440
+   at: void GodotTools.GodotSharpEditor.ApplyNecessaryChangesToSolution() (/root/godot/modules/mono/editor/GodotTools/GodotTools/GodotSharpEditor.cs:440)
+   C# backtrace (most recent call first):
+       [0] void Godot.GD.PushError(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:366)
+       [1] void GodotTools.GodotSharpEditor.ApplyNecessaryChangesToSolution() (/root/godot/modules/mono/editor/GodotTools/GodotTools/GodotSharpEditor.cs:440)
+       [2] void GodotTools.GodotSharpEditor._EnablePlugin() (/root/godot/modules/mono/editor/GodotTools/GodotTools/GodotSharpEditor.cs:538)
+       [3] bool Godot.EditorPlugin.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharpEditor/Generated/GodotObjects/EditorPlugin.cs:1444)
+       [4] bool GodotTools.GodotSharpEditor.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/editor/GodotTools/GodotTools/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/GodotTools.GodotSharpEditor_ScriptMethods.generated.cs:210)
+       [5] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)

@@ -1,0 +1,1957 @@
+--- a/generic-engine/README.zh-CN.md
++++ b/generic-engine/README.zh-CN.md
+@@ -1,10 +1,28 @@
+ # 通用弹幕测试引擎：源码样本与可运行原型
++
++## 快速接入自己的游戏（新入口）
++
++优先使用 [Live SDK 快速接入说明](portable/QUICKSTART.zh-CN.md)。已有原生信号的
++Godot 3/4 项目可只填一份 JSON 配置；复杂项目集中编辑一份 `nohit_adapter.gd`。
++原心魂代码不需要搬进求解器，普通接入不要求世界快照；测试由原引擎真实推进。
++
++```bash
++python tools/nohit.py install /path/to/game
++python tools/nohit.py doctor /path/to/game
++python tools/nohit.py solve /path/to/game --godot /path/to/godot --output results/first --workers 4
++```
++
++命令从本目录运行。配置式安装使用 `install /path/to/game --config my-config.json`。
++普通运行游戏时不会启动测试。新 API 与之前的快照桥并存，不依赖任何样本节点结构。
++Godot 3.5.3 / 4.6.1 均通过原生接入、配置式接入和故障拒绝验收；
++Megalo 原版 bonegap 也已使用这套公共运行器完成无伤路线、独立回放与受伤反例。
++GameMaker 同协议模板仍未通过原生运行验收。
+ 
+ 本轮从专用 C2/CSV 算子切换到“游戏侧原生执行 + 外部可替换搜索”。旧 nohit 求解器仍可独立运行；这里是新后端原型，没有把其他游戏的逻辑强行翻译成旧 CSV。
+ 
+ 目前完成：23 个固定提交的 GitHub 仓库扫描，两个真实 PCK 解包，Godot 原生碰撞采样器、可替换心魂控制槽、场景测试节点、保存完整状态的有界搜索与确定性回放。GameMaker 提供碰撞烘焙、输入与伤害审计脚本草案。另已接入 meowjade 的真实 Godot 战斗场景：四组圆环组件测试通过原生执行与新进程逐帧回放，三个伤害反例正常扣血。
+ 
+-**尚未完成：23 个项目的逐个接入、各项目全部攻击／关卡无伤验收、GameMaker 编译运行、UndertaleMakerX 的 C#/JS 运行时快照、自动编辑任意发布包。** 协议示例与真实接入的证据分别保存；圆环组件通过不代表这些上游游戏的完整关卡已被求解。
++**尚未完成：全部 23 个项目的完整运行接入、各项目全部攻击／关卡无伤验收、GameMaker 编译运行、UndertaleMakerX 的 C#/JS 运行时快照、自动编辑任意发布包。** 协议示例与真实接入的证据分别保存；组件通过不代表这些上游游戏的完整关卡已被求解。
+ 
+ ## 全样本尝试
+ 
+@@ -12,7 +30,7 @@
+ 
+ ## 实际上游弹幕接入
+ 
+-见 [meowjade 接入说明](integrations/meowjade/README.zh-CN.md)。提供固定提交安装器、原生并行输入搜索、独立回放、逐帧 HP/KR 与伤害审计、原生碰撞烘焙和受伤反例。完整 `default_attack` 序列的四次尝试均受伤，尚未解出；其他项目的实际运行接入仍待完成。
++见 [meowjade 接入说明](integrations/meowjade/README.zh-CN.md)、[UNDOTALE](integrations/undotale/README.zh-CN.md) 和 [Megalo](integrations/megalo/README.zh-CN.md)。提供固定提交安装器、输入搜索、独立回放、逐帧 HP/KR 与伤害审计及受伤反例。完整 meowjade `default_attack` 共 28 次尝试均受伤，尚未解出；其他项目的实际运行接入结果见全样本报告。
+ 
+ ## 直接运行
+ 
+--- a/generic-engine/integrations/megalo/README.zh-CN.md
++++ b/generic-engine/integrations/megalo/README.zh-CN.md
+@@ -23,3 +23,19 @@
+ 同一 bonegap 的伤害反例：仅在对照运行的第 90 帧，把心魂放到真实骨头形状中心，原伤害在第 92 帧触发，HP=91、KR=6。成功候选和回放没有该位移。该对照检查了实际骨头与原伤害入口，不是只手动调用伤害函数。
+ 
+ 证据：`../../research/megalo-353/certificate.json`、`../../research/megalo-suite/suite.json`。通过单次 bonegap 不代表六种攻击组成的完整游戏通过。头部／底部骨头、颜色、形状共享方式和原版脚本行为保持原样。
++# 使用公共 Live SDK
++
++`prepare_live.py` 保留原主场景，仅绑定 `live_adapter.gd` 和原伤害观察子类。
++使用公共安装器/运行器，不需要复制 Megalo 专用搜索 driver：
++
++```bash
++python generic-engine/integrations/megalo/prepare_live.py /path/to/pinned-megalo /path/to/live-fixture
++# 先用 Godot 3.5.3 编辑器导入原资源。
++python generic-engine/tools/nohit.py solve /path/to/live-fixture --godot /path/to/godot3 --output results/megalo --max-ticks 700 --control-mask 4
++```
++
++本轮公共协议结果在 `research/portable-v1/megalo-common/summary.json`：
++原版完整 bonegap 422 帧，32 个骨头，HP92/KR0，独立进程观察精确回放。
++上/跳输入反例在第 85 帧触发原伤害和 KR。未移动玩家位置、未修改伤害或无敌值。
++该适配器只是真实接线示范；其他游戏只需要自己的配置或适配器，不依赖这里的节点路径。
++
+--- /dev/null
++++ b/generic-engine/integrations/megalo/live_adapter.gd
+@@ -0,0 +1,43 @@
++extends "res://addons/nohit_live/adapter_base.gd"
++## Real upstream adapter for the shared live runner, Godot 3.5.3.
++var view
++var battle
++var soul
++var requested_battle = false
++var loading_ticks = 0
++var seen = {}
++
++func nohit_is_ready():
++	if not requested_battle:
++		view = game.find_node("Viewport", true, false)
++		view.loadScene(0)
++		requested_battle = true
++	loading_ticks += 1
++	return loading_ticks >= 60 and is_instance_valid(view.curscene) and view.curscene.has_node("HeartLayer/PlayerHeart")
++
++func nohit_begin(attack_seed):
++	battle = view.curscene
++	soul = battle.get_node("HeartLayer/PlayerHeart")
++	input_viewport = soul.get_viewport()
++	battle.get_node("Hud").menuNo = -1
++	add_to_group("nohit_audit")
++	action_names = ["ui_left", "ui_right", "ui_up", "ui_down", "ui_cancel"]
++	var attacks = battle.get_node("Attacks")
++	attacks.attack = 1 # Original full bonegap attack, unchanged.
++	attacks.connect("menuEnable", self, "mark_finished")
++	enable_damage_audit()
++	seed(attack_seed)
++	attacks.runAttack()
++
++func on_damage(hp, kr):
++	record_damage(hp)
++	if kr > 0: record_kr(kr)
++
++func nohit_observe():
++	for bullet in get_tree().get_nodes_in_group("Bullet"):
++		seen[bullet.get_instance_id()] = true
++	var globals = get_node("/root/global")
++	return {"x": soul.position.x, "y": soul.position.y,
++		"vx": soul.motion_velocity.x, "vy": soul.motion_velocity.y,
++		"hp": globals.hp, "kr": globals.kr, "mode": soul.mode,
++		"inv": soul.invCount, "observed_bullets": seen.size()}
+--- /dev/null
++++ b/generic-engine/integrations/megalo/prepare_live.py
+@@ -0,0 +1,29 @@
++"""Create a pinned real-game fixture using the COMMON live SDK/runner."""
++import argparse
++import importlib.util
++import json
++from pathlib import Path
++import subprocess
++import sys
++
++p = argparse.ArgumentParser(description=__doc__)
++p.add_argument("upstream", type=Path)
++p.add_argument("destination", type=Path)
++a = p.parse_args()
++here = Path(__file__).resolve().parent
++subprocess.run([sys.executable, str(here / "prepare.py"), str(a.upstream), str(a.destination)], check=True)
++# Use original main scene. The previous test-specific driver is unused.
++project = a.destination / "project.godot"
++project.write_text(project.read_text().replace('run/main_scene="res://nohit_driver.tscn"',
++                                             'run/main_scene="res://Scenes/gameview.tscn"'))
++spec = importlib.util.spec_from_file_location("nohit_cli", here.parents[1] / "tools/nohit.py")
++module = importlib.util.module_from_spec(spec)
++spec.loader.exec_module(module)
++module.install(a.destination.resolve(), "3")
++(a.destination / "nohit_adapter.gd").write_bytes((here / "live_adapter.gd").read_bytes())
++manifest = a.destination / "nohit-upstream.json"
++identity = json.loads(manifest.read_text())
++identity["live_sdk"] = "nohit.live.v1"
++identity["changes"] = ["Observer soul subclass delegates original takeDamage", "Separate adapter binds original startup, damage and EOT", "Original main scene preserved"]
++manifest.write_text(json.dumps(identity, indent=2))
++print(a.destination.resolve())
+--- /dev/null
++++ b/generic-engine/portable/LICENSE.txt
+@@ -0,0 +1,25 @@
++MIT License
++
++Copyright (c) 2026 NoHit Live SDK contributors
++
++Permission is hereby granted, free of charge, to any person obtaining a copy
++of this software and associated documentation files (the "Software"), to deal
++in the Software without restriction, including without limitation the rights
++to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++copies of the Software, and to permit persons to whom the Software is
++furnished to do so, subject to the following conditions:
++
++The above copyright notice and this permission notice shall be included in all
++copies or substantial portions of the Software.
++
++THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
++SOFTWARE.
++
++Scope: generic-engine/portable, generic-engine/tools/nohit.py and
++generic-engine/tools/test_portable.py and generic-engine/tools/package_portable.py. This license does not relicense upstream
++games, assets, historical nohit solver code or research samples.
+--- /dev/null
++++ b/generic-engine/portable/QUICKSTART.zh-CN.md
+@@ -0,0 +1,178 @@
++# 把原游戏接入 NoHit
++
++已有原生信号的项目只填 **一份配置文件**；其他项目把不同之处集中到
++**`nohit_adapter.gd` 一份文件**。
++直接使用原红心／蓝心控制代码、弹幕更新、碰撞与伤害规则。
++不需要把心魂算法搬过来，不需要实现完整世界快照，也不需要 Python 第三方包。
++
++当前已执行验证：Godot 3.5.3 与 4.6.1 的最小接入示例。
++GameMaker 2.3+ 提供同协议脚本模板，尚未通过原生编译运行验收。
++Python CLI 要求 Python 3.10+；Godot 使用你游戏对应的原生引擎可执行文件。
++
++## Godot：安装、接线、运行
++
++如果游戏已有伤害与攻击结束信号，先复制 `portable/config.example.json`，
++填写节点路径、信号名、原攻击方法和要观察的属性，然后执行：
++
++```bash
++python tools/nohit.py install /path/to/your-game --config my-config.json
++```
++
++以后只需编辑游戏里的 `nohit_config.json`，不需要编写 GDScript。
++路径 `.` 代表原主场景；也可填相对子节点或 `/root/自己的自动加载`。
++属性 `position:x` 表示 Vector2 的 x 分量。
++配置中的 `"$seed"` 会替换成测试种子；无参数攻击方法填写 `"start_arguments": []`。
++`has_kr=false` 必须由开发者明确声明该游戏没有 KR 路径。
++带 0–4 个参数的信号由通用中转函数审计；其他信号或复杂菜单初始化用下方脚本接入。
++子 Viewport 游戏可设置 `input_viewport_path` 为实际接受输入的 Viewport 路径。
++
++需要编写游戏特有逻辑时，使用脚本接入：
++
++在本源码包的 `generic-engine` 目录执行：
++
++```bash
++python tools/nohit.py install /path/to/your-game
++```
++
++安装器自动区分 Godot 3/4，只复制 `addons/nohit_live` 和初始适配模板。
++不会修改主场景、自动加载或心魂代码；再次安装保留你已经编辑的适配器。
++Godot 编辑器无需启用插件。普通运行游戏时，这些文件不会启动测试。
++Windows 路径包含空格时用双引号，例如 `"C:\My Game"`。
++
++打开游戏目录里的 `nohit_adapter.gd`，完成三个连接：
++
++| 连接 | 做什么 |
++| --- | --- |
++| 开始攻击 | `nohit_begin(seed)` 找到自己的战斗/心魂节点、设置随机种子、调用原攻击入口 |
++| 审计与结束 | 原伤害入口接 `record_damage`，KR 接 `record_kr`，原攻击结束事件接 `mark_finished`；全部接好后 `enable_damage_audit()` |
++| 逐帧观察 | `nohit_observe()` 返回坐标、速度、HP/KR、心魂模式等非空 JSON 字典 |
++
++Godot 4 的完整最小接线示例：
++
++```gdscript
++extends "res://addons/nohit_live/adapter_base.gd"
++var soul
++
++func nohit_begin(attack_seed):
++    soul = game.get_node("Battle/Soul") # 换成你游戏的节点路径
++    soul.damaged.connect(record_damage) # 换成原游戏信号
++    soul.kr_contact.connect(record_kr)  # 没有 KR 的游戏不需要这一项
++    game.attack_finished.connect(mark_finished)
++    enable_damage_audit()
++    game.start_attack(attack_seed)      # 换成原攻击入口
++
++func nohit_observe():
++    return {"x": soul.position.x, "y": soul.position.y,
++        "vx": soul.velocity.x, "vy": soul.velocity.y,
++        "hp": soul.hp, "kr": soul.kr, "mode": soul.mode}
++```
++
++Godot 3 使用 `soul.connect("damaged", self, "record_damage")` 一类连接语法。
++如果信号带多个参数，写一个对应签名的中转方法再调用 `record_damage()`。
++若原游戏没有信号，可在原伤害函数插入调用，或继承原心魂类并在调用原函数前记录。
++不能用只比较最终 HP 的办法代替累计审计，回血会掩盖受伤。
++
++默认输入位是 1左、2右、4上/跳、8下，绑定 `ui_left/right/up/down`。
++自己的 InputMap 名字不同时，在 `nohit_begin` 设置：
++
++```gdscript
++action_names = ["move_left", "move_right", "jump", "move_down", "slow"]
++```
++
++这样慢速键是 16。适配器同时向原 Viewport 发送边沿 `InputEventAction` 并更新轮询状态，
++在 headless 模式也验证了 `_input` 和 `Input.is_action_pressed`。
++子 Viewport 游戏在适配器设置 `input_viewport = soul.get_viewport()`。
++直接读键盘扫描码/自定义输入表的游戏，应覆盖 `nohit_apply_input(mask)`，
++把掩码交给 **原输入抽象**；保留按住、刚按下、刚释放语义和原运动顺序。
++不要再次手动调用心魂 `_physics_process`。
++
++启动测试前，主场景须允许先挂审计钩子、再开始攻击。原游戏若一进入场景便自动开打，
++建议增加独立测试入口场景，并用 `--scene res://my_attack_fixture.tscn` 指定。
++异步加载可覆盖 `nohit_is_ready()`；超时会明确拒绝接入。
++
++```bash
++python tools/nohit.py doctor /path/to/your-game
++python tools/nohit.py solve /path/to/your-game --godot /path/to/godot --output results/first --workers 4
++```
++
++`doctor` 检查安装与配置；第一次原生运行进一步检查伤害审计、观察值与 InputMap。
++`solve` 先尝试有限输入策略，再新进程回放候选，并执行受伤反例。
++它不是能解所有弹幕的通用完备搜索器，策略耗尽输出 `unknown`。
++每次输出使用新目录，保留原生日志、请求、逐帧结果与总结。
++
++保存或提供自己的输入路线：
++
++```json
++{"route":[4,4,4,0,1,1,0]}
++```
++
++```bash
++python tools/nohit.py verify /path/to/your-game --godot /path/to/godot --route route.json --output results/replay --control-route hit-route.json
++```
++
++默认受伤反例是静止路线。静止也安全的攻击，需要自己提供 **确实会撞弹幕** 的路线；
++反例未受伤时输出 `control_failed`，不会把候选直接升级为验证通过。
++`--max-ticks` 包括结束后的审计帧；超时不是攻击完成。
++验证比较的是适配器导出的逐帧观察，不能冒充完整世界快照。
++
++## 先运行随包示例
++
++```bash
++python tools/nohit.py install portable/examples/godot4
++python tools/nohit.py solve portable/examples/godot4 --godot /path/to/godot4 --max-ticks 70 --output results/demo4
++python tools/nohit.py install portable/examples/godot3
++python tools/nohit.py solve portable/examples/godot3 --godot /path/to/godot3 --max-ticks 70 --output results/demo3
++```
++
++示例原游戏与适配器是不同文件，伤害发生在原游戏内，碰撞调用 Godot `Shape2D.collide`。
++这两份是接入范例，不是上游弹幕或 Undertale 原版控制实现。
++
++仅安装 SDK 后，也能完全不用 Python 运行单条路线：
++
++```bash
++godot --headless --path /path/to/your-game --script res://addons/nohit_live/session.gd -- --nohit-request=/absolute/request.json --nohit-output=/absolute/result.json
++```
++
++请求参考 `portable/request.example.json`。自动搜索/独立回放的 Python 工具可按需使用。
++
++## GameMaker：相同协议，脚本接入
++
++导入 `portable/gamemaker/nohit_live.gml` 与 `nohit_adapter.gml` 为脚本。
++填写 `MyNoHitAdapter` 的 `begin/observe`，在明确的测试构建里创建 `NoHitLive`，
++原输入边界调用一次 `begin_step()`。将输入包装成 `NoHitHeld/Pressed/Released`；
++原红心/蓝心移动代码继续调用这一层，测试以外返回正常键盘输入。
++原伤害、KR、攻击结束入口记录到 session，原碰撞事件照常执行。
++
++Begin Step 在 Step 之前，但同类事件之间的实例顺序不能作为通用保证。
++若原心魂在 Begin Step 就移动，应把调用放在其原输入代码前，避免另一个对象的顺序依赖。
++结果在下一输入边界采集上一完整 Step，保留 End Step 中的伤害。
++读取请求 JSON、导出结果及原生进程启动，由自己的 GameMaker 测试构建处理。
++目前 Python 安装器/进程运行器只支持 Godot，不声称 GameMaker 一键运行已完成。
++
++## 接入范围与可选加速
++
++| 接入方式 | 开发工作 | 适用情况 |
++| --- | --- | --- |
++| Live 接入（本页） | 一份适配器、输入映射、原伤害/结束钩子 | 普通已有游戏，Timer/Tween/Area/物理世界无需自行恢复 |
++| Snapshot 接入（原 `godot/addons/nohit`） | 完整 capture/restore/advance | 需要高性能分支搜索且能精确恢复世界的游戏 |
++| 原生烘焙（可选） | 导出原碰撞形状/掩码 | 几何诊断或搜索加速；最终仍使用原伤害规则回放 |
++
++多核来自隔离原生进程并行，`--workers` 可控制。每个进程保留自己的 RNG/物理世界。
++主场景导入、资源、攻击时长和冷启动仍会占时间；这条快速接入路径没有毫秒级执行保证。
++Godot 3/4 的版本、Mono/C#、GDExtension 应与原游戏匹配；缺少依赖会保留失败日志。
++所有联网、实时钟表、自定义 RNG 等影响轨迹的来源，都应由游戏测试入口固定。
++
++接口细节和验收范围见 [protocol.md](protocol.md)。
++只使用轻量接入包即可，不需要下载旧 nohit 优化器或研究素材。
++
++## 依赖、许可证与接口依据
++
++Live SDK 与随包接入模板按 MIT 发布，可用于自己的项目，见 LICENSE.txt。
++此许可仅覆盖新 Live SDK、nohit.py 和 test_portable.py，不替代上游游戏、
++旧求解器或研究样本自己的许可证。
++
++实现参考原生接口文档：
++- [Godot SceneTree 物理帧边界](https://docs.godotengine.org/en/stable/classes/class_scenetree.html)
++- [Godot 3 Viewport 输入](https://docs.godotengine.org/en/3.5/classes/class_viewport.html)
++- [Godot 4 Viewport 输入](https://docs.godotengine.org/en/4.5/classes/class_viewport.html)
++- [GameMaker 原生事件顺序](https://manual.gamemaker.io/lts/en/The_Asset_Editors/Object_Properties/Object_Events.htm)
+--- /dev/null
++++ b/generic-engine/portable/config.example.json
+@@ -0,0 +1,17 @@
++{
++  "schema": "nohit.config.v1",
++  "ready_path": ".",
++  "actions": ["ui_left", "ui_right", "ui_up", "ui_down"],
++  "damage_signal": {"path": ".", "signal": "damaged"},
++  "has_kr": false,
++  "finished_signal": {"path": ".", "signal": "attack_finished"},
++  "start_path": ".",
++  "start_method": "start_attack",
++  "start_arguments": ["$seed"],
++  "observations": {
++    "x": {"path": ".", "property": "soul_position:x"},
++    "y": {"path": ".", "property": "soul_position:y"},
++    "hp": {"path": ".", "property": "hp"},
++    "attack_tick": {"path": ".", "property": "tick"}
++  }
++}
+--- /dev/null
++++ b/generic-engine/portable/examples/godot3/game.gd
+@@ -0,0 +1,34 @@
++extends Node2D
++## Standalone integration fixture, NOT an upstream attack or Undertale physics.
++signal damaged(amount)
++signal attack_finished
++var running = false
++var tick = 0
++var hp = 20
++var soul_position = Vector2(50, 50)
++var soul_shape = CircleShape2D.new()
++var bullet_shape = RectangleShape2D.new()
++
++func _ready():
++	soul_shape.radius = 3
++	bullet_shape.extents = Vector2(4, 14)
++
++func start_attack(_seed):
++	running = true
++
++func _physics_process(_delta):
++	if not running: return
++	# Existing InputMap movement stays in the game; adapter only injects actions.
++	var movement = Vector2(int(Input.is_action_pressed("ui_right")) - int(Input.is_action_pressed("ui_left")),
++		int(Input.is_action_pressed("ui_down")) - int(Input.is_action_pressed("ui_up")))
++	soul_position += movement * 2
++	soul_position.x = clamp(soul_position.x, 5, 95)
++	soul_position.y = clamp(soul_position.y, 5, 95)
++	tick += 1
++	var bullet_position = Vector2(110 - tick * 2, 50)
++	if soul_shape.collide(Transform2D(0, soul_position), bullet_shape, Transform2D(0, bullet_position)):
++		hp -= 1
++		emit_signal("damaged", 1)
++	if tick == 45:
++		running = false
++		emit_signal("attack_finished")
+--- /dev/null
++++ b/generic-engine/portable/examples/godot3/main.tscn
+@@ -0,0 +1,4 @@
++[gd_scene load_steps=2 format=2]
++[ext_resource type="Script" path="res://game.gd" id=1]
++[node name="MyOriginalGame" type="Node2D"]
++script = ExtResource(1)
+--- /dev/null
++++ b/generic-engine/portable/examples/godot3/nohit_adapter.gd
+@@ -0,0 +1,11 @@
++extends "res://addons/nohit_live/adapter_base.gd"
++
++func nohit_begin(attack_seed):
++	game.connect("damaged", self, "record_damage")
++	game.connect("attack_finished", self, "mark_finished")
++	enable_damage_audit() # Fixture has no KR system.
++	game.start_attack(attack_seed)
++
++func nohit_observe():
++	return {"x": game.soul_position.x, "y": game.soul_position.y,
++		"hp": game.hp, "attack_tick": game.tick}
+--- /dev/null
++++ b/generic-engine/portable/examples/godot3/project.godot
+@@ -0,0 +1,7 @@
++config_version=4
++[application]
++config/name="NoHit Portable Integration Fixture"
++run/main_scene="res://main.tscn"
++config/features=PoolStringArray("3.5", "GL Compatibility")
++[rendering]
++renderer/rendering_method="gl_compatibility"
+--- /dev/null
++++ b/generic-engine/portable/examples/godot4/game.gd
+@@ -0,0 +1,33 @@
++extends Node2D
++## Standalone integration fixture, NOT an upstream attack or Undertale physics.
++signal damaged(amount)
++signal attack_finished
++var running = false
++var tick = 0
++var hp = 20
++var soul_position = Vector2(50, 50)
++var soul_shape = CircleShape2D.new()
++var bullet_shape = RectangleShape2D.new()
++
++func _ready():
++	soul_shape.radius = 3
++	bullet_shape.size = Vector2(8, 28)
++
++func start_attack(_seed):
++	running = true
++
++func _physics_process(_delta):
++	if not running: return
++	# Existing InputMap movement stays in the game; adapter only injects actions.
++	var movement = Vector2(int(Input.is_action_pressed("ui_right")) - int(Input.is_action_pressed("ui_left")),
++		int(Input.is_action_pressed("ui_down")) - int(Input.is_action_pressed("ui_up")))
++	soul_position += movement * 2
++	soul_position = soul_position.clamp(Vector2(5, 5), Vector2(95, 95))
++	tick += 1
++	var bullet_position = Vector2(110 - tick * 2, 50)
++	if soul_shape.collide(Transform2D(0, soul_position), bullet_shape, Transform2D(0, bullet_position)):
++		hp -= 1
++		damaged.emit(1)
++	if tick == 45:
++		running = false
++		attack_finished.emit()
+--- /dev/null
++++ b/generic-engine/portable/examples/godot4/main.tscn
+@@ -0,0 +1,4 @@
++[gd_scene load_steps=2 format=3]
++[ext_resource type="Script" path="res://game.gd" id="1"]
++[node name="MyOriginalGame" type="Node2D"]
++script = ExtResource("1")
+--- /dev/null
++++ b/generic-engine/portable/examples/godot4/nohit_adapter.gd
+@@ -0,0 +1,11 @@
++extends "res://addons/nohit_live/adapter_base.gd"
++
++func nohit_begin(attack_seed):
++	game.damaged.connect(record_damage)
++	game.attack_finished.connect(mark_finished)
++	enable_damage_audit() # Fixture has no KR system.
++	game.start_attack(attack_seed)
++
++func nohit_observe():
++	return {"x": game.soul_position.x, "y": game.soul_position.y,
++		"hp": game.hp, "attack_tick": game.tick}
+--- /dev/null
++++ b/generic-engine/portable/examples/godot4/project.godot
+@@ -0,0 +1,7 @@
++config_version=5
++[application]
++config/name="NoHit Portable Integration Fixture"
++run/main_scene="res://main.tscn"
++config/features=PackedStringArray("4.3", "GL Compatibility")
++[rendering]
++renderer/rendering_method="gl_compatibility"
+--- /dev/null
++++ b/generic-engine/portable/gamemaker/nohit_adapter.gml
+@@ -0,0 +1,29 @@
++/// Replace placeholders with your existing objects, damage and attack hooks.
++/// This does NOT replace any soul movement, collision or color damage rules.
++function MyNoHitAdapter() constructor {
++    begin = function(_session, _seed) {
++        // Hook ALL original damage/KR entry points and attack-end event first.
++        // _session.enable_damage_audit();
++        // start_my_attack(_seed);
++    };
++    observe = function() {
++        // return {x: obj_soul.x, y: obj_soul.y, hp: global.hp,
++        //   kr: global.kr, mode: obj_soul.mode, velocity_y: obj_soul.vspeed};
++        return {}; // Fill with real, JSON-compatible values.
++    };
++}
++
++/// In the test controller's Create event (only in an explicit test build):
++/// global.nohit = new NoHitLive(new MyNoHitAdapter(), request, "nohit-result.json");
++/// global.nohit.start();
++///
++/// At your existing input boundary, before soul movement, once per step:
++/// if (variable_global_exists("nohit")) global.nohit.begin_step();
++///
++/// In the ORIGINAL damage function, leave original damage logic intact:
++/// if (variable_global_exists("nohit")) global.nohit.record_damage();
++/// KR entry: global.nohit.record_kr(); attack-end: global.nohit.mark_finished();
++///
++/// In the original input wrapper, retain pressed/released semantics:
++/// jump = NoHitPressed(4, keyboard_check_pressed(vk_up));
++/// left = NoHitHeld(1, keyboard_check(vk_left));
+--- /dev/null
++++ b/generic-engine/portable/gamemaker/nohit_live.gml
+@@ -0,0 +1,101 @@
++/// GameMaker 2.3+ live bridge. Source template; no runtime acceptance yet.
++/// NoHitLive.begin_step() must run once at the game's input boundary.
++/// The NEXT boundary audits the completed native step, including End Step.
++function NoHitLive(_adapter, _request, _output_path) constructor {
++    adapter = _adapter;
++    request = _request;
++    output_path = _output_path;
++    tick = 0;
++    frames = [];
++    route = [];
++    initial = {};
++    input_mask = 0;
++    previous_mask = 0;
++    damage_events = 0;
++    kr_events = 0;
++    audit_connected = false;
++    attack_done = false;
++    ending_ticks = -1;
++    active = false;
++    result = undefined;
++
++    enable_damage_audit = function() { audit_connected = true; };
++    record_damage = function() { damage_events += 1; };
++    record_kr = function() { kr_events += 1; };
++    mark_finished = function() { attack_done = true; };
++    held = function(_bit) { return (input_mask & _bit) != 0; };
++    pressed = function(_bit) { return held(_bit) && (previous_mask & _bit) == 0; };
++    released = function(_bit) { return !held(_bit) && (previous_mask & _bit) != 0; };
++
++    finish = function(_status) {
++        active = false;
++        result = {schema: "nohit.live.result.v1", status: _status,
++            seed: request.seed, initial: initial, route: route, frames: frames,
++            ticks: tick, attack_completed: attack_done,
++            damage_events: damage_events, kr_events: kr_events,
++            contract: {schema: "nohit.live.v1", damage_audit: audit_connected,
++                observation: "game supplied JSON projection"},
++            verification: "native steps; fresh process replay and damage control required"};
++        var _file = file_text_open_write(output_path);
++        file_text_write_string(_file, json_stringify(result));
++        file_text_close(_file);
++        show_debug_message("NOHIT_LIVE " + _status);
++        // The game decides whether to game_end(); do not interrupt normal play.
++    };
++
++    start = function() {
++        if (request.schema != "nohit.live.v1" || !is_array(request.route)
++            || request.max_ticks < 1 || request.settle_ticks < 1) {
++            finish("invalid_request");
++            return;
++        }
++        random_set_seed(request.seed);
++        adapter.begin(self, request.seed);
++        initial = json_parse(json_stringify(adapter.observe()));
++        if (!audit_connected || !is_struct(initial) || attack_done) {
++            finish("invalid_adapter");
++            return;
++        }
++        active = true;
++    };
++
++    begin_step = function() {
++        if (!active) return;
++        if (tick > 0) {
++            var _state = json_parse(json_stringify(adapter.observe()));
++            array_push(frames, {tick: tick, state: _state,
++                damage_events: damage_events, kr_events: kr_events, finished: attack_done});
++            if (damage_events > 0 || kr_events > 0) { finish("hit"); return; }
++            if (attack_done) {
++                if (ending_ticks < 0) ending_ticks = 0;
++                ending_ticks += 1;
++                if (ending_ticks > request.settle_ticks) { finish("native_route_candidate"); return; }
++            }
++        }
++        if (tick >= request.max_ticks) { finish("unknown"); return; }
++        previous_mask = input_mask;
++        input_mask = 0;
++        var _length = array_length(request.route);
++        if (tick < _length) input_mask = request.route[tick];
++        else if (request.repeat_last && _length > 0) input_mask = request.route[_length - 1];
++        array_push(route, input_mask);
++        tick += 1;
++    };
++}
++
++/// Replace calls in the game's OWN input abstraction, preserving normal input.
++function NoHitHeld(_bit, _normal_input) {
++    if (variable_global_exists("nohit") && is_struct(global.nohit) && global.nohit.active)
++        return global.nohit.held(_bit);
++    return _normal_input;
++}
++function NoHitPressed(_bit, _normal_input) {
++    if (variable_global_exists("nohit") && is_struct(global.nohit) && global.nohit.active)
++        return global.nohit.pressed(_bit);
++    return _normal_input;
++}
++function NoHitReleased(_bit, _normal_input) {
++    if (variable_global_exists("nohit") && is_struct(global.nohit) && global.nohit.active)
++        return global.nohit.released(_bit);
++    return _normal_input;
++}
+--- /dev/null
++++ b/generic-engine/portable/godot3/adapter_base.gd
+@@ -0,0 +1,63 @@
++extends Node
++## Portable live adapter: no snapshots and no replacement soul physics.
++## Use the subclass for game-specific startup and observations.
++var game = null
++var input_viewport = null
++var damage_events = 0
++var kr_events = 0
++var audit_connected = false
++var attack_done = false
++var previous_mask = 0
++var action_names = ["ui_left", "ui_right", "ui_up", "ui_down"]
++
++func configure(scene):
++	game = scene
++
++func nohit_is_ready():
++	return true
++
++func nohit_begin(_seed):
++	# Override: connect original damage/KR and attack-end hooks, then start attack.
++	pass
++
++func enable_damage_audit():
++	# Call only after hooking ALL original damage and KR entry points.
++	audit_connected = true
++
++func record_damage(_amount = null):
++	# Record contacts even if HP is later restored or damage rounds to zero.
++	damage_events += 1
++
++func record_kr(_amount = null):
++	kr_events += 1
++
++func mark_finished():
++	# Call from the original attack-end event, never a test duration timeout.
++	attack_done = true
++
++func nohit_apply_input(mask):
++	# Edge events reach _input as well as Input.is_action_pressed().
++	for i in range(action_names.size()):
++		var now = bool(mask & (1 << i))
++		var before = bool(previous_mask & (1 << i))
++		if now != before:
++			var event = InputEventAction.new()
++			event.action = action_names[i]
++			event.pressed = now
++			event.strength = 1.0 if now else 0.0
++			if now:
++				Input.action_press(action_names[i])
++			else:
++				Input.action_release(action_names[i])
++			var viewport = input_viewport if input_viewport != null else game.get_viewport()
++			viewport.input(event)
++	previous_mask = mask
++
++func nohit_observe():
++	# Override with JSON-compatible values: soul coordinates/velocity/HP/KR,
++	# mode and other important audit values. This is not a full world snapshot.
++	return {}
++
++func nohit_contract():
++	return {"schema": "nohit.live.v1", "damage_audit": audit_connected,
++		"input_bits": action_names, "observation": "game supplied JSON projection"}
+--- /dev/null
++++ b/generic-engine/portable/godot3/configured_adapter.gd
+@@ -0,0 +1,82 @@
++extends "res://addons/nohit_live/adapter_base.gd"
++## Optional declarative adapter for games with existing native signals/hooks.
++var config = {}
++var config_error = ""
++
++func configure(scene):
++	game = scene
++	var file = File.new()
++	var parsed = null
++	if file.open("res://nohit_config.json", File.READ) == OK:
++		var value = JSON.parse(file.get_as_text())
++		if value.error == OK: parsed = value.result
++		file.close()
++	if not parsed is Dictionary:
++		config_error = "Missing/invalid nohit_config.json"
++		return
++	config = parsed
++	if config.get("schema") != "nohit.config.v1" or not config.get("observations") is Dictionary or config.observations.empty():
++		config_error = "Invalid config schema or empty observations"
++	if config.get("has_kr") != false and not config.has("kr_signal"):
++		config_error = "Declare has_kr=false or connect the KR signal"
++	if not config.has("damage_signal") or not config.has("finished_signal") or not config.has("start_method"):
++		config_error = "Damage, completion signals and start method are required"
++	action_names = config.get("actions", action_names)
++	if config.has("input_viewport_path"):
++		input_viewport = resolve(config.input_viewport_path)
++
++func resolve(path):
++	return game.get_node_or_null(NodePath(path))
++
++func nohit_is_ready():
++	# Invalid configuration fails immediately with actionable diagnostics.
++	if config_error != "": return true
++	return resolve(config.get("ready_path", ".")) != null
++
++func hook(spec, callback):
++	if not spec is Dictionary: return false
++	var node = resolve(spec.get("path", "."))
++	var signal_name = spec.get("signal", "")
++	if node == null or not node.has_signal(signal_name):
++		config_error = "Missing signal " + str(spec)
++		return false
++	node.connect(signal_name, self, callback)
++	return true
++
++func on_damage(_a = null, _b = null, _c = null, _d = null):
++	record_damage()
++
++func on_kr(_a = null, _b = null, _c = null, _d = null):
++	record_kr()
++
++func on_finished(_a = null, _b = null, _c = null, _d = null):
++	mark_finished()
++
++func nohit_begin(attack_seed):
++	if config_error != "":
++		push_error("NoHit config: " + config_error)
++		return
++	if not hook(config.damage_signal, "on_damage") or not hook(config.finished_signal, "on_finished"):
++		push_error("NoHit config: " + config_error)
++		return
++	if config.has("kr_signal") and not hook(config.kr_signal, "on_kr"):
++		push_error("NoHit config: " + config_error)
++		return
++	var target = resolve(config.get("start_path", "."))
++	if target == null or not target.has_method(config.start_method):
++		push_error("NoHit config: missing attack start method")
++		return
++	var arguments = config.get("start_arguments", ["$seed"]).duplicate(true)
++	for i in range(arguments.size()):
++		if arguments[i] is String and arguments[i] == "$seed": arguments[i] = attack_seed
++	enable_damage_audit()
++	target.callv(config.start_method, arguments)
++
++func nohit_observe():
++	var result = {}
++	for key in config.get("observations", {}):
++		var spec = config.observations[key]
++		var node = resolve(spec.get("path", "."))
++		if node == null: return {}
++		result[key] = node.get_indexed(NodePath(spec.get("property", "")))
++	return result
+--- /dev/null
++++ b/generic-engine/portable/godot3/nohit_adapter.gd
+@@ -0,0 +1,24 @@
++extends "res://addons/nohit_live/adapter_base.gd"
++## Edit only this file for your game. Keep the original soul and damage code.
++## Replace example paths/signals below with your existing ones.
++# var soul
++
++func nohit_is_ready():
++	return true # e.g. game.has_node("Battle/Soul")
++
++func nohit_begin(_seed):
++	# soul = game.get_node("Battle/Soul")
++	# soul.connect("damaged", self, "record_damage")
++	# soul.connect("kr_contact", self, "record_kr")
++	# game.connect("attack_finished", self, "mark_finished")
++	# enable_damage_audit()
++	# game.start_attack(_seed)
++	# Alternatively insert record_damage()/record_kr() calls in original entries.
++	# Start all custom RandomNumberGenerator instances with _seed as well.
++	pass
++
++func nohit_observe():
++	# return {"x": soul.position.x, "y": soul.position.y,
++	#   "vx": soul.velocity.x, "vy": soul.velocity.y,
++	#   "hp": soul.hp, "kr": soul.kr, "mode": soul.mode}
++	return {} # Deliberately rejected until observations and audit are connected.
+--- /dev/null
++++ b/generic-engine/portable/godot3/session.gd
+@@ -0,0 +1,181 @@
++extends SceneTree
++## Runs the ORIGINAL project main scene, autoloads, physics and damage code.
++## Captures at the next physics boundary, before injecting the next input.
++var adapter
++var request = {}
++var frames = []
++var route = []
++var tick = 0
++var initial = {}
++var ending_ticks = -1
++var active = false
++var output = ""
++var failure = ""
++
++func _initialize():
++	call_deferred("setup")
++
++func read_json(path):
++ var file = File.new()
++ if file.open(path, File.READ) != OK: return null
++ var parsed = JSON.parse(file.get_as_text())
++ file.close()
++ return parsed.result if parsed.error == OK else null
++
++func write_json(path, value):
++ var file = File.new()
++ if file.open(path, File.WRITE) != OK: return false
++ file.store_string(JSON.print(value))
++ file.close()
++ return true
++
++func wait_physics():
++ yield(self, "physics_frame")
++
++func setup():
++	var request_path = ""
++	for arg in OS.get_cmdline_args():
++		if arg.begins_with("--nohit-request="):
++			request_path = arg.substr(16)
++		if arg.begins_with("--nohit-output="):
++			output = arg.substr(15)
++	var parsed = read_json(request_path)
++	if not parsed is Dictionary or output == "":
++		push_error("NoHit: provide --nohit-request=<JSON> --nohit-output=<JSON>")
++		quit(3)
++		return
++	request = parsed
++	if not valid_request():
++		complete("invalid_request")
++		return
++	seed(int(request.seed))
++	var scene_path = request.get("scene", ProjectSettings.get_setting("application/run/main_scene"))
++	var packed = load(scene_path)
++	var script = load("res://nohit_adapter.gd")
++	if not packed is PackedScene or script == null:
++		failure = "Missing main scene or res://nohit_adapter.gd"
++		complete("invalid_adapter")
++		return
++	var game = packed.instance()
++	root.add_child(game)
++	current_scene = game
++	adapter = script.new()
++	root.add_child(adapter)
++	adapter.configure(game)
++	for _i in range(int(request.get("warmup_ticks", 120))):
++		if adapter.nohit_is_ready():
++			break
++		yield(wait_physics(), "completed")
++	if not adapter.nohit_is_ready():
++		failure = "Adapter readiness timeout"
++		complete("invalid_adapter")
++		return
++	for action in adapter.action_names:
++		if not InputMap.has_action(action):
++			failure = "InputMap action missing: " + str(action)
++			complete("invalid_adapter")
++			return
++		Input.action_release(action)
++	adapter.nohit_begin(int(request.seed))
++	for action in adapter.action_names:
++		if not InputMap.has_action(action):
++			failure = "InputMap action missing: " + str(action)
++			complete("invalid_adapter")
++			return
++	initial = observe()
++	if failure != "" or not adapter.nohit_contract().get("damage_audit", false) or initial.empty():
++		failure = failure if failure != "" else "Connect damage/KR audit and return a nonempty observation"
++		complete("invalid_adapter")
++		return
++	if adapter.damage_events != 0 or adapter.kr_events != 0:
++		complete("hit")
++		return
++	if adapter.attack_done:
++		failure = "Attack already finished before the first native frame"
++		complete("invalid_adapter")
++		return
++	active = true
++	connect("physics_frame", self, "boundary")
++
++func valid_request():
++	if request.get("schema") != "nohit.live.v1" or not request.get("route") is Array:
++		return false
++	if not request.get("seed") is float and not request.get("seed") is int:
++		return false
++	if request.get("max_ticks", 0) < 1 or request.get("max_ticks", 0) > 1000000:
++		return false
++	for mask in request.route:
++		if not (mask is int or mask is float) or mask != int(mask) or mask < 0 or mask > 255:
++			return false
++	return request.get("settle_ticks", 2) >= 1 and request.get("settle_ticks", 2) <= 60
++
++func observe():
++	var value = adapter.nohit_observe()
++	if not value is Dictionary or not json_value(value):
++		failure = "Observation must contain only finite JSON values (no Nodes, Vector2, Resources)"
++		return {}
++	# Serialize now: observers may reuse mutable dictionaries later.
++	return JSON.parse(JSON.print(value)).result
++
++func json_value(value):
++	if value == null or value is bool or value is int or value is String:
++		return true
++	if value is float:
++		return not is_nan(value) and not is_inf(value)
++	if value is Array:
++		for item in value:
++			if not json_value(item): return false
++		return true
++	if value is Dictionary:
++		for key in value:
++			if not key is String or not json_value(value[key]): return false
++		return true
++	return false
++
++func boundary():
++	if not active: return
++	if tick > 0:
++		var observation = observe()
++		frames.append({"tick": tick, "state": observation,
++			"damage_events": adapter.damage_events, "kr_events": adapter.kr_events,
++			"finished": adapter.attack_done})
++		if failure != "":
++			complete("invalid_adapter")
++			return
++		if adapter.damage_events > 0 or adapter.kr_events > 0:
++			complete("hit")
++			return
++		if adapter.attack_done:
++			if ending_ticks < 0: ending_ticks = 0
++			ending_ticks += 1
++			if ending_ticks > int(request.get("settle_ticks", 2)):
++				complete("native_route_candidate")
++				return
++	if tick >= int(request.max_ticks):
++		complete("unknown")
++		return
++	var mask = 0
++	if tick < request.route.size():
++		mask = int(request.route[tick])
++	elif request.get("repeat_last", false) and not request.route.empty():
++		mask = int(request.route.back())
++	adapter.nohit_apply_input(mask)
++	route.append(mask)
++	tick += 1
++
++func complete(status):
++	active = false
++	var result = {"schema": "nohit.live.result.v1", "status": status, "reason": failure,
++		"engine": Engine.get_version_info(), "seed": request.get("seed"),
++		"initial": initial, "route": route, "frames": frames, "ticks": tick,
++		"contract": adapter.nohit_contract() if adapter != null else {},
++		"attack_completed": adapter.attack_done if adapter != null else false,
++		"damage_events": adapter.damage_events if adapter != null else 0,
++		"kr_events": adapter.kr_events if adapter != null else 0,
++		"verification": "native frames; fresh-process replay and negative control required"}
++	if output == "" or not write_json(output, result):
++		push_error("NoHit: cannot write output")
++		quit(3)
++		return
++	print("NOHIT_LIVE ", status, " ticks=", tick)
++	quit(0 if status == "native_route_candidate" else 2)
+--- /dev/null
++++ b/generic-engine/portable/godot4/adapter_base.gd
+@@ -0,0 +1,63 @@
++extends Node
++## Portable live adapter: no snapshots and no replacement soul physics.
++## Use the subclass for game-specific startup and observations.
++var game = null
++var input_viewport = null
++var damage_events = 0
++var kr_events = 0
++var audit_connected = false
++var attack_done = false
++var previous_mask = 0
++var action_names = ["ui_left", "ui_right", "ui_up", "ui_down"]
++
++func configure(scene):
++	game = scene
++
++func nohit_is_ready():
++	return true
++
++func nohit_begin(_seed):
++	# Override: connect original damage/KR and attack-end hooks, then start attack.
++	pass
++
++func enable_damage_audit():
++	# Call only after hooking ALL original damage and KR entry points.
++	audit_connected = true
++
++func record_damage(_amount = null):
++	# Record contacts even if HP is later restored or damage rounds to zero.
++	damage_events += 1
++
++func record_kr(_amount = null):
++	kr_events += 1
++
++func mark_finished():
++	# Call from the original attack-end event, never a test duration timeout.
++	attack_done = true
++
++func nohit_apply_input(mask):
++	# Edge events reach _input as well as Input.is_action_pressed().
++	for i in range(action_names.size()):
++		var now = bool(mask & (1 << i))
++		var before = bool(previous_mask & (1 << i))
++		if now != before:
++			var event = InputEventAction.new()
++			event.action = action_names[i]
++			event.pressed = now
++			event.strength = 1.0 if now else 0.0
++			if now:
++				Input.action_press(action_names[i])
++			else:
++				Input.action_release(action_names[i])
++			var viewport = input_viewport if input_viewport != null else game.get_viewport()
++			viewport.push_input(event)
++	previous_mask = mask
++
++func nohit_observe():
++	# Override with JSON-compatible values: soul coordinates/velocity/HP/KR,
++	# mode and other important audit values. This is not a full world snapshot.
++	return {}
++
++func nohit_contract():
++	return {"schema": "nohit.live.v1", "damage_audit": audit_connected,
++		"input_bits": action_names, "observation": "game supplied JSON projection"}
+--- /dev/null
++++ b/generic-engine/portable/godot4/configured_adapter.gd
+@@ -0,0 +1,78 @@
++extends "res://addons/nohit_live/adapter_base.gd"
++## Optional declarative adapter for games with existing native signals/hooks.
++var config = {}
++var config_error = ""
++
++func configure(scene):
++	game = scene
++	var file = FileAccess.open("res://nohit_config.json", FileAccess.READ)
++	var parsed = JSON.parse_string(file.get_as_text()) if file != null else null
++	if not parsed is Dictionary:
++		config_error = "Missing/invalid nohit_config.json"
++		return
++	config = parsed
++	if config.get("schema") != "nohit.config.v1" or not config.get("observations") is Dictionary or config.observations.is_empty():
++		config_error = "Invalid config schema or empty observations"
++	if config.get("has_kr") != false and not config.has("kr_signal"):
++		config_error = "Declare has_kr=false or connect the KR signal"
++	if not config.has("damage_signal") or not config.has("finished_signal") or not config.has("start_method"):
++		config_error = "Damage, completion signals and start method are required"
++	action_names = config.get("actions", action_names)
++	if config.has("input_viewport_path"):
++		input_viewport = resolve(config.input_viewport_path)
++
++func resolve(path):
++	return game.get_node_or_null(NodePath(path))
++
++func nohit_is_ready():
++	# Invalid configuration fails immediately with actionable diagnostics.
++	if config_error != "": return true
++	return resolve(config.get("ready_path", ".")) != null
++
++func hook(spec, callback):
++	if not spec is Dictionary: return false
++	var node = resolve(spec.get("path", "."))
++	var signal_name = spec.get("signal", "")
++	if node == null or not node.has_signal(signal_name):
++		config_error = "Missing signal " + str(spec)
++		return false
++	node.connect(signal_name, Callable(self, callback))
++	return true
++
++func on_damage(_a = null, _b = null, _c = null, _d = null):
++	record_damage()
++
++func on_kr(_a = null, _b = null, _c = null, _d = null):
++	record_kr()
++
++func on_finished(_a = null, _b = null, _c = null, _d = null):
++	mark_finished()
++
++func nohit_begin(attack_seed):
++	if config_error != "":
++		push_error("NoHit config: " + config_error)
++		return
++	if not hook(config.damage_signal, "on_damage") or not hook(config.finished_signal, "on_finished"):
++		push_error("NoHit config: " + config_error)
++		return
++	if config.has("kr_signal") and not hook(config.kr_signal, "on_kr"):
++		push_error("NoHit config: " + config_error)
++		return
++	var target = resolve(config.get("start_path", "."))
++	if target == null or not target.has_method(config.start_method):
++		push_error("NoHit config: missing attack start method")
++		return
++	var arguments = config.get("start_arguments", ["$seed"]).duplicate(true)
++	for i in range(arguments.size()):
++		if arguments[i] is String and arguments[i] == "$seed": arguments[i] = attack_seed
++	enable_damage_audit()
++	target.callv(config.start_method, arguments)
++
++func nohit_observe():
++	var result = {}
++	for key in config.get("observations", {}):
++		var spec = config.observations[key]
++		var node = resolve(spec.get("path", "."))
++		if node == null: return {}
++		result[key] = node.get_indexed(NodePath(spec.get("property", "")))
++	return result
+--- /dev/null
++++ b/generic-engine/portable/godot4/nohit_adapter.gd
+@@ -0,0 +1,24 @@
++extends "res://addons/nohit_live/adapter_base.gd"
++## Edit only this file for your game. Keep the original soul and damage code.
++## Replace example paths/signals below with your existing ones.
++# var soul
++
++func nohit_is_ready():
++	return true # e.g. game.has_node("Battle/Soul")
++
++func nohit_begin(_seed):
++	# soul = game.get_node("Battle/Soul")
++	# soul.damaged.connect(record_damage)
++	# soul.kr_contact.connect(record_kr)
++	# game.attack_finished.connect(mark_finished)
++	# enable_damage_audit()
++	# game.start_attack(_seed)
++	# Alternatively insert record_damage()/record_kr() calls in original entries.
++	# Start all custom RandomNumberGenerator instances with _seed as well.
++	pass
++
++func nohit_observe():
++	# return {"x": soul.position.x, "y": soul.position.y,
++	#   "vx": soul.velocity.x, "vy": soul.velocity.y,
++	#   "hp": soul.hp, "kr": soul.kr, "mode": soul.mode}
++	return {} # Deliberately rejected until observations and audit are connected.
+--- /dev/null
++++ b/generic-engine/portable/godot4/session.gd
+@@ -0,0 +1,180 @@
++extends SceneTree
++## Runs the ORIGINAL project main scene, autoloads, physics and damage code.
++## Captures at the next physics boundary, before injecting the next input.
++var adapter
++var request = {}
++var frames = []
++var route = []
++var tick = 0
++var initial = {}
++var ending_ticks = -1
++var active = false
++var output = ""
++var failure = ""
++
++func _initialize():
++	call_deferred("setup")
++
++func read_json(path):
++	var file = FileAccess.open(path, FileAccess.READ)
++	if file == null:
++		return null
++	return JSON.parse_string(file.get_as_text())
++
++func write_json(path, value):
++	var file = FileAccess.open(path, FileAccess.WRITE)
++	if file == null:
++		return false
++	file.store_string(JSON.stringify(value))
++	return true
++
++func wait_physics():
++	await physics_frame
++
++func setup():
++	var request_path = ""
++	for arg in OS.get_cmdline_user_args():
++		if arg.begins_with("--nohit-request="):
++			request_path = arg.substr(16)
++		if arg.begins_with("--nohit-output="):
++			output = arg.substr(15)
++	var parsed = read_json(request_path)
++	if not parsed is Dictionary or output == "":
++		push_error("NoHit: provide --nohit-request=<JSON> --nohit-output=<JSON>")
++		quit(3)
++		return
++	request = parsed
++	if not valid_request():
++		complete("invalid_request")
++		return
++	seed(int(request.seed))
++	var scene_path = request.get("scene", ProjectSettings.get_setting("application/run/main_scene", ""))
++	var packed = load(scene_path)
++	var script = load("res://nohit_adapter.gd")
++	if not packed is PackedScene or script == null:
++		failure = "Missing main scene or res://nohit_adapter.gd"
++		complete("invalid_adapter")
++		return
++	var game = packed.instantiate()
++	root.add_child(game)
++	current_scene = game
++	adapter = script.new()
++	root.add_child(adapter)
++	adapter.configure(game)
++	for _i in range(int(request.get("warmup_ticks", 120))):
++		if adapter.nohit_is_ready():
++			break
++		await wait_physics()
++	if not adapter.nohit_is_ready():
++		failure = "Adapter readiness timeout"
++		complete("invalid_adapter")
++		return
++	for action in adapter.action_names:
++		if not InputMap.has_action(action):
++			failure = "InputMap action missing: " + str(action)
++			complete("invalid_adapter")
++			return
++		Input.action_release(action)
++	adapter.nohit_begin(int(request.seed))
++	for action in adapter.action_names:
++		if not InputMap.has_action(action):
++			failure = "InputMap action missing: " + str(action)
++			complete("invalid_adapter")
++			return
++	initial = observe()
++	if failure != "" or not adapter.nohit_contract().get("damage_audit", false) or initial.is_empty():
++		failure = failure if failure != "" else "Connect damage/KR audit and return a nonempty observation"
++		complete("invalid_adapter")
++		return
++	if adapter.damage_events != 0 or adapter.kr_events != 0:
++		complete("hit")
++		return
++	if adapter.attack_done:
++		failure = "Attack already finished before the first native frame"
++		complete("invalid_adapter")
++		return
++	active = true
++	physics_frame.connect(boundary)
++
++func valid_request():
++	if request.get("schema") != "nohit.live.v1" or not request.get("route") is Array:
++		return false
++	if not request.get("seed") is float and not request.get("seed") is int:
++		return false
++	if request.get("max_ticks", 0) < 1 or request.get("max_ticks", 0) > 1000000:
++		return false
++	for mask in request.route:
++		if not (mask is int or mask is float) or mask != int(mask) or mask < 0 or mask > 255:
++			return false
++	return request.get("settle_ticks", 2) >= 1 and request.get("settle_ticks", 2) <= 60
++
++func observe():
++	var value = adapter.nohit_observe()
++	if not value is Dictionary or not json_value(value):
++		failure = "Observation must contain only finite JSON values (no Nodes, Vector2, Resources)"
++		return {}
++	# Serialize now: observers may reuse mutable dictionaries later.
++	return JSON.parse_string(JSON.stringify(value))
++
++func json_value(value):
++	if value == null or value is bool or value is int or value is String:
++		return true
++	if value is float:
++		return is_finite(value)
++	if value is Array:
++		for item in value:
++			if not json_value(item): return false
++		return true
++	if value is Dictionary:
++		for key in value:
++			if not key is String or not json_value(value[key]): return false
++		return true
++	return false
++
++func boundary():
++	if not active: return
++	if tick > 0:
++		var observation = observe()
++		frames.append({"tick": tick, "state": observation,
++			"damage_events": adapter.damage_events, "kr_events": adapter.kr_events,
++			"finished": adapter.attack_done})
++		if failure != "":
++			complete("invalid_adapter")
++			return
++		if adapter.damage_events > 0 or adapter.kr_events > 0:
++			complete("hit")
++			return
++		if adapter.attack_done:
++			if ending_ticks < 0: ending_ticks = 0
++			ending_ticks += 1
++			if ending_ticks > int(request.get("settle_ticks", 2)):
++				complete("native_route_candidate")
++				return
++	if tick >= int(request.max_ticks):
++		complete("unknown")
++		return
++	var mask = 0
++	if tick < request.route.size():
++		mask = int(request.route[tick])
++	elif request.get("repeat_last", false) and not request.route.is_empty():
++		mask = int(request.route.back())
++	adapter.nohit_apply_input(mask)
++	route.append(mask)
++	tick += 1
++
++func complete(status):
++	active = false
++	var result = {"schema": "nohit.live.result.v1", "status": status, "reason": failure,
++		"engine": Engine.get_version_info(), "seed": request.get("seed"),
++		"initial": initial, "route": route, "frames": frames, "ticks": tick,
++		"contract": adapter.nohit_contract() if adapter != null else {},
++		"attack_completed": adapter.attack_done if adapter != null else false,
++		"damage_events": adapter.damage_events if adapter != null else 0,
++		"kr_events": adapter.kr_events if adapter != null else 0,
++		"verification": "native frames; fresh-process replay and negative control required"}
++	if output == "" or not write_json(output, result):
++		push_error("NoHit: cannot write output")
++		quit(3)
++		return
++	print("NOHIT_LIVE ", status, " ticks=", tick)
++	quit(0 if status == "native_route_candidate" else 2)
+--- /dev/null
++++ b/generic-engine/portable/protocol.md
+@@ -0,0 +1,54 @@
++# Live protocol v1
++
++Engine-specific bridges use the same input route and audit vocabulary. This
++interface neither replaces soul physics nor assumes player-independent attacks.
++Godot 3/4 execute fresh processes; the GameMaker bridge is an unvalidated source
++template and requires a developer-provided native launch/export workflow.
++
++Request:
++
++```json
++{"schema":"nohit.live.v1","seed":1,"route":[4,4,0,1],"max_ticks":600,
++ "warmup_ticks":120,"settle_ticks":2,"repeat_last":false}
++```
++
++Bits 1/2/4/8 are left/right/up (or jump)/down. Godot adapters may extend
++`action_names` with slow/jump/confirm bits 16/32/64/128, or override
++`nohit_apply_input()` for the game's original input abstraction. An exhausted
++route supplies zero input unless `repeat_last` is explicitly enabled. Seed
++every game-owned RNG in `nohit_begin`; the global seed cannot reset custom RNGs,
++wall clocks, network responses or autoloads that ran before the adapter.
++
++The runner observes a completed native frame at the next input boundary. It
++counts every original damage/KR contact and waits additional native frames
++after the ORIGINAL completion signal. `max_ticks` is only a horizon; reaching
++it produces `unknown`, never completion. The test scene must expose an attack
++start hook so that audit installation precedes the attack's first frame.
++
++`nohit_observe()` returns a nonempty dictionary of finite JSON values: coordinates,
++velocity, HP/KR, mode, input/attack counters, etc. Convert Vector2 to x/y values.
++Do not include process IDs, wall time or instance IDs in deterministic comparisons.
++This is an observation projection, NOT a saved/restorable full world state.
++
++Result statuses:
++
++| Status | Meaning |
++| --- | --- |
++| `invalid_adapter` | Missing audit, inputs, readiness, or observations |
++| `hit` | At least one original damage or KR event |
++| `unknown` | Budget/horizon expired; no claim of impossibility |
++| `native_route_candidate` | Completed native attack with zero audited damage |
++| `replay_failed` | Fresh-process observations or integration files diverged |
++| `control_failed` | Supplied damage control did not hit; certification withheld |
++| `native_nohit_fresh_process_observed` | Candidate + exact fresh-process observed trace + native damage control passed |
++
++The certificate applies only to its game scene, engine, seed, route and adapter's
++audit coverage. A successful control demonstrates a functioning damage path;
++it cannot prove all unobserved damage paths are hooked. Developers must connect
++white/blue/orange/KR/environmental damage at their common original entry point(s).
++For formal complete world equality, implement the existing snapshot bridge.
++
++No collision baking is mandatory for live adoption: original physics remains
++the verification authority. Godot 4 projects may optionally also copy
++`godot/addons/nohit/native_baker.gd`; GameMaker may import
++`gamemaker/nohit_bridge.gml`. Baking is a geometric observation, not a damage rule.
+--- /dev/null
++++ b/generic-engine/portable/request.example.json
+@@ -0,0 +1 @@
++{"schema":"nohit.live.v1","seed":1,"route":[4],"max_ticks":600,"warmup_ticks":120,"settle_ticks":2,"repeat_last":true}
+--- /dev/null
++++ b/generic-engine/research/portable-v1/README.zh-CN.md
+@@ -0,0 +1,58 @@
++# 通用接入层验收
++
++当前实现支持两种低门槛入口：
++
++- 配置接入：原游戏已有伤害/结束信号，仅填写 JSON 路径、信号、攻击方法和观察属性。
++- 脚本接入：一份适配器处理菜单/加载、自定义输入和原伤害入口；不要求世界快照。
++
++两者都启动原主场景与自动加载，保留原引擎物理帧、Timer/Tween、碰撞及伤害规则。
++旧 Snapshot 接入保留，用于能精确恢复世界的项目。没有强制重写心魂控制器。
++
++## 已执行证据
++
++`acceptance-v2/acceptance.json`：Godot 3.5.3、4.6.1，共 24 项通过，0 项失败：
++
++| 每版各 12 项 | 结果 |
++| --- | --- |
++| 重复安装保留原工程与适配器 | 通过 |
++| 原生候选 + 新进程回放 + 受伤反例 | 通过 |
++| 仅 JSON 配置式接入 | 通过 |
++| 漏接伤害审计 | 拒绝通过 |
++| 没有原攻击结束事件 | unknown |
++| 受伤后立即回血 | 仍判 hit |
++| 观察包含 Vector2 等非 JSON 值 | 拒绝通过 |
++| 新进程观察故意加入进程 ID | 拒绝回放 |
++| 反例路线本身安全 | 不发验证证书 |
++| 原结束事件后一帧伤害 | 仍判 hit |
++| `_input` 只收一次按下，轮询输入持续生效 | 通过 |
++| 4 个隔离进程并行的有限输入策略搜索 | 通过 |
++
++最小示例是自行编写的接入 fixture，不能算成上游游戏关卡。
++GameMaker 模板没有可用原生运行时，未纳入这些通过项。
++
++`megalo-common/summary.json`：固定原提交
++`b449c9c05f8af91b8e015d490ff9fdcb8913ed1e` 的完整原版 bonegap，
++使用相同公共 Live SDK：422 原生帧，观察到 32 骨头，HP92/KR0，伤害/KR计数0。
++独立新进程逐帧观察一致。真实上/跳输入反例在第85帧原生扣血，HP91/KR6。
++只添加观察伤害子类并委托原 takeDamage，没有在反例里移动玩家位置。
++
++## 已发现并修复的接入问题
++
++Godot headless 输入注入不能只依赖 `Input.parse_input_event`。
++当前代码显式设置 Input action 状态，并将边沿事件送进原输入 Viewport。
++独立检查 `_input` 和轮询均生效，子 Viewport 可由配置/适配器指定。
++历史专用驱动没有这项保障；本轮通用结果使用修复后的公共 SDK重新执行。
++
++验收证书只覆盖指定场景、种子、路线和适配器审计范围。逐帧观察不是完整世界快照。
++伤害反例证明该损伤路径能工作，不自动证明开发者没有漏接其他伤害入口。
++冷启动、导入和原攻击时长均保留，不承诺任意原游戏毫秒级执行。
++
++复现命令：
++
++```bash
++python generic-engine/tools/test_portable.py --godot3 /path/to/godot3 --godot4 /path/to/godot4 --output results/acceptance
++```
++
++调试阶段的首次失败已保留在其他目录，最终完整验收以 `acceptance-v2` 为准。
++
++` sdk-package-smoke/summary.json `：将轻量 ZIP 解压到新目录、安装到带空格的游戏路径后，Godot 4 原生候选、独立回放和伤害反例再次通过。分发包入口与路径处理已实测。
+--- /dev/null
++++ b/generic-engine/tools/nohit.py
+@@ -0,0 +1,271 @@
++#!/usr/bin/env python3
++"""Zero-dependency installer and fresh-process native route runner (Godot 3/4)."""
++from __future__ import annotations
++import argparse
++import concurrent.futures
++import hashlib
++import json
++import os
++from pathlib import Path
++import re
++import shutil
++import subprocess
++import sys
++import time
++
++PORTABLE = Path(__file__).resolve().parents[1] / "portable"
++SCHEMA = "nohit.live.v1"
++
++def read(path):
++    return json.loads(Path(path).read_text(encoding="utf-8"))
++
++def save(path, value):
++    path = Path(path)
++    path.parent.mkdir(parents=True, exist_ok=True)
++    path.write_text(json.dumps(value, ensure_ascii=False, indent=2, allow_nan=False) + "\n", encoding="utf-8")
++
++def major(project, requested=None):
++    text = (project / "project.godot").read_text(encoding="utf-8")
++    if requested:
++        return int(requested)
++    feature = re.search(r'config/features=.*?"([34])\.', text)
++    if feature:
++        return int(feature.group(1))
++    config = re.search(r"^config_version\s*=\s*(\d+)", text, re.M)
++    if config:
++        return 4 if int(config.group(1)) >= 5 else 3
++    raise ValueError("Cannot detect Godot version; pass --engine 3 or --engine 4")
++
++def project_path(value):
++    result = Path(value).expanduser().resolve()
++    if not (result / "project.godot").is_file():
++        raise argparse.ArgumentTypeError("Project must contain project.godot: " + str(result))
++    return result
++
++def install(project, engine=None, force=False, config=None):
++    version = major(project, engine)
++    source = PORTABLE / f"godot{version}"
++    targets = [(source / name, project / "addons/nohit_live" / name)
++               for name in ["adapter_base.gd", "session.gd", "configured_adapter.gd"]]
++    if not (project / "nohit_adapter.gd").exists():
++        targets.append((source / "nohit_adapter.gd", project / "nohit_adapter.gd"))
++    # Preflight the complete operation. Never follow a symlink outside a project.
++    for src, dst in targets:
++        if dst.is_symlink() or not dst.resolve().is_relative_to(project):
++            raise ValueError("Unsafe installation destination: " + str(dst))
++        if dst.exists() and dst.read_bytes() != src.read_bytes() and not force:
++            raise ValueError("Add-on differs; use --force-addon to replace SDK files. Your adapter is preserved: " + str(dst))
++    if config:
++        data = read(config)
++        if data.get("schema") != "nohit.config.v1":
++            raise ValueError("Config schema must be nohit.config.v1")
++        dst = project / "nohit_config.json"
++        if dst.is_symlink() or (dst.exists() and read(dst) != data):
++            raise ValueError("Existing nohit_config.json is preserved; edit it directly")
++        if (project / "nohit_adapter.gd").exists() and (project / "nohit_adapter.gd").read_text() != 'extends "res://addons/nohit_live/configured_adapter.gd"\n':
++            raise ValueError("Existing custom adapter is preserved; use a new fixture or configure it manually")
++    for src, dst in targets:
++        dst.parent.mkdir(parents=True, exist_ok=True)
++        shutil.copyfile(src, dst)
++    if config:
++        save(project / "nohit_config.json", data)
++        (project / "nohit_adapter.gd").write_text('extends "res://addons/nohit_live/configured_adapter.gd"\n')
++    return {"status": "installed", "engine_major": version,
++            "adapter": str(project / "nohit_adapter.gd"),
++            "next": "Connect original damage/KR and attack-end hooks in nohit_adapter.gd, then run doctor and solve.",
++            "project_settings_changed": False}
++
++def doctor(project):
++    version = major(project)
++    text = (project / "project.godot").read_text(encoding="utf-8")
++    main = re.search(r'^run/main_scene\s*=\s*"(.+)"', text, re.M)
++    checks = {"project": True, "engine_major": version,
++              "main_scene_configured": main is not None,
++              "adapter_exists": (project / "nohit_adapter.gd").is_file(),
++              "sdk_files_exist": all((project / "addons/nohit_live" / n).is_file()
++                                     for n in ["adapter_base.gd", "session.gd"])}
++    return {"status": "static_ready" if all(checks[k] for k in
++            ["main_scene_configured", "adapter_exists", "sdk_files_exist"]) else "needs_installation",
++            "checks": checks, "scope": "File/configuration checks only. A native run validates hooks, observations and InputMap.",
++            "required_hooks": ["damage and KR contacts", "original attack completion", "nonempty JSON observation"],
++            "input_bits": {"1": "left", "2": "right", "4": "up/jump", "8": "down"}}
++
++def load_route(path):
++    data = read(path)
++    route = data.get("route") if isinstance(data, dict) else data
++    if not isinstance(route, list) or not route or any(type(x) is not int or not 0 <= x <= 255 for x in route):
++        raise ValueError("Route must be a nonempty array of integer masks 0..255")
++    return route
++
++def fingerprint(project):
++    files = ["project.godot", "nohit_adapter.gd", "addons/nohit_live/adapter_base.gd", "addons/nohit_live/session.gd"]
++    files += [name for name in ["nohit_config.json", "addons/nohit_live/configured_adapter.gd"] if (project / name).is_file()]
++    return {name: hashlib.sha256((project / name).read_bytes()).hexdigest() for name in files}
++
++def validate_result(value):
++    if value.get("schema") != "nohit.live.result.v1":
++        raise ValueError("Wrong result schema")
++    status = value.get("status")
++    if status not in ["invalid_adapter", "invalid_request", "hit", "unknown", "native_route_candidate"]:
++        raise ValueError("Unknown native result status")
++    if status in ["invalid_adapter", "invalid_request"]:
++        return
++    frames, route = value.get("frames"), value.get("route")
++    if not isinstance(frames, list) or not isinstance(route, list) or len(frames) != len(route) or value.get("ticks") != len(route):
++        raise ValueError("Incomplete per-frame trace")
++    json.dumps(value, allow_nan=False)
++    if status == "hit" and not frames and (value.get("damage_events", 0) > 0 or value.get("kr_events", 0) > 0):
++        return
++    last_damage = last_kr = 0
++    for i, frame in enumerate(frames, 1):
++        if frame.get("tick") != i or not isinstance(frame.get("state"), dict) or not frame["state"]:
++            raise ValueError("Missing frame observation")
++        damage, kr = frame.get("damage_events"), frame.get("kr_events")
++        if type(damage) not in [int, float] or type(kr) not in [int, float] or damage < last_damage or kr < last_kr:
++            raise ValueError("Audit counters are not cumulative")
++        last_damage, last_kr = damage, kr
++    if last_damage != value.get("damage_events") or last_kr != value.get("kr_events"):
++        raise ValueError("Final audit differs from trace")
++    if status == "native_route_candidate" and (not frames or not value.get("attack_completed") or
++            not value.get("contract", {}).get("damage_audit") or last_damage != 0 or last_kr != 0):
++        raise ValueError("Unfinished or unaudited no-hit candidate")
++    if status == "hit" and last_damage <= 0 and last_kr <= 0:
++        # A synchronous hit at begin is allowed, but never a valid control trace.
++        if value.get("damage_events", 0) <= 0 and value.get("kr_events", 0) <= 0:
++            raise ValueError("Hit result without damage")
++
++def run_native(args, route, label):
++    folder = Path(args.output).resolve() / label
++    folder.mkdir(parents=True, exist_ok=False)
++    request_file, result_file = folder / "request.json", folder / "result.json"
++    save(request_file, {"schema": SCHEMA, "seed": args.seed, "route": route,
++                       "max_ticks": args.max_ticks, "warmup_ticks": args.warmup_ticks,
++                       "settle_ticks": args.settle_ticks, "repeat_last": args.repeat_last,
++                       **({"scene": args.scene} if args.scene else {})})
++    command = [str(Path(args.godot).resolve()) if os.path.sep in args.godot else args.godot,
++               "--headless", "--path", str(args.project), "--script", "res://addons/nohit_live/session.gd",
++               "--", "--nohit-request=" + str(request_file), "--nohit-output=" + str(result_file)]
++    start = time.perf_counter()
++    try:
++        completed = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
++                                   timeout=args.timeout, encoding="utf-8", errors="replace")
++        log = completed.stdout
++        (folder / "native.log").write_text(log, encoding="utf-8")
++        if not result_file.is_file():
++            return {"status": "runtime_error", "reason": "No result file", "log": str(folder / "native.log")}
++        result = read(result_file)
++        try:
++            validate_result(result)
++        except (ValueError, TypeError) as exc:
++            result = {"status": "runtime_error", "reason": "Invalid native result: " + str(exc)}
++        if "SCRIPT ERROR:" in log or "Parse Error:" in log or completed.returncode not in [0, 2]:
++            result = {"status": "runtime_error", "reason": "Native script/process failure; see log"}
++    except subprocess.TimeoutExpired as exc:
++        output = exc.stdout or b""
++        (folder / "native.log").write_text(output.decode(errors="replace") if isinstance(output, bytes) else output)
++        result = {"status": "unknown", "reason": "process_timeout_including_cold_start"}
++    result["wall_seconds"] = time.perf_counter() - start
++    result["record"] = str(result_file)
++    save(folder / "run.json", result)
++    return result
++
++def same_trace(a, b):
++    # Exact exposed values, no tolerance or rounding to conceal a divergence.
++    return all(a.get(k) == b.get(k) for k in ["engine", "seed", "initial", "route", "frames", "contract",
++               "ticks", "attack_completed", "damage_events", "kr_events"])
++
++def verify(args, candidate):
++    before = fingerprint(args.project)
++    replay = run_native(args, candidate["route"], "replay")
++    control_route = load_route(args.control_route) if args.control_route else [args.control_mask] * args.max_ticks
++    control = run_native(args, control_route, "control")
++    replay_ok = replay.get("status") == "native_route_candidate" and same_trace(candidate, replay)
++    control_ok = control.get("status") == "hit" and bool(control.get("frames")) and (
++        control.get("damage_events", 0) > 0 or control.get("kr_events", 0) > 0)
++    unchanged = before == fingerprint(args.project)
++    return {"schema": "nohit.live.certificate.v1",
++            "status": "native_nohit_fresh_process_observed" if replay_ok and control_ok and unchanged
++                      else "replay_failed" if not replay_ok or not unchanged else "control_failed",
++            "fresh_process_exact_observation_replay": replay_ok,
++            "native_damage_control": control_ok, "integration_files_unchanged": unchanged,
++            "integration_sha256": before, "route": candidate["route"], "seed": args.seed,
++            "candidate_record": candidate["record"], "replay_record": replay.get("record"),
++            "control_record": control.get("record"),
++            "scope": "Original native frames and adapter-audited damage; observations are not full world snapshots. Applies only to this scene, seed, route and audit scope."}
++
++def portfolio(max_ticks):
++    result = [[mask] * max_ticks for mask in [0, 1, 2, 4, 8, 5, 6, 9, 10]]
++    for held in [1, 2, 4]:
++        result.append([held if (tick // 15) % 2 == 0 else 0 for tick in range(max_ticks)])
++    return result
++
++def main(argv=None):
++    p = argparse.ArgumentParser(description=__doc__)
++    sub = p.add_subparsers(dest="command", required=True)
++    installer = sub.add_parser("install", help="Copy live SDK without altering project settings or existing adapter")
++    installer.add_argument("project", type=project_path)
++    installer.add_argument("--engine", choices=["3", "4"])
++    installer.add_argument("--force-addon", action="store_true")
++    installer.add_argument("--config", type=Path, help="Declarative adapter config, for games with existing damage/end signals")
++    check = sub.add_parser("doctor", help="Static integration checks")
++    check.add_argument("project", type=project_path)
++    for name in ["run", "verify", "solve"]:
++        runner = sub.add_parser(name)
++        runner.add_argument("project", type=project_path)
++        runner.add_argument("--godot", default="godot")
++        runner.add_argument("--output", type=Path, required=True, help="New evidence directory; never overwrite a previous run")
++        runner.add_argument("--route", type=Path)
++        runner.add_argument("--mask", type=int, default=0)
++        runner.add_argument("--seed", type=int, default=1)
++        runner.add_argument("--max-ticks", type=int, default=600)
++        runner.add_argument("--warmup-ticks", type=int, default=120)
++        runner.add_argument("--settle-ticks", type=int, default=2)
++        runner.add_argument("--repeat-last", action="store_true")
++        runner.add_argument("--scene", help="Optional res:// attack fixture, default project main scene")
++        runner.add_argument("--timeout", type=float, default=30)
++        runner.add_argument("--workers", type=int, default=min(4, os.cpu_count() or 1))
++        runner.add_argument("--control-mask", type=int, default=0)
++        runner.add_argument("--control-route", type=Path)
++    args = p.parse_args(argv)
++    try:
++        if args.command == "install":
++            result = install(args.project, args.engine, args.force_addon, args.config)
++        elif args.command == "doctor":
++            result = doctor(args.project)
++        else:
++            if not 1 <= args.max_ticks <= 1000000 or not 1 <= args.settle_ticks <= 60 or args.timeout <= 0 or not 1 <= args.workers <= 64:
++                raise ValueError("Invalid ticks, settle ticks, timeout or workers")
++            if not 0 <= args.mask <= 255 or not 0 <= args.control_mask <= 255:
++                raise ValueError("Input mask must be 0..255")
++            if args.output.exists():
++                raise ValueError("Use a NEW output directory: " + str(args.output))
++            initial_identity = fingerprint(args.project)
++            if args.command == "solve":
++                routes = [load_route(args.route)] if args.route else portfolio(args.max_ticks)
++                with concurrent.futures.ThreadPoolExecutor(max_workers=args.workers) as pool:
++                    futures = [pool.submit(run_native, args, r, f"candidate-{i:03}") for i, r in enumerate(routes)]
++                    attempts = [f.result() for f in futures]
++                candidates = [r for r in attempts if r.get("status") == "native_route_candidate"]
++                result = {"status": "unknown", "search": "finite input portfolio; exhaustion does not prove no solution",
++                          "attempts": [{k: r.get(k) for k in ["status", "ticks", "record", "wall_seconds", "reason"]} for r in attempts]}
++                if candidates:
++                    result.update(verify(args, candidates[0]))
++                elif any(r.get("status") in ["invalid_adapter", "runtime_error"] for r in attempts):
++                    result["status"] = "invalid_adapter"
++            else:
++                route = load_route(args.route) if args.route else [args.mask] * args.max_ticks
++                result = run_native(args, route, "candidate")
++                if args.command == "verify" and result.get("status") == "native_route_candidate":
++                    result = verify(args, result)
++            if initial_identity != fingerprint(args.project):
++                result["status"] = "replay_failed"
++                result["reason"] = "Integration changed during execution"
++            save(args.output / "summary.json", result)
++        print(json.dumps(result, ensure_ascii=False, indent=2))
++        return 0 if result["status"] in ["installed", "static_ready", "native_route_candidate", "native_nohit_fresh_process_observed"] else 2
++    except (ValueError, OSError, KeyError, TypeError) as exc:
++        print(json.dumps({"status": "error", "reason": str(exc)}, ensure_ascii=False), file=sys.stderr)
++        return 2
++
++if __name__ == "__main__":
++    sys.exit(main())
+--- a/generic-engine/tools/package_generic_snapshot.py
++++ b/generic-engine/tools/package_generic_snapshot.py
+@@ -1,6 +1,7 @@
+ """Package the complete restored source tree and validate every delivered byte."""
+ import argparse,difflib,hashlib,json,pathlib,zipfile
+-p=argparse.ArgumentParser();p.add_argument('--root',type=pathlib.Path,required=True);p.add_argument('--output',type=pathlib.Path,required=True);p.add_argument('--previous',type=pathlib.Path);a=p.parse_args();root=a.root.resolve()
++p=argparse.ArgumentParser();p.add_argument('--root',type=pathlib.Path,required=True);p.add_argument('--output',type=pathlib.Path,required=True);p.add_argument('--previous',type=pathlib.Path);p.add_argument('--patch-name',default='PORTABLE_INTEGRATION.patch');a=p.parse_args();root=a.root.resolve()
++assert pathlib.Path(a.patch_name).name==a.patch_name
+ files={}
+ for f in root.rglob('*'):
+  if not f.is_file() or f.is_symlink():continue
+@@ -16,14 +17,14 @@
+   old={name.removeprefix('nohit/'):z.read(name) for name in z.namelist() if name.startswith('nohit/')}
+  patch=[]
+  for name,data in sorted(files.items()):
+-  if pathlib.Path(name).suffix not in ['.py','.gd','.gml','.tscn','.godot','.md']:continue
++  if pathlib.Path(name).suffix not in ['.py','.gd','.gml','.tscn','.godot','.md','.txt'] and not (name.startswith('generic-engine/portable/') and name.endswith('.json')):continue
+   if old.get(name)==data:continue
+   try:before=old.get(name,b'').decode().splitlines(True);after=data.decode().splitlines(True)
+   except UnicodeDecodeError:continue
+   patch.extend(difflib.unified_diff(before,after,fromfile='a/'+name if name in old else '/dev/null',tofile='b/'+name))
+- files['NATIVE_INTEGRATION.patch']=''.join(patch).encode()
+-files['RUN_GENERIC.md']='''# Generic engine source delivery, 2026-10-09\n\nStart with generic-engine/README.zh-CN.md and the all-samples report.\nThis package contains the full previous nohit source, plus pinned installers,\nnative Godot adapters, portfolios, fresh-process replays and all-sample logs.\nThree projects / six native tests passed; not all projects or levels solved.\nGameMaker has no runtime acceptance in this environment.\n\nOPTIMIZATION.patch is the historical source patch from the original Git base.\nNATIVE_INTEGRATION.patch adds source/document changes since the previous v9\narchive. Evidence JSON/log files are included directly, not duplicated in that\npatch. Other upstream source/assets are fetched using fixed commits.\n\nThe archive also works without a .git directory. Repackage with:\npython generic-engine/tools/package_generic_snapshot.py --root . --output /path/source.zip\n'''.encode()
+-manifest={'format':'nohit-source-v10-all-sample-native-attempts','previous_source_sha256':previous_hash,'scope':'complete nohit source plus all-sample attempts; six verified native tests in three projects','files':{name:{'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest()} for name,data in sorted(files.items())}}
++ files[a.patch_name]=''.join(patch).encode()
++files['RUN_GENERIC.md']='''# Generic engine source delivery, 2026-10-09\n\nStart with generic-engine/portable/QUICKSTART.zh-CN.md.\nThe live SDK supports Godot 3/4 config-only or single-file adapters, without\nworld snapshots or replacement soul physics. Native fixtures and faults passed\n24 acceptance checks, plus the original Megalo bonegap through the same SDK.\nGameMaker remains a source template without native runtime acceptance.\n\nThis archive preserves all previous nohit source and all-sample evidence.\nThree upstream projects / six native tests were verified; not all levels solved.\nOPTIMIZATION.patch and NATIVE_INTEGRATION.patch are historical patches.\nPORTABLE_INTEGRATION.patch describes live SDK changes since the previous v10\narchive. Evidence is included directly. Upstream assets use pinned fetches.\n\nRepackage without requiring a .git directory:\npython generic-engine/tools/package_generic_snapshot.py --root . --output /path/source.zip\n'''.encode()
++manifest={'format':'nohit-source-v11-portable-live-sdk','previous_source_sha256':previous_hash,'scope':'complete nohit source and prior evidence plus config/single-file live SDK, 24 acceptance checks and native Megalo SDK integration','files':{name:{'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest()} for name,data in sorted(files.items())}}
+ files['DELIVERY_MANIFEST.json']=(json.dumps(manifest,indent=2)+'\n').encode()
+ a.output.parent.mkdir(parents=True,exist_ok=True);temp=a.output.with_suffix('.building')
+ with zipfile.ZipFile(temp,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=6) as z:
+--- /dev/null
++++ b/generic-engine/tools/package_portable.py
+@@ -0,0 +1,51 @@
++"""Build the standalone integration SDK, without historical solver/assets."""
++import argparse
++import hashlib
++import json
++from pathlib import Path
++import zipfile
++
++p = argparse.ArgumentParser(description=__doc__)
++p.add_argument("--output", type=Path, required=True)
++a = p.parse_args()
++root = Path(__file__).resolve().parents[1]
++files = {}
++for source in (root / "portable").rglob("*"):
++    if not source.is_file() or source.is_symlink(): continue
++    rel = source.relative_to(root)
++    if any(part in [".godot", ".import", "__pycache__", "addons"] for part in rel.parts): continue
++    files[rel.as_posix()] = source.read_bytes()
++for name in ["nohit.py", "test_portable.py", "package_portable.py"]:
++    files["tools/" + name] = (root / "tools" / name).read_bytes()
++files["README.zh-CN.md"] = '''# NoHit 通用接入 SDK
++
++优先阅读 portable/QUICKSTART.zh-CN.md。
++已有信号的 Godot 游戏只填配置；复杂游戏集中编辑一份适配器。
++保留原心魂、弹幕、碰撞与伤害，不要求完整世界快照。
++
++python tools/nohit.py install /path/to/game
++python tools/nohit.py doctor /path/to/game
++python tools/nohit.py solve /path/to/game --godot /path/to/godot --output results/first
++
++要求 Python 3.10+，不依赖第三方 Python 包；使用与原游戏匹配的 Godot。
++Godot 3.5.3 / 4.6.1 已执行验证。GameMaker 脚本模板尚未原生运行验收。
++有限策略搜索可能返回 unknown，不保证解出任意弹幕。
++本包不含历史 nohit 求解器、他人游戏素材或引擎二进制。
++新 Live SDK、模板与工具采用 MIT，见 portable/LICENSE.txt。
++'''.encode()
++acceptance = root / "research/portable-v1/acceptance-v2/acceptance.json"
++if acceptance.exists(): files["validation/acceptance.json"] = acceptance.read_bytes()
++manifest = {"format": "nohit-integration-sdk-v1", "files": {
++    name: {"bytes": len(data), "sha256": hashlib.sha256(data).hexdigest()} for name, data in sorted(files.items())}}
++files["MANIFEST.json"] = (json.dumps(manifest, indent=2) + "\n").encode()
++a.output.parent.mkdir(parents=True, exist_ok=True)
++temporary = a.output.with_suffix(".building")
++with zipfile.ZipFile(temporary, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
++    for name, data in sorted(files.items()):
++        archive.writestr("nohit-integration-sdk/" + name, data)
++with zipfile.ZipFile(temporary) as archive:
++    assert archive.testzip() is None
++    for name, data in files.items(): assert archive.read("nohit-integration-sdk/" + name) == data
++temporary.replace(a.output)
++print(json.dumps({"path": str(a.output.resolve()), "files": len(files), "bytes": a.output.stat().st_size,
++                  "sha256": hashlib.sha256(a.output.read_bytes()).hexdigest(), "all_file_bytes_verified": True}))
+--- /dev/null
++++ b/generic-engine/tools/test_portable.py
+@@ -0,0 +1,114 @@
++"""Integration acceptance: real Godot frames plus deliberate adapter faults."""
++import argparse
++import importlib.util
++import json
++from pathlib import Path
++import shutil
++import subprocess
++import sys
++import tempfile
++import time
++
++HERE = Path(__file__).resolve().parent
++spec = importlib.util.spec_from_file_location("nohit_cli", HERE / "nohit.py")
++cli = importlib.util.module_from_spec(spec)
++spec.loader.exec_module(cli)
++
++def run_case(project, engine, out, mask=4, mode="run"):
++    command = [sys.executable, str(HERE / "nohit.py"), mode, str(project), "--godot", str(engine),
++               "--output", str(out), "--max-ticks", "70", "--mask", str(mask), "--workers", "4"]
++    completed = subprocess.run(command, capture_output=True, text=True, timeout=60)
++    if not (out / "summary.json").is_file():
++        raise AssertionError(completed.stdout + completed.stderr)
++    return cli.read(out / "summary.json")
++
++def main():
++    p = argparse.ArgumentParser(description=__doc__)
++    p.add_argument("--godot3", type=Path)
++    p.add_argument("--godot4", type=Path)
++    p.add_argument("--output", type=Path, required=True)
++    a = p.parse_args()
++    if a.output.exists(): raise ValueError("Use a new output directory")
++    a.output.mkdir(parents=True)
++    records = []
++    start = time.perf_counter()
++    for version, engine in [(3, a.godot3), (4, a.godot4)]:
++        if not engine: continue
++        engine = engine.resolve()
++        with tempfile.TemporaryDirectory(prefix=f"nohit-sdk-godot{version}-") as tmp:
++            root = Path(tmp)
++            def fixture(name):
++                target = root / name
++                shutil.copytree(cli.PORTABLE / f"examples/godot{version}", target,
++                                ignore=shutil.ignore_patterns(".godot", ".import", "addons"))
++                cli.install(target.resolve(), str(version))
++                return target
++            def record(name, result, expected):
++                assert result["status"] == expected, (name, result)
++                records.append({"engine_major": version, "case": name, "status": result["status"], "passed": True})
++            base = fixture("baseline")
++            adapter_bytes = (base / "nohit_adapter.gd").read_bytes()
++            project_bytes = (base / "project.godot").read_bytes()
++            cli.install(base.resolve(), str(version))
++            assert (base / "nohit_adapter.gd").read_bytes() == adapter_bytes
++            assert (base / "project.godot").read_bytes() == project_bytes
++            records.append({"engine_major": version, "case": "idempotent_install_preserves_game_and_adapter", "passed": True})
++            result = run_case(base, engine, a.output / f"godot{version}-verified", mode="verify")
++            record("native_route_fresh_replay_damage_control", result, "native_nohit_fresh_process_observed")
++            configured = fixture("configured")
++            (configured / "nohit_adapter.gd").unlink()
++            cli.install(configured.resolve(), str(version), config=cli.PORTABLE / "config.example.json")
++            result = run_case(configured, engine, a.output / f"godot{version}-configured", mode="verify")
++            record("configuration_only_adapter", result, "native_nohit_fresh_process_observed")
++            missing = fixture("missing_audit")
++            f = missing / "nohit_adapter.gd"
++            f.write_text(f.read_text().replace("enable_damage_audit()", "pass"))
++            record("missing_damage_audit_rejected", run_case(missing, engine, a.output / f"godot{version}-missing-audit"), "invalid_adapter")
++            no_end = fixture("missing_end")
++            f = no_end / "nohit_adapter.gd"
++            f.write_text(f.read_text().replace("game.attack_finished.connect(mark_finished)" if version == 4 else
++                'game.connect("attack_finished", self, "mark_finished")', "pass"))
++            record("survival_without_attack_end_is_unknown", run_case(no_end, engine, a.output / f"godot{version}-missing-end"), "unknown")
++            healed = fixture("healed")
++            f = healed / "game.gd"
++            f.write_text(f.read_text().replace("hp -= 1", "hp -= 1\n\t\thp += 1"))
++            result = run_case(healed, engine, a.output / f"godot{version}-healed", mask=0)
++            record("healing_cannot_hide_damage", result, "hit")
++            assert result["frames"][-1]["state"]["hp"] == 20
++            bad_json = fixture("bad_json")
++            f = bad_json / "nohit_adapter.gd"
++            f.write_text(f.read_text().replace('"x": game.soul_position.x', '"x": game.soul_position'))
++            record("non_json_observation_rejected", run_case(bad_json, engine, a.output / f"godot{version}-bad-json"), "invalid_adapter")
++            divergent = fixture("divergent")
++            f = divergent / "nohit_adapter.gd"
++            f.write_text(f.read_text().replace('"x": game.soul_position.x', '"process": OS.get_process_id(), "x": game.soul_position.x'))
++            record("fresh_process_divergence_rejected", run_case(divergent, engine, a.output / f"godot{version}-divergent", mode="verify"), "replay_failed")
++            safe_control = fixture("safe_control")
++            f = safe_control / "game.gd"
++            f.write_text(f.read_text().replace("Vector2(110 - tick * 2, 50)", "Vector2(110 - tick * 2, 500)"))
++            record("non_damaging_control_withholds_certificate", run_case(safe_control, engine, a.output / f"godot{version}-safe-control", mode="verify"), "control_failed")
++            delayed = fixture("delayed_hit")
++            f = delayed / "game.gd"
++            emission = 'damaged.emit(1)' if version == 4 else 'emit_signal("damaged", 1)'
++            s = f.read_text().replace("if not running: return", 'if not running:\n\t\tif tick == 45:\n\t\t\t' + emission + '\n\t\t\ttick += 1\n\t\treturn')
++            f.write_text(s)
++            record("post_completion_damage_audited", run_case(delayed, engine, a.output / f"godot{version}-delayed-hit"), "hit")
++            input_edges = fixture("input_edges")
++            f = input_edges / "game.gd"
++            s = f.read_text() + '\nvar input_presses = 0\nfunc _input(event):\n\tif event.is_action_pressed("ui_up"):\n\t\tinput_presses += 1\n'
++            f.write_text(s)
++            f = input_edges / "nohit_adapter.gd"
++            f.write_text(f.read_text().replace('"hp": game.hp', '"presses": game.input_presses, "hp": game.hp'))
++            result = run_case(input_edges, engine, a.output / f"godot{version}-input-edges")
++            record("event_edges_and_polling_both_work", result, "native_route_candidate")
++            assert result["frames"][-1]["state"]["presses"] == 1
++            assert result["frames"][-1]["state"]["y"] == 5
++            record("parallel_native_portfolio", run_case(base, engine, a.output / f"godot{version}-portfolio", mode="solve"), "native_nohit_fresh_process_observed")
++    if not records: raise ValueError("Pass --godot3 and/or --godot4")
++    summary = {"passed": len(records), "failed": 0, "wall_seconds": time.perf_counter() - start,
++               "scope": "Portable fixtures and deliberate faults; not upstream level certificates", "cases": records}
++    cli.save(a.output / "acceptance.json", summary)
++    print(json.dumps(summary, indent=2))
++
++if __name__ == "__main__":
++    main()

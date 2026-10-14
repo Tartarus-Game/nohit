@@ -1,0 +1,8 @@
+Godot Engine v3.3.stable.official - https://godotengine.org
+ 
+NOHIT_NATIVE_BEGIN
+NOHIT_NATIVE_END hit tick=458 damage=1 spawned=8
+ERROR: get_language_code: Invalid locale 'C'.
+   At: core/translation.cpp:958.
+ERROR: set_locale: Unsupported locale 'C', falling back to 'en'.
+   At: core/translation.cpp:982.

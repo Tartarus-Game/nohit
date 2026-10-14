@@ -1,0 +1,4 @@
+Godot Engine v3.5.3.stable.official.6c814135b - https://godotengine.org
+ 
+SCRIPT ERROR: Parse Error: The function signature doesn't match the parent. Parent signature is: "void finish()".
+          at: GDScript::reload (res://addons/nohit_live/session.gd:161)

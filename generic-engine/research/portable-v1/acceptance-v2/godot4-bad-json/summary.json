@@ -1,0 +1,38 @@
+{
+  "attack_completed": false,
+  "contract": {
+    "damage_audit": true,
+    "input_bits": [
+      "ui_left",
+      "ui_right",
+      "ui_up",
+      "ui_down"
+    ],
+    "observation": "game supplied JSON projection",
+    "schema": "nohit.live.v1"
+  },
+  "damage_events": 0,
+  "engine": {
+    "build": "official",
+    "hash": "14d19694e0c88a3f9e82d899a0400f27a24c176e",
+    "hex": 263681,
+    "major": 4,
+    "minor": 6,
+    "patch": 1,
+    "status": "stable",
+    "string": "4.6.1-stable (official)",
+    "timestamp": 0
+  },
+  "frames": [],
+  "initial": {},
+  "kr_events": 0,
+  "reason": "Observation must contain only finite JSON values (no Nodes, Vector2, Resources)",
+  "route": [],
+  "schema": "nohit.live.result.v1",
+  "seed": 1.0,
+  "status": "invalid_adapter",
+  "ticks": 0,
+  "verification": "native frames; fresh-process replay and negative control required",
+  "wall_seconds": 0.2357362390000617,
+  "record": "/workspace/scratch/a18d135a7b14/nohit/generic-engine/research/portable-v1/acceptance-v2/godot4-bad-json/candidate/result.json"
+}

@@ -1,0 +1,465 @@
+{
+  "schema": "nohit-native-meow-suite-v1",
+  "import_seconds": 6.4361235639998995,
+  "workers": 6,
+  "godot_binary_sha256": "1d732a7b56ff8d2951f2bf43698a91c46ff80014b065672c6af2f7ffd0e6545e",
+  "cases": [
+    {
+      "scenario": "circle_white_red",
+      "verdict": "native_nohit_fresh_process",
+      "candidate": "circle_white_red-search-left-1.json",
+      "replay": "circle_white_red-replay.json",
+      "route_sha256": "23b4d724b2401ed29982e064b7f2f2f337ce87d6b7b29fe666fbc286c4208f5a",
+      "states_sha256": "ee48034ff26e078184722ee0de74e77a005e1c9502039c6f45f03f48bfa26ce9",
+      "attempts": [
+        {
+          "label": "circle_white_red-search-idle-1",
+          "status": "hit",
+          "ticks": 60,
+          "wall_seconds_with_startup": 0.975394760999734,
+          "native_segment_ms": 36.836,
+          "exit_code": 2,
+          "logged_error_lines": 2
+        },
+        {
+          "label": "circle_white_red-search-up-1",
+          "status": "hit",
+          "ticks": 27,
+          "wall_seconds_with_startup": 0.939097350999873,
+          "native_segment_ms": 20.426,
+          "exit_code": 2,
+          "logged_error_lines": 2
+        },
+        {
+          "label": "circle_white_red-search-left-1",
+          "status": "native_nohit",
+          "ticks": 300,
+          "wall_seconds_with_startup": 0.9022878369996761,
+          "native_segment_ms": 147.93,
+          "exit_code": 0,
+          "logged_error_lines": 1
+        },
+        {
+          "label": "circle_white_red-search-right-1",
+          "status": "native_nohit",
+          "ticks": 300,
+          "wall_seconds_with_startup": 0.871042892999867,
+          "native_segment_ms": 180.339,
+          "exit_code": 0,
+          "logged_error_lines": 1
+        },
+        {
+          "label": "circle_white_red-search-orbit-1",
+          "status": "hit",
+          "ticks": 55,
+          "wall_seconds_with_startup": 0.9724659149997024,
+          "native_segment_ms": 28.805,
+          "exit_code": 2,
+          "logged_error_lines": 2
+        },
+        {
+          "label": "circle_white_red-search-diagonal-0",
+          "status": "native_nohit",
+          "ticks": 300,
+          "wall_seconds_with_startup": 1.0586454539998158,
+          "native_segment_ms": 182.734,
+          "exit_code": 0,
+          "logged_error_lines": 1
+        }
+      ],
+      "replay_timing": {
+        "label": "circle_white_red-replay",
+        "status": "native_nohit",
+        "ticks": 300,
+        "wall_seconds_with_startup": 0.9907004699998652,
+        "native_segment_ms": 177.233,
+        "exit_code": 0,
+        "logged_error_lines": 0
+      },
+      "damage_calls": 0,
+      "hp": 20,
+      "kr": 0,
+      "spawned": 6,
+      "native_overlap_ticks": 0,
+      "nonempty_baked_frames": 3
+    },
+    {
+      "scenario": "circle_white_blue",
+      "verdict": "native_nohit_fresh_process",
+      "candidate": "circle_white_blue-search-phase-10-1-4.json",
+      "replay": "circle_white_blue-replay.json",
+      "route_sha256": "1562fb10920f944b2977e402fe531547be7f5ad99f44b59378d4ff3af27c41ef",
+      "states_sha256": "c130f64293d9d25e91be364672c086e5368403a84887ee21c66208b14a614d77",
+      "attempts": [
+        {
+          "label": "circle_white_blue-search-phase-10-1-5",
+          "status": "hit",
+          "ticks": 45,
+          "wall_seconds_with_startup": 0.8872174860007362,
+          "native_segment_ms": 31.306,
+          "exit_code": 2,
+          "logged_error_lines": 2
+        },
+        {
+          "label": "circle_white_blue-search-phase-10-2-6",
+          "status": "hit",
+          "ticks": 46,
+          "wall_seconds_with_startup": 0.9172307400003774,
+          "native_segment_ms": 26.539,
+          "exit_code": 2,
+          "logged_error_lines": 2
+        },
+        {
+          "label": "circle_white_blue-search-phase-10-0-4",
+          "status": "hit",
+          "ticks": 52,
+          "wall_seconds_with_startup": 0.9169895810000526,
+          "native_segment_ms": 33.843,
+          "exit_code": 2,
+          "logged_error_lines": 2
+        },
+        {
+          "label": "circle_white_blue-search-phase-10-5-1",
+          "status": "hit",
+          "ticks": 47,
+          "wall_seconds_with_startup": 0.8388178109998989,
+          "native_segment_ms": 37.786,
+          "exit_code": 2,
+          "logged_error_lines": 2
+        },
+        {
+          "label": "circle_white_blue-search-phase-10-6-2",
+          "status": "hit",
+          "ticks": 46,
+          "wall_seconds_with_startup": 0.7937807210000756,
+          "native_segment_ms": 27.036,
+          "exit_code": 2,
+          "logged_error_lines": 2
+        },
+        {
+          "label": "circle_white_blue-search-phase-10-0-5",
+          "status": "hit",
+          "ticks": 45,
+          "wall_seconds_with_startup": 0.888047307999841,
+          "native_segment_ms": 29.207,
+          "exit_code": 2,
+          "logged_error_lines": 2
+        },
+        {
+          "label": "circle_white_blue-search-phase-10-0-6",
+          "status": "hit",
+          "ticks": 46,
+          "wall_seconds_with_startup": 0.7836011429999417,
+          "native_segment_ms": 30.805,
+          "exit_code": 2,
+          "logged_error_lines": 2
+        },
+        {
+          "label": "circle_white_blue-search-phase-10-1-4",
+          "status": "native_nohit",
+          "ticks": 300,
+          "wall_seconds_with_startup": 0.9794235170002139,
+          "native_segment_ms": 179.105,
+          "exit_code": 0,
+          "logged_error_lines": 1
+        },
+        {
+          "label": "circle_white_blue-search-phase-10-2-4",
+          "status": "native_nohit",
+          "ticks": 300,
+          "wall_seconds_with_startup": 1.0391316710001774,
+          "native_segment_ms": 183.442,
+          "exit_code": 0,
+          "logged_error_lines": 1
+        },
+        {
+          "label": "circle_white_blue-search-phase-20-1-5",
+          "status": "hit",
+          "ticks": 45,
+          "wall_seconds_with_startup": 0.9592940450002061,
+          "native_segment_ms": 34.086,
+          "exit_code": 2,
+          "logged_error_lines": 2
+        },
+        {
+          "label": "circle_white_blue-search-phase-20-2-6",
+          "status": "hit",
+          "ticks": 46,
+          "wall_seconds_with_startup": 0.9437561770000684,
+          "native_segment_ms": 33.627,
+          "exit_code": 2,
+          "logged_error_lines": 2
+        },
+        {
+          "label": "circle_white_blue-search-phase-20-0-4",
+          "status": "hit",
+          "ticks": 52,
+          "wall_seconds_with_startup": 0.9483772599996882,
+          "native_segment_ms": 32.674,
+          "exit_code": 2,
+          "logged_error_lines": 2
+        }
+      ],
+      "replay_timing": {
+        "label": "circle_white_blue-replay",
+        "status": "native_nohit",
+        "ticks": 300,
+        "wall_seconds_with_startup": 0.9164182260001326,
+        "native_segment_ms": 180.044,
+        "exit_code": 0,
+        "logged_error_lines": 1
+      },
+      "damage_calls": 0,
+      "hp": 20,
+      "kr": 0,
+      "spawned": 6,
+      "native_overlap_ticks": 0,
+      "nonempty_baked_frames": 3
+    },
+    {
+      "scenario": "circle_blue_red",
+      "verdict": "native_nohit_fresh_process",
+      "candidate": "circle_blue_red-search-idle-1.json",
+      "replay": "circle_blue_red-replay.json",
+      "route_sha256": "a2ef066ac88f15936c5f86f0c090e07475f2bf0e182940fe70e2d214d96c6fb6",
+      "states_sha256": "f0b1b9e0a573ff74601031b77eb678e8eebdca0f41d16be2ad4b3070f532a706",
+      "attempts": [
+        {
+          "label": "circle_blue_red-search-idle-1",
+          "status": "native_nohit",
+          "ticks": 300,
+          "wall_seconds_with_startup": 1.0897466360002,
+          "native_segment_ms": 313.985,
+          "exit_code": 0,
+          "logged_error_lines": 1
+        },
+        {
+          "label": "circle_blue_red-search-up-1",
+          "status": "hit",
+          "ticks": 28,
+          "wall_seconds_with_startup": 0.9176686060000065,
+          "native_segment_ms": 27.199,
+          "exit_code": 2,
+          "logged_error_lines": 2
+        },
+        {
+          "label": "circle_blue_red-search-left-1",
+          "status": "native_nohit",
+          "ticks": 300,
+          "wall_seconds_with_startup": 1.1410921490005421,
+          "native_segment_ms": 284.73,
+          "exit_code": 0,
+          "logged_error_lines": 1
+        },
+        {
+          "label": "circle_blue_red-search-right-1",
+          "status": "native_nohit",
+          "ticks": 300,
+          "wall_seconds_with_startup": 1.1848873839999214,
+          "native_segment_ms": 307.714,
+          "exit_code": 0,
+          "logged_error_lines": 1
+        },
+        {
+          "label": "circle_blue_red-search-orbit-1",
+          "status": "hit",
+          "ticks": 55,
+          "wall_seconds_with_startup": 0.91376827699969,
+          "native_segment_ms": 55.971,
+          "exit_code": 2,
+          "logged_error_lines": 1
+        },
+        {
+          "label": "circle_blue_red-search-diagonal-0",
+          "status": "hit",
+          "ticks": 21,
+          "wall_seconds_with_startup": 0.8188830669996605,
+          "native_segment_ms": 23.291,
+          "exit_code": 2,
+          "logged_error_lines": 2
+        }
+      ],
+      "replay_timing": {
+        "label": "circle_blue_red-replay",
+        "status": "native_nohit",
+        "ticks": 300,
+        "wall_seconds_with_startup": 0.9953378170002907,
+        "native_segment_ms": 206.909,
+        "exit_code": 0,
+        "logged_error_lines": 1
+      },
+      "damage_calls": 0,
+      "hp": 20,
+      "kr": 0,
+      "spawned": 30,
+      "native_overlap_ticks": 19,
+      "nonempty_baked_frames": 10
+    },
+    {
+      "scenario": "circle_orange_red",
+      "verdict": "native_nohit_fresh_process",
+      "candidate": "circle_orange_red-search-orbit-1.json",
+      "replay": "circle_orange_red-replay.json",
+      "route_sha256": "2947821e61417360bd9e597d4853ca18f402a6282dba13414fa0256d55913492",
+      "states_sha256": "85655cbe4df6bc562072be89a0981e4003f1c2e80ba032fd993948bc368cc621",
+      "attempts": [
+        {
+          "label": "circle_orange_red-search-idle-1",
+          "status": "hit",
+          "ticks": 71,
+          "wall_seconds_with_startup": 0.9056713879999734,
+          "native_segment_ms": 58.915,
+          "exit_code": 2,
+          "logged_error_lines": 1
+        },
+        {
+          "label": "circle_orange_red-search-up-1",
+          "status": "hit",
+          "ticks": 33,
+          "wall_seconds_with_startup": 0.9638094590000037,
+          "native_segment_ms": 30.166,
+          "exit_code": 2,
+          "logged_error_lines": 1
+        },
+        {
+          "label": "circle_orange_red-search-left-1",
+          "status": "hit",
+          "ticks": 41,
+          "wall_seconds_with_startup": 1.0388569320002716,
+          "native_segment_ms": 39.28,
+          "exit_code": 2,
+          "logged_error_lines": 1
+        },
+        {
+          "label": "circle_orange_red-search-right-1",
+          "status": "hit",
+          "ticks": 39,
+          "wall_seconds_with_startup": 1.0067939420005132,
+          "native_segment_ms": 36.841,
+          "exit_code": 2,
+          "logged_error_lines": 1
+        },
+        {
+          "label": "circle_orange_red-search-orbit-1",
+          "status": "native_nohit",
+          "ticks": 300,
+          "wall_seconds_with_startup": 1.2268947800002934,
+          "native_segment_ms": 249.785,
+          "exit_code": 0,
+          "logged_error_lines": 1
+        },
+        {
+          "label": "circle_orange_red-search-diagonal-0",
+          "status": "native_nohit",
+          "ticks": 300,
+          "wall_seconds_with_startup": 1.1781102859995372,
+          "native_segment_ms": 260.911,
+          "exit_code": 0,
+          "logged_error_lines": 1
+        }
+      ],
+      "replay_timing": {
+        "label": "circle_orange_red-replay",
+        "status": "native_nohit",
+        "ticks": 300,
+        "wall_seconds_with_startup": 0.9510913909998635,
+        "native_segment_ms": 244.007,
+        "exit_code": 0,
+        "logged_error_lines": 1
+      },
+      "damage_calls": 0,
+      "hp": 20,
+      "kr": 0,
+      "spawned": 30,
+      "native_overlap_ticks": 52,
+      "nonempty_baked_frames": 10
+    }
+  ],
+  "negative_controls": [
+    {
+      "label": "circle_white_red-negative",
+      "status": "hit",
+      "ticks": 60,
+      "wall_seconds_with_startup": 0.7918762460003563,
+      "native_segment_ms": 35.506,
+      "exit_code": 2,
+      "logged_error_lines": 2,
+      "damage_calls": 1,
+      "hp": 18
+    },
+    {
+      "label": "circle_blue_red-negative",
+      "status": "hit",
+      "ticks": 55,
+      "wall_seconds_with_startup": 0.8337047559998609,
+      "native_segment_ms": 40.091,
+      "exit_code": 2,
+      "logged_error_lines": 1,
+      "damage_calls": 1,
+      "hp": 19
+    },
+    {
+      "label": "circle_orange_red-negative",
+      "status": "hit",
+      "ticks": 71,
+      "wall_seconds_with_startup": 0.8110451699994883,
+      "native_segment_ms": 63.203,
+      "exit_code": 2,
+      "logged_error_lines": 1,
+      "damage_calls": 1,
+      "hp": 19
+    }
+  ],
+  "full_attack_attempts": [
+    {
+      "label": "full-diagonal-0",
+      "status": "hit",
+      "ticks": 509,
+      "wall_seconds_with_startup": 1.10702704599953,
+      "native_segment_ms": 324.899,
+      "exit_code": 2,
+      "logged_error_lines": 1,
+      "damage_calls": 1,
+      "hp": 9,
+      "attack_completed": false
+    },
+    {
+      "label": "full-orbit-1",
+      "status": "hit",
+      "ticks": 380,
+      "wall_seconds_with_startup": 1.061939159000758,
+      "native_segment_ms": 202.845,
+      "exit_code": 2,
+      "logged_error_lines": 1,
+      "damage_calls": 1,
+      "hp": 19,
+      "attack_completed": false
+    },
+    {
+      "label": "full-idle-1",
+      "status": "hit",
+      "ticks": 302,
+      "wall_seconds_with_startup": 0.9018846770004529,
+      "native_segment_ms": 175.734,
+      "exit_code": 2,
+      "logged_error_lines": 1,
+      "damage_calls": 1,
+      "hp": 19,
+      "attack_completed": false
+    },
+    {
+      "label": "full-diagonal-1",
+      "status": "hit",
+      "ticks": 509,
+      "wall_seconds_with_startup": 0.9660063170003923,
+      "native_segment_ms": 288.001,
+      "exit_code": 2,
+      "logged_error_lines": 1,
+      "damage_calls": 1,
+      "hp": 9,
+      "attack_completed": false
+    }
+  ],
+  "scope": "Four isolated upstream circular-wave components; not the full default_attack sequence.",
+  "total_seconds_with_import_search_replay_controls": 22.367034934999538
+}

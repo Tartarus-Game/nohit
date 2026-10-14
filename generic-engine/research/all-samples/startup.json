@@ -1,0 +1,1303 @@
+[
+  {
+    "repository": "Animeliqite/understudio",
+    "commit": "84e7d4841fbbc9b79681937572be3bb9a3b70710",
+    "projects": [],
+    "status": "gamemaker_runtime_missing",
+    "gamemaker_projects": [
+      "UnderStudio 2.0/UnderStudio 2.0.yyp",
+      "UnderStudio 2.0 (Old Version)/UnderStudio 2.0.yyp"
+    ],
+    "compiler_probe": {
+      "Igor": null,
+      "igor": null,
+      "GameMaker": null,
+      "wine": null
+    },
+    "attack_candidates": []
+  },
+  {
+    "repository": "CoalitionEngine/Coalition-Engine",
+    "commit": "1874123229069d046e8a5650ef2c8e439a100765",
+    "projects": [],
+    "status": "gamemaker_runtime_missing",
+    "gamemaker_projects": [
+      "Coalition Engine 2022.yyp"
+    ],
+    "compiler_probe": {
+      "Igor": null,
+      "igor": null,
+      "GameMaker": null,
+      "wine": null
+    },
+    "attack_candidates": [
+      "scripts/Bullet_Functions/Bullet_Functions.gml",
+      "scripts/__CollideWithBullet/__CollideWithBullet.gml",
+      "scripts/AddBulletCollision/AddBulletCollision.gml",
+      "scripts/RenderBullets/RenderBullets.gml",
+      "scripts/Bullet_Arrow/Bullet_Arrow.gml",
+      "objects/oBulletParents/Destroy_0.gml",
+      "objects/oBulletParents/Step_0.gml",
+      "objects/oBulletParents/Create_0.gml",
+      "objects/oBulletParents/Draw_0.gml",
+      "objects/oYellowBullet/Step_0.gml",
+      "objects/oYellowBullet/Create_0.gml",
+      "objects/oYellowBullet/Draw_0.gml",
+      "objects/oBulletCustomBoneWall/Step_0.gml",
+      "objects/oBulletCustomBoneWall/Alarm_0.gml",
+      "objects/oBulletCustomBoneWall/Create_0.gml",
+      "objects/oBulletCustomBoneWall/Alarm_1.gml",
+      "objects/oBulletCustomBoneWall/CleanUp_0.gml",
+      "objects/oBulletCustomBoneWall/Draw_0.gml",
+      "objects/oBulletBone/Step_0.gml",
+      "objects/oBulletBone/Step_2.gml",
+      "objects/oBulletBone/Create_0.gml",
+      "objects/oBulletBone/Alarm_1.gml",
+      "objects/oBulletBone/CleanUp_0.gml",
+      "objects/oBulletBone/Draw_0.gml"
+    ]
+  },
+  {
+    "repository": "KoitoLov/UT-BattleEngine",
+    "commit": "ff0bfd67a7f48e1c5961f88ec49036360a9adc8f",
+    "projects": [
+      {
+        "project": "project.godot",
+        "engine_major": 3,
+        "csharp": false,
+        "original_main": "res://ActualBattle/World.tscn",
+        "patches": [],
+        "import": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/godot33/Godot_v3.3-stable_linux_headless.64",
+            "--path",
+            "/workspace/scratch/a18d135a7b14/native-probes/KoitoLov--UT-BattleEngine",
+            "--editor",
+            "--quit"
+          ],
+          "returncode": 0,
+          "timeout": false,
+          "seconds": 1.9685498110000026,
+          "log": "KoitoLov--UT-BattleEngine-0-import.log",
+          "errors": [
+            "ERROR: get_language_code: Invalid locale 'C'.",
+            "ERROR: set_locale: Unsupported locale 'C', falling back to 'en'.",
+            "ERROR: get_dependencies: Cannot open file 'res://.import/mus_heartache.ogg-c89ea8525e3091f62bbf5af095f112aa.oggstr'.",
+            "ERROR: get_dependencies: Cannot open file 'res://.import/snd_focused.wav-b7cc1f0f5f771f23b199beb325f13d2d.sample'.",
+            "ERROR: get_dependencies: Cannot open file 'res://.import/snd_select.wav-1ae0b7735112d7041392c4adb1deff88.sample'.",
+            "ERROR: get_dependencies: Cannot open file 'res://.import/snd_alltheaudios.ogg-4f9a7db7a4bb91f46cc69c0b1e0dbc6f.oggstr'.",
+            "ERROR: get_dependencies: Cannot open file 'res://.import/snd_generic2.ogg-195447912fefd2cb86dfd65c484a726f.oggstr'.",
+            "ERROR: set_path: Another resource is loaded from path 'res://Battle Assets/battlebox.png' (possible cyclic resource inclusion)."
+          ]
+        },
+        "run": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/godot33/Godot_v3.3-stable_linux_headless.64",
+            "--path",
+            "/workspace/scratch/a18d135a7b14/native-probes/KoitoLov--UT-BattleEngine",
+            "--fixed-fps",
+            "60"
+          ],
+          "returncode": 0,
+          "timeout": false,
+          "seconds": 0.3799771310000324,
+          "log": "KoitoLov--UT-BattleEngine-0-run.log",
+          "errors": [
+            "ERROR: get_language_code: Invalid locale 'C'.",
+            "ERROR: set_locale: Unsupported locale 'C', falling back to 'en'.",
+            "ERROR: ~List: Condition \"_first != __null\" is true.",
+            "ERROR: ~List: Condition \"_first != __null\" is true.",
+            "ERROR: ~List: Condition \"_first != __null\" is true.",
+            "ERROR: clear: Resources still in use at exit (run with --verbose for details).",
+            "ERROR: cleanup: There are still MemoryPool allocs in use at exit!"
+          ]
+        },
+        "status": "startup_600_frames",
+        "probe_lines": [
+          "NOHIT_PROBE_LOADED",
+          "NOHIT_PROBE_FINISHED 600 nodes=32 collision_objects=2",
+          "NOHIT_PROBE_SCRIPTS {/root/NoHitStartupProbe:res://nohit_probe.gd, /root/NoHitStartupProbe/World:res://World.gd, /root/NoHitStartupProbe/World/Buttons:res://Buttons/ButtonSelector.gd, /root/NoHitStartupProbe/World/Buttons/Act:res://Buttons/ButtonObject.gd, /root/NoHitStartupProbe/World/Buttons/Fight:res://Buttons/ButtonObject.gd, /root/NoHitStartupProbe/World/Buttons/Item:res://Buttons/ButtonObject.gd, /root/NoHitStartupProbe/World/Buttons/Mercy:res://Buttons/ButtonObject.gd, /root/NoHitStartupProbe/World/Control/Text Box:res://TextBox/TextBoxInBattle.gd, /root/NoHitStartupProbe/World/Soul:res://Player/Soul.gd}"
+        ]
+      }
+    ],
+    "status": "attempted"
+  },
+  {
+    "repository": "Maks7594/LVENGINE",
+    "commit": "42fc7ab02347d1f7ab2b066f0eef7a98b1089e86",
+    "projects": [
+      {
+        "project": "project.godot",
+        "engine_major": 4,
+        "csharp": false,
+        "original_main": "res://scenes/warning_menu.tscn",
+        "patches": [
+          "GL compatibility renderer in test copy"
+        ],
+        "import": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/godot461/Godot_v4.6.1-stable_linux.x86_64",
+            "--path",
+            "/workspace/scratch/a18d135a7b14/native-probes/Maks7594--LVENGINE",
+            "--headless",
+            "--editor",
+            "--import"
+          ],
+          "returncode": 0,
+          "timeout": false,
+          "seconds": 6.415843175999953,
+          "log": "Maks7594--LVENGINE-0-import.log",
+          "errors": [
+            "ERROR: Unrecognized UID: \"uid://cad8o7f6h43b1\".",
+            "ERROR: Unrecognized UID: \"uid://f0b5w6tugn6c\"."
+          ]
+        },
+        "run": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/godot461/Godot_v4.6.1-stable_linux.x86_64",
+            "--path",
+            "/workspace/scratch/a18d135a7b14/native-probes/Maks7594--LVENGINE",
+            "--headless",
+            "--fixed-fps",
+            "60"
+          ],
+          "returncode": 0,
+          "timeout": false,
+          "seconds": 0.4746269199999915,
+          "log": "Maks7594--LVENGINE-0-run.log",
+          "errors": [
+            "ERROR: Failed to load settings!",
+            "ERROR: 2 resources still in use at exit (run with --verbose for details)."
+          ]
+        },
+        "status": "startup_600_frames",
+        "probe_lines": [
+          "NOHIT_PROBE_LOADED",
+          "NOHIT_PROBE_FINISHED 600 nodes=25 collision_objects=0",
+          "NOHIT_PROBE_SCRIPTS { \"/root/PlayerVars\": \"res://scripts/playervars.gd\", \"/root/PlayerData\": \"res://scripts/playerdata.gd\", \"/root/Funcs\": \"res://scripts/functions.gd\", \"/root/QuitManager\": \"res://scripts/quit-manager.gd\", \"/root/NoHitStartupProbe\": \"res://nohit_probe.gd\", \"/root/NoHitStartupProbe/WarningMenu\": \"res://scenes/warning_menu.gd\" }"
+        ]
+      }
+    ],
+    "status": "attempted"
+  },
+  {
+    "repository": "NsCrosu/Undertale-Fight-Engine",
+    "commit": "c9474e9af73f3526858af5dceb2d2e2d2d67099a",
+    "projects": [],
+    "status": "gamemaker_runtime_missing",
+    "gamemaker_projects": [
+      "Undertale-Fight-Engine.yyp"
+    ],
+    "compiler_probe": {
+      "Igor": null,
+      "igor": null,
+      "GameMaker": null,
+      "wine": null
+    },
+    "attack_candidates": []
+  },
+  {
+    "repository": "Oplexitie/Megalo-Framework",
+    "commit": "b449c9c05f8af91b8e015d490ff9fdcb8913ed1e",
+    "projects": [
+      {
+        "project": "project.godot",
+        "engine_major": 3,
+        "csharp": false,
+        "original_main": "res://Scenes/gameview.tscn",
+        "patches": [],
+        "import": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/godot33/Godot_v3.3-stable_linux_headless.64",
+            "--path",
+            "/workspace/scratch/a18d135a7b14/native-probes/Oplexitie--Megalo-Framework",
+            "--editor",
+            "--quit"
+          ],
+          "returncode": 0,
+          "timeout": false,
+          "seconds": 2.0113930410000194,
+          "log": "Oplexitie--Megalo-Framework-0-import.log",
+          "errors": [
+            "ERROR: get_language_code: Invalid locale 'C'.",
+            "ERROR: set_locale: Unsupported locale 'C', falling back to 'en'."
+          ]
+        },
+        "run": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/godot33/Godot_v3.3-stable_linux_headless.64",
+            "--path",
+            "/workspace/scratch/a18d135a7b14/native-probes/Oplexitie--Megalo-Framework",
+            "--fixed-fps",
+            "60"
+          ],
+          "returncode": 0,
+          "timeout": false,
+          "seconds": 0.3173127789999626,
+          "log": "Oplexitie--Megalo-Framework-0-run.log",
+          "errors": [
+            "ERROR: get_language_code: Invalid locale 'C'.",
+            "ERROR: set_locale: Unsupported locale 'C', falling back to 'en'."
+          ]
+        },
+        "status": "startup_600_frames",
+        "probe_lines": [
+          "NOHIT_PROBE_LOADED",
+          "NOHIT_PROBE_FINISHED 600 nodes=32 collision_objects=0",
+          "NOHIT_PROBE_SCRIPTS {/root/NoHitStartupProbe:res://nohit_probe.gd, /root/NoHitStartupProbe/Viewport/Game/Control/ViewportContainer/Viewport:res://Scripts/gameview.gd, /root/NoHitStartupProbe/Viewport/Game/Control/ViewportContainer/Viewport/Menu:res://Scripts/Menu/menu.gd, /root/audio:res://Scripts/Autoload/Audio.gd, /root/global:res://Scripts/Autoload/Global.gd}"
+        ]
+      }
+    ],
+    "status": "attempted"
+  },
+  {
+    "repository": "SagaPDev/Undertale-battle-system-prototipe",
+    "commit": "929c78d14c240577290d5ae484f07299440e2e99",
+    "projects": [
+      {
+        "project": "project.godot",
+        "engine_major": 3,
+        "csharp": false,
+        "original_main": "res://Battle screen.tscn",
+        "patches": [],
+        "import": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/godot33/Godot_v3.3-stable_linux_headless.64",
+            "--path",
+            "/workspace/scratch/a18d135a7b14/native-probes/SagaPDev--Undertale-battle-system-prototipe",
+            "--editor",
+            "--quit"
+          ],
+          "returncode": 0,
+          "timeout": false,
+          "seconds": 1.5925733020000052,
+          "log": "SagaPDev--Undertale-battle-system-prototipe-0-import.log",
+          "errors": [
+            "ERROR: get_language_code: Invalid locale 'C'.",
+            "ERROR: set_locale: Unsupported locale 'C', falling back to 'en'."
+          ]
+        },
+        "run": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/godot33/Godot_v3.3-stable_linux_headless.64",
+            "--path",
+            "/workspace/scratch/a18d135a7b14/native-probes/SagaPDev--Undertale-battle-system-prototipe",
+            "--fixed-fps",
+            "60"
+          ],
+          "returncode": 0,
+          "timeout": false,
+          "seconds": 0.3032112449999431,
+          "log": "SagaPDev--Undertale-battle-system-prototipe-0-run.log",
+          "errors": [
+            "ERROR: get_language_code: Invalid locale 'C'.",
+            "ERROR: set_locale: Unsupported locale 'C', falling back to 'en'."
+          ]
+        },
+        "status": "startup_600_frames",
+        "probe_lines": [
+          "NOHIT_PROBE_LOADED",
+          "NOHIT_PROBE_FINISHED 600 nodes=45 collision_objects=5",
+          "NOHIT_PROBE_SCRIPTS {/root/NoHitStartupProbe:res://nohit_probe.gd, /root/NoHitStartupProbe/Battle screen:res://Battle screen.gd, /root/NoHitStartupProbe/Battle screen/Battle:res://Battle.gd, /root/NoHitStartupProbe/Battle screen/Battle/Player:res://KinematicBody2D.gd}"
+        ]
+      }
+    ],
+    "status": "attempted"
+  },
+  {
+    "repository": "SamuelWolfang/UNDOTALE",
+    "commit": "9dc511a5ec5225866ceaf86f1f44de8972429490",
+    "projects": [
+      {
+        "project": "project.godot",
+        "engine_major": 3,
+        "csharp": false,
+        "original_main": "res://BattleEngine/BattleEngine.tscn",
+        "patches": [],
+        "import": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/godot33/Godot_v3.3-stable_linux_headless.64",
+            "--path",
+            "/workspace/scratch/a18d135a7b14/native-probes/SamuelWolfang--UNDOTALE",
+            "--editor",
+            "--quit"
+          ],
+          "returncode": 0,
+          "timeout": false,
+          "seconds": 1.6434800299999779,
+          "log": "SamuelWolfang--UNDOTALE-0-import.log",
+          "errors": [
+            "ERROR: get_language_code: Invalid locale 'C'.",
+            "ERROR: set_locale: Unsupported locale 'C', falling back to 'en'."
+          ]
+        },
+        "run": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/godot33/Godot_v3.3-stable_linux_headless.64",
+            "--path",
+            "/workspace/scratch/a18d135a7b14/native-probes/SamuelWolfang--UNDOTALE",
+            "--fixed-fps",
+            "60"
+          ],
+          "returncode": 3,
+          "timeout": false,
+          "seconds": 0.46630819599999995,
+          "log": "SamuelWolfang--UNDOTALE-0-run.log",
+          "errors": [
+            "ERROR: get_language_code: Invalid locale 'C'.",
+            "ERROR: set_locale: Unsupported locale 'C', falling back to 'en'.",
+            "ERROR: _load_data: Condition \"!f\" is true. Returned: ERR_CANT_OPEN",
+            "ERROR: _load: Failed loading resource: res://.import/bar_one.png-4416f3d96850fc0d0be626af62ba710b.stex. Make sure resources have been imported by opening the project in the editor at least once.",
+            "ERROR: _load_data: Condition \"!f\" is true. Returned: ERR_CANT_OPEN",
+            "ERROR: _load: Failed loading resource: res://.import/bar_two.png-580848bd6aa6ba302c0a9fa2da874da6.stex. Make sure resources have been imported by opening the project in the editor at least once.",
+            "ERROR: _load_data: Condition \"!f\" is true. Returned: ERR_CANT_OPEN",
+            "ERROR: _load: Failed loading resource: res://.import/meter.png-f4ea06a1a75f990279d4d70f98594a52.stex. Make sure resources have been imported by opening the project in the editor at least once.",
+            "ERROR: _load_data: Condition \"!f\" is true. Returned: ERR_CANT_OPEN",
+            "ERROR: _load: Failed loading resource: res://.import/knife_1.png-f651f88c4c66f834f5fc0ed8e62a1600.stex. Make sure resources have been imported by opening the project in the editor at least once.",
+            "ERROR: _load_data: Condition \"!f\" is true. Returned: ERR_CANT_OPEN",
+            "ERROR: _load: Failed loading resource: res://.import/knife_2.png-65dc57c3938860f3f50e1cc368f080a9.stex. Make sure resources have been imported by opening the project in the editor at least once.",
+            "ERROR: _load_data: Condition \"!f\" is true. Returned: ERR_CANT_OPEN",
+            "ERROR: _load: Failed loading resource: res://.import/knife_3.png-3142d9e1305228e718d72e8c551e382e.stex. Make sure resources have been imported by opening the project in the editor at least once.",
+            "ERROR: _load_data: Condition \"!f\" is true. Returned: ERR_CANT_OPEN",
+            "ERROR: _load: Failed loading resource: res://.import/knife_4.png-82a12362fff1ac254aaf746d401c55a8.stex. Make sure resources have been imported by opening the project in the editor at least once.",
+            "ERROR: _load_data: Condition \"!f\" is true. Returned: ERR_CANT_OPEN",
+            "ERROR: _load: Failed loading resource: res://.import/knife_5.png-d268307c77e309d5130b311d9d9c6b2e.stex. Make sure resources have been imported by opening the project in the editor at least once.",
+            "ERROR: _load_data: Condition \"!f\" is true. Returned: ERR_CANT_OPEN",
+            "ERROR: _load: Failed loading resource: res://.import/knife_0.png-d96c45e6045c5f5d31028678a2c7de8e.stex. Make sure resources have been imported by opening the project in the editor at least once.",
+            "ERROR: load_interactive: Cannot open file 'res://.import/snd_laz.wav-2dad5fa1804c44a01911aede858ec19a.sample'.",
+            "ERROR: _load: Failed loading resource: res://.import/snd_laz.wav-2dad5fa1804c44a01911aede858ec19a.sample. Make sure resources have been imported by opening the project in the editor at least once.",
+            "ERROR: _load: Failed loading resource: res://BattleEngine/Weapon/snd_laz.wav. Make sure resources have been imported by opening the project in the editor at least once.",
+            "ERROR: poll: res://BattleEngine/Weapon/Weapon.tscn:9 - Parse Error: [ext_resource] referenced nonexistent resource at: res://BattleEngine/Weapon/snd_laz.wav",
+            "ERROR: load: Failed to load resource 'res://BattleEngine/Weapon/Weapon.tscn'."
+          ]
+        },
+        "status": "startup_failed",
+        "probe_lines": [
+          "NOHIT_PROBE_LOAD_FAILED"
+        ]
+      }
+    ],
+    "status": "attempted"
+  },
+  {
+    "repository": "Stoxis/Godette-Tale",
+    "commit": "e20f57daa89b8e6dfef8d4739e8edb8b5a11c1f7",
+    "projects": [
+      {
+        "project": "Godette-Tale/project.godot",
+        "engine_major": 3,
+        "csharp": false,
+        "original_main": "res://Example.tscn",
+        "patches": [],
+        "import": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/godot33/Godot_v3.3-stable_linux_headless.64",
+            "--path",
+            "/workspace/scratch/a18d135a7b14/native-probes/Stoxis--Godette-Tale/Godette-Tale",
+            "--editor",
+            "--quit"
+          ],
+          "returncode": 0,
+          "timeout": false,
+          "seconds": 1.6195354930000576,
+          "log": "Stoxis--Godette-Tale-0-import.log",
+          "errors": [
+            "ERROR: get_language_code: Invalid locale 'C'.",
+            "ERROR: set_locale: Unsupported locale 'C', falling back to 'en'.",
+            "ERROR: load_interactive: Cannot open file 'res://.import/Empty.wav-24989f25274cc6d291429d054bb18cfd.sample'.",
+            "ERROR: _load: Failed loading resource: res://.import/Empty.wav-24989f25274cc6d291429d054bb18cfd.sample. Make sure resources have been imported by opening the project in the editor at least once.",
+            "ERROR: _load: Failed loading resource: res://Assets/Music/Empty.wav. Make sure resources have been imported by opening the project in the editor at least once.",
+            "ERROR: load_interactive: Cannot open file 'res://.import/Empty.wav-24989f25274cc6d291429d054bb18cfd.sample'.",
+            "ERROR: _load: Failed loading resource: res://.import/Empty.wav-24989f25274cc6d291429d054bb18cfd.sample. Make sure resources have been imported by opening the project in the editor at least once.",
+            "ERROR: _load: Failed loading resource: res://Assets/Music/Empty.wav. Make sure resources have been imported by opening the project in the editor at least once.",
+            "ERROR: _load_data: Condition \"!f\" is true. Returned: ERR_CANT_OPEN",
+            "ERROR: _load: Failed loading resource: res://.import/GodotTIE_icon.png-06c5755e573090fa68219dcd4c5b75cc.stex. Make sure resources have been imported by opening the project in the editor at least once."
+          ]
+        },
+        "run": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/godot33/Godot_v3.3-stable_linux_headless.64",
+            "--path",
+            "/workspace/scratch/a18d135a7b14/native-probes/Stoxis--Godette-Tale/Godette-Tale",
+            "--fixed-fps",
+            "60"
+          ],
+          "returncode": 3,
+          "timeout": false,
+          "seconds": 0.2003530499999897,
+          "log": "Stoxis--Godette-Tale-0-run.log",
+          "errors": [
+            "ERROR: get_language_code: Invalid locale 'C'.",
+            "ERROR: set_locale: Unsupported locale 'C', falling back to 'en'.",
+            "ERROR: load_interactive: Cannot open file 'res://.import/Empty.wav-24989f25274cc6d291429d054bb18cfd.sample'.",
+            "ERROR: _load: Failed loading resource: res://.import/Empty.wav-24989f25274cc6d291429d054bb18cfd.sample. Make sure resources have been imported by opening the project in the editor at least once.",
+            "ERROR: _load: Failed loading resource: res://Assets/Music/Empty.wav. Make sure resources have been imported by opening the project in the editor at least once.",
+            "ERROR: poll: res://autoloads/MusicController.tscn:4 - Parse Error: [ext_resource] referenced nonexistent resource at: res://Assets/Music/Empty.wav",
+            "ERROR: load: Failed to load resource 'res://autoloads/MusicController.tscn'.",
+            "ERROR: _load: Failed loading resource: res://autoloads/MusicController.tscn. Make sure resources have been imported by opening the project in the editor at least once.",
+            "ERROR: start: Can't autoload: res://autoloads/MusicController.tscn",
+            "ERROR: _load_data: Condition \"!f\" is true. Returned: ERR_CANT_OPEN",
+            "ERROR: _load: Failed loading resource: res://.import/Ruins.png-24d3b2f8c2765ac7ca93d6ce5349c326.stex. Make sure resources have been imported by opening the project in the editor at least once.",
+            "ERROR: _load_data: Condition \"!f\" is true. Returned: ERR_CANT_OPEN",
+            "ERROR: _load: Failed loading resource: res://.import/GodotTIE_icon.png-06c5755e573090fa68219dcd4c5b75cc.stex. Make sure resources have been imported by opening the project in the editor at least once.",
+            "ERROR: load_interactive: Cannot open file 'res://.import/Sans.wav-9b8ff1cf5c16e1f8d5fbe859bb54a58d.sample'.",
+            "ERROR: _load: Failed loading resource: res://.import/Sans.wav-9b8ff1cf5c16e1f8d5fbe859bb54a58d.sample. Make sure resources have been imported by opening the project in the editor at least once.",
+            "ERROR: _load: Failed loading resource: res://addons/GodotTIE/Sans.wav. Make sure resources have been imported by opening the project in the editor at least once.",
+            "ERROR: poll: res://Prefabs/Dialogue/DialogueInterface.tscn:4 - Parse Error: [ext_resource] referenced nonexistent resource at: res://addons/GodotTIE/Sans.wav",
+            "ERROR: load: Failed to load resource 'res://Prefabs/Dialogue/DialogueInterface.tscn'.",
+            "ERROR: _load: Failed loading resource: res://Prefabs/Dialogue/DialogueInterface.tscn. Make sure resources have been imported by opening the project in the editor at least once.",
+            "ERROR: poll: res://Example.tscn:5 - Parse Error: [ext_resource] referenced nonexistent resource at: res://Prefabs/Dialogue/DialogueInterface.tscn",
+            "ERROR: load: Failed to load resource 'res://Example.tscn'.",
+            "ERROR: _load: Failed loading resource: res://Example.tscn. Make sure resources have been imported by opening the project in the editor at least once."
+          ]
+        },
+        "status": "startup_failed",
+        "probe_lines": [
+          "NOHIT_PROBE_LOAD_FAILED"
+        ]
+      }
+    ],
+    "status": "attempted"
+  },
+  {
+    "repository": "TML233/UndertaleEngine",
+    "commit": "e3d9ad6e72236ff54358ecbd11ddae03b9c584d3",
+    "projects": [],
+    "status": "gamemaker_runtime_missing",
+    "gamemaker_projects": [
+      "undertale_engine.yyp"
+    ],
+    "compiler_probe": {
+      "Igor": null,
+      "igor": null,
+      "GameMaker": null,
+      "wine": null
+    },
+    "attack_candidates": [
+      "scripts/Battle_CallSoulEventHurt/Battle_CallSoulEventHurt.gml",
+      "scripts/Battle_CallSoulEventBulletCollision/Battle_CallSoulEventBulletCollision.gml",
+      "scripts/Battle_IsBulletValid/Battle_IsBulletValid.gml",
+      "scripts/Battle_CallBulletEventSoulCollision/Battle_CallBulletEventSoulCollision.gml",
+      "scripts/Player_Hurt/Player_Hurt.gml",
+      "objects/battle_bullet/Step_0.gml",
+      "objects/battle_bullet/Other_11.gml",
+      "objects/battle_bullet/Create_0.gml",
+      "objects/battle_bullet/Other_10.gml",
+      "objects/battle_bullet/Draw_0.gml"
+    ]
+  },
+  {
+    "repository": "WDUT-Dev/UT-Godot-Engine",
+    "commit": "896d97e71ddac8d3c52024c3630c0b99b0ac783a",
+    "projects": [
+      {
+        "project": "godot/project.godot",
+        "engine_major": 4,
+        "csharp": false,
+        "original_main": "uid://b72rkv2gjlqgd",
+        "patches": [
+          "GL compatibility renderer in test copy"
+        ],
+        "import": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/godot461/Godot_v4.6.1-stable_linux.x86_64",
+            "--path",
+            "/workspace/scratch/a18d135a7b14/native-probes/WDUT-Dev--UT-Godot-Engine/godot",
+            "--headless",
+            "--editor",
+            "--import"
+          ],
+          "returncode": 0,
+          "timeout": false,
+          "seconds": 10.664037873999973,
+          "log": "WDUT-Dev--UT-Godot-Engine-0-import.log",
+          "errors": [
+            "ERROR: Condition \"!FileAccess::exists(path)\" is true. Returning: ERR_FILE_NOT_FOUND",
+            "ERROR: Condition \"!FileAccess::exists(path)\" is true. Returning: ERR_FILE_NOT_FOUND",
+            "ERROR: GDExtension dynamic library not found: 'res://bin/undertale_engine.gdextension'.",
+            "ERROR: Failed loading resource: res://sfx/Clicks/generic1.wav.",
+            "ERROR: Failed loading resource: res://assets/Fonts/sans.ttf.",
+            "ERROR: Failed loading resource: res://sfx/Clicks/sans.wav.",
+            "ERROR: Failed loading resource: res://assets/sprite/sheet/sans_sheet.png.",
+            "ERROR: Cannot get class 'Stagehand'.",
+            "ERROR: Cannot get class 'AudioPlayer'.",
+            "ERROR: Cannot get class 'CharacterSetting'.",
+            "ERROR: Cannot get class 'CharacterSetting'.",
+            "ERROR: Cannot get class 'CharacterSetting'.",
+            "ERROR: Cannot get class 'SceneChanger'.",
+            "ERROR: Cannot get class 'Global'.",
+            "ERROR: Condition \"!FileAccess::exists(path)\" is true. Returning: ERR_FILE_NOT_FOUND",
+            "ERROR: Condition \"!FileAccess::exists(path)\" is true. Returning: ERR_FILE_NOT_FOUND",
+            "ERROR: GDExtension dynamic library not found: 'res://bin/undertale_engine.gdextension'.",
+            "ERROR: Cannot get class 'MainNode'.",
+            "ERROR: Cannot get class 'TextBox'.",
+            "ERROR: Cannot get class 'MenuSoul'.",
+            "ERROR: Cannot get class 'TextBoxWriter'.",
+            "ERROR: Cannot get class 'TextBoxOptionWriter'.",
+            "ERROR: Cannot get class 'TextBoxOptionWriter'.",
+            "ERROR: Cannot get class 'TextBoxOptionWriter'.",
+            "ERROR: Cannot get class 'TextBoxOptionWriter'."
+          ]
+        },
+        "run": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/godot461/Godot_v4.6.1-stable_linux.x86_64",
+            "--path",
+            "/workspace/scratch/a18d135a7b14/native-probes/WDUT-Dev--UT-Godot-Engine/godot",
+            "--headless",
+            "--fixed-fps",
+            "60"
+          ],
+          "returncode": 0,
+          "timeout": false,
+          "seconds": 0.5174139650000598,
+          "log": "WDUT-Dev--UT-Godot-Engine-0-run.log",
+          "errors": [
+            "ERROR: Condition \"!FileAccess::exists(path)\" is true. Returning: ERR_FILE_NOT_FOUND",
+            "ERROR: Condition \"!FileAccess::exists(path)\" is true. Returning: ERR_FILE_NOT_FOUND",
+            "ERROR: GDExtension dynamic library not found: 'res://bin/undertale_engine.gdextension'.",
+            "ERROR: Error loading extension: 'res://bin/undertale_engine.gdextension'.",
+            "ERROR: Cannot get class 'Stagehand'.",
+            "ERROR: Cannot get class 'AudioPlayer'.",
+            "ERROR: Cannot get class 'CharacterSetting'.",
+            "ERROR: Cannot get class 'CharacterSetting'.",
+            "ERROR: Cannot get class 'CharacterSetting'.",
+            "ERROR: Cannot get class 'SceneChanger'.",
+            "ERROR: Cannot get class 'Global'.",
+            "ERROR: Cannot get class 'MainNode'.",
+            "ERROR: Cannot get class 'TextBox'.",
+            "ERROR: Cannot get class 'MenuSoul'.",
+            "ERROR: Cannot get class 'TextBoxWriter'.",
+            "ERROR: Cannot get class 'TextBoxOptionWriter'.",
+            "ERROR: Cannot get class 'TextBoxOptionWriter'.",
+            "ERROR: Cannot get class 'TextBoxOptionWriter'.",
+            "ERROR: Cannot get class 'TextBoxOptionWriter'.",
+            "ERROR: In Object of type 'Node': Attempt to connect nonexistent signal 'click_played' to callable 'Node::_on_click_played'.",
+            "ERROR: In Object of type 'Node': Attempt to connect nonexistent signal 'confirm' to callable 'Node::handle_confirm_signal'.",
+            "ERROR: In Object of type 'Node': Attempt to connect nonexistent signal 'skip' to callable 'Node::_on_skip'.",
+            "ERROR: Cannot get class 'Joystick'."
+          ]
+        },
+        "status": "startup_600_frames",
+        "probe_lines": [
+          "NOHIT_PROBE_LOADED",
+          "NOHIT_PROBE_FINISHED 600 nodes=43 collision_objects=0",
+          "NOHIT_PROBE_SCRIPTS { \"/root/NoHitStartupProbe\": \"res://nohit_probe.gd\" }"
+        ]
+      }
+    ],
+    "status": "attempted"
+  },
+  {
+    "repository": "Yanxiyimengya/UndertaleMakerX",
+    "commit": "b3f9aaa1677d55e6e6e18f6ca6863907ddc1f470",
+    "projects": [
+      {
+        "project": "runtime/project.godot",
+        "engine_major": 4,
+        "csharp": true,
+        "original_main": "uid://7kjp05svklmo",
+        "patches": [
+          "GL compatibility renderer in test copy"
+        ],
+        "import": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/godot461mono/Godot_v4.6.1-stable_mono_linux_x86_64/Godot_v4.6.1-stable_mono_linux.x86_64",
+            "--path",
+            "/workspace/scratch/a18d135a7b14/native-probes/Yanxiyimengya--UndertaleMakerX/runtime",
+            "--headless",
+            "--editor",
+            "--import"
+          ],
+          "returncode": -6,
+          "timeout": false,
+          "seconds": 1.2268802180000193,
+          "log": "Yanxiyimengya--UndertaleMakerX-0-import.log",
+          "errors": [
+            "ERROR: Unrecognized UID: \"uid://dcql4pstuwyqm\".",
+            "ERROR: Unrecognized UID: \"uid://dsgu7terjoihc\".",
+            "ERROR: Unrecognized UID: \"uid://q1c4vbqaqvho\".",
+            "ERROR: Unrecognized UID: \"uid://q1ypfunuuve4\".",
+            "ERROR: Unrecognized UID: \"uid://cfilp3paq1pth\".",
+            "ERROR: Cannot open file 'res://assets/translations/translation.zh.translation'.",
+            "ERROR: Failed loading resource: res://assets/translations/translation.zh.translation.",
+            "ERROR: sh: 1: dotnet: not found",
+            "ERROR: .NET: One of the dependent libraries is missing. Typically when the `hostfxr`, `hostpolicy` or `coreclr` dynamic libraries are not present in the expected locations.",
+            "ERROR: .NET: Failed to load hostfxr"
+          ]
+        },
+        "build": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/dotnet/dotnet",
+            "build",
+            "/workspace/scratch/a18d135a7b14/native-probes/Yanxiyimengya--UndertaleMakerX/runtime/UTMX-Runtime.csproj",
+            "--nologo",
+            "-v:q"
+          ],
+          "returncode": -6,
+          "timeout": false,
+          "seconds": 0.09244677399999546,
+          "log": "Yanxiyimengya--UndertaleMakerX-0-build.log",
+          "errors": []
+        },
+        "run": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/godot461mono/Godot_v4.6.1-stable_mono_linux_x86_64/Godot_v4.6.1-stable_mono_linux.x86_64",
+            "--path",
+            "/workspace/scratch/a18d135a7b14/native-probes/Yanxiyimengya--UndertaleMakerX/runtime",
+            "--headless",
+            "--fixed-fps",
+            "60"
+          ],
+          "returncode": 1,
+          "timeout": false,
+          "seconds": 0.1602546159999747,
+          "log": "Yanxiyimengya--UndertaleMakerX-0-run.log",
+          "errors": [
+            "ERROR: Unrecognized UID: \"uid://dcql4pstuwyqm\".",
+            "ERROR: Unrecognized UID: \"uid://dsgu7terjoihc\".",
+            "ERROR: Unrecognized UID: \"uid://q1c4vbqaqvho\".",
+            "ERROR: Unrecognized UID: \"uid://q1ypfunuuve4\".",
+            "ERROR: Unrecognized UID: \"uid://cfilp3paq1pth\".",
+            "ERROR: Cannot open file 'res://assets/translations/translation.zh.translation'.",
+            "ERROR: Failed loading resource: res://assets/translations/translation.zh.translation.",
+            "ERROR: sh: 1: dotnet: not found",
+            "ERROR: .NET: One of the dependent libraries is missing. Typically when the `hostfxr`, `hostpolicy` or `coreclr` dynamic libraries are not present in the expected locations.",
+            "ERROR: .NET: Failed to load hostfxr",
+            "ERROR: Unrecognized UID: \"uid://e6mpj4t2g6d3\"."
+          ]
+        },
+        "status": "startup_failed",
+        "probe_lines": []
+      },
+      {
+        "project": "editor/project.godot",
+        "engine_major": 4,
+        "csharp": false,
+        "original_main": "uid://djn5y1cfoknas",
+        "patches": [
+          "GL compatibility renderer in test copy"
+        ],
+        "import": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/godot461/Godot_v4.6.1-stable_linux.x86_64",
+            "--path",
+            "/workspace/scratch/a18d135a7b14/native-probes/Yanxiyimengya--UndertaleMakerX/editor",
+            "--headless",
+            "--editor",
+            "--import"
+          ],
+          "returncode": 0,
+          "timeout": false,
+          "seconds": 6.526151238000011,
+          "log": "Yanxiyimengya--UndertaleMakerX-1-import.log",
+          "errors": [
+            "ERROR: Unrecognized UID: \"uid://cstntr050r5v0\".",
+            "ERROR: Unrecognized UID: \"uid://c6l47m2qdueeq\".",
+            "ERROR: Unrecognized UID: \"uid://cdqtlgi0yftg6\".",
+            "ERROR: Unrecognized UID: \"uid://bg4m8y3wj5x7p\".",
+            "ERROR: Unrecognized UID: \"uid://c8agvphypscbr\".",
+            "ERROR: Unrecognized UID: \"uid://6sk7jyht4ksq\".",
+            "ERROR: Unrecognized UID: \"uid://dc0cpqhjo00e2\".",
+            "ERROR: Unrecognized UID: \"uid://cdhqco8l15t1l\".",
+            "ERROR: Cannot open file 'res://assets/translations/translation.zh.translation'.",
+            "ERROR: Failed loading resource: res://assets/translations/translation.zh.translation.",
+            "ERROR: Cannot open file 'res://.godot/imported/HarmonyOS_Sans_SC_Regular.ttf-0946f98e2cfd6cef225f3b3b922683d0.fontdata'.",
+            "ERROR: Failed loading resource: res://.godot/imported/HarmonyOS_Sans_SC_Regular.ttf-0946f98e2cfd6cef225f3b3b922683d0.fontdata.",
+            "ERROR: Failed loading resource: res://assets/fonts/HarmonyOS_Sans_SC_Regular.ttf.",
+            "ERROR: res://assets/themes/editor_theme.tres:2986 - Parse Error: [ext_resource] referenced non-existent resource at: res://assets/fonts/HarmonyOS_Sans_SC_Regular.ttf.",
+            "ERROR: res://assets/themes/editor_theme.tres:2986 - Parse Error: [ext_resource] referenced non-existent resource at: res://assets/fonts/HarmonyOS_Sans_SC_Regular.ttf.",
+            "ERROR: Failed loading resource: res://assets/themes/editor_theme.tres.",
+            "ERROR: Error loading custom project theme 'uid://b57pk8esqcvqr'",
+            "ERROR: Cannot open file 'res://assets/translations/translation.zh.translation'.",
+            "ERROR: Failed loading resource: res://assets/translations/translation.zh.translation.",
+            "SCRIPT ERROR: Parse Error: Assigned value for constant \"ignore_files\" isn't a constant expression.",
+            "SCRIPT ERROR: Compile Error: Failed to compile depended scripts.",
+            "ERROR: Failed to load script \"res://scripts/scenes/editor/editor.gd\" with error \"Parse error\"."
+          ]
+        },
+        "run": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/godot461/Godot_v4.6.1-stable_linux.x86_64",
+            "--path",
+            "/workspace/scratch/a18d135a7b14/native-probes/Yanxiyimengya--UndertaleMakerX/editor",
+            "--headless",
+            "--fixed-fps",
+            "60"
+          ],
+          "returncode": 0,
+          "timeout": false,
+          "seconds": 0.9150962659999777,
+          "log": "Yanxiyimengya--UndertaleMakerX-1-run.log",
+          "errors": []
+        },
+        "status": "startup_600_frames",
+        "probe_lines": [
+          "NOHIT_PROBE_LOADED",
+          "NOHIT_PROBE_FINISHED 600 nodes=145 collision_objects=0",
+          "NOHIT_PROBE_SCRIPTS { \"/root/EditorProjectManager\": \"res://scripts/singletons/editor_project_manager.gd\", \"/root/EditorConfigureManager\": \"res://scripts/singletons/editor_configure_manager.gd\", \"/root/EditorTemplateManager\": \"res://scripts/singletons/editor_template_manager.gd\", \"/root/EditorOutputManager\": \"res://scripts/singletons/editor_output_manager.gd\", \"/root/GlobalEditorUndoRedoManager\": \"res://scripts/singletons/global_editor_undo_redo_manager.gd\", \"/root/WindowManager\": \"res://scripts/windows/WindowManager.gd\", \"/root/WindowManager/CreateProjectWindow\": \"res://scenes/singletons/windows/create_project_window/create_project_window.tscn::GDScript_sxa8d\", \"/root/WindowManager/CreateProjectWindow/CreateProjectWindowContent/MarginContainer/VBoxContainer/PanelContainer/TabContainer/Template/ScrollContainer/TemplateGridContainer/TemplateInfoPanel\": \"res://scripts/scenes/project_manager/template_info_panel/template_info_panel.gd\", \"/root/WindowManager/CreateProjectWindow/CreateProjectWindowContent/MarginContainer/VBoxContainer/PanelContainer/TabContainer/Template/ScrollContainer/TemplateGridContainer/@PanelContainer@36\": \"res://scripts/scenes/project_manager/template_info_panel/template_info_panel.gd\", \"/root/WindowManager/ConfirmationWindow\": \"res://scripts/windows/ConfirmationWindow.gd\", \"/root/WindowManager/QuestionWindow\": \"res://scripts/windows/QuestionWindow.gd\", \"/root/WindowManager/ExportWindow\": \"res://scripts/windows/ExportWindow.gd\", \"/root/GlobalEditorFileSystem\": \"res://scripts/singletons/global_editor_file_system.gd\", \"/root/GlobalEditorResourceLoader\": \"res://scripts/singletons/global_editor_resource_loader.gd\", \"/root/GlobalEditorRunnerManager\": \"res://scripts/singletons/editor_runner_manager.gd\", \"/root/NoHitStartupProbe\": \"res://nohit_probe.gd\", \"/root/NoHitStartupProbe/ProjectManager\": \"res://scripts/scenes/project_manager/project_manager.gd\", \"/root/NoHitStartupProbe/ProjectManager/ProjectImportor\": \"res://scripts/scenes/project_manager/project_importor.gd\", \"/root/NoHitStartupProbe/ProjectManager/WindowDragFileManager\": \"res://scripts/scenes/project_manager/window_drag_file_manager.gd\", \"/root/NoHitStartupProbe/ProjectManager/VBoxContainer/MarginContainer/VBoxContainer/ProjectFilterContainer/HBoxContainer/RecentButton\": \"res://scripts/utils/nodes/ArrowToggleButton.gd\" }"
+        ]
+      }
+    ],
+    "status": "attempted"
+  },
+  {
+    "repository": "etherealxx/undotale-godot4",
+    "commit": "12766a7923bc539b1d27663bf8a951270f147218",
+    "projects": [
+      {
+        "project": "project.godot",
+        "engine_major": 4,
+        "csharp": false,
+        "original_main": "res://BattleEngine/BattleEngine.tscn",
+        "patches": [
+          "GL compatibility renderer in test copy"
+        ],
+        "import": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/godot461/Godot_v4.6.1-stable_linux.x86_64",
+            "--path",
+            "/workspace/scratch/a18d135a7b14/native-probes/etherealxx--undotale-godot4",
+            "--headless",
+            "--editor",
+            "--import"
+          ],
+          "returncode": 0,
+          "timeout": false,
+          "seconds": 5.487840758999937,
+          "log": "etherealxx--undotale-godot4-0-import.log",
+          "errors": [
+            "ERROR: Tween can't be created directly. Use create_tween() method.",
+            "ERROR: Tween can't be created directly. Use create_tween() method."
+          ]
+        },
+        "run": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/godot461/Godot_v4.6.1-stable_linux.x86_64",
+            "--path",
+            "/workspace/scratch/a18d135a7b14/native-probes/etherealxx--undotale-godot4",
+            "--headless",
+            "--fixed-fps",
+            "60"
+          ],
+          "returncode": 0,
+          "timeout": false,
+          "seconds": 0.7703467649999993,
+          "log": "etherealxx--undotale-godot4-0-run.log",
+          "errors": [
+            "ERROR: Tween can't be created directly. Use create_tween() method.",
+            "ERROR: Tween can't be created directly. Use create_tween() method.",
+            "SCRIPT ERROR: Invalid access of index '0' on a base object of type: 'Array'.",
+            "SCRIPT ERROR: Invalid access of index '0' on a base object of type: 'Array'.",
+            "SCRIPT ERROR: Invalid access of index '0' on a base object of type: 'Array'.",
+            "SCRIPT ERROR: Invalid access of index '0' on a base object of type: 'Array'.",
+            "SCRIPT ERROR: Invalid access of index '0' on a base object of type: 'Array'.",
+            "SCRIPT ERROR: Invalid access of index '0' on a base object of type: 'Array'.",
+            "SCRIPT ERROR: Invalid access of index '0' on a base object of type: 'Array'.",
+            "SCRIPT ERROR: Invalid access of index '0' on a base object of type: 'Array'.",
+            "SCRIPT ERROR: Invalid access of index '0' on a base object of type: 'Array'.",
+            "SCRIPT ERROR: Invalid access of index '0' on a base object of type: 'Array'.",
+            "SCRIPT ERROR: Invalid access of index '0' on a base object of type: 'Array'.",
+            "SCRIPT ERROR: Invalid access of index '0' on a base object of type: 'Array'.",
+            "SCRIPT ERROR: Invalid access of index '0' on a base object of type: 'Array'.",
+            "SCRIPT ERROR: Invalid access of index '0' on a base object of type: 'Array'.",
+            "SCRIPT ERROR: Invalid access of index '0' on a base object of type: 'Array'.",
+            "SCRIPT ERROR: Invalid access of index '0' on a base object of type: 'Array'.",
+            "SCRIPT ERROR: Invalid access of index '0' on a base object of type: 'Array'.",
+            "SCRIPT ERROR: Invalid access of index '0' on a base object of type: 'Array'.",
+            "SCRIPT ERROR: Invalid access of index '0' on a base object of type: 'Array'.",
+            "SCRIPT ERROR: Invalid access of index '0' on a base object of type: 'Array'.",
+            "SCRIPT ERROR: Invalid access of index '0' on a base object of type: 'Array'.",
+            "SCRIPT ERROR: Invalid access of index '0' on a base object of type: 'Array'.",
+            "SCRIPT ERROR: Invalid access of index '0' on a base object of type: 'Array'."
+          ]
+        },
+        "status": "startup_with_errors",
+        "probe_lines": [
+          "NOHIT_PROBE_LOADED",
+          "NOHIT_PROBE_FINISHED 600 nodes=64 collision_objects=3",
+          "NOHIT_PROBE_SCRIPTS { \"/root/Data\": \"res://savedata/Data.gd\", \"/root/NoHitStartupProbe\": \"res://nohit_probe.gd\", \"/root/NoHitStartupProbe/BattleEngine\": \"res://BattleEngine/BattleEngine.gd\", \"/root/NoHitStartupProbe/BattleEngine/Enemies\": \"res://BattleEngine/Fight_Manager/Revenge Papyrus/RevengePapyrus.gd\", \"/root/NoHitStartupProbe/BattleEngine/Enemies/Papyrus\": \"res://BattleEngine/Fight_Manager/Revenge Papyrus/Papyrus.gd\", \"/root/NoHitStartupProbe/BattleEngine/Enemies/Papyrus/Bubble/Blitter\": \"res://Shared/Text/Blitter.gd\", \"/root/NoHitStartupProbe/BattleEngine/Box\": \"res://Shared/Box/Box.gd\", \"/root/NoHitStartupProbe/BattleEngine/Box/Blitter\": \"res://Shared/Text/Blitter.gd\", \"/root/NoHitStartupProbe/BattleEngine/Buttons\": \"res://BattleEngine/Buttons/Node/Buttons.gd\", \"/root/NoHitStartupProbe/BattleEngine/Soul\": \"res://Shared/Soul/Soul.gd\", \"/root/NoHitStartupProbe/BattleEngine/ActingSelector\": \"res://BattleEngine/ActingSelector.gd\", \"/root/NoHitStartupProbe/BattleEngine/ItemSelector\": \"res://BattleEngine/ItemSelector.gd\" }"
+        ]
+      }
+    ],
+    "status": "attempted"
+  },
+  {
+    "repository": "meowjade/Godot-Undertale-Engine",
+    "commit": "729dfb7ef9ba41f8695724cb31e5cd360d49128d",
+    "projects": [
+      {
+        "project": "project.godot",
+        "engine_major": 4,
+        "csharp": false,
+        "original_main": "res://Singletons/scene_container.tscn",
+        "patches": [
+          "GL compatibility renderer in test copy"
+        ],
+        "import": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/godot461/Godot_v4.6.1-stable_linux.x86_64",
+            "--path",
+            "/workspace/scratch/a18d135a7b14/native-probes/meowjade--Godot-Undertale-Engine",
+            "--headless",
+            "--editor",
+            "--import"
+          ],
+          "returncode": 0,
+          "timeout": false,
+          "seconds": 10.193809451999982,
+          "log": "meowjade--Godot-Undertale-Engine-0-import.log",
+          "errors": [
+            "ERROR: Cannot get class 'GitPlugin'.",
+            "ERROR: Received a nullptr VCS extension instance during construction.",
+            "ERROR: Condition \"!FileAccess::exists(path)\" is true. Returning: ERR_FILE_NOT_FOUND",
+            "ERROR: Condition \"!FileAccess::exists(path)\" is true. Returning: ERR_FILE_NOT_FOUND",
+            "ERROR: GDExtension dynamic library not found: 'res://addons/git/git_plugin.gdextension'.",
+            "SCRIPT ERROR: Parse Error: Expected binary digit after \"0b\".",
+            "ERROR: Failed to load script \"res://Battle/AttackMeter/meter.gd\" with error \"Parse error\".",
+            "SCRIPT ERROR: Parse Error: Expected binary digit after \"0b\".",
+            "ERROR: Condition \"!FileAccess::exists(path)\" is true. Returning: ERR_FILE_NOT_FOUND",
+            "ERROR: Condition \"!FileAccess::exists(path)\" is true. Returning: ERR_FILE_NOT_FOUND",
+            "ERROR: GDExtension dynamic library not found: 'res://addons/git/git_plugin.gdextension'.",
+            "SCRIPT ERROR: Parse Error: Expected binary digit after \"0b\"."
+          ]
+        },
+        "run": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/godot461/Godot_v4.6.1-stable_linux.x86_64",
+            "--path",
+            "/workspace/scratch/a18d135a7b14/native-probes/meowjade--Godot-Undertale-Engine",
+            "--headless",
+            "--fixed-fps",
+            "60"
+          ],
+          "returncode": 0,
+          "timeout": false,
+          "seconds": 2.2434828709999692,
+          "log": "meowjade--Godot-Undertale-Engine-0-run.log",
+          "errors": [
+            "ERROR: Condition \"!FileAccess::exists(path)\" is true. Returning: ERR_FILE_NOT_FOUND",
+            "ERROR: Condition \"!FileAccess::exists(path)\" is true. Returning: ERR_FILE_NOT_FOUND",
+            "ERROR: GDExtension dynamic library not found: 'res://addons/git/git_plugin.gdextension'.",
+            "ERROR: Error loading extension: 'res://addons/git/git_plugin.gdextension'.",
+            "SCRIPT ERROR: Parse Error: Expected binary digit after \"0b\".",
+            "ERROR: Failed to load script \"res://Battle/AttackMeter/meter.gd\" with error \"Parse error\"."
+          ]
+        },
+        "status": "startup_with_errors",
+        "probe_lines": [
+          "NOHIT_PROBE_LOADED",
+          "NOHIT_PROBE_FINISHED 600 nodes=153 collision_objects=0",
+          "NOHIT_PROBE_SCRIPTS { \"/root/Global\": \"res://Singletons/global.gd\", \"/root/OverworldSceneChanger\": \"res://Singletons/overworld_scene_changer.gd\", \"/root/AudioPlayer\": \"res://Singletons/audio_player.gd\", \"/root/NoHitStartupProbe\": \"res://nohit_probe.gd\", \"/root/NoHitStartupProbe/Scenes\": \"res://Singletons/scene_container.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/GlobalCamera\": \"res://Camera/camera_advanced.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection\": \"res://Intro/name_selection.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Camera\": \"res://Camera/camera.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters\": \"res://Intro/typing.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/Shift\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@31\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@34\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@37\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@40\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@43\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@46\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@49\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@52\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@55\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@58\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@61\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@64\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@67\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@70\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@73\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@76\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@79\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@82\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@85\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@88\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@91\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@94\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@97\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@100\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@103\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@106\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@109\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@112\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@115\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@118\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@121\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@124\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@127\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@130\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@133\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@136\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@139\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@142\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@145\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@148\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@151\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@154\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@157\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@160\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@163\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@166\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@169\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@172\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@175\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@178\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@181\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Letters/@RichTextLabel@184\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Options\": \"res://Intro/Options.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Options/Quit\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Options/Backspace\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Options/Done\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Typer\": \"res://Text/text_typer.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Confirmation/YES\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SubViewportContainer/MainViewport/Name Selection/Confirmation/NO\": \"res://Menus/option_selectable.gd\", \"/root/NoHitStartupProbe/Scenes/SettingsContainer/SubViewport/Settings\": \"res://Singletons/settings.gd\", \"/root/NoHitStartupProbe/Scenes/SettingsContainer/SubViewport/Settings/BoolOptions/VBoxContainer/VFX\": \"res://Menus/bool_setting.gd\", \"/root/NoHitStartupProbe/Scenes/SettingsContainer/SubViewport/Settings/BoolOptions/VBoxContainer/CamShake\": \"res://Menus/bool_setting.gd\", \"/root/NoHitStartupProbe/Scenes/SettingsContainer/SubViewport/Settings/BoolOptions/VBoxContainer/Border\": \"res://Menus/bool_setting.gd\", \"/root/NoHitStartupProbe/Scenes/SettingsContainer/SubViewport/Settings/BusContainer/Master\": \"res://Menus/audiobus_settings.gd\", \"/root/NoHitStartupProbe/Scenes/SettingsContainer/SubViewport/Settings/BusContainer/SFX\": \"res://Menus/audiobus_settings.gd\", \"/root/NoHitStartupProbe/Scenes/SettingsContainer/SubViewport/Settings/BusContainer/Music\": \"res://Menus/audiobus_settings.gd\" }"
+        ]
+      }
+    ],
+    "status": "attempted"
+  },
+  {
+    "repository": "mouse114514/End-Of-Truth",
+    "commit": "b1cc936ef2b5617881b17f85301561f265d8f8a4",
+    "projects": [
+      {
+        "project": "project.godot",
+        "engine_major": 4,
+        "csharp": false,
+        "original_main": "res://main_menu.tscn",
+        "patches": [
+          "GL compatibility renderer in test copy"
+        ],
+        "import": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/godot461/Godot_v4.6.1-stable_linux.x86_64",
+            "--path",
+            "/workspace/scratch/a18d135a7b14/native-probes/mouse114514--End-Of-Truth",
+            "--headless",
+            "--editor",
+            "--import"
+          ],
+          "returncode": 0,
+          "timeout": false,
+          "seconds": 19.819588565999993,
+          "log": "mouse114514--End-Of-Truth-0-import.log",
+          "errors": [
+            "ERROR: Resource file not found: res://1_rainbow (expected type: unknown)",
+            "ERROR: res://rainbow_effect.tres:1 - Parse Error: Can't load resource at path: 1_rainbow with uid: .",
+            "ERROR: Resource file not found: res://1_rainbow (expected type: unknown)",
+            "ERROR: res://rainbow_effect.tres:1 - Parse Error: Can't load resource at path: 1_rainbow with uid: .",
+            "ERROR: Resource file not found: res://1_rainbow (expected type: unknown)",
+            "ERROR: res://rainbow_effect.tres:1 - Parse Error: Can't load resource at path: 1_rainbow with uid: .",
+            "ERROR: Resource file not found: res://1_rainbow (expected type: unknown)",
+            "ERROR: res://rainbow_effect.tres:1 - Parse Error: Can't load resource at path: 1_rainbow with uid: .",
+            "ERROR: Condition \"error != OK\" is true.",
+            "ERROR: Resource file not found: res://1_tornado (expected type: unknown)",
+            "ERROR: res://tornado_effect.tres:1 - Parse Error: Can't load resource at path: 1_tornado with uid: .",
+            "ERROR: Resource file not found: res://1_tornado (expected type: unknown)",
+            "ERROR: res://tornado_effect.tres:1 - Parse Error: Can't load resource at path: 1_tornado with uid: .",
+            "ERROR: Resource file not found: res://1_tornado (expected type: unknown)",
+            "ERROR: res://tornado_effect.tres:1 - Parse Error: Can't load resource at path: 1_tornado with uid: .",
+            "ERROR: Resource file not found: res://1_tornado (expected type: unknown)",
+            "ERROR: res://tornado_effect.tres:1 - Parse Error: Can't load resource at path: 1_tornado with uid: .",
+            "ERROR: Condition \"error != OK\" is true.",
+            "ERROR: Resource file not found: res://1_wave (expected type: unknown)",
+            "ERROR: res://wave_effect.tres:1 - Parse Error: Can't load resource at path: 1_wave with uid: .",
+            "ERROR: Resource file not found: res://1_wave (expected type: unknown)",
+            "ERROR: res://wave_effect.tres:1 - Parse Error: Can't load resource at path: 1_wave with uid: .",
+            "ERROR: Resource file not found: res://1_wave (expected type: unknown)",
+            "ERROR: res://wave_effect.tres:1 - Parse Error: Can't load resource at path: 1_wave with uid: .",
+            "ERROR: Resource file not found: res://1_wave (expected type: unknown)"
+          ]
+        },
+        "run": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/godot461/Godot_v4.6.1-stable_linux.x86_64",
+            "--path",
+            "/workspace/scratch/a18d135a7b14/native-probes/mouse114514--End-Of-Truth",
+            "--headless",
+            "--fixed-fps",
+            "60"
+          ],
+          "returncode": 0,
+          "timeout": false,
+          "seconds": 0.43878488200004995,
+          "log": "mouse114514--End-Of-Truth-0-run.log",
+          "errors": []
+        },
+        "status": "startup_600_frames",
+        "probe_lines": [
+          "NOHIT_PROBE_LOADED",
+          "NOHIT_PROBE_FINISHED 600 nodes=32 collision_objects=0",
+          "NOHIT_PROBE_SCRIPTS { \"/root/BattleManager\": \"res://BattleManager.gd\", \"/root/GameSettings\": \"res://GameSettings.gd\", \"/root/MobileInput\": \"res://mobile_input_manager.gd\", \"/root/PuzzleManager\": \"res://PuzzleManager.gd\", \"/root/SoundManager\": \"res://SoundManager.gd\", \"/root/StoryManager\": \"res://StoryManager.gd\", \"/root/NoHitStartupProbe\": \"res://nohit_probe.gd\", \"/root/NoHitStartupProbe/MainMenu\": \"res://main_menu.gd\" }"
+        ]
+      }
+    ],
+    "status": "attempted"
+  },
+  {
+    "repository": "neon-gr33n/underengine",
+    "commit": "d61ff13fe4a1353bf62fe8b04276139c0e155c90",
+    "projects": [],
+    "status": "gamemaker_runtime_missing",
+    "gamemaker_projects": [
+      "UNDERENGINE.yyp"
+    ],
+    "compiler_probe": {
+      "Igor": null,
+      "igor": null,
+      "GameMaker": null,
+      "wine": null
+    },
+    "attack_candidates": [
+      "objects/obj_scene_bullet/Step_0.gml",
+      "objects/obj_scene_bullet/Create_0.gml",
+      "objects/obj_bullet_fly/Step_0.gml",
+      "objects/obj_bullet_fly/Alarm_0.gml",
+      "objects/obj_bullet_fly/Create_0.gml",
+      "objects/obj_bullet_fly/Alarm_1.gml",
+      "objects/obj_bullet_fly/Other_10.gml",
+      "objects/obj_bullet_fly/Draw_0.gml",
+      "objects/obj_parent_bullet/Step_0.gml",
+      "objects/obj_parent_bullet/Other_11.gml",
+      "objects/obj_parent_bullet/Alarm_0.gml",
+      "objects/obj_parent_bullet/Create_0.gml",
+      "objects/obj_parent_bullet/Other_10.gml"
+    ]
+  },
+  {
+    "repository": "onezhazha233/Undertale-Engine-modded-by-Zhazha",
+    "commit": "63f9981a425d5cbfbe795a35a0e96709f6dd39d7",
+    "projects": [],
+    "status": "gamemaker_runtime_missing",
+    "gamemaker_projects": [
+      "Undertale Engine modded by Zhazha.yyp"
+    ],
+    "compiler_probe": {
+      "Igor": null,
+      "igor": null,
+      "GameMaker": null,
+      "wine": null
+    },
+    "attack_candidates": [
+      "scripts/Battle_CallSoulEventHurt/Battle_CallSoulEventHurt.gml",
+      "scripts/Battle_CallSoulEventBulletCollision/Battle_CallSoulEventBulletCollision.gml",
+      "scripts/Player_HurtKr/Player_HurtKr.gml",
+      "scripts/Battle_IsBulletValid/Battle_IsBulletValid.gml",
+      "scripts/Battle_CallBulletEventSoulCollision/Battle_CallBulletEventSoulCollision.gml",
+      "scripts/Player_Hurt/Player_Hurt.gml",
+      "objects/battle_bullet/Step_0.gml",
+      "objects/battle_bullet/Other_11.gml",
+      "objects/battle_bullet/Create_0.gml",
+      "objects/battle_bullet/Other_10.gml",
+      "objects/battle_bullet/Draw_0.gml",
+      "objects/battle_bullet_test/Other_0.gml",
+      "objects/battle_bullet_test/Create_0.gml",
+      "objects/battle_bullet_test/Other_10.gml",
+      "objects/battle_bullet_test/Draw_0.gml",
+      "objects/battle_bullet_test_kr/Step_0.gml",
+      "objects/battle_bullet_test_kr/Other_0.gml",
+      "objects/battle_bullet_test_kr/Create_0.gml",
+      "objects/battle_bullet_test_kr/Draw_0.gml"
+    ]
+  },
+  {
+    "repository": "rarespawns/UndertaleFangameFramework",
+    "commit": "29923069b78dea03799365213b918792526f8a9f",
+    "projects": [
+      {
+        "project": "project.godot",
+        "engine_major": 4,
+        "csharp": true,
+        "original_main": "res://Scenes/Prefabs/mainChara.tscn",
+        "patches": [
+          "GL compatibility renderer in test copy"
+        ],
+        "import": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/godot461mono/Godot_v4.6.1-stable_mono_linux_x86_64/Godot_v4.6.1-stable_mono_linux.x86_64",
+            "--path",
+            "/workspace/scratch/a18d135a7b14/native-probes/rarespawns--UndertaleFangameFramework",
+            "--headless",
+            "--editor",
+            "--import"
+          ],
+          "returncode": -6,
+          "timeout": false,
+          "seconds": 1.365156627000033,
+          "log": "rarespawns--UndertaleFangameFramework-0-import.log",
+          "errors": [
+            "ERROR: sh: 1: dotnet: not found",
+            "ERROR: .NET: One of the dependent libraries is missing. Typically when the `hostfxr`, `hostpolicy` or `coreclr` dynamic libraries are not present in the expected locations.",
+            "ERROR: .NET: Failed to load hostfxr"
+          ]
+        },
+        "build": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/dotnet/dotnet",
+            "build",
+            "/workspace/scratch/a18d135a7b14/native-probes/rarespawns--UndertaleFangameFramework/unaltered nature.csproj",
+            "--nologo",
+            "-v:q"
+          ],
+          "returncode": -6,
+          "timeout": false,
+          "seconds": 0.06451668199997584,
+          "log": "rarespawns--UndertaleFangameFramework-0-build.log",
+          "errors": []
+        },
+        "run": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/godot461mono/Godot_v4.6.1-stable_mono_linux_x86_64/Godot_v4.6.1-stable_mono_linux.x86_64",
+            "--path",
+            "/workspace/scratch/a18d135a7b14/native-probes/rarespawns--UndertaleFangameFramework",
+            "--headless",
+            "--fixed-fps",
+            "60"
+          ],
+          "returncode": -6,
+          "timeout": false,
+          "seconds": 0.17582328299999972,
+          "log": "rarespawns--UndertaleFangameFramework-0-run.log",
+          "errors": [
+            "ERROR: sh: 1: dotnet: not found",
+            "ERROR: .NET: One of the dependent libraries is missing. Typically when the `hostfxr`, `hostpolicy` or `coreclr` dynamic libraries are not present in the expected locations.",
+            "ERROR: .NET: Failed to load hostfxr"
+          ]
+        },
+        "status": "startup_failed",
+        "probe_lines": []
+      }
+    ],
+    "status": "attempted"
+  },
+  {
+    "repository": "sultansagitov/UndertaleBattle",
+    "commit": "91a171e3a9affffe903c1e1774d5a0586505c2df",
+    "projects": [
+      {
+        "project": "project.godot",
+        "engine_major": 4,
+        "csharp": true,
+        "original_main": "res://Assets/Scenes/Screens/Menu.tscn",
+        "patches": [
+          "GL compatibility renderer in test copy"
+        ],
+        "import": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/godot461mono/Godot_v4.6.1-stable_mono_linux_x86_64/Godot_v4.6.1-stable_mono_linux.x86_64",
+            "--path",
+            "/workspace/scratch/a18d135a7b14/native-probes/sultansagitov--UndertaleBattle",
+            "--headless",
+            "--editor",
+            "--import"
+          ],
+          "returncode": -6,
+          "timeout": false,
+          "seconds": 1.4159365379999826,
+          "log": "sultansagitov--UndertaleBattle-0-import.log",
+          "errors": [
+            "ERROR: sh: 1: dotnet: not found",
+            "ERROR: .NET: One of the dependent libraries is missing. Typically when the `hostfxr`, `hostpolicy` or `coreclr` dynamic libraries are not present in the expected locations.",
+            "ERROR: .NET: Failed to load hostfxr"
+          ]
+        },
+        "build": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/dotnet/dotnet",
+            "build",
+            "/workspace/scratch/a18d135a7b14/native-probes/sultansagitov--UndertaleBattle/UndertaleBattle.csproj",
+            "--nologo",
+            "-v:q"
+          ],
+          "returncode": -6,
+          "timeout": false,
+          "seconds": 0.08039682699995865,
+          "log": "sultansagitov--UndertaleBattle-0-build.log",
+          "errors": []
+        },
+        "run": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/godot461mono/Godot_v4.6.1-stable_mono_linux_x86_64/Godot_v4.6.1-stable_mono_linux.x86_64",
+            "--path",
+            "/workspace/scratch/a18d135a7b14/native-probes/sultansagitov--UndertaleBattle",
+            "--headless",
+            "--fixed-fps",
+            "60"
+          ],
+          "returncode": -6,
+          "timeout": false,
+          "seconds": 0.135502615000064,
+          "log": "sultansagitov--UndertaleBattle-0-run.log",
+          "errors": [
+            "ERROR: sh: 1: dotnet: not found",
+            "ERROR: .NET: One of the dependent libraries is missing. Typically when the `hostfxr`, `hostpolicy` or `coreclr` dynamic libraries are not present in the expected locations.",
+            "ERROR: .NET: Failed to load hostfxr"
+          ]
+        },
+        "status": "startup_failed",
+        "probe_lines": []
+      }
+    ],
+    "status": "attempted"
+  },
+  {
+    "repository": "techoskiller/AT-Engine",
+    "commit": "2900bcd40be6fa581aad95251e72ca1091b2c275",
+    "projects": [],
+    "status": "gamemaker_runtime_missing",
+    "gamemaker_projects": [
+      "at-engine-main.yyp"
+    ],
+    "compiler_probe": {
+      "Igor": null,
+      "igor": null,
+      "GameMaker": null,
+      "wine": null
+    },
+    "attack_candidates": []
+  },
+  {
+    "repository": "ws3917/psoutertale-gms",
+    "commit": "ce6c6bffe3b45b34de763cb44c04a95b03f9ba25",
+    "projects": [],
+    "status": "resource_tool_no_battle_project",
+    "gamemaker_projects": [],
+    "compiler_probe": {
+      "Igor": null,
+      "igor": null,
+      "GameMaker": null,
+      "wine": null
+    },
+    "attack_candidates": []
+  },
+  {
+    "repository": "znm2500/Undertale-Engine-Ultra",
+    "commit": "84fd66594ec69d9517ba040f86cc259ce0e3ffea",
+    "projects": [],
+    "status": "gamemaker_runtime_missing",
+    "gamemaker_projects": [
+      "UNDERTALE Engine Ultra.yyp"
+    ],
+    "compiler_probe": {
+      "Igor": null,
+      "igor": null,
+      "GameMaker": null,
+      "wine": null
+    },
+    "attack_candidates": [
+      "scripts/Battle_CallSoulEventHurt/Battle_CallSoulEventHurt.gml",
+      "scripts/Battle_CallSoulEventBulletCollision/Battle_CallSoulEventBulletCollision.gml",
+      "scripts/Player_HurtKR/Player_HurtKR.gml",
+      "scripts/Battle_IsBulletValid/Battle_IsBulletValid.gml",
+      "scripts/Battle_CallBulletEventSoulCollision/Battle_CallBulletEventSoulCollision.gml",
+      "scripts/Player_Hurt/Player_Hurt.gml",
+      "objects/battle_soul_yellow_bullet/Step_0.gml",
+      "objects/battle_soul_yellow_bullet/Other_0.gml",
+      "objects/battle_soul_yellow_bullet/Create_0.gml",
+      "objects/battle_bullet_bone/Create_0.gml",
+      "objects/battle_bullet_bone/Other_10.gml",
+      "objects/battle_bullet_bone/Draw_0.gml",
+      "objects/battle_bullet_arrow/Step_0.gml",
+      "objects/battle_bullet_arrow/Create_0.gml",
+      "objects/battle_bullet_arrow/Step_1.gml",
+      "objects/battle_bullet_arrow/Other_10.gml",
+      "objects/battle_bullet_arrow/Collision_soul_block.gml",
+      "objects/battle_bullet_arrow/Draw_0.gml",
+      "objects/battle_bullet/Step_0.gml",
+      "objects/battle_bullet/Other_11.gml",
+      "objects/battle_bullet/Other_0.gml",
+      "objects/battle_bullet/Alarm_0.gml",
+      "objects/battle_bullet/Create_0.gml",
+      "objects/battle_bullet/Step_1.gml",
+      "objects/battle_bullet/Other_10.gml"
+    ]
+  },
+  {
+    "repository": "Tartarus-Game/UndertaleEngine",
+    "commit": "6e0d12eb70ca776900f9bb85aae2c50962e9996d",
+    "projects": [
+      {
+        "project": "project.godot",
+        "engine_major": 4,
+        "csharp": false,
+        "original_main": "uid://epbtohyb36ro",
+        "patches": [
+          "GL compatibility renderer in test copy"
+        ],
+        "import": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/godot461/Godot_v4.6.1-stable_linux.x86_64",
+            "--path",
+            "/workspace/scratch/a18d135a7b14/native-probes/Tartarus-Game--UndertaleEngine",
+            "--headless",
+            "--editor",
+            "--import"
+          ],
+          "returncode": 0,
+          "timeout": false,
+          "seconds": 8.453306933999897,
+          "log": "Tartarus-Game--UndertaleEngine-0-import.log",
+          "errors": []
+        },
+        "run": {
+          "command": [
+            "/workspace/scratch/a18d135a7b14/runtimes/godot461/Godot_v4.6.1-stable_linux.x86_64",
+            "--path",
+            "/workspace/scratch/a18d135a7b14/native-probes/Tartarus-Game--UndertaleEngine",
+            "--headless",
+            "--fixed-fps",
+            "60"
+          ],
+          "returncode": null,
+          "timeout": true,
+          "seconds": 25.032858416999943,
+          "log": "Tartarus-Game--UndertaleEngine-0-run.log",
+          "errors": []
+        },
+        "status": "startup_failed",
+        "probe_lines": [
+          "NOHIT_PROBE_LOADED"
+        ]
+      }
+    ],
+    "status": "attempted"
+  }
+]

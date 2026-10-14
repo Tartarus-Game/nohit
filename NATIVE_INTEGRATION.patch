@@ -1,0 +1,701 @@
+--- a/generic-engine/README.zh-CN.md
++++ b/generic-engine/README.zh-CN.md
+@@ -4,7 +4,11 @@
+ 
+ 目前完成：23 个固定提交的 GitHub 仓库扫描，两个真实 PCK 解包，Godot 原生碰撞采样器、可替换心魂控制槽、场景测试节点、保存完整状态的有界搜索与确定性回放。GameMaker 提供碰撞烘焙、输入与伤害审计脚本草案。另已接入 meowjade 的真实 Godot 战斗场景：四组圆环组件测试通过原生执行与新进程逐帧回放，三个伤害反例正常扣血。
+ 
+-**尚未完成：23 个项目的逐个接入、上游完整攻击／关卡无伤验收、GameMaker 编译运行、UndertaleMakerX 的 C#/JS 运行时快照、自动编辑任意发布包。** 协议示例与真实接入的证据分别保存；圆环组件通过不代表这些上游游戏的完整关卡已被求解。
++**尚未完成：23 个项目的逐个接入、各项目全部攻击／关卡无伤验收、GameMaker 编译运行、UndertaleMakerX 的 C#/JS 运行时快照、自动编辑任意发布包。** 协议示例与真实接入的证据分别保存；圆环组件通过不代表这些上游游戏的完整关卡已被求解。
++
++## 全样本尝试
++
++本轮已检查全部 23 个固定仓库，新增 UNDOTALE 和 Megalo 原生接入，总计三个项目、六项无伤测试通过独立进程回放；八个 GameMaker 缺少运行时，其他项目的启动/伤害/编译阻塞逐一记录。见 [完整结果表](research/all-samples-report.zh-CN.md)。
+ 
+ ## 实际上游弹幕接入
+ 
+--- /dev/null
++++ b/generic-engine/integrations/megalo/README.zh-CN.md
+@@ -0,0 +1,25 @@
++# Megalo 原生 Godot 3 接入
++
++固定提交 `b449c9c05f8af91b8e015d490ff9fdcb8913ed1e`。使用官方 Godot 3.5.3 headless；3.3 不识别该项目的 gdshader 资源，最初尝试无法载入战斗，日志保留。
++
++```bash
++git clone https://github.com/Oplexitie/Megalo-Framework upstream-megalo
++git -C upstream-megalo checkout b449c9c05f8af91b8e015d490ff9fdcb8913ed1e
++python generic-engine/integrations/megalo/prepare.py upstream-megalo native-megalo
++```
++
++用 Godot 3.5.3 完成资源导入，等待扫描结束；随后：
++
++```bash
++python generic-engine/tools/run_upstream_native.py --adapter megalo \
++  --godot /path/to/Godot_v3.5.3-stable_linux_headless.64 \
++  --project native-megalo --out megalo-results --workers 6
++```
++
++运行原 Viewport、Battle、Border、PlayerHeart、Attacks、Bullets、Timer 与伤害逻辑。方向输入使用原生 InputEventAction，让原 `_input` 代码收到事件。关闭菜单操作只是攻击入口状态，不禁用心魂、Area 或物理碰撞。观察子类统计 takeDamage 后调用原实现。
++
++六种完整攻击各试五种输入，共 30 次。bonegap 通过完整 421 帧，生成 32 根原生骨头，HP=92、KR=0、伤害调用=0；独立进程逐帧回放完全一致。其余 intro、platformtest、randomblaster、bonestabtest、platformblaster 均受伤，尚未找到无伤路线。
++
++同一 bonegap 的伤害反例：仅在对照运行的第 90 帧，把心魂放到真实骨头形状中心，原伤害在第 92 帧触发，HP=91、KR=6。成功候选和回放没有该位移。该对照检查了实际骨头与原伤害入口，不是只手动调用伤害函数。
++
++证据：`../../research/megalo-353/certificate.json`、`../../research/megalo-suite/suite.json`。通过单次 bonegap 不代表六种攻击组成的完整游戏通过。头部／底部骨头、颜色、形状共享方式和原版脚本行为保持原样。
+--- /dev/null
++++ b/generic-engine/integrations/megalo/driver.gd
+@@ -0,0 +1,81 @@
++extends Node
++var stage
++var battle
++var soul
++var active=false
++var tick=0
++var pattern=0
++var strategy=0
++var damage_calls=0
++var route=[]
++var states=[]
++var seen={}
++var done=false
++var start_hp=0
++var replay=[]
++var negative=false
++var output="user://megalo.json"
++func _ready():
++ add_to_group("nohit_audit")
++ for a in OS.get_cmdline_args():
++  if a=="--negative":negative=true
++  if a.begins_with("--pattern="):pattern=int(a.substr(10))
++  if a.begins_with("--strategy="):strategy=int(a.substr(11))
++  if a.begins_with("--out="):output=a.substr(6)
++  if a.begins_with("--replay="):
++   var f=File.new();f.open(a.substr(9),File.READ);replay=JSON.parse(f.get_as_text()).result.route
++ call_deferred("setup")
++func setup():
++ stage=load("res://Scenes/gameview.tscn").instance()
++ add_child(stage)
++ yield(get_tree(),"idle_frame")
++ var view=stage.find_node("Viewport",true,false)
++ view.loadScene(0)
++ yield(get_tree().create_timer(1),"timeout")
++ battle=view.curscene
++ soul=battle.get_node("HeartLayer/PlayerHeart")
++ battle.get_node("Hud").menuNo=-1
++ start_hp=global.hp
++ var attacks=battle.get_node("Attacks")
++ attacks.attack=pattern
++ attacks.connect("menuEnable",self,"on_done")
++ seed(1)
++ active=true
++ attacks.runAttack()
++func on_done():done=true
++func on_damage(hp,kr):
++ if active and (hp>=0 or kr>0):damage_calls+=1
++func _physics_process(_delta):
++ if not active:return
++ if negative and tick==90:
++  var bullets=get_tree().get_nodes_in_group("Bullet")
++  if not bullets.empty():
++   soul.global_position=bullets[0].get_node("HitBox/Collision").global_position
++ if tick>0:states.append({"tick":tick,"x":soul.position.x,"y":soul.position.y,"vx":soul.motion_velocity.x,"vy":soul.motion_velocity.y,"hp":global.hp,"kr":global.kr,"mode":soul.mode,"inv":soul.invCount})
++ for bullet in get_tree().get_nodes_in_group("Bullet"):seen[bullet.get_instance_id()]=true
++ if damage_calls>0 or global.hp!=start_hp or global.kr>0:
++  finish("hit")
++  return
++ if done:
++  finish("native_nohit" if seen.size()>0 else "unknown")
++  return
++ if tick>=2400:
++  finish("unknown")
++  return
++ var mask=strategy
++ if strategy==16:mask=[4,0][int(tick/15)%2]
++ if not replay.empty():
++  if tick>=replay.size():
++   finish("replay_length_mismatch")
++   return
++  mask=int(replay[tick])
++ var names=["ui_left","ui_right","ui_up","ui_down"]
++ for i in range(4):
++  var event=InputEventAction.new();event.action=names[i];event.pressed=bool(mask&(1<<i));Input.parse_input_event(event)
++ route.append(mask)
++ tick+=1
++func finish(status):
++ active=false
++ var f=File.new();f.open(output,File.WRITE);f.store_string(JSON.print({"status":status,"pattern":pattern,"strategy":strategy,"ticks":tick,"damage_calls":damage_calls,"hp":global.hp,"kr":global.kr,"entry_hp":start_hp,"attack_completed":done,"observed_bullets":seen.size(),"route":route,"states":states}))
++ print("MEGALO_NATIVE ",status," tick=",tick," seen=",seen.size())
++ get_tree().quit(0 if status=="native_nohit" else 2)
+--- /dev/null
++++ b/generic-engine/integrations/megalo/prepare.py
+@@ -0,0 +1,11 @@
++import pathlib,shutil,subprocess,sys,json,hashlib
++src=pathlib.Path(sys.argv[1]);dst=pathlib.Path(sys.argv[2]);pin='b449c9c05f8af91b8e015d490ff9fdcb8913ed1e';assert subprocess.check_output(['git','-C',str(src),'rev-parse','HEAD'],text=True).strip()==pin
++shutil.copytree(src,dst,ignore=shutil.ignore_patterns('.git','.import'))
++s=pathlib.Path(__file__).with_name('driver.gd').read_text().replace('if tick>=replay.size():finish("replay_length_mismatch");return','if tick>=replay.size():\n   finish("replay_length_mismatch")\n   return');(dst/'nohit_driver.gd').write_text(s)
++(dst/'nohit_driver.tscn').write_text('[gd_scene load_steps=2 format=2]\n[ext_resource path="res://nohit_driver.gd" type="Script" id=1]\n[node name="NativeAudit" type="Node"]\nscript = ExtResource(1)\n')
++(dst/'nohit_soul.gd').write_text('extends "res://Scripts/Battle/Player/PlayerHeart.gd"\nfunc takeDamage(HP, KR = 0):\n get_tree().call_group("nohit_audit","on_damage",HP,KR)\n .takeDamage(HP,KR)\n')
++for p in dst.rglob('*.tscn'):
++ s=p.read_text()
++ if 'res://Scripts/Battle/Player/PlayerHeart.gd' in s:p.write_text(s.replace('res://Scripts/Battle/Player/PlayerHeart.gd','res://nohit_soul.gd'))
++p=dst/'project.godot';p.write_text(p.read_text().replace('run/main_scene="res://Scenes/gameview.tscn"','run/main_scene="res://nohit_driver.tscn"'))
++(dst/'nohit-upstream.json').write_text(json.dumps({'pin':pin,'source_sha256':{str(p.relative_to(src)):hashlib.sha256(p.read_bytes()).hexdigest() for p in src.rglob('*.gd')},'changes':['entry scene','observing soul subclass delegates original takeDamage']},indent=2))
+--- /dev/null
++++ b/generic-engine/integrations/probes/endtruth.gd
+@@ -0,0 +1,37 @@
++extends Node
++var tick = 0
++var stage
++var max_nodes = 0
++var max_collisions = 0
++var node_paths = {}
++func _ready():
++ var scene = load("res://bullet_hell_scene.tscn")
++ if not scene:
++  print("NOHIT_PROBE_LOAD_FAILED")
++  get_tree().quit(3)
++  return
++ stage = scene.instantiate()
++ add_child(stage)
++ print("NOHIT_PROBE_LOADED")
++ stage.start_battle({"soul_type":"determination","enemy_health":100,"patterns":["circle","spiral"],"start_with_enemy_turn":true})
++func visit(n):
++ var count = 1
++ if n is CollisionObject2D: max_collisions += 1
++ if n.get_script(): node_paths[str(n.get_path())] = str(n.get_script().resource_path)
++ for c in n.get_children(): count += visit(c)
++ return count
++func _physics_process(_delta):
++ tick += 1
++ if tick == 120:stage.enemy.shoot_circle_pattern()
++ if tick == 240:stage.enemy.shoot_spiral_pattern()
++ if tick % 60 == 0:
++  max_collisions = 0
++  max_nodes = max(max_nodes,visit(get_tree().root))
++ for name in []:
++  if InputMap.has_action(name):
++   if tick % 90 == 1: Input.action_press(name)
++   else: Input.action_release(name)
++ if tick >= 600:
++  print("NOHIT_PROBE_FINISHED ", tick, " nodes=",max_nodes," collision_objects=",max_collisions)
++  print("NOHIT_PROBE_SCRIPTS ", node_paths)
++  get_tree().quit()
+--- /dev/null
++++ b/generic-engine/integrations/probes/prepare_utmx.py
+@@ -0,0 +1,29 @@
++"""Prepare a pinned SansFight runtime probe; compilation/run is still required."""
++import argparse,hashlib,json,pathlib,re,shutil,subprocess
++p=argparse.ArgumentParser();p.add_argument('upstream',type=pathlib.Path);p.add_argument('destination',type=pathlib.Path);p.add_argument('--case-fix',action='store_true');a=p.parse_args();pin='b3f9aaa1677d55e6e6e18f6ca6863907ddc1f470'
++assert subprocess.check_output(['git','-C',str(a.upstream),'rev-parse','HEAD'],text=True).strip()==pin
++shutil.copytree(a.upstream/'runtime',a.destination,ignore=shutil.ignore_patterns('.git','.godot','obj','bin'))
++shutil.copytree(a.upstream/'examples/Undertale-SansFight',a.destination/'__data__',ignore=shutil.ignore_patterns('*.import'))
++(a.destination/'__data__/project_config.json').write_text(json.dumps({'application':{'main_script':'main.js','name':'Undertale-SansFight'}},indent=2))
++changes=[]
++if a.case_fix:
++ for f in list(a.destination.rglob('*.cs')):
++  m=re.search(r'public\s+(?:abstract\s+|static\s+)?partial\s+class\s+(\w+)',f.read_text())
++  if m and f.stem!=m[1]:
++   target=f.with_name(m[1]+'.cs');changes.append((f.relative_to(a.destination).as_posix(),target.relative_to(a.destination).as_posix()));f.rename(target)
++   uid=pathlib.Path(str(f)+'.uid')
++   if uid.exists():uid.rename(pathlib.Path(str(target)+'.uid'))
++ for f in a.destination.rglob('*'):
++  if f.is_file() and f.suffix in ['.godot','.tscn','.cs']:
++   s=f.read_text()
++   for before,after in changes:s=s.replace(before,after)
++   f.write_text(s)
++mapping={}
++for f in a.destination.rglob('*.uid'):mapping[f.read_text().strip()]='res://'+f.relative_to(a.destination).as_posix()[:-4]
++for f in a.destination.rglob('*.tscn'):
++ m=re.search('uid="(uid://[^"]+)"',f.read_text()[:200])
++ if m:mapping[m[1]]='res://'+f.relative_to(a.destination).as_posix()
++f=a.destination/'project.godot';s=f.read_text()
++for uid,path in mapping.items():s=s.replace('"'+uid+'"','"'+path+'"')
++f.write_text(s)
++(a.destination/'nohit-probe-manifest.json').write_text(json.dumps({'commit':pin,'scope':'runtime probe only, not verified no-hit adapter','filename_fixes':changes,'uid_path_aliases':mapping,'data':'original SansFight example; minimal application config selects original main.js'},indent=2))
+--- /dev/null
++++ b/generic-engine/integrations/probes/utmx-exploration.py
+@@ -0,0 +1,12 @@
++import pathlib,shutil,json,configparser
++root=pathlib.Path.cwd();repo=root/'engine-samples/Yanxiyimengya--UndertaleMakerX';dst=root/'native-utmx';shutil.copytree(repo/'runtime',dst,ignore=shutil.ignore_patterns('.git','obj','bin'),dirs_exist_ok=True)
++shutil.copytree(repo/'examples/Undertale-SansFight',dst/'__data__',ignore=shutil.ignore_patterns('*.import'),dirs_exist_ok=True)
++cfg=configparser.ConfigParser(strict=False);cfg.read(repo/'examples/Undertale-SansFight/utmx.cfg');settings={}
++for section in ['application','window','player','input']:
++ if cfg.has_section(section):
++  settings[section]={}
++  for k,v in cfg[section].items():
++   try:settings[section][k]=json.loads(v)
++   except ValueError:pass
++settings.setdefault('application',{})['main_script']='main.js'
++(dst/'__data__/project_config.json').write_text(json.dumps(settings,indent=2))
+--- /dev/null
++++ b/generic-engine/integrations/probes/wdut.gd
+@@ -0,0 +1,44 @@
++extends Node
++var tick = 0
++var stage
++var max_nodes = 0
++var max_collisions = 0
++var node_paths = {}
++func _ready():
++ var scene = load("uid://b72rkv2gjlqgd")
++ if not scene:
++  print("NOHIT_PROBE_LOAD_FAILED")
++  get_tree().quit(3)
++  return
++ stage = scene.instantiate()
++ add_child(stage)
++ print("NOHIT_PROBE_LOADED")
++func visit(n):
++ var count = 1
++ if n is CollisionObject2D: max_collisions += 1
++ if n.get_script(): node_paths[str(n.get_path())] = str(n.get_script().resource_path)
++ for c in n.get_children(): count += visit(c)
++ return count
++func _physics_process(_delta):
++ tick += 1
++ if tick == 120:
++  get_node("/root/scene_changer").load_battle(load("res://Battle/tres/sans_cpp.tres"),false,Vector2(48,452))
++ if tick == 240:
++  var battles=get_tree().root.find_children("*","BattleMain",true,false)
++  if not battles.is_empty():
++   var b=battles[0]
++   b._on_enemy_turn_start()
++   b.get_node("Attacks/BoxClipper").add_attack(load("res://Battle/attacks/attack_sans_gd.tscn"))
++   b.get_node("Attacks/BoxClipper").start_attacks()
++   print("WDUT_NATIVE_ATTACK_STARTED")
++ if tick % 60 == 0:
++  max_collisions = 0
++  max_nodes = max(max_nodes,visit(get_tree().root))
++ for name in ["ui_accept","ui_cancel","confirm","accept","z","enter"]:
++  if InputMap.has_action(name):
++   if tick % 90 == 1: Input.action_press(name)
++   else: Input.action_release(name)
++ if tick >= 1200:
++  print("NOHIT_PROBE_FINISHED ", tick, " nodes=",max_nodes," collision_objects=",max_collisions)
++  print("NOHIT_PROBE_SCRIPTS ", node_paths)
++  get_tree().quit()
+--- /dev/null
++++ b/generic-engine/integrations/undotale/README.zh-CN.md
+@@ -0,0 +1,25 @@
++# UNDOTALE 原生 Godot 3 接入
++
++固定提交 `9dc511a5ec5225866ceaf86f1f44de8972429490`。使用官方 Godot 3.3 headless，保留原 Soul、Box、Bone、物理、碰撞、伤害与计时器。心魂观察子类统计 hit 调用后委托原方法。
++
++从源码包根目录运行：
++
++```bash
++git clone https://github.com/SamuelWolfang/UNDOTALE upstream-undotale
++git -C upstream-undotale checkout 9dc511a5ec5225866ceaf86f1f44de8972429490
++python generic-engine/integrations/undotale/prepare.py upstream-undotale native-undotale
++```
++
++Godot 3 资源导入必须等待编辑器扫描完成，不能启动后立即 `--quit`。完成导入再运行：
++
++```bash
++python generic-engine/tools/run_upstream_native.py --adapter undotale \
++  --godot /path/to/Godot_v3.3-stable_linux_headless.64 \
++  --project native-undotale --out undotale-results --workers 6
++```
++
++完整 RevengePapyrus 攻击进行了固定、脉冲及两阶段输入搜索，36 次均受伤，最长 564 帧。另从原攻击第一段提取三发 Bone 波次：速度 (100,0)、底部高度 30、每秒一发。使用原始节点和原始心魂蓝心逻辑；400 帧无伤，HP=48、hit 调用=0，独立进程输入回放逐帧完全一致。原地不动反例在 102 帧受伤。
++
++组件结束要求三发全部生成且所有剩余骨头中心越过场地右边界 30 像素；它们按原脚本持续向右移动，之后不会折返。结果不覆盖重定位、缩框和其余八发骨头。适配器只调整初始场地与入口绑定，不改速度、重力、伤害或碰撞体。
++
++证据：`../../research/undotale-native/certificate.json`、`../../research/undotale-suite/suite.json`。完整攻击的失败尝试也保留。Godot 3 服务器版运行原生碰撞，不提供渲染截图。
+--- /dev/null
++++ b/generic-engine/integrations/undotale/driver.gd
+@@ -0,0 +1,102 @@
++extends Node
++var stage
++var soul
++var tick = 0
++var active = false
++var done = false
++var damage_calls = 0
++var observed = {}
++var route = []
++var states = []
++var replay = []
++var output = "user://nohit-undotale.json"
++var strategy = 0
++var spawn_count = 0
++var component = false
++func _ready():
++ pause_mode = Node.PAUSE_MODE_PROCESS
++ for arg in OS.get_cmdline_args():
++  if arg.begins_with("--out="): output = arg.substr(6)
++  if arg=="--component":component=true
++  if arg.begins_with("--strategy="): strategy = int(arg.substr(11))
++  if arg.begins_with("--replay="):
++   var f = File.new()
++   f.open(arg.substr(9),File.READ)
++   replay = JSON.parse(f.get_as_text()).result.route
++ seed(1)
++ call_deferred("setup")
++func setup():
++ stage = load("res://BattleEngine/BattleEngine.tscn").instance()
++ add_child(stage)
++ soul = stage.soul
++ stage.buttons.enable = false
++ stage.box.resize(Vector2(300,140),null,1,1,1.5)
++ yield(get_tree().create_timer(2),"timeout")
++ soul.global_position = stage.box.rect_global_position + stage.box.rect_size/2
++ stage.enemies.soul = soul
++ stage.enemies.box = stage.box
++ stage.enemies.connect("cutscene_end",self,"on_done")
++ if component:
++  soul.changeMovement("red")
++  soul.changeMovement("blue")
++  spawn_component()
++ else:
++  stage.enemies.attack()
++ active = true
++ print("NOHIT_NATIVE_BEGIN")
++func on_done(): done = true
++func on_damage(): damage_calls += 1
++func gather(n):
++ if n.get_script() and n.get_script().resource_path.ends_with("/Bone.gd"): observed[n.get_instance_id()] = true
++ for c in n.get_children():gather(c)
++func _physics_process(_delta):
++ if not active:return
++ if tick > 0:
++  states.append({"tick":tick,"x":soul.global_position.x,"y":soul.global_position.y,"vx":soul.motion.x,"vy":soul.motion.y,"hp":soul.health,"mode":soul.currentFunction})
++ gather(stage)
++ if damage_calls > 0:
++  finish("hit")
++  return
++ if component and tick>=400:
++  done=observed.size()==3
++  for b in stage.box.attacks.get_children():
++   if b.global_position.x <= stage.box.rect_global_position.x+stage.box.rect_size.x+30:done=false
++ if done:
++  finish("native_nohit" if soul.health==48 and observed.size()==(3 if component else 11) else "unknown")
++  return
++ if tick >= 1500:
++  finish("unknown")
++  return
++ var mask = 0
++ if not replay.empty():
++  if tick>=replay.size():
++   finish("replay_length_mismatch")
++   return
++  mask = int(replay[tick])
++ else:
++  if strategy < 16:mask = strategy
++  else:
++   var phase = int(tick/15)%4
++   mask = [4,0,4,0][phase] if strategy==16 else [5,4,6,4][phase]
++ var names = ["ui_left","ui_right","ui_up","ui_down"]
++ for i in range(4):
++  if mask & (1<<i):Input.action_press(names[i])
++  else:Input.action_release(names[i])
++ route.append(mask)
++ tick += 1
++func finish(status):
++ active = false
++ var f = File.new();f.open(output,File.WRITE)
++ f.store_string(JSON.print({"status":status,"component":component,"ticks":tick,"route":route,"states":states,"damage_calls":damage_calls,"hp":soul.health,"attack_completed":done,"observed_bullets":observed.size(),"strategy":strategy,"engine":Engine.get_version_info()}))
++ print("NOHIT_NATIVE_END ",status," tick=",tick," damage=",damage_calls," spawned=",observed.size())
++ get_tree().quit(0 if status=="native_nohit" else 2)
++
++func spawn_component():
++ for i in range(3):
++  var bone=load("res://BattleEngine/Fight_Manager/Revenge Papyrus/Attacks/Bone.tscn").instance()
++  bone.motion=Vector2(100,0)
++  bone.switch_from("bot")
++  stage.box.attacks.add_child(bone)
++  bone.global_position=stage.box.rect_global_position+Vector2(-30,stage.box.rect_size.y-16)
++  bone.visual.rect_size.y=30
++  yield(get_tree().create_timer(1),"timeout")
+--- /dev/null
++++ b/generic-engine/integrations/undotale/prepare.py
+@@ -0,0 +1,12 @@
++import argparse,pathlib,shutil,subprocess,json,hashlib
++p=argparse.ArgumentParser();p.add_argument('upstream',type=pathlib.Path);p.add_argument('destination',type=pathlib.Path);a=p.parse_args();pin='9dc511a5ec5225866ceaf86f1f44de8972429490'
++assert subprocess.check_output(['git','-C',str(a.upstream),'rev-parse','HEAD'],text=True).strip()==pin
++shutil.copytree(a.upstream,a.destination,ignore=shutil.ignore_patterns('.git','.import'))
++(a.destination/'nohit_driver.gd').write_bytes(pathlib.Path(__file__).with_name('driver.gd').read_bytes())
++(a.destination/'nohit_driver.tscn').write_text('[gd_scene load_steps=2 format=2]\n[ext_resource path="res://nohit_driver.gd" type="Script" id=1]\n[node name="NativeAudit" type="Node"]\nscript = ExtResource(1)\n')
++(a.destination/'nohit_observer.gd').write_text('extends "res://Shared/Soul/Soul.gd"\nfunc hit(damage = 0):\n get_tree().call_group("nohit_audit","on_damage")\n .hit(damage)\n')
++f=a.destination/'nohit_driver.gd';s=f.read_text().replace('pause_mode = Node.PAUSE_MODE_PROCESS','pause_mode = Node.PAUSE_MODE_PROCESS\n add_to_group("nohit_audit")');f.write_text(s)
++f=a.destination/'Shared/Soul/Soul.tscn';f.write_text(f.read_text().replace('res://Shared/Soul/Soul.gd','res://nohit_observer.gd'))
++f=a.destination/'project.godot';s=f.read_text().replace('run/main_scene="res://BattleEngine/BattleEngine.tscn"','run/main_scene="res://nohit_driver.tscn"');f.write_text(s)
++identity={str(f.relative_to(a.upstream)):hashlib.sha256(f.read_bytes()).hexdigest() for f in a.upstream.rglob('*.gd')}
++(a.destination/'nohit-upstream.json').write_text(json.dumps({'pin':pin,'unchanged_gameplay_sha256':identity,'changes':['entry scene','observing soul subclass delegates original hit']},indent=2))
+--- /dev/null
++++ b/generic-engine/research/all-samples-report.zh-CN.md
+@@ -0,0 +1,64 @@
++# 全样本尝试结果（2026-10-09）
++
++恢复并核对 23 个固定提交仓库：14 个 Godot、8 个 GameMaker、1 个资源工具。另检查用户指定 UDTale 页面。该数量是仓库数，不是独立引擎家族数，也不是通过无伤的游戏数。
++
++**实际通过：3 个项目、6 项原生测试。** 通过项都有新进程逐帧回放和会真实扣血的对照。全部项目已经尝试到当前可达到的层次；GameMaker 缺少编译运行时，若干 Godot/C# 项目也存在阻塞，不能把失败或仅运行场景容器标为无伤。
++
++| 项目 | 本轮结果 |
++| --- | --- |
++| [Animeliqite/understudio](https://github.com/Animeliqite/understudio) | 源码入口已恢复、检查 YYP 与攻击/伤害候选；环境中未发现 Igor/GameMaker/Wine，未编译或运行 GML。 |
++| [CoalitionEngine/Coalition-Engine](https://github.com/CoalitionEngine/Coalition-Engine) | 源码入口已恢复、检查 YYP 与攻击/伤害候选；环境中未发现 Igor/GameMaker/Wine，未编译或运行 GML。 |
++| [KoitoLov/UT-BattleEngine](https://github.com/KoitoLov/UT-BattleEngine) | 600 帧场景启动；源码包含心魂移动/菜单，未发现可验收的完整弹幕伤害链。 |
++| [Maks7594/LVENGINE](https://github.com/Maks7594/LVENGINE) | 场景启动与战斗管理脚本检查完成；当前只进入菜单，未完成有效攻击及伤害入口接入。 |
++| [NsCrosu/Undertale-Fight-Engine](https://github.com/NsCrosu/Undertale-Fight-Engine) | 源码入口已恢复、检查 YYP 与攻击/伤害候选；环境中未发现 Igor/GameMaker/Wine，未编译或运行 GML。 |
++| [Oplexitie/Megalo-Framework](https://github.com/Oplexitie/Megalo-Framework) | Godot 3.5.3 下六种原攻击各试五种输入；完整 bonegap 421 帧、32 根骨头无伤回放通过，另外五种均受伤。 |
++| [SagaPDev/Undertale-battle-system-prototipe](https://github.com/SagaPDev/Undertale-battle-system-prototipe) | 600 帧场景启动；有射弹移动样本，缺少完整伤害/攻击结束验收链。 |
++| [SamuelWolfang/UNDOTALE](https://github.com/SamuelWolfang/UNDOTALE) | 三发骨头组件通过 400 帧原生无伤与新进程回放；完整 RevengePapyrus 36 次尝试均受伤，最长 564 帧。 |
++| [Stoxis/Godette-Tale](https://github.com/Stoxis/Godette-Tale) | 启动重试后仍有错误；主要为探索/对话，战斗未完成，无弹幕无伤验收。 |
++| [TML233/UndertaleEngine](https://github.com/TML233/UndertaleEngine) | 源码入口已恢复、检查 YYP 与攻击/伤害候选；环境中未发现 Igor/GameMaker/Wine，未编译或运行 GML。 |
++| [WDUT-Dev/UT-Godot-Engine](https://github.com/WDUT-Dev/UT-Godot-Engine) | 补齐 godot-cpp、修复缺失 cstdio 后 C++ 扩展编译成功；C++ 与 GDScript Sans 攻击均启动，未完成伤害审计和无伤验收。 |
++| [Yanxiyimengya/UndertaleMakerX](https://github.com/Yanxiyimengya/UndertaleMakerX) | 原 C# 项目编译成功；SansFight 挂载尝试受主循环类注册/文件名大小写阻塞，修复后的重编译又遭 MSBuild Process 异常，未运行通过。 |
++| [etherealxx/undotale-godot4](https://github.com/etherealxx/undotale-godot4) | 战斗场景能载入，但仍保留 Godot 3 Tween 节点/调用，原生报错；不计无伤通过。 |
++| [meowjade/Godot-Undertale-Engine](https://github.com/meowjade/Godot-Undertale-Engine) | 四组圆环组件通过原生无伤与新进程回放；完整 default_attack 本轮 28 次尝试均受伤。 |
++| [mouse114514/End-Of-Truth](https://github.com/mouse114514/End-Of-Truth) | 进入真实战斗并调用原 circle/spiral 发射方法，原生弹幕实际击中玩家；桌面 au_timelines.json 依赖缺失，尚无无伤证明。 |
++| [neon-gr33n/underengine](https://github.com/neon-gr33n/underengine) | 源码入口已恢复、检查 YYP 与攻击/伤害候选；环境中未发现 Igor/GameMaker/Wine，未编译或运行 GML。 |
++| [onezhazha233/Undertale-Engine-modded-by-Zhazha](https://github.com/onezhazha233/Undertale-Engine-modded-by-Zhazha) | 源码入口已恢复、检查 YYP 与攻击/伤害候选；环境中未发现 Igor/GameMaker/Wine，未编译或运行 GML。 |
++| [rarespawns/UndertaleFangameFramework](https://github.com/rarespawns/UndertaleFangameFramework) | 尝试 C# 编译/启动；battle.cs 明确注明战斗尚未开发，不将场景容器运行当作战斗通过。 |
++| [sultansagitov/UndertaleBattle](https://github.com/sultansagitov/UndertaleBattle) | 尝试 C# 构建与场景启动；MSBuild Process 异常，场景容器帧数不能当作 C# 战斗代码已运行。 |
++| [techoskiller/AT-Engine](https://github.com/techoskiller/AT-Engine) | 源码入口已恢复、检查 YYP 与攻击/伤害候选；环境中未发现 Igor/GameMaker/Wine，未编译或运行 GML。 |
++| [ws3917/psoutertale-gms](https://github.com/ws3917/psoutertale-gms) | 资源/翻译相关工具，不是可执行弹幕引擎。 |
++| [znm2500/Undertale-Engine-Ultra](https://github.com/znm2500/Undertale-Engine-Ultra) | 源码入口已恢复、检查 YYP 与攻击/伤害候选；环境中未发现 Igor/GameMaker/Wine，未编译或运行 GML。 |
++| [Tartarus-Game/UndertaleEngine](https://github.com/Tartarus-Game/UndertaleEngine) | 启动存在 UID 场景问题；BattleSoulRed 仅类声明，尚无完整弹幕/蓝心算子。 |
++
++UDTale：发行包尚未获得，不能运行或解包。本轮只获得不可访问的网页检索结果；未绕过此前浏览器的下载限制。
++
++## 实际无伤证据
++
++| 项目/样本 | 完整原生帧 | 生成弹幕 | HP / KR | 回放 |
++| --- | ---: | ---: | --- | --- |
++| meowjade 白弹/红心 | 300 | 6 | 20 / 0 | 新进程逐帧一致 |
++| meowjade 白弹/蓝心 | 300 | 6 | 20 / 0 | 新进程逐帧一致 |
++| meowjade 蓝弹/红心 | 300 | 30 | 20 / 0 | 新进程逐帧一致 |
++| meowjade 橙弹/红心 | 300 | 30 | 20 / 0 | 新进程逐帧一致 |
++| UNDOTALE 首段三骨头组件 | 400 | 3 | 48 / 不适用 | 新进程逐帧一致 |
++| Megalo 完整 bonegap | 421 | 32 | 92 / 0 | 新进程逐帧一致 |
++
++以上是单次攻击或隔离波次；不代表三个项目的全部关卡通过。蓝心/红心、原生移动和原伤害逻辑未近似重写。UNDOTALE 的组件只包含原第一段三个骨头，完整攻击的移动场地/缩框/后续骨头尚未解出。Megalo 的 bonegap 为原完整攻击结束信号验收，其他五种攻击均受伤。
++
++证据：`meow-all-round/suite.json`、`undotale-native/certificate.json`、`undotale-suite/suite.json`、`megalo-353/certificate.json`、`megalo-suite/suite.json`（路径相对于 research）。其中包括输入、位置、速度、模式、HP/KR、伤害计数、原生生成数量、回放与反例。Megalo 伤害对照在第 90 帧把玩家放到真正的骨头碰撞形状中心，92 帧原伤害触发；成功路线不做该位移。
++
++## 运行与阻塞说明
++
++- Godot 3.3、3.5.3、4.6.1 标准版和 4.6.1 Mono 均实际使用。资源导入与运行分开；3.x 编辑器必须等待扫描完成，立即 --quit 会使导入不足。
++- C# 初次通过独立 MSBuild 入口成功构建 UTMX 原运行时；后续环境中 Process/StartTime 相关异常使重新构建失败。另发现 UTMXMainLoop.cs 与 UtmxMainLoop 类名大小写不符，已尝试两处同类文件重命名，但未完成重新构建运行。不得声称 C# 原攻击已验证。
++- WDUT 补入 godot-cpp 固定提交并进行 -j8 原生编译；唯一游戏源码修复是补 cstdio 头文件。C++ 与 GDScript 攻击探测都输出原生启动记录，但伤害审计/结束条件仍未接入，无无伤证书。编译身份在 all-samples/wdut-build-identity.json。
++- End-Of-Truth 原波次确实生成弹幕并击中玩家；完整时间线读取 Windows 桌面文件，样本缺少该运行位置的数据，记录为未完成。
++- 八个 GameMaker 仓库只能检查工程和原 GML 接入点。本机无编译器/运行时；不会用自写近似模拟替代原生结算。[官方 Igor 构建文档](https://manual.gamemaker.io/lts/en/Settings/Building_via_Command_Line.htm)。
++- startup_600_frames 只表示探测节点执行了 600 帧；C# 脚本、GDExtension 或场景脚本仍可能报错。最终结果以上表人工核对和独立验收为准，不能仅凭帧数通过。
++- 日志未过滤退出时的资源引用/泄漏警告；不据此承诺长期运行零泄漏或所有项目冷启动十秒以内。
++
++## 复现入口
++
++`tools/restore_samples.py` 恢复全部固定提交；`tools/probe_samples.py` 尝试原生启动并记录编译错误；`tools/run_upstream_native.py` 搜索、回放和验收新增 Godot 3 适配器。
++
++已验证适配器：`integrations/meowjade`、`integrations/undotale`、`integrations/megalo`。`integrations/probes` 的 WDUT/End-Of-Truth/UTMX 仅是探测脚本，没有无伤认证。各适配器 README 含运行命令。
+--- /dev/null
++++ b/generic-engine/tools/package_generic_snapshot.py
+@@ -0,0 +1,36 @@
++"""Package the complete restored source tree and validate every delivered byte."""
++import argparse,difflib,hashlib,json,pathlib,zipfile
++p=argparse.ArgumentParser();p.add_argument('--root',type=pathlib.Path,required=True);p.add_argument('--output',type=pathlib.Path,required=True);p.add_argument('--previous',type=pathlib.Path);a=p.parse_args();root=a.root.resolve()
++files={}
++for f in root.rglob('*'):
++ if not f.is_file() or f.is_symlink():continue
++ name=f.relative_to(root).as_posix()
++ if any(part in ['.git','.godot','.import','__pycache__','.pytest_cache','.venv'] for part in f.relative_to(root).parts):continue
++ if f.suffix in ['.pyc','.so','.dll','.zip','.core']:continue
++ files[name]=f.read_bytes()
++files.pop('DELIVERY_MANIFEST.json',None)
++previous_hash=None
++if a.previous:
++ previous_hash=hashlib.sha256(a.previous.read_bytes()).hexdigest()
++ with zipfile.ZipFile(a.previous) as z:
++  old={name.removeprefix('nohit/'):z.read(name) for name in z.namelist() if name.startswith('nohit/')}
++ patch=[]
++ for name,data in sorted(files.items()):
++  if pathlib.Path(name).suffix not in ['.py','.gd','.gml','.tscn','.godot','.md']:continue
++  if old.get(name)==data:continue
++  try:before=old.get(name,b'').decode().splitlines(True);after=data.decode().splitlines(True)
++  except UnicodeDecodeError:continue
++  patch.extend(difflib.unified_diff(before,after,fromfile='a/'+name if name in old else '/dev/null',tofile='b/'+name))
++ files['NATIVE_INTEGRATION.patch']=''.join(patch).encode()
++files['RUN_GENERIC.md']='''# Generic engine source delivery, 2026-10-09\n\nStart with generic-engine/README.zh-CN.md and the all-samples report.\nThis package contains the full previous nohit source, plus pinned installers,\nnative Godot adapters, portfolios, fresh-process replays and all-sample logs.\nThree projects / six native tests passed; not all projects or levels solved.\nGameMaker has no runtime acceptance in this environment.\n\nOPTIMIZATION.patch is the historical source patch from the original Git base.\nNATIVE_INTEGRATION.patch adds source/document changes since the previous v9\narchive. Evidence JSON/log files are included directly, not duplicated in that\npatch. Other upstream source/assets are fetched using fixed commits.\n\nThe archive also works without a .git directory. Repackage with:\npython generic-engine/tools/package_generic_snapshot.py --root . --output /path/source.zip\n'''.encode()
++manifest={'format':'nohit-source-v10-all-sample-native-attempts','previous_source_sha256':previous_hash,'scope':'complete nohit source plus all-sample attempts; six verified native tests in three projects','files':{name:{'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest()} for name,data in sorted(files.items())}}
++files['DELIVERY_MANIFEST.json']=(json.dumps(manifest,indent=2)+'\n').encode()
++a.output.parent.mkdir(parents=True,exist_ok=True);temp=a.output.with_suffix('.building')
++with zipfile.ZipFile(temp,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=6) as z:
++ for name,data in sorted(files.items()):
++  info=zipfile.ZipInfo('nohit/'+name,date_time=(2026,10,9,0,0,0));info.compress_type=zipfile.ZIP_DEFLATED;info.external_attr=0o100644<<16;z.writestr(info,data)
++with zipfile.ZipFile(temp) as z:
++ assert z.testzip() is None
++ for name,data in files.items():assert z.read('nohit/'+name)==data,name
++temp.replace(a.output)
++print(json.dumps({'path':str(a.output.resolve()),'files':len(files),'bytes':a.output.stat().st_size,'sha256':hashlib.sha256(a.output.read_bytes()).hexdigest(),'all_file_bytes_verified':True}))
+--- /dev/null
++++ b/generic-engine/tools/probe_samples.py
+@@ -0,0 +1,106 @@
++"""Attempt native startup for every pinned sample; never label startup as no-hit."""
++from __future__ import annotations
++import argparse,concurrent.futures,hashlib,json,pathlib,re,shutil,subprocess,time,os
++p=argparse.ArgumentParser();p.add_argument('--samples',type=pathlib.Path,required=True);p.add_argument('--work',type=pathlib.Path,required=True);p.add_argument('--out',type=pathlib.Path,required=True);p.add_argument('--godot3',type=pathlib.Path,required=True);p.add_argument('--godot4',type=pathlib.Path,required=True);p.add_argument('--mono',type=pathlib.Path);p.add_argument('--dotnet',type=pathlib.Path);p.add_argument('--only');a=p.parse_args()
++for attr in ['samples','work','out','godot3','godot4','mono','dotnet']:
++ if getattr(a,attr):setattr(a,attr,getattr(a,attr).resolve())
++a.work.mkdir(parents=True,exist_ok=True);a.out.mkdir(parents=True,exist_ok=True)
++probe='''extends Node
++var tick = 0
++var stage
++var max_nodes = 0
++var max_collisions = 0
++var node_paths = {}
++func _ready():
++ var scene = load("MAIN_SCENE")
++ if not scene:
++  print("NOHIT_PROBE_LOAD_FAILED")
++  get_tree().quit(3)
++  return
++ stage = scene.INSTANTIATE()
++ add_child(stage)
++ print("NOHIT_PROBE_LOADED")
++func visit(n):
++ var count = 1
++ if n is CollisionObject2D: max_collisions += 1
++ if n.get_script(): node_paths[str(n.get_path())] = str(n.get_script().resource_path)
++ for c in n.get_children(): count += visit(c)
++ return count
++func _physics_process(_delta):
++ tick += 1
++ if tick % 60 == 0:
++  max_collisions = 0
++  max_nodes = max(max_nodes,visit(get_tree().root))
++ for name in ["ui_accept","ui_cancel","confirm","accept","z","enter"]:
++  if InputMap.has_action(name):
++   if tick % 90 == 1: Input.action_press(name)
++   else: Input.action_release(name)
++ if tick >= 600:
++  print("NOHIT_PROBE_FINISHED ", tick, " nodes=",max_nodes," collision_objects=",max_collisions)
++  print("NOHIT_PROBE_SCRIPTS ", node_paths)
++  get_tree().quit()
++'''
++rows=json.loads((a.samples/'restoration.json').read_text())
++if a.only:rows=[r for r in rows if re.search(a.only,r['repository'])]
++def run_cmd(cmd,log,timeout=60,env=None):
++ start=time.monotonic()
++ if env is None:
++  env=os.environ.copy()
++  env['LANG']='en_US.UTF-8'
++  if a.dotnet:
++   env['DOTNET_ROOT']=str(a.dotnet.parent)
++   env['PATH']=str(a.dotnet.parent)+os.pathsep+env['PATH']
++   env['DOTNET_CLI_TELEMETRY_OPTOUT']='1'
++ try:
++  r=subprocess.run(cmd,capture_output=True,text=True,timeout=timeout,env=env);text=r.stdout+r.stderr;code=r.returncode;timed=False
++ except OSError as e:text=str(e);code=None;timed=False
++ except subprocess.TimeoutExpired as e:text=(e.stdout or b'').decode(errors='replace')+(e.stderr or b'').decode(errors='replace');code=None;timed=True
++ log.write_text(text);return {'command':cmd,'returncode':code,'timeout':timed,'seconds':time.monotonic()-start,'log':log.name,'errors': [l for l in text.splitlines() if re.search('SCRIPT ERROR|Parse Error|ERROR:|error [A-Z]+[0-9]+',l)][:25]},text
++
++def one(row):
++ name=row['repository'].replace('/','--');src=a.samples/name;out={'repository':row['repository'],'commit':row.get('commit'),'projects':[]}
++ if not row['ok']:out['status']='fetch_failed';return out
++ root=a.work/name
++ if not root.exists():shutil.copytree(src,root,ignore=shutil.ignore_patterns('.git','.godot','.import','bin','obj'))
++ # Keep shipped native extension binaries; don't ignore source bin directories.
++ for folder in src.rglob('bin'):
++  if folder.is_dir() and any(folder.rglob('*.gdextension')):
++   target=root/folder.relative_to(src);shutil.copytree(folder,target,dirs_exist_ok=True)
++ projects=list(root.rglob('project.godot'));yyps=list(root.rglob('*.yyp'))
++ if not projects:
++  out['status']='gamemaker_runtime_missing' if yyps else 'resource_tool_no_battle_project'
++  out['gamemaker_projects']=[str(f.relative_to(root)) for f in yyps]
++  out['compiler_probe']={n:shutil.which(n) for n in ['Igor','igor','GameMaker','wine']}
++  out['attack_candidates']=[str(f.relative_to(root)) for f in root.rglob('*.gml') if re.search('attack|bullet|hurt',str(f),re.I)][:25]
++  print(name,out['status'],flush=True);return out
++ for i,config in enumerate(projects):
++  folder=config.parent;s=config.read_text();old='config_version=4' in s;cs='"C#"' in s
++  original=re.search(r'^run/main_scene="(.*?)"',s,re.M)
++  label=name+'-'+str(i);rec={'project':str(config.relative_to(root)),'engine_major':3 if old else 4,'csharp':cs,'original_main':original.group(1) if original else None,'patches':[]}
++  exe=a.godot3 if old else (a.mono if cs and a.mono else a.godot4)
++  # Choose GL in the headless test copy; gameplay scripts remain untouched.
++  if not old:
++   if '[rendering]' not in s:s+='\n[rendering]\n'
++   s=re.sub(r'^renderer/rendering_method=.*$', '', s, flags=re.M)
++   s=s.replace('[rendering]','[rendering]\nrenderer/rendering_method="gl_compatibility"',1);config.write_text(s);rec['patches'].append('GL compatibility renderer in test copy')
++  args=[str(exe),'--path',str(folder)] + ([] if old else ['--headless'])
++  import_rec,log=run_cmd(args+(['--editor'] if old else ['--editor','--import']),a.out/(label+'-import.log'),15 if old else 90)
++  rec['import']=import_rec
++  if cs:
++   csprojects=list(folder.glob('*.csproj'))
++   if a.dotnet and csprojects:
++    env=os.environ.copy();env['DOTNET_CLI_HOME']=str(a.work/'dotnet-home');env['DOTNET_SKIP_FIRST_TIME_EXPERIENCE']='1';env['DOTNET_CLI_TELEMETRY_OPTOUT']='1';env['DOTNET_ROOT']=str(a.dotnet.parent)
++    rec['build'],_=run_cmd([str(a.dotnet),'exec',str(a.dotnet.parent/'sdk/8.0.408/MSBuild.dll'),str(csprojects[0]),'/restore','/t:Build','/v:minimal','/nologo'],a.out/(label+'-build.log'),150,env)
++   else:rec['build']={'status':'dotnet_unavailable'}
++  if not original:rec['status']='no_main_scene';out['projects'].append(rec);continue
++  gd=probe.replace('MAIN_SCENE',original.group(1)).replace('INSTANTIATE','instance' if old else 'instantiate');(folder/'nohit_probe.gd').write_text(gd)
++  (folder/'nohit_probe.tscn').write_text('[gd_scene load_steps=2 format='+('2' if old else '3')+']\n[ext_resource path="res://nohit_probe.gd" type="Script" id="1"]\n[node name="NoHitStartupProbe" type="Node"]\nscript = ExtResource('+('1' if old else '"1"')+')\n')
++  s=config.read_text().replace(original.group(0),'run/main_scene="res://nohit_probe.tscn"');config.write_text(s)
++  rec['run'],log=run_cmd(args+['--fixed-fps','60'],a.out/(label+'-run.log'),25)
++  rec['status']='startup_600_frames' if 'NOHIT_PROBE_FINISHED' in log and not re.search('SCRIPT ERROR|Parse Error|ERROR:.*(?:GDExtension|Error loading extension|Cannot get class)',log) else ('startup_with_errors' if 'NOHIT_PROBE_FINISHED' in log else 'startup_failed')
++  rec['probe_lines']=[l for l in log.splitlines() if l.startswith('NOHIT_PROBE')]
++  out['projects'].append(rec)
++  print(label,rec['status'],flush=True)
++ out['status']='attempted';return out
++with concurrent.futures.ThreadPoolExecutor(max_workers=4) as ex:result=list(ex.map(one,rows))
++(a.out/'startup.json').write_text(json.dumps(result,indent=2))
+--- /dev/null
++++ b/generic-engine/tools/restore_samples.py
+@@ -0,0 +1,14 @@
++"""Restore every audited repository at its pinned commit, with bounded workers."""
++import argparse,concurrent.futures,json,pathlib,subprocess,time
++p=argparse.ArgumentParser();p.add_argument('--audit',type=pathlib.Path,default=pathlib.Path(__file__).parents[1]/'research/source-audit.json');p.add_argument('--out',type=pathlib.Path,required=True);a=p.parse_args();a.out.mkdir(parents=True,exist_ok=True)
++def run(row):
++ repo=row['repository'];name=repo.removesuffix('.git').removeprefix('https://github.com/');target=a.out/name.replace('/','--');target.mkdir(exist_ok=True);start=time.monotonic();logs=[]
++ try:
++  for cmd in [['git','init',str(target)],['git','-C',str(target),'fetch','--depth','1',repo,row['commit']],['git','-C',str(target),'checkout','--detach','FETCH_HEAD']]:
++   r=subprocess.run(cmd,capture_output=True,text=True,timeout=180);logs.append(r.stdout+r.stderr)
++   if r.returncode:raise RuntimeError(logs[-1][-1000:])
++  actual=subprocess.check_output(['git','-C',str(target),'rev-parse','HEAD'],text=True).strip();assert actual==row['commit'];result={'repository':name,'commit':actual,'ok':True,'path':str(target.resolve())}
++ except Exception as e:result={'repository':name,'ok':False,'error':str(e)}
++ result['wall_seconds']=time.monotonic()-start;(a.out/(name.replace('/','--')+'.log')).write_text('\n'.join(logs));print(json.dumps(result),flush=True);return result
++with concurrent.futures.ThreadPoolExecutor(max_workers=6) as ex:r=list(ex.map(run,json.loads(a.audit.read_text())))
++(a.out/'restoration.json').write_text(json.dumps(r,indent=2))
+--- /dev/null
++++ b/generic-engine/tools/run_upstream_native.py
+@@ -0,0 +1,43 @@
++"""Finite native portfolios for the added Godot 3 adapters, with replay checks."""
++import argparse,concurrent.futures,json,pathlib,subprocess,time
++p=argparse.ArgumentParser();p.add_argument('--adapter',choices=['undotale','megalo'],required=True);p.add_argument('--godot',type=pathlib.Path,required=True);p.add_argument('--project',type=pathlib.Path,required=True);p.add_argument('--out',type=pathlib.Path,required=True);p.add_argument('--workers',type=int,default=6);a=p.parse_args()
++if not 1<=a.workers<=16:p.error('workers must be 1..16')
++a.godot=a.godot.resolve();a.project=a.project.resolve();a.out=a.out.resolve();a.out.mkdir(parents=True,exist_ok=True)
++def run(label,args):
++ target=a.out/(label+'.json');target.unlink(missing_ok=True);cmd=[str(a.godot),'--path',str(a.project),'--fixed-fps','60','--','--out='+str(target)]+args;start=time.monotonic()
++ try:r=subprocess.run(cmd,capture_output=True,text=True,timeout=25)
++ except subprocess.TimeoutExpired as e:
++  (a.out/(label+'.log')).write_bytes((e.stdout or b'')+(e.stderr or b''));return None,{'label':label,'status':'timeout'}
++ log=r.stdout+r.stderr;(a.out/(label+'.log')).write_text(log)
++ if not target.exists() or 'SCRIPT ERROR' in log or 'Parse Error' in log:return None,{'label':label,'status':'runtime_error'}
++ d=json.loads(target.read_text());return d,{'label':label,'status':d['status'],'ticks':d['ticks'],'damage_calls':d['damage_calls'],'wall_seconds':time.monotonic()-start}
++def validate(d):
++ assert d['status']=='native_nohit' and d['attack_completed'] and d['damage_calls']==0
++ assert len(d['route'])==len(d['states'])==d['ticks']
++ hp=d.get('entry_hp',48)
++ assert d['hp']==hp and d.get('kr',0)==0 and d['observed_bullets']>0
++ assert all(s['hp']==hp and s.get('kr',0)==0 and s.get('inv',0)==0 for s in d['states'])
++report={'adapter':a.adapter,'attempts':[],'verified':[]}
++specs=[(i,s) for i in range(6) for s in [0,4,5,6,16]] if a.adapter=='megalo' else [(0,s) for s in [0,4,5,6,1,2,16,17,8,9,10,12]]
++def attempt(spec):
++ pattern,s=spec;args=['--strategy='+str(s)]
++ if a.adapter=='megalo':args+=['--pattern='+str(pattern)]
++ return run(f'{pattern}-{s}',args)
++with concurrent.futures.ThreadPoolExecutor(max_workers=a.workers) as ex:runs=list(ex.map(attempt,specs))
++report['attempts']=[r for d,r in runs]
++winners={}
++for (pattern,s),(d,r) in zip(specs,runs):
++ if d and d['status']=='native_nohit' and pattern not in winners:winners[pattern]=(d,r,[])
++if a.adapter=='undotale':
++ d,r=run('three-bones',['--component','--strategy=16']);report['attempts'].append(r)
++ if d and d['status']=='native_nohit':winners['three-bones']=(d,r,['--component'])
++for pattern,(candidate,record,extra) in winners.items():
++ validate(candidate)
++ args=extra+['--replay='+str(a.out/(record['label']+'.json'))]
++ if a.adapter=='megalo':args+=['--pattern='+str(pattern)]
++ replay,rec=run('replay-'+str(pattern),args);validate(replay)
++ assert candidate['route']==replay['route'] and candidate['states']==replay['states']
++ negative,nrec=run('negative-'+str(pattern),extra+(['--pattern='+str(pattern),'--negative'] if a.adapter=='megalo' else ['--strategy=0']))
++ assert negative and negative['status']=='hit' and negative['damage_calls']>0 and negative['hp']<candidate['hp']
++ report['verified'].append({'pattern':pattern,'candidate':record,'replay':rec,'negative':nrec})
++(a.out/'suite.json').write_text(json.dumps(report,indent=2));print(json.dumps(report['verified'],indent=2))

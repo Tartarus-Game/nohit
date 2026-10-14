@@ -1,0 +1,10 @@
+{
+  "scope": "three bones from first RevengePapyrus loop, not full attack",
+  "verdict": "native_nohit_fresh_process",
+  "ticks": 400,
+  "hp": 48,
+  "damage_calls": 0,
+  "states_sha256": "f14b2793223839a6d8d53178395da47274fdf825661c320ee54fe65a81e068a6",
+  "negative_hp": -2,
+  "negative_tick": 102
+}

@@ -1,0 +1,150 @@
+{
+  "passed": 24,
+  "failed": 0,
+  "wall_seconds": 41.000030301999914,
+  "scope": "Portable fixtures and deliberate faults; not upstream level certificates",
+  "cases": [
+    {
+      "engine_major": 3,
+      "case": "idempotent_install_preserves_game_and_adapter",
+      "passed": true
+    },
+    {
+      "engine_major": 3,
+      "case": "native_route_fresh_replay_damage_control",
+      "status": "native_nohit_fresh_process_observed",
+      "passed": true
+    },
+    {
+      "engine_major": 3,
+      "case": "configuration_only_adapter",
+      "status": "native_nohit_fresh_process_observed",
+      "passed": true
+    },
+    {
+      "engine_major": 3,
+      "case": "missing_damage_audit_rejected",
+      "status": "invalid_adapter",
+      "passed": true
+    },
+    {
+      "engine_major": 3,
+      "case": "survival_without_attack_end_is_unknown",
+      "status": "unknown",
+      "passed": true
+    },
+    {
+      "engine_major": 3,
+      "case": "healing_cannot_hide_damage",
+      "status": "hit",
+      "passed": true
+    },
+    {
+      "engine_major": 3,
+      "case": "non_json_observation_rejected",
+      "status": "invalid_adapter",
+      "passed": true
+    },
+    {
+      "engine_major": 3,
+      "case": "fresh_process_divergence_rejected",
+      "status": "replay_failed",
+      "passed": true
+    },
+    {
+      "engine_major": 3,
+      "case": "non_damaging_control_withholds_certificate",
+      "status": "control_failed",
+      "passed": true
+    },
+    {
+      "engine_major": 3,
+      "case": "post_completion_damage_audited",
+      "status": "hit",
+      "passed": true
+    },
+    {
+      "engine_major": 3,
+      "case": "event_edges_and_polling_both_work",
+      "status": "native_route_candidate",
+      "passed": true
+    },
+    {
+      "engine_major": 3,
+      "case": "parallel_native_portfolio",
+      "status": "native_nohit_fresh_process_observed",
+      "passed": true
+    },
+    {
+      "engine_major": 4,
+      "case": "idempotent_install_preserves_game_and_adapter",
+      "passed": true
+    },
+    {
+      "engine_major": 4,
+      "case": "native_route_fresh_replay_damage_control",
+      "status": "native_nohit_fresh_process_observed",
+      "passed": true
+    },
+    {
+      "engine_major": 4,
+      "case": "configuration_only_adapter",
+      "status": "native_nohit_fresh_process_observed",
+      "passed": true
+    },
+    {
+      "engine_major": 4,
+      "case": "missing_damage_audit_rejected",
+      "status": "invalid_adapter",
+      "passed": true
+    },
+    {
+      "engine_major": 4,
+      "case": "survival_without_attack_end_is_unknown",
+      "status": "unknown",
+      "passed": true
+    },
+    {
+      "engine_major": 4,
+      "case": "healing_cannot_hide_damage",
+      "status": "hit",
+      "passed": true
+    },
+    {
+      "engine_major": 4,
+      "case": "non_json_observation_rejected",
+      "status": "invalid_adapter",
+      "passed": true
+    },
+    {
+      "engine_major": 4,
+      "case": "fresh_process_divergence_rejected",
+      "status": "replay_failed",
+      "passed": true
+    },
+    {
+      "engine_major": 4,
+      "case": "non_damaging_control_withholds_certificate",
+      "status": "control_failed",
+      "passed": true
+    },
+    {
+      "engine_major": 4,
+      "case": "post_completion_damage_audited",
+      "status": "hit",
+      "passed": true
+    },
+    {
+      "engine_major": 4,
+      "case": "event_edges_and_polling_both_work",
+      "status": "native_route_candidate",
+      "passed": true
+    },
+    {
+      "engine_major": 4,
+      "case": "parallel_native_portfolio",
+      "status": "native_nohit_fresh_process_observed",
+      "passed": true
+    }
+  ]
+}

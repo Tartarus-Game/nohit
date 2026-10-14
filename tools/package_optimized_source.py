@@ -26,6 +26,13 @@ SELECTED = (
 RUN = """# Optimized nohit source delivery
 
 Full source and original assets, with per-file hashes in DELIVERY_MANIFEST.json.
+New generic-engine/ contains the Godot native collision prototype, GameMaker
+bridge draft, pinned GitHub sample audit and two real PCK extraction manifests.
+It also includes the meowjade native integration, pinned installer, black-box
+parallel search, fresh-process replay and four verified circular-wave tests.
+Start that work with generic-engine/README.zh-CN.md. Four isolated wave tests passed; the complete upstream default_attack remains
+unsolved. See generic-engine/integrations/meowjade/README.zh-CN.md. The C2
+engine below is unchanged.
 Start with docs/optimization-round8-20261008.md for measured results and limits.
 OPTIMIZATION.patch contains all source changes relative to the manifest base commit.
 
@@ -125,7 +132,7 @@ def main():
     base = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
     files['OPTIMIZATION.patch'] = subprocess.check_output(['git', 'diff', '--binary', 'HEAD'], cwd=ROOT)
     files['RUN_OPTIMIZED.md'] = RUN.encode()
-    manifest = dict(base_commit=base, format='nohit-source-v7',
+    manifest = dict(base_commit=base, format='nohit-source-v9-native-godot-integration',
                     scope='full source, original assets, tests and selected measured evidence',
                     files={name: dict(bytes=len(data), sha256=hashlib.sha256(data).hexdigest())
                            for name, data in sorted(files.items())})

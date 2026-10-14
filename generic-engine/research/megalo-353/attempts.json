@@ -1,0 +1,242 @@
+[
+  {
+    "pattern": 0,
+    "strategy": 0,
+    "status": "hit",
+    "ticks": 51,
+    "script_errors": false,
+    "wall": 0.40993477500001063
+  },
+  {
+    "pattern": 0,
+    "strategy": 4,
+    "status": "hit",
+    "ticks": 51,
+    "script_errors": false,
+    "wall": 0.4102374219999092
+  },
+  {
+    "pattern": 0,
+    "strategy": 5,
+    "status": "hit",
+    "ticks": 51,
+    "script_errors": false,
+    "wall": 0.42478696600005605
+  },
+  {
+    "pattern": 0,
+    "strategy": 6,
+    "status": "hit",
+    "ticks": 51,
+    "script_errors": false,
+    "wall": 0.3990775820000181
+  },
+  {
+    "pattern": 0,
+    "strategy": 16,
+    "status": "hit",
+    "ticks": 51,
+    "script_errors": false,
+    "wall": 0.42952440099998057
+  },
+  {
+    "pattern": 1,
+    "strategy": 0,
+    "status": "native_nohit",
+    "ticks": 421,
+    "script_errors": false,
+    "wall": 0.6073179770000934
+  },
+  {
+    "pattern": 1,
+    "strategy": 4,
+    "status": "native_nohit",
+    "ticks": 421,
+    "script_errors": false,
+    "wall": 0.6567782380000153
+  },
+  {
+    "pattern": 1,
+    "strategy": 5,
+    "status": "native_nohit",
+    "ticks": 421,
+    "script_errors": false,
+    "wall": 0.590623333999929
+  },
+  {
+    "pattern": 1,
+    "strategy": 6,
+    "status": "native_nohit",
+    "ticks": 421,
+    "script_errors": false,
+    "wall": 0.6056380869999884
+  },
+  {
+    "pattern": 1,
+    "strategy": 16,
+    "status": "native_nohit",
+    "ticks": 421,
+    "script_errors": false,
+    "wall": 0.6382988089999344
+  },
+  {
+    "pattern": 2,
+    "strategy": 0,
+    "status": "hit",
+    "ticks": 170,
+    "script_errors": false,
+    "wall": 0.49879547000000457
+  },
+  {
+    "pattern": 2,
+    "strategy": 4,
+    "status": "hit",
+    "ticks": 111,
+    "script_errors": false,
+    "wall": 0.43272424399992815
+  },
+  {
+    "pattern": 2,
+    "strategy": 5,
+    "status": "hit",
+    "ticks": 111,
+    "script_errors": false,
+    "wall": 0.36701662700011184
+  },
+  {
+    "pattern": 2,
+    "strategy": 6,
+    "status": "hit",
+    "ticks": 140,
+    "script_errors": false,
+    "wall": 0.43465290400013146
+  },
+  {
+    "pattern": 2,
+    "strategy": 16,
+    "status": "hit",
+    "ticks": 140,
+    "script_errors": false,
+    "wall": 0.43350118599983034
+  },
+  {
+    "pattern": 3,
+    "strategy": 0,
+    "status": "hit",
+    "ticks": 94,
+    "script_errors": false,
+    "wall": 0.31609881200006384
+  },
+  {
+    "pattern": 3,
+    "strategy": 4,
+    "status": "hit",
+    "ticks": 94,
+    "script_errors": false,
+    "wall": 0.410966629999848
+  },
+  {
+    "pattern": 3,
+    "strategy": 5,
+    "status": "hit",
+    "ticks": 98,
+    "script_errors": false,
+    "wall": 0.4227022879999822
+  },
+  {
+    "pattern": 3,
+    "strategy": 6,
+    "status": "hit",
+    "ticks": 96,
+    "script_errors": false,
+    "wall": 0.40032775999998194
+  },
+  {
+    "pattern": 3,
+    "strategy": 16,
+    "status": "hit",
+    "ticks": 95,
+    "script_errors": false,
+    "wall": 0.42673530799993387
+  },
+  {
+    "pattern": 4,
+    "strategy": 0,
+    "status": "hit",
+    "ticks": 51,
+    "script_errors": false,
+    "wall": 0.3878843350000807
+  },
+  {
+    "pattern": 4,
+    "strategy": 4,
+    "status": "hit",
+    "ticks": 51,
+    "script_errors": false,
+    "wall": 0.2950307309999971
+  },
+  {
+    "pattern": 4,
+    "strategy": 5,
+    "status": "hit",
+    "ticks": 51,
+    "script_errors": false,
+    "wall": 0.30475409499990747
+  },
+  {
+    "pattern": 4,
+    "strategy": 6,
+    "status": "hit",
+    "ticks": 51,
+    "script_errors": false,
+    "wall": 0.4005222069999945
+  },
+  {
+    "pattern": 4,
+    "strategy": 16,
+    "status": "hit",
+    "ticks": 51,
+    "script_errors": false,
+    "wall": 0.4013029000000188
+  },
+  {
+    "pattern": 5,
+    "strategy": 0,
+    "status": "hit",
+    "ticks": 87,
+    "script_errors": false,
+    "wall": 0.31846097700008613
+  },
+  {
+    "pattern": 5,
+    "strategy": 4,
+    "status": "hit",
+    "ticks": 128,
+    "script_errors": false,
+    "wall": 0.46802458399997704
+  },
+  {
+    "pattern": 5,
+    "strategy": 5,
+    "status": "hit",
+    "ticks": 254,
+    "script_errors": false,
+    "wall": 0.5139039690000118
+  },
+  {
+    "pattern": 5,
+    "strategy": 6,
+    "status": "hit",
+    "ticks": 170,
+    "script_errors": false,
+    "wall": 0.49321432800002185
+  },
+  {
+    "pattern": 5,
+    "strategy": 16,
+    "status": "hit",
+    "ticks": 127,
+    "script_errors": false,
+    "wall": 0.4724022400000649
+  }
+]
