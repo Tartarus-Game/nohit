@@ -275,7 +275,7 @@
                     termination_policy:terminationPolicy,
                     fps:clock.physicsHz,dt_schedule:schedule,max_ticks:count,request_id:crypto.randomUUID(),
                     seed:Number(query.get('seed')||42),seconds:Number(query.get('seconds')||30),
-                    width:Number(query.get('width')||3000),max_bindings:Number(query.get('max_bindings')||1)};
+                    width:Number(query.get('width')||3000)};
                 timing.record.request_id=payload.request_id;
                 // Same identity for the read-only progress channel, so the HUD
                 // can show the running search and the plan provenance still
@@ -286,7 +286,7 @@
                 C.request_recipe={generation,max_ticks:count,schedule_count:schedule.length,
                     termination_policy:terminationPolicy,
                     clock_start_ms:boundary.clock_start_ms,initial_dt:boundary.dt,logical_step_ms:clock.logicalStepMs,
-                    schedule_sha256:scheduleHash,seed:payload.seed,seconds:payload.seconds,width:payload.width,max_bindings:payload.max_bindings};
+                    schedule_sha256:scheduleHash,seed:payload.seed,seconds:payload.seconds,width:payload.width};
                 timingPhase(timing,'fetch_json');
                 const response=await fetch('/api/solve-csv',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),signal:abort.signal});
                 const plan=await response.json();
@@ -396,7 +396,7 @@
         C.retry=(settings={})=>{
             if(!rt.suspended||!C.boundary||C.status!=='unknown'||boundaryKey(capture())!==boundaryKey(C.boundary))
                 throw Error('Retry requires the unchanged paused CSV boundary');
-            const allowed=new Set(['width','seconds','max_bindings','max_ticks']);
+            const allowed=new Set(['width','seconds','max_ticks']);
             if(!settings||typeof settings!=='object'||Array.isArray(settings)||
                 Object.entries(settings).some(([key,value])=>!allowed.has(key)||!finite(value)||value<=0||
                     (key!=='seconds'&&!Number.isInteger(value))))throw Error('Invalid retry search settings');

@@ -1,4 +1,0 @@
-Godot Engine v4.6.1.stable.mono.official.14d19694e - https://godotengine.org
-
-ERROR: Cannot instantiate C# script because the associated class could not be found. Script: 'res://scripts/mainloop/UTMXMainLoop.cs'. Make sure the script exists and contains a class definition with a name that matches the filename of the script exactly (it's case-sensitive).
-   at: can_instantiate (modules/mono/csharp_script.cpp:2360)

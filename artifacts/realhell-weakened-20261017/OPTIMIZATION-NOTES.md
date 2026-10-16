@@ -1,13 +1,11 @@
 # Real HELL 削弱版：原生求解加速记录（2026-10-17）
 
-同一 60 Hz 浏览器入口最终在模型中走到 EndAttack：25805 次按键 / 25806 个状态，约430.08秒游戏时间。成功续跑使用已有安全前缀至16129 tick，耗34.90秒墙钟；独立原始 scalar 世界、物理、碰撞复验耗2.66秒，469次目标读取一致、0状态差异、0碰撞，并保留已真实执行的前4736次按键。此速度是有前缀的续跑，不是从零的冷启动测速。真实浏览器整谱验收由主线程继续。
+同一 60 Hz 浏览器入口最终走到 EndAttack：25805 次按键 / 25806 个状态，约430.08秒游戏时间。成功续跑使用已有安全前缀至16129 tick，耗34.90秒墙钟；独立原始 scalar 世界、物理、碰撞复验耗2.66秒，469次目标读取一致、0状态差异、0碰撞，并保留已真实执行的前4736次按键。此速度是有前缀的续跑，不是从零的冷启动测速。随后真实浏览器整谱无伤完成，见 [验收记录](README.md)。
 
 可复现证据：
 
-- `../realhell-weakened-browser-continuation-20261017/continue_fixed.py`
-- `../realhell-weakened-browser-continuation-20261017/result-p480-gNone-w8192.json`
-- `../realhell-weakened-browser-continuation-20261017/longest-p480-gNone-w8192.json`
-- `../realhell-weakened-browser-continuation-20261017/longest-p480-gNone-w8192-verification.json`
+- [完整路线](route.json)、[独立复验](scalar-verification.json)、[原游戏记录](native-evidence.json)。
+- 当时的局部续跑脚本和中间试验已移至仓库外归档的 `scratch/realhell-weakened-browser-continuation-20261017/`。
 
 ## 1. 先让最新 native 路径实际可用
 
@@ -41,4 +39,4 @@
 
 独立目标记录器要在 `_supply_target_owned` 后记录 `state.supplied_target`：同tick先HeartTeleport再GetHeartPos时，实际采样会被前置传送坐标覆盖，记录原始sample_position会出现假的history不一致。独立验收也必须检查状态第10槽的slam碰撞伤害；成功路线该槽始终0，后段启用了slam damage，不能忽略它。
 
-所有实验修改只在scratch测试进程局部复制/包装函数中；生产引擎未修改。本记录是可复用的优化方向与实测证据，不构成普适完备性/最优性证明。
+以上描述当时的实验版本。精简后的生产 CLI 已提供分窗、前视、读取上限、goal 重试与固定前缀参数，仍要求独立复验。本记录不构成普适完备性或最优性证明。

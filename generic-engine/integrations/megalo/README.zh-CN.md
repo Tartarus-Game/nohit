@@ -22,7 +22,7 @@ python generic-engine/tools/run_upstream_native.py --adapter megalo \
 
 同一 bonegap 的伤害反例：仅在对照运行的第 90 帧，把心魂放到真实骨头形状中心，原伤害在第 92 帧触发，HP=91、KR=6。成功候选和回放没有该位移。该对照检查了实际骨头与原伤害入口，不是只手动调用伤害函数。
 
-证据：`../../research/megalo-353/certificate.json`、`../../research/megalo-suite/suite.json`。通过单次 bonegap 不代表六种攻击组成的完整游戏通过。头部／底部骨头、颜色、形状共享方式和原版脚本行为保持原样。
+上述专用 driver 的历史证据保存在 `codex/history-before-cleanup-20261017` 分支的 `generic-engine/research/megalo-353/` 和 `generic-engine/research/megalo-suite/`。当前保留的公共 SDK 证据见下文。通过单次 bonegap 不代表六种攻击组成的完整游戏通过。头部／底部骨头、颜色、形状共享方式和原版脚本行为保持原样。
 # 使用公共 Live SDK
 
 `prepare_live.py` 保留原主场景，仅绑定 `live_adapter.gd` 和原伤害观察子类。
@@ -34,8 +34,7 @@ python generic-engine/integrations/megalo/prepare_live.py /path/to/pinned-megalo
 python generic-engine/tools/nohit.py solve /path/to/live-fixture --godot /path/to/godot3 --output results/megalo --max-ticks 700 --control-mask 4
 ```
 
-本轮公共协议结果在 `research/portable-v1/megalo-common/summary.json`：
+保存的公共协议结果在 [validation/megalo-live](../../validation/megalo-live/summary.json)：
 原版完整 bonegap 422 帧，32 个骨头，HP92/KR0，独立进程观察精确回放。
 上/跳输入反例在第 85 帧触发原伤害和 KR。未移动玩家位置、未修改伤害或无敌值。
 该适配器只是真实接线示范；其他游戏只需要自己的配置或适配器，不依赖这里的节点路径。
-

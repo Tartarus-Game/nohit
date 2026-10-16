@@ -1,4 +1,4 @@
-// Production scheduler + production TAS runner; the runtime records the inputs
+// Production scheduler + native tick gate; the runtime records the inputs
 // each physics step receives. Original-game acceptance is tested separately.
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -18,25 +18,32 @@ async function boot({compensate=true,nativeResumeRebases=false}={}) {
         draw() {}
     }
     const rt=new Runtime();
-    Object.assign(rt,{kahanTime:{sum:100},last_tick_time:0,types_by_index:[],all_global_vars:[],running_layout:{},suspended:false});
+    Object.assign(rt,{kahanTime:{sum:100},last_tick_time:0,types_by_index:[{instances:[keyboard]}],all_global_vars:[],running_layout:{},suspended:false});
     const context={
         console:{log(){},warn(){}},URL,URLSearchParams,
         location:{search:compensate?'?compensate=1':'',href:'http://localhost/game/'},
         document:{readyState:'loading',hidden:false,addEventListener(name,callback){if(name==='visibilitychange')this.onVisibility=callback;},getElementById(){return null;}},
-        c2runtime:rt,C2_KEYBOARD_INSTANCE:keyboard,cr:{runtime:Runtime},
+        c2runtime:rt,cr:{runtime:Runtime},
         setInterval(){return 1;},clearInterval(){},performance:{now:()=>0},
         requestAnimationFrame(callback){raf.push(callback);},cr_setSuspended(value){rt.suspended=value;if(!value&&nativeResumeRebases)rt.last_tick_time=999999.7;},
-        fetch:async()=>({ok:true,json:async()=>({planner:'canonical-adaptive-dag',candidate_found:true,
-            action_sequence:[[1,0],[0,1],[-1,0],[0,0],[1,1],[0,0]],trajectory:[],physics_mode:'c2',stats:{}})}),
     };
     context.window=context;
     vm.createContext(context);
-    // Actual startup order: compensation wraps first, runner hook installs later.
+    // Exercise both clock and minimal native tick gate; a test input driver sits outside.
     for(const name of ['lag_compensation','tas_runner']) {
         vm.runInContext(fs.readFileSync(new URL(`../c2-sans-fight/${name}.js`,import.meta.url),'utf8'),context);
     }
-    await context.TASRunner.fetchOptimalRoute('sans_bonegap1.csv');
-    await context.TASRunner.startPlayback();
+    assert.equal(context.TASRunner.getKeyboardInstance(),keyboard);
+    const actions=[[1,0],[0,1],[-1,0],[0,0],[1,1],[0,0]];
+    let inputTick=0;
+    const baseTick=Runtime.prototype.tick;
+    Runtime.prototype.tick=function(...args) {
+        if(context.__TAS_CLOCK.enabled&&!context.__TAS_CLOCK.stepping)return;
+        const [x,y]=actions[Math.floor(inputTick++/4)]||[0,0];
+        keyboard.keyMap[37]=x<0;keyboard.keyMap[38]=y>0;
+        keyboard.keyMap[39]=x>0;keyboard.keyMap[40]=y<0;
+        return baseTick.apply(this,args);
+    };
     return {context,rt,rows,frame(now){assert.ok(raf.length);raf.shift()(now);}};
 }
 
@@ -82,7 +89,6 @@ test('native self-scheduled ticks cannot consume inputs outside the driver',asyn
     const game=await boot();
     game.rt.tick(false,400,true);
     assert.equal(game.rows.length,0);
-    assert.equal(game.context.TASRunner.getState().firstObserved,null);
     assert.equal(game.context.C2_KEYBOARD_INSTANCE.keyMap.some(Boolean),false);
 });
 
@@ -104,4 +110,15 @@ test('native resume cannot change the exact logical timestamp used by a baked ca
     game.frame(20000);game.frame(20000+1000/240);
     assert.equal(game.rt.last_tick_time,timestamp+1000/240);
     assert.equal(game.rt.kahanTime.sum,time+((timestamp+1000/240)-timestamp)/1000);
+});
+
+test('native input discovery releases all owned aliases while preserving unrelated keys',async()=>{
+    const game=await boot();
+    const keyboard=game.context.TASRunner.getKeyboardInstance();
+    const owned=[37,38,39,40,65,68,83,87,88,16,90,13];
+    for(const code of [...owned,67])keyboard.keyMap[code]=true;
+    game.context.TASRunner.releaseAllKeys();
+    assert(owned.every(code=>keyboard.keyMap[code]===false));
+    assert.equal(keyboard.keyMap[67],true);
+    assert.equal(game.context.TASRunner.fetchOptimalRoute,undefined);
 });

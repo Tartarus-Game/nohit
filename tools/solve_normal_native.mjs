@@ -7,7 +7,7 @@ import {spawnSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
-const OUT=path.resolve(process.env.NOHIT_BENCH_OUT||path.join(ROOT,'tools/optimization-results/normal-campaign'));
+const OUT=path.resolve(process.env.NOHIT_BENCH_OUT||path.join(ROOT,'build/normal-campaign'));
 const PY=process.env.NOHIT_PYTHON||'python';
 const gameRoot=path.resolve(process.env.NOHIT_GAME_DIR||path.join(ROOT,'c2-sans-fight'));
 const healing=process.env.NOHIT_SCRIPTED_HEALING==='1';

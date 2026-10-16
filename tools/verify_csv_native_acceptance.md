@@ -17,8 +17,8 @@ The first three fields are required. `source` and `clock` provide additional cro
 Run from the repository root:
 
 ```powershell
-.\tools\uv_py.bat tools/verify_csv_native_acceptance.py evidence.json --output verdict.json
-.\tools\uv_py.bat -m pytest tests/unit/test_csv_native_acceptance_verifier.py -q
+.venv/Scripts/python.exe -m tools.verify_csv_native_acceptance evidence.json --output verdict.json
+.venv/Scripts/python.exe -m pytest tests/unit/test_csv_native_acceptance_verifier.py -q
 ```
 
 Exit code 0 means the saved evidence passes; 1 means it is rejected. Neither the controller's `completed` status nor a caller-supplied success flag can replace the independent checks.
@@ -31,6 +31,8 @@ When present, `controller.source_arena` must exactly match `plan.initial_arena`,
 
 The original EndAttack runs inside native tick `t`, while its posttick capture is `t+1`. Both controller and observer must record exactly one EndAttack at `boundary.tick + actions.length - 1`, and the independent final snapshot must be exactly the final input's posttick. No extra neutral tick is accepted. A plan endpoint is a source-model state; EndAttack then moves the native heart to the original custom-mode menu. The verifier reports that final difference separately and checks the original menu resize event/target, callback, object cleanup, reset variables and menu position. Only the supported menu changes to position, gravity direction, max-fall and slam-damage settings are exempted from direct terminal model comparison; unexplained terminal changes fail closed.
 
-This is a verifier for one saved native custom-mode trace. It does not authenticate the capturing process, certify all future callbacks, or prove solvability/unsolvability for other entries, clocks or seeds. A valid run may be rejected if it uses an original terminal-menu variant outside the explicitly supported policy; such a case needs source-based review rather than relaxing a check merely to obtain a green result.
+For an EOF completion, the verifier additionally checks the pinned original callback/type inventory, exhausted timeline and dialogue, entity cleanup, released input and an analytic stationary-state certificate. EOF alone is insufficient. The EndAttack menu policy applies only to actual EndAttack runs.
+
+This is a verifier for one saved native custom-mode trace. It does not authenticate the capturing process or prove solvability/unsolvability for other entries, clocks or seeds. A valid run may be rejected if it uses a terminal variant outside the explicitly supported policy; such a case needs source-based review rather than relaxing a check merely to obtain a green result.
 
 The regression fixture is a real five-action native run captured on 2026-10-07. It includes a Confirm press, six continuous observer ticks, and a menu-reset endpoint. Tests corrupt actual evidence to ensure completion flags cannot conceal gaps, transient damage, missing/early EndAttack, wrong input edges, source mismatches, environment phase mismatches, trajectory errors or incomplete cleanup.

@@ -22,4 +22,4 @@ python generic-engine/tools/run_upstream_native.py --adapter undotale \
 
 组件结束要求三发全部生成且所有剩余骨头中心越过场地右边界 30 像素；它们按原脚本持续向右移动，之后不会折返。结果不覆盖重定位、缩框和其余八发骨头。适配器只调整初始场地与入口绑定，不改速度、重力、伤害或碰撞体。
 
-证据：`../../research/undotale-native/certificate.json`、`../../research/undotale-suite/suite.json`。完整攻击的失败尝试也保留。Godot 3 服务器版运行原生碰撞，不提供渲染截图。
+上述历史证据及完整攻击的失败尝试保存在 `codex/history-before-cleanup-20261017` 分支的 `generic-engine/research/undotale-native/` 和 `generic-engine/research/undotale-suite/`，当前分支保留可复现的适配源码。这里描述保存的历史结果；原生重跑需要匹配的 Godot 3 二进制。Godot 3 服务器版运行原生碰撞，不提供渲染截图。

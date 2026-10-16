@@ -14,6 +14,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+ORIGINAL_C2_SHA256 = json.loads(Path(__file__).with_name('original_c2_sha256.json').read_text(encoding='utf-8'))['files']
 EXPECTED_ATTACKS = tuple('sans_' + name for name in (
     'intro', 'bonegap1', 'bluebone', 'bonegap2', 'platforms1', 'platforms2',
     'platforms3', 'platforms4', 'platformblaster', 'platforms4hard',
@@ -41,6 +42,14 @@ def _finite(value):
 
 def _sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _original_digest(name, original_dir):
+    """Use the pinned original export unless an explicit comparison tree is supplied."""
+    if original_dir is None:
+        return ORIGINAL_C2_SHA256.get(name)
+    path = Path(original_dir) / name
+    return _sha(path) if path.is_file() else None
 
 
 def _vector(value, width):
@@ -334,7 +343,7 @@ def _verify_csv_rounds(data, rounds, entries, raw, events, require, implementati
 
 
 def diagnose_completed_csv_rounds(data, *, game_dir=ROOT/'c2-sans-fight',
-                                  original_dir=ROOT/'jcw87-c2-sans-fight', implementation_dir=ROOT):
+                                  original_dir=None, implementation_dir=ROOT):
     """Diagnose a completed prefix without ever accepting an incomplete game.
 
     The same strict v3 round verifier is used. Ongoing/unknown attempts beyond
@@ -410,7 +419,7 @@ def diagnose_completed_csv_rounds(data, *, game_dir=ROOT/'c2-sans-fight',
         report['max_nonterminal_abs_error']=max((d['abs_error'] for d in differences),default=0)
         report['terminal_model_differences']=[d for d in result['summary']['terminal_model_differences']
                                             if d['round']==report['round']]
-    game_dir,original_dir=Path(game_dir),Path(original_dir)
+    game_dir=Path(game_dir)
     source_hashes=data.get('source_sha256',{});script_hashes=data.get('script_sha256',{})
     text_hashes=data.get('script_text_sha256',{})
     for name in CSV_REQUIRED_SOURCES:
@@ -419,14 +428,14 @@ def diagnose_completed_csv_rounds(data, *, game_dir=ROOT/'c2-sans-fight',
         require(isinstance(source_hashes,dict) and source_hashes.get(name)==_sha(path),
                 'loaded_source_hash',name)
         if name in ('c2runtime.js','data.js'):
-            original=original_dir/name
-            require(original.is_file() and _sha(path)==_sha(original),'original_runtime_hash',name)
+            require(_sha(path)==_original_digest(name,original_dir),'original_runtime_hash',name)
     for rnd in rounds:
-        name=rnd.get('attack','')+'.csv';path=game_dir/name;original=original_dir/name
-        if not require(path.is_file() and original.is_file(),'original_script_missing',name):continue
+        name=rnd.get('attack','')+'.csv';path=game_dir/name
+        original_digest=_original_digest(name,original_dir)
+        if not require(path.is_file() and original_digest is not None,'original_script_missing',name):continue
         digest=_sha(path)
         text_digest=hashlib.sha256(path.read_bytes().decode('utf-8-sig').replace('\r\n','\n').encode('utf-8')).hexdigest()
-        require(digest==_sha(original) and isinstance(script_hashes,dict) and script_hashes.get(name)==digest,
+        require(digest==original_digest and isinstance(script_hashes,dict) and script_hashes.get(name)==digest,
                 'original_script_hash',name)
         source=rnd.get('source') if isinstance(rnd.get('source'),dict) else {}
         require(isinstance(text_hashes,dict) and text_hashes.get(name)==source.get('sha256')==text_digest,
@@ -436,7 +445,7 @@ def diagnose_completed_csv_rounds(data, *, game_dir=ROOT/'c2-sans-fight',
 
 
 def verify_record(data, *, game_dir=ROOT/'c2-sans-fight',
-                  original_dir=ROOT/'jcw87-c2-sans-fight', implementation_dir=ROOT):
+                  original_dir=None, implementation_dir=ROOT):
     """Return a fail-closed result without modifying evidence or game files."""
     errors=[]
     def require(condition, code, detail):
@@ -449,7 +458,7 @@ def verify_record(data, *, game_dir=ROOT/'c2-sans-fight',
     if 'storage' in data or 'evidenceParts' in data:
         return {'passed':False,'errors':[{'code':'unresolved_manifest',
                 'detail':'Load and verify every referenced part with load_record before verifying a manifest'}]}
-    game_dir,original_dir=Path(game_dir),Path(original_dir)
+    game_dir=Path(game_dir)
     require(data.get('suite')=='continuous-normal-game','suite','Record must be a continuous normal-game run')
     result=data.get('result') if isinstance(data.get('result'),dict) else {}
     require(result.get('passed') is True and result.get('status')=='passed','live_verdict','Live observer did not report a passed run')
@@ -635,16 +644,16 @@ def verify_record(data, *, game_dir=ROOT/'c2-sans-fight',
         digest=_sha(path)
         require(source_hashes.get(name)==digest,'loaded_source_hash',f'Recorded source hash differs from {path}')
         if name in ('c2runtime.js','data.js'):
-            original=original_dir/name
-            if require(original.is_file(),'original_missing',str(original)):
-                require(digest==_sha(original),'original_runtime_hash',f'{name} differs from the original jcw export')
+            original_digest=_original_digest(name,original_dir)
+            if require(original_digest is not None,'original_missing',name):
+                require(digest==original_digest,'original_runtime_hash',f'{name} differs from the original jcw export')
         verified_sources.append(name)
     for attack in sorted(set(EXPECTED_ATTACKS)):
-        name=attack+'.csv';path=game_dir/name;original=original_dir/name
-        if not require(path.is_file() and original.is_file(),'original_script_missing',name):
+        name=attack+'.csv';path=game_dir/name;original_digest=_original_digest(name,original_dir)
+        if not require(path.is_file() and original_digest is not None,'original_script_missing',name):
             continue
         digest=_sha(path)
-        require(digest==_sha(original),'original_script_hash',name+' differs from the original jcw script')
+        require(digest==original_digest,'original_script_hash',name+' differs from the original jcw script')
         require(script_hashes.get(name)==digest,'recorded_script_hash',name+' recorded hash differs from the original')
         candidate_digest = digest
         if version==3:
@@ -711,7 +720,8 @@ def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('trace',type=Path)
     parser.add_argument('--game-dir',type=Path,default=ROOT/'c2-sans-fight')
-    parser.add_argument('--original-dir',type=Path,default=ROOT/'jcw87-c2-sans-fight')
+    parser.add_argument('--original-dir',type=Path,
+                        help='optional original export; otherwise use pinned original SHA256 identities')
     parser.add_argument('--json-out',type=Path)
     args=parser.parse_args(argv)
     try:

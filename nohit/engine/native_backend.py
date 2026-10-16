@@ -45,11 +45,13 @@ def _ptr(array):
 @lru_cache(maxsize=1)
 def load_backend():
     began = time.perf_counter()
+    from nohit.native_runtime import configure_native_runtime
+    configure_native_runtime()
     compiler = shlex.split(os.environ['CXX']) if os.environ.get('CXX') else None
     if compiler is None:
         executable = shutil.which('g++') or shutil.which('clang++')
         if not executable:
-            raise RuntimeError('Native CSV backend needs g++ or clang++; install a C++17 compiler or select fixed search')
+            raise RuntimeError('Native CSV backend needs g++ or clang++; install a C++17 compiler')
         compiler = [executable]
     identity = hashlib.sha256(_SOURCE.read_bytes() + repr((_FLAGS, platform.system(), platform.machine(), compiler)).encode()).hexdigest()
     cache = Path(os.environ.get('NOHIT_NATIVE_CACHE', str(Path.home()/'.cache/nohit-native')))

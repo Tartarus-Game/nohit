@@ -5,7 +5,6 @@ import pytest
 
 from nohit.engine.compact_wave import compile_wave
 from nohit.engine.parametric_environment import ParametricEnvironment
-from nohit.engine.history_quotient import FutureHistoryKey
 
 
 def source(tmp_path,text='0,HeartMode,0\n0.2,EndAttack\n'):
@@ -106,16 +105,6 @@ def test_short_clock_exhaustion_is_an_incomplete_budget_boundary(tmp_path,backen
     if backend=='resumable':assert binding.resume_state.data['tick']==len(schedule)
     expected=ParametricEnvironment(path,max_ticks=100,backend='reference',dt_schedule=schedule).bind(binding.history)
     same_wave(binding.wave,expected.wave)
-
-
-def test_clock_scopes_own_history_quotients_and_rejects_foreign_extensions(tmp_path):
-    path=source(tmp_path,'0,GetHeartPos,x,y\n0.025,BlackScreen,1\n0.2,EndAttack\n')
-    environments=[ParametricEnvironment(path,max_ticks=100,dt_schedule=[dt]*100) for dt in (1/30,1/60)]
-    bound=[env.extend(env.bind(),100.,200.) for env in environments]
-    keys=[FutureHistoryKey(env)(binding,10) for env,binding in zip(environments,bound)]
-    assert keys[0]!=keys[1]
-    with pytest.raises(ValueError,match='another environment template'):
-        environments[0].extend(environments[1].bind(),100.,200.)
 
 
 @pytest.mark.parametrize('schedule',[[],[0.],[-0.],[-1.],[float('nan')],[float('inf')],

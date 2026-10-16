@@ -5,7 +5,7 @@ from pathlib import Path
 import unittest
 from run_suite import validate_nohit, validate_replay
 
-EVIDENCE = Path(__file__).parents[2] / 'research/native-meow-delivery'
+EVIDENCE = Path(__file__).parents[2] / 'validation/meowjade'
 
 class AcceptanceFaultTests(unittest.TestCase):
     @classmethod

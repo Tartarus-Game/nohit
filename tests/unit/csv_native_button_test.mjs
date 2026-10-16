@@ -22,7 +22,7 @@ function page(options={}) {
       if(options.fetchError)throw Error(options.fetchError);
       return {ok:options.ok!==false,json:async()=>{if(options.invalidJSON)throw Error('invalid JSON');return options.result??{id};}};}});
   vm.runInContext(script,context,{filename:'csv.html'});
-  element('seconds').value='7.5';element('width').value='1234';element('bindings').value='2';element('fps').value='30';
+  element('seconds').value='7.5';element('width').value='1234';element('fps').value='30';
   return {element,requests,navigations,resolveFetch,click:()=>element('native-button').events.click()};
 }
 
@@ -33,7 +33,7 @@ for(const fps of ['30','60','120','240'])test('native button registers a trimmed
   assert.deepEqual(p.requests[0].body,{csv_path:'C:\\用户\\欢迎 & 地狱.csv'});
   assert.equal(p.navigations.length,1);const url=new URL(p.navigations[0],'http://localhost');
   assert.equal(url.pathname,'/game/index.html');
-  for(const [key,value] of Object.entries({csvtas:'1',csv_source:id,attack:'custom',custom_acceptance:'1',seed:'42',seconds:'7.5',width:'1234',max_bindings:'2',fps}))
+  for(const [key,value] of Object.entries({csvtas:'1',csv_source:id,attack:'custom',custom_acceptance:'1',seed:'42',seconds:'7.5',width:'1234',fps}))
     assert.equal(url.searchParams.get(key),value,key);
   assert.equal(url.searchParams.has('initial'),false);assert.equal(url.searchParams.has('actions'),false);
 });

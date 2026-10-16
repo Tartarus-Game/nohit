@@ -1,1 +1,0 @@
-{"status": "candidate_found", "reason": "verified_model_endattack", "import_seconds": 0.8793453090002004, "inside_seconds": 50.17403351299981, "solve_seconds": 49.29325828100082, "rss_kb": 641764, "external_wall_seconds": 50.93362763099958, "empty_numba_cache": true, "route_cache": false, "environment_cache": false, "base_commit": "479597f6faac3442d66238fd3fee296cbee7b2b8"}

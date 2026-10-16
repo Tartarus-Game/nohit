@@ -1,9 +1,0 @@
-Godot Engine v4.6.1.stable.official.14d19694e - https://godotengine.org
-
-BattleManager 初始化完成
-PuzzleManager 初始化完成
-StoryManager 初始化完成
-  已加载默认剧情脚本: (res://stories/all_stories.gd):<GDScript#-9223372000347552300>
-NOHIT_PROBE_LOADED
-NOHIT_PROBE_FINISHED 600 nodes=32 collision_objects=0
-NOHIT_PROBE_SCRIPTS { "/root/BattleManager": "res://BattleManager.gd", "/root/GameSettings": "res://GameSettings.gd", "/root/MobileInput": "res://mobile_input_manager.gd", "/root/PuzzleManager": "res://PuzzleManager.gd", "/root/SoundManager": "res://SoundManager.gd", "/root/StoryManager": "res://StoryManager.gd", "/root/NoHitStartupProbe": "res://nohit_probe.gd", "/root/NoHitStartupProbe/MainMenu": "res://main_menu.gd" }

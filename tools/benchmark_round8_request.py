@@ -1,28 +1,45 @@
-"""Fresh-process Round 7 C++ comparison and optional stage wall-time profile.
+"""Measure the current native CSV solver in fresh processes.
 
-Profile sums wall time across concurrent probes; it is neither process CPU time
-nor additive request latency. No route or world cache is used.
+Only compiled code may be reused. Each request rebuilds its world and route;
+model verification does not imply original-game acceptance.
 """
-import argparse,ctypes,hashlib,json,os,subprocess,sys,tempfile,time
+import argparse
+import ctypes
+import hashlib
+import json
+import math
+import os
 from pathlib import Path
+import subprocess
+import sys
+import tempfile
+import time
+
 try:
     import resource
-except ImportError:  # Windows reports peak RSS through psapi instead
+except ImportError:
     resource = None
+
+ROOT = Path(__file__).resolve().parents[1]
 
 
 def peak_rss_bytes():
-    """Peak resident set size of this process, or 0 when the host cannot report it."""
+    """Peak RSS of the solver process; compiler children are excluded."""
     if resource is not None:
-        return resource.getrusage(resource.RUSAGE_SELF).ru_maxrss * 1024
+        value = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+        return value if sys.platform == 'darwin' else value * 1024
+
     class Counters(ctypes.Structure):
         _fields_ = [('cb', ctypes.c_ulong), ('PageFaultCount', ctypes.c_ulong),
                     ('PeakWorkingSetSize', ctypes.c_size_t), ('WorkingSetSize', ctypes.c_size_t),
                     ('QuotaPeakPagedPoolUsage', ctypes.c_size_t), ('QuotaPagedPoolUsage', ctypes.c_size_t),
                     ('QuotaPeakNonPagedPoolUsage', ctypes.c_size_t), ('QuotaNonPagedPoolUsage', ctypes.c_size_t),
                     ('PagefileUsage', ctypes.c_size_t), ('PeakPagefileUsage', ctypes.c_size_t)]
-    counters = Counters(); counters.cb = ctypes.sizeof(Counters)
+
+    counters = Counters()
+    counters.cb = ctypes.sizeof(Counters)
     kernel32 = ctypes.windll.kernel32
+    kernel32.GetCurrentProcess.restype = ctypes.c_void_p
     query = getattr(kernel32, 'K32GetProcessMemoryInfo', None) or ctypes.windll.psapi.GetProcessMemoryInfo
     query.argtypes = [ctypes.c_void_p, ctypes.POINTER(Counters), ctypes.c_ulong]
     query.restype = ctypes.c_int
@@ -31,75 +48,104 @@ def peak_rss_bytes():
     return int(counters.PeakWorkingSetSize)
 
 
-def profiled_source(source):
-    text=source.read_text()
-    text=text.replace('using Clock=std::chrono::steady_clock;', '''using Clock=std::chrono::steady_clock;
-static std::atomic<uint64_t> phase_ns[3];
-extern "C" uint64_t nohit_profile_phase(int i){return phase_ns[i].load();}
-static void phase_add(int i,Clock::time_point began){phase_ns[i].fetch_add(std::chrono::duration_cast<std::chrono::nanoseconds>(Clock::now()-began).count());}''')
-    text=text.replace('edges.clear();std::fill(table.begin(),table.end(),-1);','auto phase_begin=Clock::now();edges.clear();std::fill(table.begin(),table.end(),-1);')
-    text=text.replace('        edges.clear();\n        size_t active_capacity', '        auto phase_begin=Clock::now();edges.clear();\n        size_t active_capacity')
-    text=text.replace('stats.expanded+=count;stats.unique+=edges.size();','stats.expanded+=count;stats.unique+=edges.size();phase_add(0,phase_begin);')
-    text=text.replace('        order.resize(edges.size());\n        for(size_t i=0;i<order.size();i++)','        phase_begin=Clock::now();order.resize(edges.size());\n        for(size_t i=0;i<order.size();i++)')
-    text=text.replace('        auto less=[&](int a,int b)', '        phase_add(1,phase_begin);phase_begin=Clock::now();\n        auto less=[&](int a,int b)')
-    text=text.replace('        capture(tick,current,costs,count);\n    }','        capture(tick,current,costs,count);phase_add(2,phase_begin);\n    }')
-    text=text.replace('        capture(tick,current,costs,count);account_history();\n    }', '        capture(tick,current,costs,count);account_history();phase_add(2,phase_begin);\n    }')
-    return text
+def child(args):
+    from nohit import _configure_solver_process
+    _configure_solver_process()
+    from nohit.engine.csv_solver import solve_csv
+    from nohit.engine import native_backend
+
+    entry = json.loads(args.entry.read_text(encoding='utf-8-sig'))
+    began, cpu = time.perf_counter(), time.process_time()
+    result = solve_csv(args.csv, entry['initial'],
+        initial_environment=entry.get('initial_environment'),
+        initial_arena=entry.get('initial_arena', entry.get('arena')),
+        initial_confirm=entry.get('initial_confirm', False),
+        previous_confirm=entry.get('previous_confirm', False),
+        initial_target_history=entry.get('initial_target_history'),
+        dt_schedule=entry.get('dt_schedule', [1 / 30] * args.max_ticks),
+        max_ticks=args.max_ticks, search_strategy='native', workers=args.workers,
+        width=args.width, memory_mb=args.memory_mb, seconds=args.seconds,
+        allow_scripted_healing=args.allow_scripted_healing,
+        allow_scripted_damage=args.allow_scripted_damage,
+        termination_policy=args.termination_policy,
+        observation_chunk_ticks=args.observation_chunk_ticks,
+        observation_preview_ticks=args.observation_preview_ticks,
+        observation_preview_reads=args.observation_preview_reads,
+        observation_goal_style=args.observation_goal_style,
+        observation_goal_retries=args.observation_goal_retries)
+    elapsed, cpu = time.perf_counter() - began, time.process_time() - cpu
+    witness = {key: result.get(key) for key in
+               ('actions', 'confirm_sequence', 'trajectory', 'dt_sequence', 'target_history', 'completion')}
+    record = dict(status=result['status'], reason=result.get('reason'),
+        verified=result['verified'], solve_seconds=elapsed, solve_cpu_seconds=cpu,
+        effective_solve_cores=cpu / elapsed, peak_rss_bytes=peak_rss_bytes(),
+        search_stats=result.get('search_stats'),
+        source_sha256=hashlib.sha256(native_backend._SOURCE.read_bytes()).hexdigest(),
+        fingerprint=hashlib.sha256(json.dumps(witness, sort_keys=True).encode()).hexdigest(),
+        csv_sha256=result['csv_sha256'], entry_sha256=hashlib.sha256(args.entry.read_bytes()).hexdigest(),
+        original_replay_passed=result['original_replay_passed'],
+        numba_imported='numba' in sys.modules, route_cache=False, environment_cache=False)
+    print(json.dumps(record))
 
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__)
-    p.add_argument('csv',type=Path);p.add_argument('--entry',type=Path,required=True);p.add_argument('--out',type=Path,required=True)
-    p.add_argument('--source',type=Path);p.add_argument('--baseline',action='store_true');p.add_argument('--profile',action='store_true');p.add_argument('--healing',action='store_true')
-    p.add_argument('--workers',type=int,default=8);p.add_argument('--width',type=int,default=8192);p.add_argument('--seconds',type=float,default=45)
-    p.add_argument('--compare',action='store_true');p.add_argument('--empty-code-cache',action='store_true');p.add_argument('--repeats',type=int,default=3);p.add_argument('--child',action='store_true');a=p.parse_args()
-    if a.child:
-        from nohit import _configure_solver_process
-        _configure_solver_process()
-        import numpy as np
-        from nohit.engine import native_backend as backend
-        source=Path(__file__).parent/'reference/round7_native_frontier.cpp' if a.baseline else backend._SOURCE
-        if a.source:source=a.source
-        original_sha=hashlib.sha256(source.read_bytes()).hexdigest()
-        with tempfile.TemporaryDirectory(prefix='nohit-profile-source-') as d:
-            if a.profile:
-                prof=Path(d)/'profile.cpp';prof.write_text(profiled_source(source));source=prof
-            backend._SOURCE=source;backend.load_backend.cache_clear();library,code=backend.load_backend()
-            from nohit.engine.csv_solver import solve_csv
-            entry=json.loads(a.entry.read_text());began=time.perf_counter();cpu=time.process_time()
-            r=solve_csv(a.csv,entry['initial'],initial_environment=entry['initial_environment'],initial_arena=entry.get('initial_arena'),
-                initial_confirm=entry.get('initial_confirm',False),previous_confirm=entry.get('previous_confirm',False),
-                initial_target_history=entry.get('initial_target_history'),dt_schedule=entry['dt_schedule'],max_ticks=40000,
-                search_strategy='native',workers=a.workers,width=a.width,memory_mb=256,seconds=a.seconds,allow_scripted_healing=a.healing)
-            elapsed=time.perf_counter()-began;cpu=time.process_time()-cpu
-            phases=None
-            if a.profile:
-                library.nohit_profile_phase.argtypes=[ctypes.c_int];library.nohit_profile_phase.restype=ctypes.c_uint64
-                phases=dict(zip(('expand_and_dedup','rank_and_preview','selection_and_copy'),[library.nohit_profile_phase(i)/1e9 for i in range(3)]))
-            witness=np.asarray(r['actions'],dtype='<i8').tobytes()+np.asarray(r['trajectory'],dtype='<f8').tobytes()
-            print(json.dumps(dict(status=r['status'],verified=r['verified'],solve_seconds=elapsed,solve_cpu_seconds=cpu,
-                effective_solve_cores=cpu/elapsed,search_stats=r.get('search_stats'),source_sha256=original_sha,
-                compiled_source_sha256=code['source_sha256'],compiler_flags=code['compiler_flags'],code_was_compiled=code['compiled'],profile=phases,
-                peak_rss_bytes=peak_rss_bytes(),fingerprint=hashlib.sha256(witness).hexdigest(),
-                csv_sha256=r['csv_sha256'],entry_sha256=hashlib.sha256(a.entry.read_bytes()).hexdigest(),
-                baseline=a.baseline,numba_imported='numba' in sys.modules,route_cache=False,environment_cache=False)))
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('csv', type=Path)
+    parser.add_argument('--entry', type=Path, required=True)
+    parser.add_argument('--out', type=Path, required=True)
+    parser.add_argument('--workers', type=int, default=8)
+    parser.add_argument('--width', type=int, default=8192)
+    parser.add_argument('--seconds', type=float, default=45)
+    parser.add_argument('--memory-mb', type=int, default=256)
+    parser.add_argument('--max-ticks', type=int, default=40000)
+    parser.add_argument('--repeats', type=int, default=3)
+    parser.add_argument('--empty-code-cache', action='store_true')
+    parser.add_argument('--allow-scripted-healing', action='store_true')
+    parser.add_argument('--allow-scripted-damage', action='store_true')
+    parser.add_argument('--termination-policy', choices=('endattack', 'eof_hazards_drained'), default='endattack')
+    parser.add_argument('--observation-chunk-ticks', type=int, default=0)
+    parser.add_argument('--observation-preview-ticks', type=int, default=0)
+    parser.add_argument('--observation-preview-reads', type=int, default=128)
+    parser.add_argument('--observation-goal-style', type=int)
+    parser.add_argument('--observation-goal-retries', action='store_true')
+    parser.add_argument('--child', action='store_true', help=argparse.SUPPRESS)
+    args = parser.parse_args()
+    if not (1 <= args.workers <= 32 and min(args.width, args.memory_mb, args.max_ticks, args.repeats) > 0
+            and math.isfinite(args.seconds) and args.seconds > 0):
+        parser.error('require 1..32 workers and positive width, budget, horizon and repeats')
+    if args.child:
+        child(args)
         return
-    command=[sys.executable,'-m','tools.benchmark_round8_request',str(a.csv),'--entry',str(a.entry),'--out',str(a.out),
-        '--workers',str(a.workers),'--width',str(a.width),'--seconds',str(a.seconds),'--child']
-    if a.source:command+=['--source',str(a.source)]
-    for flag in ('baseline','profile','healing'):
-        if getattr(a,flag):command.append('--'+flag)
-    records=[]
-    for i in range(a.repeats):
-        for baseline in ([True,False] if a.compare else [a.baseline]):
-            invoke=[item for item in command if item!='--baseline']+(['--baseline'] if baseline else [])
-            with tempfile.TemporaryDirectory(prefix='nohit-request-code-') as cache:
-                environment=dict(os.environ)
-                if a.empty_code_cache:environment['NOHIT_NATIVE_CACHE']=cache
-                began=time.perf_counter();r=subprocess.run(invoke,capture_output=True,text=True,env=environment)
-                if r.returncode:raise RuntimeError(r.stdout+'\n'+r.stderr)
-                record=json.loads(r.stdout);record.update(repeat=i,external_wall_seconds=time.perf_counter()-began,workers=a.workers,width=a.width,empty_code_cache=a.empty_code_cache)
-            records.append(record);a.out.parent.mkdir(parents=True,exist_ok=True);a.out.write_text(json.dumps(records,indent=2)+'\n')
-            print(json.dumps({k:record[k] for k in ('repeat','baseline','status','solve_seconds','external_wall_seconds','solve_cpu_seconds','peak_rss_bytes','profile')}),flush=True)
+    command = [sys.executable, '-m', 'tools.benchmark_round8_request', str(args.csv.resolve()),
+        '--entry', str(args.entry.resolve()), '--out', str(args.out.resolve()),
+        '--termination-policy', args.termination_policy, '--child']
+    for name in ('workers', 'width', 'seconds', 'memory_mb', 'max_ticks',
+                 'observation_chunk_ticks', 'observation_preview_ticks', 'observation_preview_reads'):
+        command += ['--' + name.replace('_', '-'), str(getattr(args, name))]
+    if args.observation_goal_style is not None:
+        command += ['--observation-goal-style', str(args.observation_goal_style)]
+    for name in ('allow_scripted_healing', 'allow_scripted_damage', 'observation_goal_retries'):
+        if getattr(args, name):
+            command.append('--' + name.replace('_', '-'))
+    records = []
+    for repeat in range(args.repeats):
+        with tempfile.TemporaryDirectory(prefix='nohit-request-code-') as cache:
+            environment = dict(os.environ)
+            if args.empty_code_cache:
+                environment['NOHIT_NATIVE_CACHE'] = cache
+            began = time.perf_counter()
+            run = subprocess.run(command, cwd=ROOT, capture_output=True, text=True, env=environment)
+            if run.returncode:
+                raise RuntimeError(run.stdout + '\n' + run.stderr)
+            record = json.loads(run.stdout)
+            record.update(repeat=repeat, external_wall_seconds=time.perf_counter() - began,
+                workers=args.workers, width=args.width, empty_code_cache=args.empty_code_cache)
+        records.append(record)
+        args.out.parent.mkdir(parents=True, exist_ok=True)
+        args.out.write_text(json.dumps(records, indent=2) + '\n', encoding='utf-8')
+        print(json.dumps({key: record[key] for key in
+            ('repeat', 'status', 'verified', 'solve_seconds', 'external_wall_seconds', 'peak_rss_bytes')}), flush=True)
 
-if __name__=='__main__':main()
+
+if __name__ == '__main__':
+    main()

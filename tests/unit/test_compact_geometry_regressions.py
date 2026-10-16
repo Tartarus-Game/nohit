@@ -2,28 +2,13 @@
 import numpy as np
 import pytest
 
-from nohit.engine.compact_wave import TimelineVM, prepare_collision, prepare_collision_dual_native
+from nohit.engine.compact_wave import TimelineVM
 
 
 def test_signed_bone_height_matches_jcw_bbox_without_moving_the_gap():
     # Native BoneV(100,232,-2,0,0) reports {left:100,top:230,right:110,bottom:232}.
     sim = TimelineVM().run([['0','BoneV','100','232','-2','0','0'], ['0.02','EndAttack']])
     np.testing.assert_array_equal(sim['geom_white'][0,0], [100,230,110,232])
-
-
-@pytest.mark.parametrize('box', [[152,260,150,270], [150,262,160,260]])
-def test_inverted_bbox_does_not_grow_into_a_hazard(box):
-    geometry = np.asarray([[box]], dtype=np.float64)
-    assert not prepare_collision(geometry).any()
-    white, blue = prepare_collision_dual_native(geometry)
-    assert not white.any() and not blue.any()
-
-
-def test_zero_height_bone_remains_collidable_as_in_jcw():
-    # Native testOverlap returns true for a zero-height BoneV crossing the heart.
-    geometry = np.asarray([[[150,260,160,260]]], dtype=np.float64)
-    assert prepare_collision(geometry).any()
-    assert prepare_collision_dual_native(geometry)[0].any()
 
 
 @pytest.mark.parametrize('command,args', [('BlackScreen',['1']),('EndAttack',[])])

@@ -28,13 +28,14 @@ python tools/nohit.py doctor /path/to/game
 python tools/nohit.py solve /path/to/game --godot /path/to/godot --output results/first
 
 要求 Python 3.10+，不依赖第三方 Python 包；使用与原游戏匹配的 Godot。
-Godot 3.5.3 / 4.6.1 已执行验证。GameMaker 脚本模板尚未原生运行验收。
+保存的验收记录覆盖 Godot 3.5.3 / 4.6.1，见 validation/live-sdk/acceptance.json。
+GameMaker 脚本模板尚未原生运行验收。
 有限策略搜索可能返回 unknown，不保证解出任意弹幕。
 本包不含历史 nohit 求解器、他人游戏素材或引擎二进制。
 新 Live SDK、模板与工具采用 MIT，见 portable/LICENSE.txt。
 '''.encode()
-acceptance = root / "research/portable-v1/acceptance-v2/acceptance.json"
-if acceptance.exists(): files["validation/acceptance.json"] = acceptance.read_bytes()
+acceptance = root / "validation/live-sdk/acceptance.json"
+files["validation/live-sdk/acceptance.json"] = acceptance.read_bytes()
 manifest = {"format": "nohit-integration-sdk-v1", "files": {
     name: {"bytes": len(data), "sha256": hashlib.sha256(data).hexdigest()} for name, data in sorted(files.items())}}
 files["MANIFEST.json"] = (json.dumps(manifest, indent=2) + "\n").encode()

@@ -1,6 +1,4 @@
 """Native TLLoadLine snapshots every $ argument before delayed execution."""
-import csv
-from pathlib import Path
 import pytest
 from nohit.engine.compact_wave import TimelineVM
 
@@ -46,12 +44,9 @@ def test_delay_uses_loaded_snapshot_not_execution_time_dictionary():
     assert wave['ticks']>=25
 
 
-@pytest.mark.parametrize('source_line',[844,862,880,898,916,934])
-def test_realhell_dynamic_destination_rows_preserve_named_heart_y(source_line):
-    root=Path(__file__).resolve().parents[2]
-    rows=list(csv.reader((root/'Real HELL 困难模式(1).csv').read_text(encoding='utf-8-sig').splitlines()))
-    row=rows[source_line-1]
-    assert row[1:4]==['GetHeartPos','HeartX','$HeartY']
+def test_dynamic_destination_preserves_the_existing_named_heart_y():
+    # Original Real HELL rows 844, 862, 880, 898, 916 and 934 use this call.
+    row=['0','GetHeartPos','HeartX','$HeartY']
     vm=TimelineVM(heart_samples={(0,1):(321.5,303.25)})
     vm.vars['HeartY']=297.5
     vm.run([row,['0','EndAttack']])

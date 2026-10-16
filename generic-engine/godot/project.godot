@@ -1,7 +1,0 @@
-config_version=5
-[application]
-config/name="NoHit Native Collision Lab"
-run/main_scene="res://demo/demo.tscn"
-config/features=PackedStringArray("4.3", "GL Compatibility")
-[rendering]
-renderer/rendering_method="gl_compatibility"

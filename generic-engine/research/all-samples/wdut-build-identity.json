@@ -1,7 +1,0 @@
-{
-  "godot_cpp_commit": "e83fd0904c13356ed1d4c3d09f8bb9132bdc6b77",
-  "build": "platform=linux target=template_debug -j8",
-  "compatibility_fix": "add #include <cstdio> to cpp/engine/Overworld/Characters/overworld_character.cpp",
-  "library_sha256": "f706d309e61cfa35a00c3822a8bfdcb88d2c2047e2184fa4a4cf0031350ce3e1",
-  "scope": "native C++/GDScript attack probes started; no no-hit acceptance"
-}

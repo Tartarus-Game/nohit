@@ -34,7 +34,7 @@
             validateBoundary:boundary=>{
                 if(boundary.SimulatorMode!==2||boundary.SingleAttack!=='custom')throw Error('Target CSV is not running in the original custom mode');
             }});
-        if(query.has('oracle')||query.get('campaign')==='1') {core.fail('csvtas cannot share control with oracle or campaign');return;}
+        if(query.get('campaign')==='1') {core.fail('csvtas cannot share control with campaign');return;}
         if(!['fixed-30hz-native-clamp','fixed-native-timestamps'].includes(window.__TAS_CLOCK?.mode)) {core.fail('CSV TAS requires the native timestamp clock');return;}
         const proto=rt.constructor.prototype,baseTick=proto.tick,baseTrigger=proto.trigger;
         proto.trigger=function(method,inst,value) {

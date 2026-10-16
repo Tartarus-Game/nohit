@@ -33,7 +33,7 @@
     window.NoHitFixedStepClock=FixedStepClock;
     const query=new URLSearchParams(location.search);
     const csvMode=query.get('csvtas')==='1';
-    if((query.get('compensate')!=='1'&&!csvMode)||query.has('oracle'))return;
+    if((query.get('compensate')!=='1'&&!csvMode))return;
 
     function install() {
         const rt=window.c2runtime||document.getElementById('c2canvas')?.c2runtime;

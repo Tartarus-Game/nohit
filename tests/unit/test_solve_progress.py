@@ -98,33 +98,42 @@ def test_a_rejected_request_still_leaves_a_failed_snapshot():
     assert snapshot['state'] == 'failed' and snapshot['message']
 
 
-def test_a_running_solve_publishes_search_snapshots_while_it_runs():
-    import time as _time
-    outcome = {}
+def test_a_running_solve_publishes_search_snapshots_while_it_runs(monkeypatch):
+    # A native solve can finish before the polling thread is scheduled. Hold
+    # its first real search snapshot until the reader has observed it.
+    published=threading.Event();observed=threading.Event();outcome={}
+    original=solve_progress.ProgressReporter.update
+
+    def update(reporter,**fields):
+        original(reporter,**fields)
+        snap=solve_progress.snapshot(reporter.progress_id)
+        if (reporter.progress_id=='live-watch' and not published.is_set()
+                and snap['phase']=='search' and snap['expanded_states']):
+            published.set()
+            observed.wait(timeout=10)
+
+    monkeypatch.setattr(solve_progress.ProgressReporter,'update',update)
 
     def solve():
         try:
             solve_csv_request(dict(custom_csv='0,HeartMode,0\n0.1,EndAttack\n', initial=INITIAL,
                 max_ticks=400, width=400, seconds=10, progress_id='live-watch'))
         except Exception as exc:  # pragma: no cover - reported through outcome
-            outcome['error'] = exc
+            outcome['error']=exc
 
-    worker = threading.Thread(target=solve, daemon=True)
+    worker=threading.Thread(target=solve,daemon=True)
     worker.start()
-    live = []
-    deadline = _time.perf_counter() + 30
-    while worker.is_alive() and _time.perf_counter() < deadline:
-        snapshot = solve_progress.snapshot('live-watch')
-        if snapshot['state'] == 'running' and snapshot['phase'] == 'search' and snapshot['expanded_states']:
-            live.append(snapshot)
-        else:
-            _time.sleep(0.001)
-    worker.join(timeout=30)
+    try:
+        assert published.wait(timeout=10),'native solve did not publish a search snapshot'
+        snap=solve_progress.snapshot('live-watch')
+        assert worker.is_alive() and snap['state']=='running' and snap['phase']=='search'
+        assert snap['expanded_states']>0 and snap['elapsed_seconds'] is not None
+        assert snap['fraction_basis'] in ('tick_horizon','wall_budget')
+    finally:
+        observed.set();worker.join(timeout=10)
     assert 'error' not in outcome
-    assert live, 'no running search snapshot was observable during the solve'
-    assert live[0]['elapsed_seconds'] is not None
-    assert live[0]['fraction_basis'] in ('tick_horizon', 'wall_budget')
-    assert solve_progress.snapshot('live-watch')['state'] == 'done'
+    assert not worker.is_alive()
+    assert solve_progress.snapshot('live-watch')['state']=='done'
 
 
 def test_concurrent_updates_never_raise_and_leave_a_consistent_snapshot():

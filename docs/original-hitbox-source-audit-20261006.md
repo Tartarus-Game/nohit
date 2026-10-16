@@ -1,5 +1,10 @@
 # Original hitbox and damage phase source audit
 
+This source audit is retained as the collision contract. Referenced upstream XML
+and historical captures are preserved on `codex/history-before-cleanup-20261017`
+or in the local history archive; their measurements are not new acceptance of
+the current checkout. Current execution instructions are in [CSV runtime](csv-runtime.md).
+
 This is a read-only source audit. It does not change the game, solver, model,
 or chart, and does not establish native no-hit completion or native UNSAT.
 

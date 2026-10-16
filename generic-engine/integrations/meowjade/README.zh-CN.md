@@ -1,6 +1,6 @@
 # 实际项目接入：meowjade Godot Undertale Engine
 
-已在官方 Godot 4.6.1 Linux headless 中运行真实上游战斗场景，搜索四组圆环测试，并以独立新进程回放。证据在 `../../research/native-meow-delivery/suite.json`，包含候选、逐帧回放、原生伤害反例和完整攻击的失败尝试。
+保存的官方 Godot 4.6.1 Linux headless 记录覆盖真实上游战斗场景、四组圆环测试和独立新进程回放。证据在 [validation/meowjade](../../validation/meowjade/suite.json)，包含候选、逐帧回放、原生伤害反例和完整攻击的失败尝试。`test_validation.py` 检查这些已有记录，不会启动 Godot。
 
 ## 复现
 
@@ -22,7 +22,7 @@ python generic-engine/integrations/meowjade/test_validation.py
 ```bash
 /path/to/godot --headless --path native-meow --fixed-fps 60 --quit-after 600 -- \
   --scenario=circle_white_blue --seed=1 \
-  --replay="$PWD/generic-engine/research/native-meow-delivery/circle_white_blue-replay.json" \
+  --replay="$PWD/generic-engine/validation/meowjade/circle_white_blue-replay.json" \
   --out="$PWD/replayed.json"
 ```
 

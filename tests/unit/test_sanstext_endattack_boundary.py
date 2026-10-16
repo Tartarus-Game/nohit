@@ -4,7 +4,6 @@ import pytest
 
 from nohit.engine.compact_wave import compile_wave
 from nohit.engine.parametric_environment import ParametricEnvironment
-from nohit.engine.parametric_dag import solve_parametric
 
 
 def source(tmp_path):
@@ -56,12 +55,3 @@ def test_explicit_confirm_edges_resume_both_lines_before_endattack_clears_hazard
     assert terminal.status=='terminal' and terminal.reason=='endattack'
     assert terminal.frame.tick==5 and len(terminal.frame.white)==0
     assert [event[1] for event in terminal.frame.events]==['endattack']
-
-
-def test_default_route_solver_cannot_claim_a_candidate_by_ignoring_dialogue(tmp_path):
-    result=solve_parametric(source(tmp_path),[320.,304.,0.,0.,0.,0.,0.,1.,750.,0.,0.],
-        dt_schedule=[1/30]*100,max_ticks=100,decision_ticks=1,allow_cancel=False,
-        weights=[0,0,0,0])
-    assert result['status']=='model_incomplete'
-    assert result['model_termination_reason']=='dialogue_boundary'
-    assert result['actions']==[] and result['complete_in_original_game'] is False

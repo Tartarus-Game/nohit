@@ -75,6 +75,12 @@ def test_dialogue_eof_keeps_real_confirm_and_absolute_tail_clock(tmp_path,prefix
     assert result['completion']['drain_tick']>=result['dialogue_start_tick']
 
 
+def test_dialogue_followed_by_actual_target_read_can_complete_at_eof(tmp_path):
+    path,result=solve(tmp_path,'0,SansText,a,\n0,GetHeartPos,x,y\n')
+    check(path,result)
+    assert len(result['target_history']) == 1
+
+
 def test_audited_absent_functions_keep_their_delays(tmp_path):
     path,result=solve(tmp_path,'0,HeartMode,0\n0.1,Score,Flash\n0.1,mus_zz_megalovania,20\n')
     check(path,result)
@@ -86,7 +92,6 @@ def test_audited_absent_functions_keep_their_delays(tmp_path):
 
 @pytest.mark.parametrize('text',[
     '0,Platform,100,350,40,0,0\n',
-    '0,SansText,a,\n0,GetHeartPos,x,y\n',
     '0,AnUnauditedFunction,x\n',
     '0,SansText,a,UnprovenCallback\n',
     '0,GasterBlaster,0,0,0,50,50,17,10,0.1\n',

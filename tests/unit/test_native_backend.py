@@ -93,8 +93,8 @@ def test_scalar_oracle_rejects_mutated_witness(tmp_path):
     assert not valid and why=='replay_state_mismatch'
 
 
-@pytest.mark.parametrize('text',['0,SansText,a,\n0.5,EndAttack\n','0.1,GetHeartPos,x,y\n0.5,EndAttack\n','0,HeartMode,0\n'])
-def test_unresolved_worlds_and_eof_do_not_enter_static_native_probe(tmp_path,text):
+@pytest.mark.parametrize('text',['0,SansText,a,\n0.5,EndAttack\n','0.1,GetHeartPos,x,y\n0.5,EndAttack\n'])
+def test_unresolved_worlds_do_not_enter_static_native_probe(tmp_path,text):
     path=tmp_path/'unresolved.csv';path.write_text(text)
     assert find_native_candidate(path,[320.,304.,0.,0.,0.,0.,0.,1.,750.,0.,0.],dt_schedule=[1/30]*100,max_ticks=100,termination_policy='eof_hazards_drained') is None
 
@@ -156,8 +156,6 @@ def test_wide_frontier_shared_edge_team_keeps_exact_witness(tmp_path):
 def test_explicit_native_small_width_never_enters_legacy_jit(tmp_path,monkeypatch):
     from nohit.engine import csv_solver
     path,initial,settings=fixture(tmp_path)
-    def legacy(*args,**kwargs):raise AssertionError('native strategy entered legacy search')
-    monkeypatch.setattr(csv_solver,'find_bounded_candidate',legacy)
     result=csv_solver.solve_csv(path,initial,width=1,search_strategy='native',**settings)
     assert result['verified'] and result['search_stats']['backend']=='native-portfolio'
 
@@ -218,10 +216,10 @@ def test_rolling_backup_restores_a_pruned_source_path_byte_exactly(width,workers
 def test_default_cpu_workers_respect_affinity_quota_and_api_limit(monkeypatch):
     from nohit.engine import native_backend as backend
     monkeypatch.setattr(backend.os,'cpu_count',lambda:64)
-    monkeypatch.setattr(backend.os,'sched_getaffinity',lambda _:set(range(48)))
+    monkeypatch.setattr(backend.os,'sched_getaffinity',lambda _:set(range(48)),raising=False)
     original=backend.Path.read_text
     def quota(self,*args,**kwargs):
-        return '800000 100000' if str(self)=='/sys/fs/cgroup/cpu.max' else original(self,*args,**kwargs)
+        return '800000 100000' if self.as_posix()=='/sys/fs/cgroup/cpu.max' else original(self,*args,**kwargs)
     monkeypatch.setattr(backend.Path,'read_text',quota)
     assert backend.available_cpu_workers()==8
     monkeypatch.setattr(backend.Path,'read_text',lambda _: 'max 100000')

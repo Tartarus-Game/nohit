@@ -46,9 +46,12 @@ The certificate applies only to its game scene, engine, seed, route and adapter'
 audit coverage. A successful control demonstrates a functioning damage path;
 it cannot prove all unobserved damage paths are hooked. Developers must connect
 white/blue/orange/KR/environmental damage at their common original entry point(s).
-For formal complete world equality, implement the existing snapshot bridge.
+The shipped SDK compares the adapter's observations; it does not provide full
+world snapshots, restoration or proof of equality for unobserved state.
 
-No collision baking is mandatory for live adoption: original physics remains
-the verification authority. Godot 4 projects may optionally also copy
-`godot/addons/nohit/native_baker.gd`; GameMaker may import
-`gamemaker/nohit_bridge.gml`. Baking is a geometric observation, not a damage rule.
+Original physics and damage remain the verification authority. The live SDK
+requires no collision baking. The project-specific Godot 4 geometry observer is
+kept in `../integrations/meowjade/native_baker.gd`; it is not included in the
+standalone SDK and does not replace damage rules. The shipped GameMaker source
+templates are `gamemaker/nohit_live.gml` and `gamemaker/nohit_adapter.gml`; native
+launch and result export still require the game's own integration.

@@ -41,7 +41,7 @@ def solve_csv_request(data):
     if progress_id is not None:
         if not isinstance(progress_id, str) or not progress_id or len(progress_id) > 128:
             raise ValueError('progress_id must be a nonempty string of at most 128 characters')
-        reporter = solve_progress.begin(progress_id, engine='bounded-frontier-with-dialogue',
+        reporter = solve_progress.begin(progress_id, engine='native-csv',
                                         seconds_budget=data.get('seconds', 30),
                                         ticks=data.get('max_ticks'))
     try:
@@ -122,7 +122,7 @@ def _solve_csv_request(data, reporter):
         if path.suffix.lower() != '.csv' or not path.is_file():
             raise ValueError('CSV file does not exist')
         result = solve_csv(path, initial, **settings, width=data.get('width', 3000),
-            seconds=data.get('seconds', 30), max_bindings=data.get('max_bindings', 1),
+            seconds=data.get('seconds', 30),
             initial_confirm=data.get('initial_confirm',False),
             previous_confirm=data.get('previous_confirm',False),
             initial_target_history=data.get('initial_target_history'), progress=progress,

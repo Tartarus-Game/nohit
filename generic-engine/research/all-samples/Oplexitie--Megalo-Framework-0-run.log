@@ -1,9 +1,0 @@
-Godot Engine v3.3.stable.official - https://godotengine.org
- 
-NOHIT_PROBE_LOADED
-NOHIT_PROBE_FINISHED 600 nodes=32 collision_objects=0
-NOHIT_PROBE_SCRIPTS {/root/NoHitStartupProbe:res://nohit_probe.gd, /root/NoHitStartupProbe/Viewport/Game/Control/ViewportContainer/Viewport:res://Scripts/gameview.gd, /root/NoHitStartupProbe/Viewport/Game/Control/ViewportContainer/Viewport/Menu:res://Scripts/Menu/menu.gd, /root/audio:res://Scripts/Autoload/Audio.gd, /root/global:res://Scripts/Autoload/Global.gd}
-ERROR: get_language_code: Invalid locale 'C'.
-   At: core/translation.cpp:958.
-ERROR: set_locale: Unsupported locale 'C', falling back to 'en'.
-   At: core/translation.cpp:982.

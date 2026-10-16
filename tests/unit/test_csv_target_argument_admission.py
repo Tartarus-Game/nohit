@@ -2,7 +2,7 @@
 import pytest
 
 from nohit.dashboard.csv_api import solve_csv_request
-from nohit.engine.canonical_solver import model_issues
+from nohit.engine.source_contract import model_issues
 from nohit.engine.csv_solver import solve_csv
 
 

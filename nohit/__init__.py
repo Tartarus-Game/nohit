@@ -1,21 +1,9 @@
-"""
-nohit package
-=============
-Sans Fight Bullet Hell Dead-End Determination & Feasible Solution Verification System.
-"""
+"""Native CSV route search and independent original-game verification."""
 
 from __future__ import annotations
 
-def __getattr__(name):
-    if name not in ('bake_cspace', 'BakeResult'):
-        raise AttributeError(name)
-    from importlib import import_module
-    value = getattr(import_module('nohit.baker'), name)
-    globals()[name] = value
-    return value
-
 __version__ = "0.1.0"
-__all__ = ["bake_cspace", "BakeResult", "__version__"]
+__all__ = ["__version__"]
 
 
 def _configure_solver_process():
@@ -27,3 +15,5 @@ def _configure_solver_process():
     import os
     for key in ('OPENBLAS_NUM_THREADS','MKL_NUM_THREADS','OMP_NUM_THREADS'):
         os.environ.setdefault(key,'1')
+    from .native_runtime import configure_native_runtime
+    configure_native_runtime()

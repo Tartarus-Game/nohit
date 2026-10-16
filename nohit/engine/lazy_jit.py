@@ -1,4 +1,4 @@
-"""Defer Numba import for optional legacy kernels until their first use."""
+"""Defer Numba import for optional scalar verification kernels until their first use."""
 import threading
 
 _LOCK = threading.RLock()
@@ -18,7 +18,7 @@ class DeferredKernel:
                 if self.dispatcher is None:
                     from numba import njit as compile_kernel
                     # Replace all siblings before Numba inspects their globals.
-                    # This preserves dispatcher-to-dispatcher calls in legacy code.
+                    # This preserves dispatcher-to-dispatcher calls in verification code.
                     namespace = self.py_func.__globals__
                     kernels = [value for value in namespace.values()
                                if isinstance(value, DeferredKernel)]

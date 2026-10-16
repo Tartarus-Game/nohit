@@ -23,7 +23,7 @@ from tools.verify_csv_native_acceptance import (EOF_ATTACK_TYPES, EOF_CALLBACK_C
 def native_export_roundtrip():
     """Parse original export in real JS, then serialize as native evidence does."""
     root = Path(__file__).resolve().parents[2]
-    source = root / 'jcw87-c2-sans-fight/data.js'
+    source = root / 'c2-sans-fight/data.js'
     assert hashlib.sha256(source.read_bytes()).hexdigest() == EOF_SOURCE_HASHES['data.js']
     node = shutil.which('node')
     if node is None:

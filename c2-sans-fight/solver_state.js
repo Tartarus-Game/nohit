@@ -36,7 +36,7 @@
         },
         // The physical operator's previous-input latch is the committed VPad,
         // not the keyboard map that will be sampled on the following tick.
-        // Keep capture() unchanged for existing campaign/oracle callers.
+        // Keep capture() unchanged for existing campaign callers.
         capturePhysical(rt) {
             const result = window.NoHitSolverState.capture(rt);
             result.arena = window.NoHitSolverState.captureArena(rt);

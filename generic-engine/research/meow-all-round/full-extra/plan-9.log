@@ -1,8 +1,0 @@
-Godot Engine v4.6.1.stable.official.14d19694e - https://godotengine.org
-
-NOHIT_ENTRY (320.0, 350.0) mode=0 special=2
-NOHIT_RESULT hit ticks=309 damage=1
-WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
-     at: cleanup (core/object/object.cpp:2641)
-ERROR: 5 resources still in use at exit (run with --verbose for details).
-   at: clear (core/io/resource.cpp:810)

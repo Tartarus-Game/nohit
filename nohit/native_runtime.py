@@ -1,45 +1,33 @@
-"""Select a locally built code artifact before importing NumPy/Numba.
-
-This stores compiled operators, never environment tensors or action routes.
-Source changes require an explicit rebuild instead of surprise request-time JIT.
-"""
-import hashlib
-import importlib.metadata
-import json
+"""Configure the native compiler and its DLLs for local process entry points."""
 import os
-import platform
-import sys
 from pathlib import Path
+import shutil
 
 ROOT = Path(__file__).resolve().parents[1]
-ARTIFACT = ROOT / 'build' / 'kernels'
-SOURCES = ['nohit/engine/source_compiled.py', 'nohit/common/types.py']
+_dll_directories = []
+_configured = False
 
 
-def identity():
-    return dict(python=platform.python_version(), machine=platform.machine(),
-        packages={p: importlib.metadata.version(p) for p in ('numpy', 'numba', 'llvmlite')},
-        sources={p:dict(sha256=hashlib.sha256((ROOT/p).read_bytes()).hexdigest(),
-                       mtime_ns=(ROOT/p).stat().st_mtime_ns) for p in SOURCES},
-        cpu='host', processor=platform.processor())
-
-
-def select_built_runtime(required=False):
-    manifest_path = ARTIFACT / 'manifest.json'
-    if not manifest_path.exists():
-        if required:
-            raise RuntimeError('Build kernels first: .venv/Scripts/python.exe tools/build_kernels.py')
-        return False
-    manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
-    if manifest['identity'] != identity():
-        raise RuntimeError('Compiled kernels are stale. Run tools/build_kernels.py before starting.')
-    for name, digest in manifest['files'].items():
-        path = ARTIFACT / name
-        if not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest() != digest:
-            raise RuntimeError('Compiled kernel artifact is incomplete. Run tools/build_kernels.py.')
-    if 'numba' in sys.modules:
-        raise RuntimeError('Select the built runtime before importing numba')
-    os.environ['NUMBA_CACHE_DIR'] = str(ARTIFACT)
-    os.environ.pop('NUMBA_CPU_NAME', None)
-    os.environ['NOHIT_BUILT_RUNTIME'] = '1'
-    return True
+def configure_native_runtime():
+    """Keep generated code local and retain Windows DLL directory handles."""
+    global _configured
+    if _configured:
+        return
+    cache = Path(os.environ.setdefault('NOHIT_NATIVE_CACHE', str(ROOT / 'build' / 'native')))
+    cache.mkdir(parents=True, exist_ok=True)
+    if os.name == 'nt':
+        compiler = shutil.which('g++') or shutil.which('clang++')
+        if compiler is None and not os.environ.get('CXX'):
+            for directory in (Path('C:/msys64/ucrt64/bin'), Path('C:/msys64/mingw64/bin')):
+                candidate = directory / 'g++.exe'
+                if candidate.is_file():
+                    os.environ['PATH'] = str(directory) + os.pathsep + os.environ.get('PATH', '')
+                    compiler = str(candidate)
+                    break
+        if compiler and hasattr(os, 'add_dll_directory'):
+            _dll_directories.append(os.add_dll_directory(str(Path(compiler).parent)))
+        # GCC uses TEMP during compilation; keep those generated files together.
+        temporary = ROOT / 'build' / 'tmp'
+        temporary.mkdir(parents=True, exist_ok=True)
+        os.environ['TEMP'] = os.environ['TMP'] = str(temporary)
+    _configured = True

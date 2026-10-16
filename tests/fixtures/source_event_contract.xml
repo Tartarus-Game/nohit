@@ -1,0 +1,233 @@
+<?xml version='1.0' encoding='utf-8'?>
+<source-contract provenance="Historical Construct 2 CAPX excerpts used by the recorded motion fixtures" baseline_commit="4a5609d">
+  <event-sheet name="Battle.xml" source_sha256="29fe9cb820e06976f4afacddd47ec41d59352859002d9ed5fac1fddb09c4f6d1">
+    <event-block sid="440749620573975">
+      <conditions>
+        <condition id="0" name="On function" sid="4147856299931327" type="Function">
+          <param id="0" name="Name">"SansSlam"</param>
+        </condition>
+        <condition id="1" name="Compare parameter" sid="1993983720533496" type="Function">
+          <param id="0" name="Index">0</param>
+          <param id="1" name="Comparison">5</param>
+          <param id="2" name="Value">0</param>
+        </condition>
+        <condition id="1" name="Compare parameter" sid="8933267425025017" type="Function">
+          <param id="0" name="Index">0</param>
+          <param id="1" name="Comparison">3</param>
+          <param id="2" name="Value">3</param>
+        </condition>
+      </conditions>
+      <actions>
+        <action id="0" name="Call function" sid="4848380437314209" type="Function">
+          <param id="0" name="Name">"HeartMode"</param>
+          <param id="1" name="Parameter {n}">HEARTMODE_BLUE</param>
+        </action>
+        <action id="-13" name="Set boolean" sid="8020750525248225" type="PlayerHeart">
+          <param id="0" name="Instance variable">Slammed</param>
+          <param id="1" name="Value">1</param>
+        </action>
+        <action id="-8" name="Set angle" sid="5493186742726137" type="PlayerHeart">
+          <param id="0" name="Angle">floor(Function.Param(0))*90</param>
+        </action>
+        <action behavior="CustomMovement" id="2" name="Set speed" sid="2206155500121323" type="PlayerHeart">
+          <param id="0" name="Which">1</param>
+          <param id="1" name="Speed">cos(PlayerHeart.Angle)*MaxFallSpeed</param>
+        </action>
+        <action behavior="CustomMovement" id="2" name="Set speed" sid="2679913281423387" type="PlayerHeart">
+          <param id="0" name="Which">2</param>
+          <param id="1" name="Speed">sin(PlayerHeart.Angle)*MaxFallSpeed</param>
+        </action>
+      </actions>
+    </event-block>
+    <event-block sid="8364383427250982">
+      <conditions>
+        <condition id="0" name="On function" sid="2541051313696924" type="Function">
+          <param id="0" name="Name">"HeartCheckSolid"</param>
+        </condition>
+      </conditions>
+      <actions>
+        <action id="1" name="Set return value" sid="6052053167423699" type="Function">
+          <param id="0" name="Value">0</param>
+        </action>
+      </actions>
+      <sub-events>
+        <event-block sid="707209406588903">
+          <conditions>
+            <condition id="9" name="Is overlapping at offset" sid="1229473919073112" type="PlayerHeart">
+              <param id="0" name="Object">CombatZoneBorder</param>
+              <param id="1" name="Offset X">Function.Param(0)</param>
+              <param id="2" name="Offset Y">Function.Param(1)</param>
+            </condition>
+          </conditions>
+          <actions>
+            <action id="1" name="Set return value" sid="2227687214039996" type="Function">
+              <param id="0" name="Value">1</param>
+            </action>
+          </actions>
+        </event-block>
+        <event-block sid="2947768587641552">
+          <conditions>
+            <condition id="9" name="Is overlapping at offset" sid="5546487676890059" type="PlayerHeart">
+              <param id="0" name="Object">Platform1</param>
+              <param id="1" name="Offset X">Function.Param(0)</param>
+              <param id="2" name="Offset Y">Function.Param(1)</param>
+            </condition>
+          </conditions>
+          <actions />
+          <sub-events>
+            <event-block disabled="1" sid="3367073803963717">
+              <conditions>
+                <condition id="-11" name="Is within angle" sid="7604734244609333" type="PlayerHeart">
+                  <param id="0" name="Within">0.5</param>
+                  <param id="1" name="Angle">0</param>
+                </condition>
+                <condition id="-1" name="Compare X" sid="867314195452469" type="Platform1">
+                  <param id="0" name="Comparison">4</param>
+                  <param id="1" name="X co-ordinate">PlayerHeart.X</param>
+                </condition>
+                <condition id="-8" name="Compare two values" sid="3784182056193712" type="System">
+                  <param id="0" name="First value">PlayerHeart.CustomMovement.dx</param>
+                  <param id="1" name="Comparison">5</param>
+                  <param id="2" name="Second value">Platform1.CustomMovement.dx</param>
+                </condition>
+                <condition id="-8" name="Compare two values" sid="1480876722835724" type="System">
+                  <param id="0" name="First value">PlayerHeart.BBoxRight</param>
+                  <param id="1" name="Comparison">3</param>
+                  <param id="2" name="Second value">Platform1.BBoxLeft+2</param>
+                </condition>
+              </conditions>
+              <actions>
+                <action id="1" name="Set return value" sid="440440693606863" type="Function">
+                  <param id="0" name="Value">1</param>
+                </action>
+              </actions>
+            </event-block>
+            <event-block sid="4274121673613992">
+              <conditions>
+                <condition id="-11" name="Is within angle" sid="4253006755465429" type="PlayerHeart">
+                  <param id="0" name="Within">0.5</param>
+                  <param id="1" name="Angle">90</param>
+                </condition>
+                <condition id="-2" name="Compare Y" sid="432417104473420" type="Platform1">
+                  <param id="0" name="Comparison">4</param>
+                  <param id="1" name="Y co-ordinate">PlayerHeart.Y</param>
+                </condition>
+                <condition id="-8" name="Compare two values" sid="5079046125486197" type="System">
+                  <param id="0" name="First value">PlayerHeart.CustomMovement.dy</param>
+                  <param id="1" name="Comparison">5</param>
+                  <param id="2" name="Second value">Platform1.CustomMovement.dy</param>
+                </condition>
+                <condition id="-8" name="Compare two values" sid="3397586812559742" type="System">
+                  <param id="0" name="First value">PlayerHeart.BBoxBottom</param>
+                  <param id="1" name="Comparison">3</param>
+                  <param id="2" name="Second value">Platform1.BBoxTop+2</param>
+                </condition>
+              </conditions>
+              <actions>
+                <action id="1" name="Set return value" sid="388784234645409" type="Function">
+                  <param id="0" name="Value">1</param>
+                </action>
+              </actions>
+            </event-block>
+            <event-block disabled="1" sid="126045721008568">
+              <conditions>
+                <condition id="-11" name="Is within angle" sid="8109725380712484" type="PlayerHeart">
+                  <param id="0" name="Within">0.5</param>
+                  <param id="1" name="Angle">180</param>
+                </condition>
+                <condition id="-1" name="Compare X" sid="622289574536881" type="Platform1">
+                  <param id="0" name="Comparison">2</param>
+                  <param id="1" name="X co-ordinate">PlayerHeart.X</param>
+                </condition>
+                <condition id="-8" name="Compare two values" sid="9975307930205958" type="System">
+                  <param id="0" name="First value">PlayerHeart.CustomMovement.dx</param>
+                  <param id="1" name="Comparison">3</param>
+                  <param id="2" name="Second value">Platform1.CustomMovement.dx</param>
+                </condition>
+                <condition id="-8" name="Compare two values" sid="4936951010066247" type="System">
+                  <param id="0" name="First value">PlayerHeart.BBoxLeft</param>
+                  <param id="1" name="Comparison">3</param>
+                  <param id="2" name="Second value">Platform1.BBoxRight-2</param>
+                </condition>
+              </conditions>
+              <actions>
+                <action id="1" name="Set return value" sid="13514048291979" type="Function">
+                  <param id="0" name="Value">1</param>
+                </action>
+              </actions>
+            </event-block>
+            <event-block disabled="1" sid="2332670214936478">
+              <conditions>
+                <condition id="-11" name="Is within angle" sid="3079885609166868" type="PlayerHeart">
+                  <param id="0" name="Within">0.5</param>
+                  <param id="1" name="Angle">270</param>
+                </condition>
+                <condition id="-2" name="Compare Y" sid="973394053811111" type="Platform1">
+                  <param id="0" name="Comparison">2</param>
+                  <param id="1" name="Y co-ordinate">PlayerHeart.Y</param>
+                </condition>
+                <condition id="-8" name="Compare two values" sid="7110746590958389" type="System">
+                  <param id="0" name="First value">PlayerHeart.CustomMovement.dy</param>
+                  <param id="1" name="Comparison">3</param>
+                  <param id="2" name="Second value">Platform1.CustomMovement.dy</param>
+                </condition>
+                <condition id="-8" name="Compare two values" sid="5875812123797508" type="System">
+                  <param id="0" name="First value">PlayerHeart.BBoxTop</param>
+                  <param id="1" name="Comparison">3</param>
+                  <param id="2" name="Second value">Platform1.BBoxBottom-2</param>
+                </condition>
+              </conditions>
+              <actions>
+                <action id="1" name="Set return value" sid="8296904830120599" type="Function">
+                  <param id="0" name="Value">1</param>
+                </action>
+              </actions>
+            </event-block>
+          </sub-events>
+        </event-block>
+      </sub-events>
+    </event-block>
+    <event-block sid="9206346910846115">
+      <conditions>
+        <condition id="-14" name="Compare variable" sid="6065731015496369" type="System">
+          <param id="0" name="Variable">SimulatorMode</param>
+          <param id="1" name="Comparison">0</param>
+          <param id="2" name="Value">MODE_SINGLE</param>
+        </condition>
+        <condition id="-7" name="Compare instance variable" sid="218244971315972" type="VPad">
+          <param id="0" name="Instance variable">Cancel</param>
+          <param id="1" name="Comparison">4</param>
+          <param id="2" name="Value">VPad.LastCancel</param>
+        </condition>
+      </conditions>
+      <actions>
+        <action id="0" name="Call function" sid="6813644129604146" type="Function">
+          <param id="0" name="Name">"TLStop"</param>
+          <param id="1" name="Parameter {n}" />
+        </action>
+        <action id="33" name="Stop all" sid="3856935287032514" type="Audio" />
+        <action id="-2" name="Go to layout" sid="4218464974531404" type="System">
+          <param id="0" name="Layout">MainMenu</param>
+        </action>
+      </actions>
+    </event-block>
+  </event-sheet>
+  <event-sheet name="InputManagement.xml" source_sha256="e118fcd0934c76c59741067974dd76722b81945471f44b90ae4ff45fa2389577">
+    <event-block any="1" sid="4623232669904996">
+      <conditions>
+        <condition id="2" name="Key is down" sid="5021788616537434" type="Keyboard">
+          <param id="0" name="Key">88</param>
+        </condition>
+        <condition id="2" name="Key is down" sid="1588947091940208" type="Keyboard">
+          <param id="0" name="Key">16</param>
+        </condition>
+      </conditions>
+      <actions>
+        <action id="-10" name="Set value" sid="4252777994439934" type="VPad">
+          <param id="0" name="Instance variable">Cancel</param>
+          <param id="1" name="Value">1</param>
+        </action>
+      </actions>
+    </event-block>
+  </event-sheet>
+</source-contract>

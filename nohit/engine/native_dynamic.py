@@ -4,6 +4,8 @@ No observed target is borrowed from another trajectory. A rejected speculative
 world only proposes a new input word; it never establishes reachability.
 """
 import time
+import hashlib
+from pathlib import Path
 import struct
 from types import SimpleNamespace
 import numpy as np
@@ -15,6 +17,19 @@ from .source_oracle import scalar_module
 from . import resumable_wave as world
 from .csv_completion import wave_terminal, controlled_terminal
 from .source_verification import scalar_frame_collision
+
+
+def _unknown_candidate(initial, settings, reason):
+    protocol=('explicit_dt_schedule' if settings.get('dt_schedule') is not None else
+              'native_fixed_240' if settings.get('clock_start_ms') is not None else 'nominal_240')
+    clock=dict(protocol=protocol,decision_ticks=1,original_replay_passed=False)
+    sequence=settings.get('dt_schedule')
+    if sequence is not None:
+        clock.update(schedule_count=len(sequence),
+            schedule_sha256=hashlib.sha256(np.asarray(sequence,dtype='<f8').tobytes()).hexdigest())
+    return SimpleNamespace(status='unknown',verified=False,reason=reason,reached_tick=0,
+        actions=[],trajectory=np.asarray(initial,dtype=np.float64).reshape(1,11),
+        target_history=(),bindings=[],layers=[],stats=dict(backend='native-observed-portfolio'),clock=clock)
 
 
 def _proposal_frame(frame):
@@ -78,13 +93,13 @@ def _world(path, initial, settings, proposal, initial_confirm, previous_confirm,
         trace.append(physical.copy())
         if safe and (not np.isfinite(physical).all() or collision(frame,physical)):safe=False
         if isinstance(result,world.Terminal):
-            if result.reason!='endattack':return None
+            if result.reason not in ('endattack','eof_hazards_drained'):return None
             break
     if observations is not None and next(observations,None) is not None:
         raise ValueError('initial_target_history contains an unused source read')
     # Native search consumes the separate white/blue tensors. The combined
     # display tensor would be another full copy of every dense hazard.
-    wave=template._materialize(frames,state,tuple(history),None,None,'endattack',(),True,
+    wave=template._materialize(frames,state,tuple(history),None,None,result.reason,(),True,
         include_combined_geometry=False)
     return template,SimpleNamespace(wave=wave,history=tuple(history),identity=b'',pending_target=None,complete=True),np.asarray(trace),confirms,safe,word
 
@@ -165,7 +180,7 @@ def _certify(path,initial,settings,actions,expected,confirms,initial_confirm,
             if command=='damageplayer':
                 damage_events.append(dict(tick=source_tick,amount=float(args[0]),kr=float(args[1] or 0.)))
     if controlled is not None:
-        if not isinstance(result,world.Terminal) or result.reason!='endattack':return None
+        if not isinstance(result,world.Terminal) or result.reason not in ('endattack','eof_hazards_drained'):return None
         terminal=SimpleNamespace(state=controlled,status='terminal',frame=result.frame,reason=result.reason)
         source_terminal=controlled_terminal(terminal,template);source_terminal["scripted_damage_events"]=damage_events
         return base,tuple(history),source_terminal,b''.join(identity_parts),first-1,primed
@@ -235,7 +250,7 @@ def _segmented(path,initial,settings,width,workers,memory_mb,selection_seed,init
 
 
 def _segmented_coupled(path,initial,settings,width,workers,memory_mb,selection_seed,
-                       initial_confirm,previous_confirm,initial_target_history,deadline,_goal_style=None,_preview_ticks=0,_audit=None,_chunk_ticks=0):
+                       initial_confirm,previous_confirm,initial_target_history,deadline,_goal_style=None,_preview_ticks=0,_audit=None,_chunk_ticks=0,_preview_reads=128,_goal_retries=False,_fixed_prefix=None):
     """Commit only through the next real observation under explicit dialogue.
 
     Confirm follows the same declared alternating sequence as the portfolio.
@@ -250,13 +265,41 @@ def _segmented_coupled(path,initial,settings,width,workers,memory_mb,selection_s
     frames=[];trace_parts=[physical.reshape(1,11).copy()];word=[];confirms=[];history=[]
     observations=None if initial_target_history is None else iter(initial_target_history)
     coupled=False;last=None;segment_stats=[];segment=0
+    fixed_actions=[];fixed_trace=None;fixed_confirms=[]
+    if _fixed_prefix is not None:
+        supplied_hash=_fixed_prefix.get('csv_sha256',_fixed_prefix.get('source_sha256'))
+        if supplied_hash!=hashlib.sha256(Path(path).read_bytes()).hexdigest():
+            raise ValueError('fixed prefix must identify this CSV source hash')
+        fixed_actions=list(_fixed_prefix['actions'])
+        fixed_trace=np.asarray(_fixed_prefix['trajectory'],dtype=np.float64)
+        fixed_confirms=list(_fixed_prefix['confirm_sequence'])
+        # Custom emits arrows only. The observed frame-zero input latch is
+        # preserved independently and may still contain a prior Cancel bit.
+        if (fixed_trace.shape!=(len(fixed_actions)+1,11) or not np.isfinite(fixed_trace).all() or
+                len(fixed_confirms)!=len(fixed_actions) or
+                any(type(mask) is not int or not 0<=mask<=15 for mask in fixed_actions) or
+                any(type(value) is not bool for value in fixed_confirms) or
+                fixed_trace[0].tobytes()!=physical.tobytes()):
+            raise ValueError('invalid fixed prefix witness')
     def commit(suspension=None):
         nonlocal physical,frames,last,segment
         if len(frames)<2:return True
         remaining=deadline-time.perf_counter()
         if remaining<=0:return False
         committed_count=len(frames)-1
-        search_frames=frames
+        if fixed_trace is not None and len(word)<len(fixed_actions):
+            prefix_end=min(len(fixed_actions),len(word)+committed_count)
+            if physical.tobytes()!=fixed_trace[len(word)].tobytes():
+                raise ValueError('fixed prefix state disagrees with its reconstructed world')
+            if confirms[:prefix_end]!=fixed_confirms[:prefix_end]:
+                raise ValueError('fixed prefix Confirm sequence disagrees with the declared policy')
+            count=prefix_end-len(word)
+            trace_parts.append(fixed_trace[len(word)+1:prefix_end+1].copy())
+            word.extend(fixed_actions[len(word):prefix_end])
+            physical=fixed_trace[prefix_end].copy();frames=frames[count:];segment+=1
+            committed_count=len(frames)-1
+            if not committed_count:return True
+        search_frames=frames;preview_reads=0
         if suspension is not None and _preview_ticks and committed_count>4:
             preview=suspension.state.clone();guess=physical.copy();preview_reads=0
             for old_frame in frames[1:]:
@@ -270,7 +313,7 @@ def _segmented_coupled(path,initial,settings,width,workers,memory_mb,selection_s
                     xy=guess[:2] if future_tick==0 else player.sample_position(guess,*world._observation_sampling_arrays(future))
                     preview=world._supply_target_owned(future.state,xy)
                     future=world._advance_with_dialogue_input_owned(preview,confirm=future_confirm,cancel=False)
-                if preview_reads>8:break
+                if preview_reads>_preview_reads:break
                 if not isinstance(future,(world.TickCommitted,world.Terminal)) or future.frame is None:break
                 preview=future.state;search_frames.append(_proposal_frame(future.frame))
                 if future_tick:player.step_mask_into(guess,0,future.frame.env,future.frame.platforms,guess)
@@ -286,13 +329,26 @@ def _segmented_coupled(path,initial,settings,width,workers,memory_mb,selection_s
             u,v=fractions[slot];bounds=part.env_schedule[-1,:4]
             target=(bounds[0]+13.+u*max(0.,bounds[2]-bounds[0]-26.),
                     bounds[1]+13.+v*max(0.,bounds[3]-bounds[1]-26.))
-        last=find_native_candidate(path,physical,width=width,seconds=remaining,workers=workers,
-            memory_mb=memory_mb,selection_seed=selection_seed+segment,_resolved=(template,resolved),
-            _defer_verification=True,_terminal_target=target,**settings)
+        goals=[target]
+        if _goal_retries:
+            bounds=part.env_schedule[-1,:4]
+            for u,v in ((.5,.5),(.15,.15),(.85,.15),(.85,.85),(.15,.85)):
+                point=(bounds[0]+13.+u*max(0.,bounds[2]-bounds[0]-26.),
+                       bounds[1]+13.+v*max(0.,bounds[3]-bounds[1]-26.))
+                if point not in goals:goals.append(point)
+        for attempt,goal in enumerate(goals):
+            remaining=deadline-time.perf_counter()
+            if remaining<=0:return False
+            budget=min(remaining,4. if attempt==0 else 1.5) if _goal_retries else remaining
+            last=find_native_candidate(path,physical,width=width,seconds=budget,workers=workers,
+                memory_mb=memory_mb,selection_seed=selection_seed+segment+attempt*0x9e3779b9,
+                _resolved=(template,resolved),_defer_verification=True,_terminal_target=goal,**settings)
+            if last is not None and last.status=='proposal_found':break
         if last is None:return False
         if _audit is not None:
             probes=last.stats.get('probe_attempts',())
             _audit.append(dict(origin_tick=len(word),goal_style=_goal_style,preview_ticks=_preview_ticks,
+                preview_target_reads=preview_reads,preview_frame_count=len(search_frames)-len(frames),
                 status=last.status,search_seconds=last.stats.get('search_seconds',0.),
                 expanded_states=last.stats.get('expanded_states',0),
                 safe_transition_rows=last.stats.get('safe_transition_rows',0),
@@ -308,7 +364,7 @@ def _segmented_coupled(path,initial,settings,width,workers,memory_mb,selection_s
         physical=last.trajectory[committed_count].copy();frames=frames[-1:];segment+=1
         return True
     while time.perf_counter()<deadline:
-        tick=environment.data['tick'];confirm=initial_confirm if tick==0 else tick%2==0
+        tick=environment.data['tick'];confirm=initial_confirm if tick==0 else fixed_confirms[tick-1] if tick<=len(fixed_confirms) else tick%2==0
         options={} if coupled else dict(previous_confirm=previous_confirm,previous_cancel=False)
         result=world._advance_with_dialogue_input_owned(environment,confirm=confirm,cancel=False,**options)
         coupled=True
@@ -330,7 +386,20 @@ def _segmented_coupled(path,initial,settings,width,workers,memory_mb,selection_s
         if _chunk_ticks and len(frames)>_chunk_ticks and not isinstance(result,world.Terminal):
             if not commit(SimpleNamespace(state=environment)):return None
         if isinstance(result,world.Terminal):
-            if result.reason!='endattack' or not commit() or last is None:return None
+            if result.reason not in ('endattack','eof_hazards_drained') or not commit():return None
+            if len(word)<len(fixed_actions):return None
+            if last is None:
+                # An empty source or an entirely fixed word still needs a
+                # terminal collision check and the same full scalar certificate.
+                part=template._materialize(frames[-1:],environment,tuple(history),None,None,
+                    'endattack',(),True,include_combined_geometry=False)
+                resolved=SimpleNamespace(wave=part,pending_target=None,complete=True,
+                    history=tuple(history),identity=b'')
+                last=find_native_candidate(path,physical,width=width,seconds=max(.001,deadline-time.perf_counter()),
+                    workers=workers,memory_mb=memory_mb,selection_seed=selection_seed,
+                    _resolved=(template,resolved),_defer_verification=True,**settings)
+                if last is None or last.status!='proposal_found':return None
+                segment_stats.append(dict(last.stats))
             if observations is not None and next(observations,None) is not None:
                 raise ValueError('initial_target_history contains an unused source read')
             actual=np.concatenate(trace_parts)
@@ -350,7 +419,8 @@ def _segmented_coupled(path,initial,settings,width,workers,memory_mb,selection_s
             last.stats.update(backend='native-coupled-segments',route_cache=False,
                 verification_seconds=time.perf_counter()-verification_started,
                 retained_trace_bytes=actual.nbytes,committed_observation_segments=segment,
-                observation_goal_style=_goal_style,observation_preview_ticks=_preview_ticks,observation_chunk_ticks=_chunk_ticks)
+                observation_goal_style=_goal_style,observation_preview_ticks=_preview_ticks,observation_chunk_ticks=_chunk_ticks,observation_preview_reads=_preview_reads,
+                observation_goal_retries=_goal_retries,fixed_prefix_ticks=len(fixed_actions))
             churn=sum(mask!=(word[i-1] if i else 0) for i,mask in enumerate(word))
             held=sum(mask!=0 for mask in word)
             last.stats['input_cost']=dict(frames=len(word),churn=churn,held_frames=held,
@@ -369,14 +439,15 @@ def _static_coupled_candidate(path,initial,settings,width,workers,memory_mb,sele
         tick=state.data['tick'];confirm=initial_confirm if tick==0 else tick%2==0
         options={} if coupled else dict(previous_confirm=previous_confirm,previous_cancel=False)
         result=world._advance_with_dialogue_input_owned(state,confirm=confirm,cancel=False,**options);coupled=True
+        if isinstance(result,world.ResourceLimit):return _unknown_candidate(initial,settings,result.reason)
         if not isinstance(result,(world.TickCommitted,world.Terminal)) or result.frame is None:return None
         state=result.state;peak_source_bodies=max(peak_source_bodies,len(result.frame.white)+len(result.frame.blue));frames.append(_proposal_frame(result.frame))
         if tick:confirms.append(confirm)
         if isinstance(result,world.Terminal):
-            if result.reason!='endattack':return None
+            if result.reason not in ('endattack','eof_hazards_drained'):return None
             break
     else:return None
-    wave=template._materialize(frames,state,(),None,None,'endattack',(),True,include_combined_geometry=False)
+    wave=template._materialize(frames,state,(),None,None,result.reason,(),True,include_combined_geometry=False)
     resolved=SimpleNamespace(wave=wave,history=(),identity=b'',pending_target=None,complete=True)
     frames.clear()
     source_seconds=time.perf_counter()-began;remaining=deadline-time.perf_counter()
@@ -421,15 +492,37 @@ def _static_coupled_candidate(path,initial,settings,width,workers,memory_mb,sele
 
 def find_dynamic_candidate(path,initial,*,width=3000,seconds=8.,selection_seed=42,
         workers=None,memory_mb=64,initial_confirm=False,previous_confirm=False,
-        initial_target_history=None,progress=None,**settings):
-    if settings.get('termination_policy','endattack')!='endattack' or seconds<=0:return None
+        initial_target_history=None,progress=None,observation_chunk_ticks=0,
+        observation_preview_ticks=0,observation_preview_reads=128,observation_goal_style=None,
+        observation_goal_retries=False,fixed_prefix=None,**settings):
+    for name,value in (('observation_chunk_ticks',observation_chunk_ticks),
+                       ('observation_preview_ticks',observation_preview_ticks),
+                       ('observation_preview_reads',observation_preview_reads)):
+        if type(value) is not int or value<0:raise ValueError(name+' must be a nonnegative integer')
+    if observation_goal_style is not None and (type(observation_goal_style) is not int or not 0<=observation_goal_style<=15):
+        raise ValueError('observation_goal_style must be an integer in [0,15] or None')
+    if type(observation_goal_retries) is not bool:raise ValueError('observation_goal_retries must be boolean')
+    if seconds<=0:return None
     from .timeline_csv import parse_timeline_rows
     rows=parse_timeline_rows(path.read_text(encoding='utf-8-sig'))
     names={str(row[1]).lower().strip() for row in rows if len(row)>1}
     has_dialogue='sanstext' in names
-    if not has_dialogue and 'getheartpos' not in names:return None
+    explicit_segments=bool(observation_chunk_ticks or observation_preview_ticks or fixed_prefix is not None)
+    if not has_dialogue and 'getheartpos' not in names and not explicit_segments:return None
     started=time.perf_counter();deadline=started+seconds
     proposal=[];attempts=[];last=None;world_seconds=0.;policy_audit=[];directed_attempts=[]
+    if explicit_segments:
+        candidate=_segmented_coupled(path,initial,settings,width,workers,memory_mb,selection_seed,
+            initial_confirm,previous_confirm,initial_target_history,deadline,
+            _goal_style=observation_goal_style,_preview_ticks=observation_preview_ticks,
+            _audit=policy_audit,_chunk_ticks=observation_chunk_ticks,
+            _preview_reads=observation_preview_reads,_goal_retries=observation_goal_retries,
+            _fixed_prefix=fixed_prefix)
+        if candidate is not None:
+            candidate.stats['dynamic_wall_seconds']=time.perf_counter()-started
+            candidate.stats['observation_search_audit']=policy_audit
+            return candidate
+        return None
     if has_dialogue and 'getheartpos' not in names:
         static=_static_coupled_candidate(path,initial,settings,width,workers,memory_mb,selection_seed,
             initial_confirm,previous_confirm,initial_target_history,deadline)
@@ -464,7 +557,7 @@ def find_dynamic_candidate(path,initial,*,width=3000,seconds=8.,selection_seed=4
             trial_started=time.perf_counter()
             trial_deadline=min(deadline,trial_started+(max(3.,min(15.,seconds/2)) if preview_ticks>=120 else max(.5,min(2.,seconds/6))))
             segmented=_segmented_coupled(path,initial,settings,width,workers,memory_mb,selection_seed,
-                initial_confirm,previous_confirm,initial_target_history,trial_deadline,_goal_style=goal_style,_preview_ticks=preview_ticks,_audit=policy_audit)
+                initial_confirm,previous_confirm,initial_target_history,trial_deadline,_goal_style=goal_style,_preview_ticks=preview_ticks,_audit=policy_audit,_preview_reads=observation_preview_reads)
             directed_attempts.append(dict(goal_style=goal_style,preview_ticks=preview_ticks,seconds=time.perf_counter()-trial_started,
                 found=segmented is not None))
             if segmented is not None:
@@ -533,13 +626,8 @@ def find_dynamic_candidate(path,initial,*,width=3000,seconds=8.,selection_seed=4
         last.status='unknown';last.verified=False;last.reason='native_observation_budget'
         last.stats['dynamic_wall_seconds']=time.perf_counter()-started
     if last is None:
-        last=SimpleNamespace(status='unknown',verified=False,reason='native_observation_budget',
-            reached_tick=0,actions=[],trajectory=np.asarray(initial,dtype=np.float64).reshape(1,11),
-            target_history=(),bindings=[],layers=[],stats=dict(backend='native-observed-portfolio',
-            dynamic_wall_seconds=time.perf_counter()-started),clock=dict(protocol=
-            'explicit_dt_schedule' if settings.get('dt_schedule') is not None else
-            'native_fixed_240' if settings.get('clock_start_ms') is not None else 'nominal_240',
-            decision_ticks=1,original_replay_passed=False))
+        last=_unknown_candidate(initial,settings,'native_observation_budget')
+        last.stats['dynamic_wall_seconds']=time.perf_counter()-started
     last.stats.update(observation_policy_attempts=directed_attempts,observation_search_audit=policy_audit)
     if policy_audit:last.stats['search_deepest_tick']=max(v['deepest_tick'] for v in policy_audit)
     return last

@@ -80,13 +80,12 @@ def test_player_targeting_requires_observed_history():
     assert sim['source_events'][0][1]=='getheartpos'
 
 
-def test_intro_has_exact_polygon_beams_and_complete_reset_events():
+def test_intro_stops_before_input_dependent_dialogue_instead_of_inventing_beams():
     w=compile_wave(ROOT/'c2-sans-fight/sans_intro.csv')
-    assert w.geometry_polygons.shape[2]==8
-    assert np.isfinite(w.geometry_polygons).any()
-    assert np.count_nonzero(w.env_schedule[:,6])==1
-    assert w.env_schedule.shape[1]==22
-    assert any(e[1]=='heartteleport' for e in w.source_events)
+    assert not w.complete and w.termination_reason == 'dialogue_boundary'
+    assert w.geometry_polygons.shape == (1,0,8)
+    assert w.env_schedule.shape == (1,22)
+    assert w.terminal_details['pending_dialogue']['text'] == 'ready?'
 
 
 def test_actual_timestamp_arithmetic_preserves_native_timer_boundary():

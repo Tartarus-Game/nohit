@@ -73,7 +73,7 @@ def certify_observed(path,initial,settings,actions,expected,initial_target_histo
     player=scalar_module('discrete_operator')
     wave=compile_observed_prefix(path,settings,expected,initial_target_history)
     if wave is None:return None
-    if not wave.complete or wave.termination_reason!='endattack' or len(wave.env_schedule)!=len(actions)+1:return None
+    if not wave.complete or wave.termination_reason not in ('endattack','eof_hazards_drained') or len(wave.env_schedule)!=len(actions)+1:return None
     check=scalar_collision_checker(wave);state=player.initial_state(initial,wave.env_schedule[0])
     for tick in range(len(expected)):
         if tick:player.step_mask_into(state,actions[tick-1],wave.env_schedule[tick],wave.platform_table[tick],state)

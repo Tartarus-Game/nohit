@@ -3,7 +3,6 @@ import numpy as np
 import pytest
 
 from nohit.engine.parametric_environment import ParametricEnvironment
-from nohit.engine.parametric_dag import solve_parametric
 from nohit.engine.compact_wave import compile_wave
 from nohit.engine.discrete_operator import step_mask_into
 from nohit.engine.cspace import bake_cspace,collision_query
@@ -79,29 +78,6 @@ def test_repeated_observations_execute_new_ticks_instead_of_prefixes(tmp_path):
     assert fast['executed_ticks']==fast['committed_ticks']+fast['preview_ticks']
     assert fast['executed_ticks']<slow['executed_ticks']/5
     assert fast['commands_executed']==len(last[1].wave.source_events)
-
-
-@pytest.mark.parametrize('policy',['navigation','coast','coast_support'])
-def test_tiny_solver_route_and_full_microtick_replay_are_backend_equivalent(tmp_path,policy):
-    path=tmp_path/'escape.csv'
-    path.write_text('0.008333,GetHeartPos,x,y\n0.008333,BoneH,0,30,19,0,0\n0.008333,EndAttack\n')
-    env=[0,0,100,100,0,1,0,1/240,750,0,20,35,0,0,0,0,100,100]
-    initial=np.array([20.,35.,0.,0.,0.,0.,0.,1.,750.,0.,0.])
-    results=[solve_parametric(path,initial,initial_environment=env,weights=[0,0,0,0],
-        max_nodes=5000,lookahead_policy=policy,environment_backend=b) for b in ('reference','resumable')]
-    a,b=results
-    assert a['status']==b['status']=='candidate_found'
-    assert a['actions']==b['actions'] and a['target_history']==b['target_history']
-    assert np.asarray(a['trajectory']).tobytes()==np.asarray(b['trajectory']).tobytes()
-    wave=compile_wave(path,initial_environment=env,
-        heart_samples={(t,line):(x,y) for t,line,x,y in b['target_history']})
-    space=bake_cspace(wave);state=initial.copy()
-    for frame,mask in enumerate(b['actions']):
-        for micro in range(1,5):
-            tick=frame*4+micro
-            if tick>=len(wave.env_schedule):break
-            step_mask_into(state,mask,wave.env_schedule[tick],wave.platform_table[tick],state)
-            assert not collision_query(wave.geometry_white,wave.geometry_blue,tick,state,0.,space.payload)
 
 
 @pytest.mark.parametrize('text,policy',[

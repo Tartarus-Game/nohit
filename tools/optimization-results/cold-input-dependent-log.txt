@@ -1,3 +1,0 @@
-{"wave": "sans_intro", "external_wall_seconds": 1.9549769389996072, "sampled_tree_peak_rss_bytes": null, "status": "candidate_found"}
-{"wave": "sans_randomblaster1", "external_wall_seconds": 1.8970339050001712, "sampled_tree_peak_rss_bytes": null, "status": "candidate_found"}
-{"wave": "sans_randomblaster2", "external_wall_seconds": 1.927097768000749, "sampled_tree_peak_rss_bytes": null, "status": "candidate_found"}

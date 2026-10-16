@@ -30,7 +30,7 @@ function page() {
   vm.runInContext(script,context,{filename:'csv.html'});
   Object.assign(element('initial-state'),{value:'[320,304,0,0,0,0,0,1,750,0,0]'});
   element('initial-environment').value='null';element('fps').value='30';element('seconds').value='30';
-  element('width').value='3000';element('bindings').value='1';element('speed').value='1';
+  element('width').value='3000';element('speed').value='1';
   return {element,keys,context,draws,evaluate:code=>vm.runInContext(code,context),
     result(value){context.testResult=value;vm.runInContext('showResult(testResult)',context);},
     async submit(value){fetchResult=value;await element('solve-form').events.submit({preventDefault(){}});return submitted;}};
@@ -84,24 +84,14 @@ test('request uses the direct path or exact pasted CSV API contract',async()=>{
   const b=await p.submit(unknown);assert.equal(b.payload.custom_csv,p.element('custom-csv').value);assert(!('csv_path' in b.payload));
 });
 
-test('engine selector routes to the chosen solver and asks for live progress',async()=>{
+test('CSV requests always use the current solver and carry live progress identity',async()=>{
   const p=page();p.element('csv-path').value='C:/Users/example/welcome.csv';
-  const unknown={status:'unknown',reason:'wall_budget',verified:false,actions:[]};
-  const fresh=await p.submit(unknown);
+  const fresh=await p.submit({status:'unknown',reason:'wall_budget',verified:false,actions:[]});
   assert.equal(fresh.url,'/api/solve-csv');
   assert.equal(typeof fresh.payload.progress_id,'string');
   assert(fresh.payload.progress_id.length>0);
-  p.element('engine').value='old';p.element('text-tab').events.click();
-  p.element('custom-csv').value='0,HeartMode,0\n6.4,EndAttack\n';
-  p.element('fps').value='60';p.element('seconds').value='10';
-  const legacy=await p.submit({is_deadlock:false,W:200,H:160,T:385,initial_state:[96,0],
-    stats:{bake_ms:45,dp_ms:48424,total_ms:48469,peak_states:67468},hazard_runs:[[]],
-    platforms:[[]],trajectory:[[96,0,0,1,0]],action_sequence:[],slam_frames:[]});
-  assert.equal(legacy.url,'/api/solve');
-  assert.equal(legacy.payload.custom_csv,'0,HeartMode,0\n6.4,EndAttack\n');
-  assert.equal(legacy.payload.T,600);
-  assert.equal(legacy.payload.wave,null);
-  assert.match(p.element('scope-tag').textContent,/栅格模型/);
+  assert.equal('max_bindings' in fresh.payload,false);
+  assert.doesNotMatch(html,/id="engine"|old\.html|renderOldEngine/);
 });
 
 test('the file picker submits the chosen CSV text and never a path',async()=>{
@@ -116,13 +106,6 @@ test('the file picker submits the chosen CSV text and never a path',async()=>{
   const b=await p.submit({status:'unknown',reason:'wall_budget',verified:false,actions:[]});
   assert.equal(b,a);   // no second request was issued
   assert.match(p.element('request-progress').textContent,/请先选择一个 CSV 文件/);
-});
-
-test('the legacy engine refuses a bare local path instead of silently mis-solving',async()=>{
-  const p=page();p.element('engine').value='old';p.element('csv-path').value='C:/tmp/not_a_wave.csv';
-  const submitted=await p.submit({is_deadlock:false,stats:{},hazard_runs:[],trajectory:[]});
-  assert.equal(submitted,undefined);
-  assert.match(p.element('request-progress').textContent,/旧引擎只接受仓库内波次名/);
 });
 
 test('inconsistent geometry and input lengths refuse playback',()=>{

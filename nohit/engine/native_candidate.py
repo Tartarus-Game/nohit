@@ -1,4 +1,4 @@
-"""Cold native portfolio for fully resolved EndAttack worlds, scalar checked."""
+"""Cold native portfolio for fully resolved source worlds, scalar checked."""
 import hashlib
 import math
 import os
@@ -22,7 +22,7 @@ def verify_candidate(path, initial, settings, actions, expected, binding, initia
     state=player.initial_state(initial,rebuilt.wave.env_schedule[0])
     while rebuilt.pending_target is not None and rebuilt.pending_target['tick']==0:
         rebuilt=template.extend(rebuilt,float(state[0]),float(state[1]))
-    if not rebuilt.complete or rebuilt.wave.termination_reason!='endattack' or rebuilt.identity!=binding.identity:return False,'replay_binding_mismatch'
+    if not rebuilt.complete or rebuilt.wave.termination_reason not in ('endattack','eof_hazards_drained') or rebuilt.identity!=binding.identity:return False,'replay_binding_mismatch'
     wave=rebuilt.wave
     if len(actions)!=len(wave.env_schedule)-1:return False,'replay_incomplete'
     trace=np.empty((len(actions)+1,11),np.float64);trace[0]=state
@@ -34,7 +34,7 @@ def verify_candidate(path, initial, settings, actions, expected, binding, initia
             trace[tick]=state
         if not np.isfinite(state).all() or check(tick,state):return False,'replay_collision'
     if trace.tobytes()!=expected.tobytes():return False,'replay_state_mismatch'
-    return True,'verified_endattack'
+    return True,'verified_'+wave.termination_reason
 
 
 def find_native_candidate(path, initial, *, width=3000, seconds=30., selection_seed=42,
@@ -52,8 +52,8 @@ def find_native_candidate(path, initial, *, width=3000, seconds=30., selection_s
     state=player.initial_state(initial,binding.wave.env_schedule[0])
     while binding.pending_target is not None and binding.pending_target['tick']==0:
         binding=template.extend(binding,float(state[0]),float(state[1]))
-    # No borrowed observations, EOF shortcut or early-success prefix.
-    if not binding.complete or binding.wave.termination_reason!='endattack':return None
+    # Only a completed source world may enter this probe; EOF still needs a release invariant.
+    if not binding.complete or binding.wave.termination_reason not in ('endattack','eof_hazards_drained'):return None
     wave=binding.wave;env=wave.env_schedule
     if seconds==0:return None
     controls=tuple(range(16))
@@ -108,7 +108,7 @@ def find_native_candidate(path, initial, *, width=3000, seconds=30., selection_s
         effective_search_cores=total_search_cpu/total_search_seconds if total_search_seconds else 0.)
     if winner<0:
         # This world was handled natively. Do not surprise an exhausted request
-        # with a second heavyweight JIT pass; an explicit fixed run is available.
+        # with a second compiler or a retired search path.
         clock=dict(protocol='explicit_dt_schedule' if settings.get('dt_schedule') is not None else 'native_fixed_240' if settings.get('clock_start_ms') is not None else 'nominal_240',decision_ticks=1,original_replay_passed=False)
         if template.dt_schedule is not None:clock.update(schedule_count=len(template.dt_schedule),schedule_sha256=hashlib.sha256(np.asarray(template.dt_schedule,dtype='<f8').tobytes()).hexdigest())
         return SimpleNamespace(status='unknown',reason='initial_collision' if winner==-2 else 'native_search_limited',
@@ -121,7 +121,7 @@ def find_native_candidate(path, initial, *, width=3000, seconds=30., selection_s
     valid,why=(True,'provisional_world') if _defer_verification else verify_candidate(path,initial,settings,actions,trace,binding,initial_target_history)
     if not valid:raise RuntimeError('Native candidate rejected by unchanged scalar replay: '+why)
     word=actions.tolist();churn=sum(mask!=(word[i-1] if i else 0) for i,mask in enumerate(word));held=sum(mask!=0 for mask in word)
-    stats=dict(width=width,max_bindings=1,controls=controls,selection_seed=selection_seed,
+    stats=dict(width=width,controls=controls,selection_seed=selection_seed,
         expanded_states=sum(item['expanded'] for item in attempts),safe_transition_rows=sum(item['generated'] for item in attempts),
         discarded_states=sum(item['discarded'] for item in attempts),observation_discarded_states=0,
         environment_setup_seconds=environment_seconds,verification_seconds=time.perf_counter()-verify_started,
@@ -137,5 +137,6 @@ def find_native_candidate(path, initial, *, width=3000, seconds=30., selection_s
     if template.dt_schedule is not None:clock.update(schedule_count=len(template.dt_schedule),schedule_sha256=hashlib.sha256(np.asarray(template.dt_schedule,dtype='<f8').tobytes()).hexdigest())
     if progress is not None:progress(tick=len(word),ticks=len(env),alive_states=1,expanded_states=stats['expanded_states'],workers=stats['workers'])
     return SimpleNamespace(status='proposal_found' if _defer_verification else 'candidate_found',reason=why,verified=not _defer_verification,reached_tick=len(word),actions=word,
-        trajectory=trace,target_history=binding.history,terminal_tail={'status':'proven','reason':'endattack'},
+        trajectory=trace,target_history=binding.history,terminal_tail=(dict(status='proven',reason='endattack')
+            if wave.termination_reason=='endattack' else dict(status='unknown',reason='release_invariant_required')),
         bindings=[binding],layers=[],stats=stats,clock=clock)

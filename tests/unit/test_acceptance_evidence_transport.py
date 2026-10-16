@@ -72,7 +72,7 @@ def test_http_manifest_preserves_full_payload_and_adds_shared_source_and_text_ha
     manifest = prepared_manifest(base, original)
     saved = post(base, '/api/acceptance', manifest)
     path = Path(saved['trace'])
-    assert path.parent == root / 'tools/real-game'
+    assert path.parent == root / 'build/evidence'
     stored = json.loads(path.read_text(encoding='utf-8'))
     assert read_evidence_manifest(stored, path.parent) == original
     assert stored['source_sha256']['csv_round_controller.js'] == hashlib.sha256(
@@ -91,11 +91,11 @@ def test_http_final_manifest_rejects_a_part_altered_after_upload(evidence_server
     base, root = evidence_server
     manifest = prepared_manifest(base, failed_record())
     part = manifest['evidenceParts'][0]
-    (root / 'tools/real-game' / part['path']).write_bytes(b'x' * part['byte_count'])
+    (root / 'build/evidence' / part['path']).write_bytes(b'x' * part['byte_count'])
     with pytest.raises(HTTPError) as exc:
         post(base, '/api/acceptance', manifest)
     assert exc.value.code == 400
-    assert not list((root / 'tools/real-game').glob('*.json'))
+    assert not list((root / 'build/evidence').glob('*.json'))
 
 
 def test_http_success_claim_checks_reconstructed_damage_evidence(evidence_server):
@@ -107,4 +107,4 @@ def test_http_success_claim_checks_reconstructed_damage_evidence(evidence_server
     with pytest.raises(HTTPError) as exc:
         post(base, '/api/acceptance', manifest)
     assert exc.value.code == 400
-    assert not list((root / 'tools/real-game').glob('*.json'))
+    assert not list((root / 'build/evidence').glob('*.json'))

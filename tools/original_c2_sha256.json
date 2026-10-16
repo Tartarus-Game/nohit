@@ -1,0 +1,32 @@
+{
+  "source": "Original jcw87 Construct 2 export preserved before cleanup",
+  "history_ref": "codex/history-before-cleanup-20261017",
+  "hash": "sha256",
+  "files": {
+    "c2runtime.js": "664b5d93dbd5159976d490663ac64c49c8eb7dc68c9aac92fba940b6fa2a3de9",
+    "data.js": "9f70e7179fe4260002321a75e5170e96583439bb39988b92ed93da42a0a402c7",
+    "sans_bluebone.csv": "d698d3a883b1409eacf159b4fe3b663dd1f5521998f82f1e74ded150552b46f7",
+    "sans_bonegap1.csv": "90441ab0083ed99eb7e501f2284aae7246aecfc3af7a293cc7da4a911c758306",
+    "sans_bonegap1fast.csv": "148ac1aa095564326aa7a071f838e15f713ff5add1aef72f63c01f9281a4bfc4",
+    "sans_bonegap2.csv": "4f864f4bd431ecdd712453947338358471715acc15c3e76ca98b1f76a3cc727d",
+    "sans_boneslideh.csv": "5aae574bff05f236e7cdb0f9a2b6dc68cde4f449a0bff772adac290c455f26ce",
+    "sans_boneslidev.csv": "917ffe49cba653e25fa62f5e960fec262bc96eec5097efdee7de4609a5d12d35",
+    "sans_bonestab1.csv": "e8a7bd5ced93fe826cd00baba0518aeb9b3a593e8cf635633e74aa7da9cc95b1",
+    "sans_bonestab2.csv": "b3546228167bda3dc452935117055c946fb3801d238a0eb45051e23b61b28bce",
+    "sans_bonestab3.csv": "8785c4ab0687ce091a329cecca3fb49045fc0a0815eb0508de8188925b7bccc5",
+    "sans_final.csv": "ff3d6f0c1b2c2f3bdb290109086ec3c9f7c3f6e628809512ac943dc7408c1078",
+    "sans_intro.csv": "d3e7e6a448e358a6f9eb70621c8dcea84a6b39b9506916fbec2ee5a0bb193620",
+    "sans_multi1.csv": "ca68aee9438e7f6615566468290cb5888b975ecd51ada1a5a2292ccff9317303",
+    "sans_multi2.csv": "676f7b979a5abab4986eeadd9bc836995d5ad10e370377fb406889523b117e29",
+    "sans_multi3.csv": "022250e25db3cd25104fd1c1d78603db8d6edc14beafad60360b65d290a79f92",
+    "sans_platformblaster.csv": "52795a976149141383a148fd69526ffbbab233a978a1b77627f4162a3c8ae197",
+    "sans_platforms1.csv": "adae77d891d7b97a870c3dded34a07c2f82d67ca3d75326eeb7d64aa6148409f",
+    "sans_platforms2.csv": "964b43f2d03eec8d28493f051e6553120b1f8468f11a2069868c51568e999171",
+    "sans_platforms3.csv": "853d2bcb8fb9f0cb09eac8355fe1cc23d0d8558682e451ade592f5546eec9a7d",
+    "sans_platforms4.csv": "3fb7dfa8347f5a6f493dc56fda62142e0b985d431e91085600aa0918d19a549d",
+    "sans_platforms4hard.csv": "2c23db06eccc8f7eda2341abafb4ebfe9162f3e7ed5bfe026f73f4ea19a42cd2",
+    "sans_randomblaster1.csv": "f880224de616df00f44a583706223eee3378692e1b1554440b3b2de2a1a8627a",
+    "sans_randomblaster2.csv": "431246d750826a061a1bfd1668ab7f2f3e43a3d30c2ed5e51a2c76e253690e90",
+    "sans_spare.csv": "bed1eb8e0b97bcba6478183b58f435f605e3754469eb8d80a24b40afe7ebba8e"
+  }
+}

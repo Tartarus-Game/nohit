@@ -7,7 +7,6 @@ import xml.etree.ElementTree as ET
 import numpy as np
 import pytest
 
-from nohit.engine import canonical_lattice
 from nohit.engine.discrete_operator import (
     CANCEL, LEFT, UP, DOWN, RIGHT, initial_state, step, step_mask_into,
 )
@@ -22,19 +21,6 @@ EMPTY=np.zeros((0,7))
 
 def state(x=100.,y=100.,dx=0.,dy=0.,direction=1,mode=1):
     return initial_state(np.array([x,y,dx,dy,0.]),environment(direction,mode))
-
-
-def test_down_operator_preserves_differentially_verified_motion():
-    env=environment(bounds=(133.,251.,508.,391.))
-    old=np.array([320.,377.81875,0.,0.,0.])
-    new=initial_state(old,env)
-    rng=np.random.default_rng(1006)
-    for i in range(2000):
-        ux=int(rng.integers(-1,2)); up=int(rng.integers(0,2))
-        old=canonical_lattice.step(old,ux,up,env[:8],EMPTY)
-        new=step(new,ux,up,env,EMPTY)
-        np.testing.assert_array_equal(new[:4],old[:4],err_msg=f"microtick {i}")
-        assert bool(int(new[4])&UP)==bool(old[4])
 
 
 def test_recorded_original_variable_dt_motion_matches_bit_for_bit():
@@ -282,8 +268,7 @@ def test_cspace_outside_baked_extent_uses_exact_geometry_without_world_clipping(
 
 
 def test_source_contract_slam_is_speed_assignment_not_position_reset():
-    root=Path(__file__).resolve().parents[1]
-    xml=ET.parse(root/'.capx_extract/Event sheets/Battle.xml').getroot()
+    xml=ET.parse(Path(__file__).parent/'fixtures/source_event_contract.xml').getroot()
     block=next(e for e in xml.iter('event-block') if e.get('sid')=='440749620573975')
     actions=block.find('actions').findall('action')
     names=[a.get('name') for a in actions]
@@ -303,11 +288,10 @@ def test_source_contract_slam_is_speed_assignment_not_position_reset():
 
 
 def test_original_single_mode_cancel_exits_for_both_x_and_shift_keys():
-    root=Path(__file__).resolve().parents[1]
-    inputs=ET.parse(root/'.capx_extract/Event sheets/InputManagement.xml').getroot()
+    inputs=ET.parse(Path(__file__).parent/'fixtures/source_event_contract.xml').getroot()
     block=next(e for e in inputs.iter('event-block') if e.get('sid')=='4623232669904996')
     assert [p.text for p in block.findall('conditions/condition/param')]==['88','16']
-    battle=ET.parse(root/'.capx_extract/Event sheets/Battle.xml').getroot()
+    battle=inputs
     exit_block=next(e for e in battle.iter('event-block') if e.get('sid')=='9206346910846115')
     assert [p.text for p in exit_block.findall('conditions/condition/param')]==[
         'SimulatorMode','0','MODE_SINGLE','Cancel','4','VPad.LastCancel']

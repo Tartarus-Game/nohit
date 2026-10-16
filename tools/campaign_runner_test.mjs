@@ -172,7 +172,7 @@ test('configured widths automatically retry unknown on the same boundary and ret
     assert.equal(new Set(g.requests.map(r=>r.body.request_id)).size,2);
     assert.deepEqual(plans[0].captured,plans[1].captured);
     const [first,second]=g.requests.map(r=>({...r.body}));
-    delete first.width;delete second.width;delete first.request_id;delete second.request_id;
+    delete first.width;delete second.width;delete first.request_id;delete second.request_id;delete first.progress_id;delete second.progress_id;
     assert.deepEqual(first,second);assert.equal(g.rt.tickcount,101);
     for(let i=0;i<4;i++)g.step();
     assert.equal(g.c.__CAMPAIGN.status,'waiting');

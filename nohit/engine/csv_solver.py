@@ -1,7 +1,7 @@
 """Fast CSV candidate discovery with independently verified dialogue completion.
 
 This is an existential candidate path. Width limits and fixed Confirm choices
-make failure unknown; the complete DAG remains a separate proof mechanism.
+make failure unknown; every accepted route is independently replayed.
 """
 import hashlib
 from pathlib import Path
@@ -9,55 +9,22 @@ import time
 
 import numpy as np
 
-def find_bounded_candidate(*args, **kwargs):
-    from .bounded_frontier import find_bounded_candidate as legacy
-    return legacy(*args, **kwargs)
 from .source_contract import model_issues
 from .parametric_environment import ParametricEnvironment
-from .initial_target_history import bind_initial_target_history, normalize_initial_target_history
+from .initial_target_history import normalize_initial_target_history
 from .compact_wave import normalize_initial_arena
 from .csv_completion import (AUDITED_NO_ACTION_COMMANDS, NO_ACTION_SOURCE_AUDIT,
     wave_terminal, clock_sequence, compose_csv_completion)
 
 
-def _verify_prefix(path, initial, settings, actions, expected, history, initial_target_history=None):
-    from .cspace import bake_cspace, collision_query
-    from .discrete_operator import initial_state, sample_position, step_mask_into
-    template=ParametricEnvironment(path,backend='reference',**settings)
-    binding=bind_initial_target_history(template,initial_target_history)
-    state=initial_state(initial,binding.wave.env_schedule[0]);trace=[state.copy()];spaces={}
-    for tick in range(len(actions)+1):
-        if binding.pending_target is not None and binding.pending_target['tick']==tick:
-            wave=binding.wave
-            x,y=state[:2] if tick==0 else sample_position(state,wave.env_schedule[tick],wave.platform_table[tick])
-            while binding.pending_target is not None and binding.pending_target['tick']==tick:
-                binding=template.extend(binding,float(x),float(y))
-        wave=binding.wave
-        if tick>=len(wave.env_schedule):return False
-        if tick:
-            step_mask_into(state,actions[tick-1],wave.env_schedule[tick],wave.platform_table[tick],state)
-            trace.append(state.copy())
-        if binding.identity not in spaces:spaces[binding.identity]=bake_cspace(wave)
-        if collision_query(wave.geometry_white,wave.geometry_blue,tick,state,0.,spaces[binding.identity].payload):
-            return False
-    # A target read can precede SansText on the uncommitted next tick. It
-    # samples this same parent before movement, so validate that observation
-    # without consuming a dialogue input or borrowing another state's target.
-    tick=len(actions)+1
-    if len(binding.history)<len(history) and binding.pending_target is not None and binding.pending_target['tick']==tick:
-        wave=binding.wave
-        x,y=sample_position(state,wave.env_schedule[tick],wave.platform_table[tick])
-        while binding.pending_target is not None and binding.pending_target['tick']==tick:
-            binding=template.extend(binding,float(x),float(y))
-    return (binding.history==history and np.asarray(trace).tobytes()==np.asarray(expected).tobytes())
-
-
 def solve_csv(path, initial, *, initial_environment=None, initial_arena=None, dt_schedule=None, clock_start_ms=None,
-              width=3000, seconds=30., max_bindings=1, max_ticks=40000, seed=42,
-              selection_seed=42, dialogue_max_ticks=None, dialogue_max_states=100000,
+              width=3000, seconds=30., max_ticks=40000, seed=42,
+              selection_seed=42,
               initial_confirm=False, previous_confirm=False, initial_target_history=None,
               termination_policy='endattack', progress=None, search_strategy='auto', workers=None, memory_mb=64,
-              allow_scripted_healing=False,allow_scripted_damage=False):
+              allow_scripted_healing=False,allow_scripted_damage=False,
+              observation_chunk_ticks=0, observation_preview_ticks=0, observation_preview_reads=128,
+              observation_goal_style=None, observation_goal_retries=False, fixed_prefix=None):
     """Return a verified source-model candidate, or an explicit unknown result.
 
 Inputs use arrows only. Confirm is emitted separately for every physical tick.
@@ -68,8 +35,21 @@ mandatory verification are included separately in the returned wall time.
 ``initial_target_history`` is an optional complete list of actual tick-zero
 GetHeartPos reads, [0, source_line, x, y]. These samples can precede a late arena
 clamp and differ from ``initial``. Future samples must not be supplied here.
+``observation_chunk_ticks`` and ``observation_preview_ticks`` enable short
+committed segments with speculative guidance; 480/480 and 128 preview reads
+are useful starting points for long input-dependent CSVs. ``fixed_prefix``
+locks a same-source input/trajectory prefix. Final scalar verification checks
+that entire prefix again before any complete candidate is returned.
 """
-    if search_strategy not in ('auto','native','fixed'):
+    for name,value in (('observation_chunk_ticks',observation_chunk_ticks),
+                       ('observation_preview_ticks',observation_preview_ticks),
+                       ('observation_preview_reads',observation_preview_reads)):
+        if type(value) is not int or value<0:raise ValueError(name+' must be a nonnegative integer')
+    if observation_goal_style is not None and (type(observation_goal_style) is not int or not 0<=observation_goal_style<=15):
+        raise ValueError('observation_goal_style must be an integer in [0,15] or None')
+    if type(observation_goal_retries) is not bool:raise ValueError('observation_goal_retries must be boolean')
+    if fixed_prefix is not None and not isinstance(fixed_prefix,dict):raise ValueError('fixed_prefix must be a witness object')
+    if search_strategy not in ('auto','native'):
         raise ValueError('invalid search_strategy')
     if type(allow_scripted_healing) is not bool:
         raise ValueError('allow_scripted_healing must be boolean')
@@ -82,7 +62,7 @@ clamp and differ from ``initial``. Future samples must not be supplied here.
     initial_target_history=normalize_initial_target_history(initial_target_history)
     initial_arena=normalize_initial_arena(initial_arena)
     began=time.perf_counter();path=Path(path)
-    result=dict(status='unknown',planner='bounded-frontier-with-dialogue',wave=path.name,
+    result=dict(status='unknown',planner='native-csv',wave=path.name,
         csv_sha256=hashlib.sha256(path.read_bytes()).hexdigest(),actions=[],confirm_sequence=[],
         seed=int(seed)&0xffffffff,max_ticks=max_ticks,
         initial_target_history=None if initial_target_history is None else [list(row) for row in initial_target_history],
@@ -103,32 +83,40 @@ clamp and differ from ``initial``. Future samples must not be supplied here.
                   clock_start_ms=clock_start_ms,max_ticks=max_ticks,termination_policy=termination_policy)
     clock=ParametricEnvironment(path,**settings)
     if dt_schedule is not None:settings['dt_schedule']=clock.dt_schedule
+    sequence=clock.dt_schedule
+    hz=240 if sequence is None else 1./sequence[0] if all(dt==sequence[0] for dt in sequence) else None
+    protocol='explicit_dt_schedule' if dt_schedule is not None else 'native_fixed_240' if clock_start_ms is not None else 'nominal_240'
+    result.update(physics_hz=hz,control_hz=hz,clock_protocol=protocol,clock_start_ms=clock_start_ms,
+                  clock=dict(protocol=protocol,decision_ticks=1,original_replay_passed=False))
+    if sequence is not None:
+        result['clock'].update(schedule_count=len(sequence),
+            schedule_sha256=hashlib.sha256(np.asarray(sequence,dtype='<f8').tobytes()).hexdigest())
     if progress is not None:progress(phase='search')
     frontier=None
-    # Width is a search resource, not a reason to start a different compiler.
-    # Keep explicit legacy dialogue-resource controls on their existing path.
-    if search_strategy!='fixed' and (search_strategy=='native' or
-            (dialogue_max_ticks is None and dialogue_max_states==100000)):
-        from .native_candidate import find_native_candidate
-        try:
+    from .native_candidate import find_native_candidate
+    from .native_dynamic import find_dynamic_candidate
+    try:
+        if fixed_prefix is None and not (observation_chunk_ticks or observation_preview_ticks):
             frontier=find_native_candidate(path,initial,**settings,width=width,seconds=seconds,
                 selection_seed=selection_seed,workers=workers,memory_mb=memory_mb,
                 initial_target_history=initial_target_history,progress=progress)
-            if frontier is None:
-                from .native_dynamic import find_dynamic_candidate
-                frontier=find_dynamic_candidate(path,initial,**settings,width=width,seconds=seconds,
-                    selection_seed=selection_seed,workers=workers,memory_mb=memory_mb,
-                    initial_target_history=initial_target_history,initial_confirm=initial_confirm,
-                    previous_confirm=previous_confirm,progress=progress)
-        except (OSError,RuntimeError) as exc:
-            if search_strategy=='native':raise
-            result['native_fallback_reason']=str(exc)
+        if frontier is None:
+            frontier=find_dynamic_candidate(path,initial,**settings,width=width,seconds=seconds,
+                selection_seed=selection_seed,workers=workers,memory_mb=memory_mb,
+                initial_target_history=initial_target_history,initial_confirm=initial_confirm,
+                previous_confirm=previous_confirm,progress=progress,
+                observation_chunk_ticks=observation_chunk_ticks,
+                observation_preview_ticks=observation_preview_ticks,
+                observation_preview_reads=observation_preview_reads,
+                observation_goal_style=observation_goal_style,
+                observation_goal_retries=observation_goal_retries,fixed_prefix=fixed_prefix)
+    except (OSError,RuntimeError) as exc:
+        if search_strategy=='native':raise
+        return dict(result,reason='native_backend_unavailable',native_error=str(exc),
+                    search_strategy=search_strategy,wall_seconds=time.perf_counter()-began)
     if frontier is None:
-        if search_strategy=='native':
-            return dict(result,reason='native_scope_or_resource_limit',wall_seconds=time.perf_counter()-began)
-        frontier=find_bounded_candidate(path,initial,**settings,width=width,seconds=seconds,
-            max_bindings=max_bindings,selection_seed=selection_seed,initial_target_history=initial_target_history,
-            progress=progress)
+        return dict(result,reason='native_scope_or_resource_limit',search_strategy=search_strategy,
+                    wall_seconds=time.perf_counter()-began)
     result['search_strategy']=search_strategy
     result.update(reason=frontier.reason,reached_tick=frontier.reached_tick,
                   search_stats=frontier.stats,clock=frontier.clock)
@@ -149,54 +137,6 @@ clamp and differ from ``initial``. Future samples must not be supplied here.
             if frontier.primed_initial_frame:
                 result['primed_initial_frame']=True
                 result['initial_frame_control']=int(trace[0,4])|(32 if initial_confirm else 0)
-    if not valid and frontier.reason=='dialogue_boundary':
-        if progress is not None:progress(phase='dialogue')
-        from .dialogue_frontier import solve_dialogue_frontier
-        template=ParametricEnvironment(path,**settings)
-        layer=frontier.layers[-1]
-        for bid,indices in frontier.dialogue_entries:
-            remaining=seconds-(time.perf_counter()-began)
-            if remaining<=0:result['reason']='wall_budget';break
-            original_binding=frontier.bindings[bid]
-            if original_binding.wave.termination_reason!='dialogue_boundary':continue
-            binding=template.bind(original_binding.history)
-            if binding.identity != original_binding.identity:
-                result['reason']='source_or_clock_changed';break
-            first=binding.resume_state.request['tick']
-            prime=first==0
-            tail_limit=max_ticks-max(0,first-1) if dialogue_max_ticks is None else dialogue_max_ticks
-            tail=solve_dialogue_frontier(template,binding,layer.states[indices],
-                max_ticks=tail_limit,max_states=dialogue_max_states,seconds=remaining,
-                width=width,selection_seed=selection_seed,
-                previous_confirm=previous_confirm if prime else False,
-                initial_frame_control=(int(layer.states[indices[0],4])|(32 if initial_confirm else 0)) if prime else None,
-                progress=progress)
-            result['dialogue_stats']=tail.stats
-            result['reason']=tail.reason
-            if tail.status!='candidate_found' or not tail.verified:continue
-            origin=int(indices[tail.origin_index])
-            prefix,prefix_trace=frontier.witness(origin)
-            if (tail.start_tick != len(prefix) or
-                np.asarray(tail.trajectory[0]).tobytes() != prefix_trace[-1].tobytes()):
-                result['reason']='dialogue_boundary_mismatch';break
-            verify_began=time.perf_counter()
-            if not _verify_prefix(path,initial,settings,prefix,prefix_trace,binding.history,
-                                  initial_target_history=initial_target_history):
-                result['reason']='prefix_verification_failed';break
-            result['prefix_verification_seconds']=time.perf_counter()-verify_began
-            actions=prefix+list(tail.actions)
-            confirms=[False]*len(prefix)+list(tail.confirm)
-            trace=np.concatenate((prefix_trace,np.asarray(tail.trajectory)[1:]))
-            base_history=binding.history;history=tail.target_history
-            controlled_identity=tail.controlled_binding_identity
-            result['dialogue_start_tick']=tail.start_tick
-            if tail.primed_initial_frame:
-                result['primed_initial_frame']=True
-                result['initial_frame_control']=tail.initial_frame_control
-            result['reached_tick']=tail.end_tick
-            terminal=tail.source_terminal
-            valid=True
-            break
     if valid:
         if progress is not None:progress(phase='completion')
         completion=compose_csv_completion(actions,confirms,trace,terminal,
@@ -210,7 +150,7 @@ clamp and differ from ``initial``. Future samples must not be supplied here.
     if valid:
         result.update(status='candidate_found',reason='verified_model_'+result['completion']['kind'],verified=True,
             actions=[int(x) for x in actions],confirm_sequence=[bool(x) for x in confirms],
-            trajectory=np.asarray(trace).tolist(),target_history=[list(row) for row in history])
+            trajectory=np.asarray(trace).tolist(),target_history=[[int(row[0]),int(row[1]),float(row[2]),float(row[3])] for row in history])
         result['source_terminal']=dict(terminal,environment=np.asarray(terminal['environment']).tolist())
         result['scripted_damage_events']=getattr(frontier,'scripted_damage_events',[])
         result['environment_binding_identity']=next(
@@ -219,7 +159,7 @@ clamp and differ from ``initial``. Future samples must not be supplied here.
             result['controlled_environment_binding_identity']=controlled_identity.hex()
             result['environment_provenance']=dict(kind='controlled',
                 base_binding_identity=result['environment_binding_identity'],
-                base_target_history=[list(row) for row in base_history],
+                base_target_history=[[int(row[0]),int(row[1]),float(row[2]),float(row[3])] for row in base_history],
                 final_binding_identity=controlled_identity.hex())
         result['unified_controls']=[mask|(32 if confirm else 0) for mask,confirm in zip(result['actions'],confirms)]
     else:

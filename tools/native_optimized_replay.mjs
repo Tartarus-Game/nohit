@@ -6,7 +6,7 @@ import {fileURLToPath} from 'node:url';
 import {spawnSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
-const out=path.resolve(process.env.NOHIT_BENCH_OUT||path.join(ROOT,'tools/optimization-results'));
+const out=path.resolve(process.env.NOHIT_BENCH_OUT||path.join(ROOT,'build/native-replay'));
 fs.mkdirSync(out,{recursive:true});
 const python=process.env.NOHIT_PYTHON||'python';
 const gameRoot=path.resolve(process.env.NOHIT_GAME_DIR||path.join(ROOT,'c2-sans-fight'));

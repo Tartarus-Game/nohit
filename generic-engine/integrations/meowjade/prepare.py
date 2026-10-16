@@ -18,7 +18,7 @@ patches.append({'path':'Battle/Soul/soul.tscn','reason':'bind observing subclass
 shutil.rmtree(a.destination/'addons/git',ignore_errors=True)
 config=a.destination/'project.godot';s=config.read_text().replace('version_control/plugin_name="GitPlugin"','version_control/plugin_name=""').replace('version_control/autoload_on_startup=true','version_control/autoload_on_startup=false');s=s.replace('run/main_scene="res://Singletons/scene_container.tscn"','run/main_scene="res://nohit_integration/driver.tscn"');s += '\n[rendering]\nrenderer/rendering_method="gl_compatibility"\n';config.write_text(s)
 folder=a.destination/'nohit_integration';folder.mkdir()
-shutil.copy2(pathlib.Path(__file__).parents[2]/'godot/addons/nohit/native_baker.gd',folder/'native_baker.gd')
+shutil.copy2(pathlib.Path(__file__).with_name('native_baker.gd'),folder/'native_baker.gd')
 for f in pathlib.Path(__file__).parent.glob('*.gd'):shutil.copy2(f,folder/f.name)
 for f in pathlib.Path(__file__).parent.glob('*.tscn'):shutil.copy2(f,folder/f.name)
 critical=['Battle/Soul/soul.gd','Battle/Bullets/bullet.gd','Battle/Bullets/bullet_area.gd','Battle/Bullets/defaultbullet.gd','Battle/Bullets/Bullet_Circle.gd','Battle/Platform/platform.gd','Battle/Box/BattleBox.gd','Singletons/global.gd']

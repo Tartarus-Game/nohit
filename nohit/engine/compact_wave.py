@@ -2,7 +2,7 @@
 
 Rotated hazards retain their convex geometry. GetHeartPos requires an explicit
 player history; it cannot be replaced by the initial spawn position. Continuous
-C-space baking lives in cspace.py; legacy sampled masks below are slice tools.
+C-space collision queries live in cspace.py.
 """
 from dataclasses import dataclass
 import hashlib
@@ -14,7 +14,6 @@ from pathlib import Path
 from typing import Any
 
 import numpy as np
-from .lazy_jit import njit
 
 from .compact_types import CompiledWave, GeometryArray
 from .native_math import native_atan2
@@ -25,7 +24,6 @@ from .native_function_dispatch import call_arguments, audited_no_action_function
 
 
 ROOT = Path(__file__).resolve().parents[2]
-CSV_HASH = "2c23db06eccc8f7eda2341abafb4ebfe9162f3e7ed5bfe026f73f4ea19a42cd2"
 
 CANONICAL_ATTACK_NAMES = {
     "sans_bluebone",
@@ -353,40 +351,6 @@ class _ActiveGasterBlaster:
         return (ax-uy*hw,ay+ux*hw,ax+uy*hw,ay-ux*hw,
                 ax+1000.*ux+uy*hw,ay+1000.*uy-ux*hw,
                 ax+1000.*ux-uy*hw,ay+1000.*uy+ux*hw)
-
-
-@njit(cache=True)
-def _build_geometry_fast_njit(
-    flat_w: np.ndarray,
-    counts_w: np.ndarray,
-    flat_b: np.ndarray,
-    counts_b: np.ndarray,
-    N_ticks: int,
-    max_w: int,
-    max_b: int,
-    max_all: int,
-) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
-    geom_white = np.full((N_ticks, max_w, 4), np.nan, dtype=np.float64)
-    geom_blue = np.full((N_ticks, max_b, 4), np.nan, dtype=np.float64)
-    geom_all = np.full((N_ticks, max_all, 4), np.nan, dtype=np.float64)
-    iw = 0
-    ib = 0
-    for t in range(N_ticks):
-        cw = counts_w[t]
-        cb = counts_b[t]
-        for i in range(cw):
-            for k in range(4):
-                val = flat_w[iw, k]
-                geom_white[t, i, k] = val
-                geom_all[t, i, k] = val
-            iw += 1
-        for j in range(cb):
-            for k in range(4):
-                val = flat_b[ib, k]
-                geom_blue[t, j, k] = val
-                geom_all[t, cw + j, k] = val
-            ib += 1
-    return geom_white, geom_blue, geom_all
 
 
 def _build_geometry_packed(flat_w, counts_w, flat_b, counts_b, n, max_w, max_b, max_all):
@@ -1098,80 +1062,11 @@ def native_fixed_dt(clock_start_ms, count, initial_dt=None):
     return dt
 
 
-def compile_wave(path: str | Path, clock_path: str | Path | None = None, seed: int = 42, fps: int = 60, initial_environment=None, heart_samples=None, legacy_calibrated=False, allow_partial=False, dt_schedule=None, clock_start_ms=None, termination_policy='endattack', max_ticks=40000,capture_state_keys=False,initial_arena=None) -> CompiledWave:
+def compile_wave(path: str | Path, seed: int = 42, initial_environment=None, heart_samples=None, allow_partial=False, dt_schedule=None, clock_start_ms=None, termination_policy='endattack', max_ticks=40000,capture_state_keys=False,initial_arena=None) -> CompiledWave:
     """Universal Wave Compiler compiling any canonical attack CSV into a CompiledWave object."""
     path = Path(path)
     if not path.exists():
         raise FileNotFoundError(f"CSV file not found: {path}")
-
-    # Exact backward-compatible execution for Platforms4Hard slice
-    if legacy_calibrated and path.name == "sans_platforms4hard.csv" and clock_path is None:
-        if initial_arena is not None:raise ValueError('legacy calibrated geometry cannot consume initial_arena')
-        if capture_state_keys:raise ValueError('legacy calibrated geometry has no complete VM state keys')
-        clock_file = ROOT / "tests/fixtures/platforms4hard-clock.json"
-        clock = json.loads(clock_file.read_text())
-        dt = np.asarray(clock["dt"], dtype=np.float64)
-        if len(dt) != 1753 or not np.all(np.isfinite(dt)) or np.any(dt <= 0):
-            raise ValueError("model_mismatch: invalid calibrated clock")
-        initial = np.asarray(clock["initial"], dtype=np.float64)
-        if initial.shape != (5,) or not np.all(np.isfinite(initial)) or initial[4] not in (0.0, 1.0):
-            raise ValueError("model_mismatch: invalid initial state")
-        rows = read_timeline_rows(path)
-        bones = []
-        for row in rows:
-            if len(row) > 1 and row[1] == "BoneVRepeat":
-                x, y, h, d, speed, count, spacing = map(float, row[2:9])
-                angle = d * math.pi / 2.0
-                vx, vy = math.cos(angle) * speed, math.sin(angle) * speed
-                for i in range(int(count)):
-                    bones.append([int(x - math.cos(angle) * spacing * i), int(y - math.sin(angle) * spacing * i), 10, h, vx, vy])
-        bones = np.asarray(bones, dtype=np.float64)
-        geometry = np.empty((len(dt), len(bones), 4), dtype=np.float64)
-        schedule = np.empty((len(dt), 7), dtype=np.float64)
-        for tick in range(len(dt)):
-            bones[:, 0] += bones[:, 4] * dt[tick]
-            bones[:, 1] += bones[:, 5] * dt[tick]
-            geometry[tick, :, 0:2] = bones[:, 0:2]
-            geometry[tick, :, 2:4] = bones[:, 0:2] + bones[:, 2:4]
-            if tick < 976:
-                px, pdx, pdy = 151.0 + 0.375 * tick, 90.0, 0.0
-            else:
-                px, pdx, pdy = 517.0 - 0.375 * (tick - 976), -90.0, math.sin(math.pi) * 90.0
-            schedule[tick] = [px, 336.0, 31.0, 7.0, pdx, pdy, dt[tick]]
-
-        env_schedule = np.empty((len(dt), 8), dtype=np.float64)
-        env_schedule[:, 0] = 113.0
-        env_schedule[:, 1] = 231.0
-        env_schedule[:, 2] = 548.0
-        env_schedule[:, 3] = 391.0
-        env_schedule[:, 4] = 1.0
-        env_schedule[:, 5] = 1.0
-        env_schedule[:, 6] = 0.0
-        env_schedule[:, 7] = dt
-
-        platform_table = np.zeros((len(dt), 4, 7), dtype=np.float64)
-        platform_table[:, 0, 0:6] = schedule[:, 0:6]
-        platform_table[:, 0, 6] = 1.0
-        num_platforms = np.ones((len(dt),), dtype=np.int32)
-
-        geom_obj = GeometryArray(geometry, geometry_white=geometry, geometry_blue=np.empty((len(dt), 0, 4), dtype=np.float64),
-                                 origin_x=113, origin_y=231, width=435, height=160)
-
-        return CompiledWave(
-            schedule=schedule,
-            geometry=geom_obj,
-            initial=initial,
-            env_schedule=env_schedule,
-            platform_table=platform_table,
-            num_platforms=num_platforms,
-            geometry_white=geometry,
-            geometry_blue=np.empty((len(dt), 0, 4), dtype=np.float64),
-            origin=(113, 231),
-            dimensions=(160, 435),
-            attack_name="sans_platforms4hard",
-            total_frames=438,
-            dt=dt,
-        )
 
     # Universal TimelineVM simulation for all canonical attacks
     rows = read_timeline_rows(path)
@@ -1236,150 +1131,3 @@ def compile_wave(path: str | Path, clock_path: str | Path | None = None, seed: i
         terminal_details=sim["terminal_details"],
         environment_state_keys=sim["environment_state_keys"],
     )
-
-
-@njit(cache=True)
-def _prepare_collision_plane_njit(
-    geometry: np.ndarray,
-    origin_x: int,
-    origin_y: int,
-    H: int,
-    W: int,
-    words: int,
-    margin: float,
-    margin_x: float,
-    margin_y: float,
-    soul_rx: float,
-    soul_ry: float,
-) -> np.ndarray:
-    mask = np.zeros((len(geometry), H, words), dtype=np.uint64)
-    for tick in range(len(geometry)):
-        for box in geometry[tick]:
-            left, top, right, bottom = box[0], box[1], box[2], box[3]
-            if not (math.isfinite(left) and math.isfinite(top) and math.isfinite(right) and math.isfinite(bottom)) or right < left or bottom < top:
-                continue
-            x0 = max(0, math.ceil(left - soul_rx - margin - margin_x - origin_x))
-            x1 = min(W - 1, math.floor(right + soul_rx + margin + margin_x - origin_x))
-            y0 = max(0, math.ceil(top - soul_ry - margin - margin_y - origin_y))
-            y1 = min(H - 1, math.floor(bottom + soul_ry + margin + margin_y - origin_y))
-            if x1 < x0 or y1 < y0:
-                continue
-            for word in range(x0 // 64, x1 // 64 + 1):
-                lo = max(x0, word * 64) - word * 64
-                hi = min(x1, word * 64 + 63) - word * 64
-                length = hi - lo + 1
-                if length == 64:
-                    bits = np.uint64(0xFFFFFFFFFFFFFFFF)
-                else:
-                    bits = ((np.uint64(1) << np.uint64(length)) - np.uint64(1)) << np.uint64(lo)
-                for y in range(y0, y1 + 1):
-                    mask[tick, y, word] |= bits
-    return mask
-
-
-def prepare_collision_dual_native(
-    geom_white_or_compiled: Any,
-    geom_blue: np.ndarray | None = None,
-    margin: float = 0.0,
-    margin_x: float = 0.0,
-    margin_y: float = 0.0,
-    origin_x: int | None = None,
-    origin_y: int | None = None,
-    width: int | None = None,
-    height: int | None = None,
-    soul_rx: float = 2.0,
-    soul_ry: float = 2.0,
-) -> tuple[np.ndarray, np.ndarray]:
-    """Bakes dual-plane C-space hazard bitmasks: (mask_white, mask_blue)."""
-    if isinstance(geom_white_or_compiled, CompiledWave):
-        gw = geom_white_or_compiled.geometry_white
-        gb = geom_white_or_compiled.geometry_blue
-        ox = origin_x if origin_x is not None else geom_white_or_compiled.origin[0]
-        oy = origin_y if origin_y is not None else geom_white_or_compiled.origin[1]
-        h = height if height is not None else geom_white_or_compiled.dimensions[0]
-        w = width if width is not None else geom_white_or_compiled.dimensions[1]
-    elif geom_blue is not None:
-        gw = geom_white_or_compiled
-        gb = geom_blue
-        ox = origin_x if origin_x is not None else getattr(gw, "origin_x", 113)
-        oy = origin_y if origin_y is not None else getattr(gw, "origin_y", 231)
-        h = height if height is not None else getattr(gw, "height", 160)
-        w = width if width is not None else getattr(gw, "width", 435)
-    else:
-        # Check if geom_white_or_compiled has attached dual planes
-        attached_w = getattr(geom_white_or_compiled, "geometry_white", None)
-        attached_b = getattr(geom_white_or_compiled, "geometry_blue", None)
-        if attached_w is not None and attached_b is not None:
-            gw = attached_w
-            gb = attached_b
-        else:
-            gw = geom_white_or_compiled
-            gb = np.empty((len(gw), 0, 4), dtype=np.float64)
-        ox = origin_x if origin_x is not None else getattr(geom_white_or_compiled, "origin_x", 113)
-        oy = origin_y if origin_y is not None else getattr(geom_white_or_compiled, "origin_y", 231)
-        h = height if height is not None else getattr(geom_white_or_compiled, "height", 160)
-        w = width if width is not None else getattr(geom_white_or_compiled, "width", 435)
-
-    words = (w + 63) // 64
-    mask_white = _prepare_collision_plane_njit(gw, ox, oy, h, w, words, margin, margin_x, margin_y, soul_rx, soul_ry)
-    mask_blue = _prepare_collision_plane_njit(gb, ox, oy, h, w, words, margin, margin_x, margin_y, soul_rx, soul_ry)
-    return mask_white, mask_blue
-
-
-def prepare_collision(geometry: Any, margin: float = 0.0, margin_x: float = 0.0, margin_y: float = 0.0) -> np.ndarray:
-    """Pure-Python conservative bbox C-space operator for reference verification."""
-    ox = getattr(geometry, "origin_x", 113)
-    oy = getattr(geometry, "origin_y", 231)
-    h = getattr(geometry, "height", 160)
-    w = getattr(geometry, "width", 435)
-    words = (w + 63) // 64
-    mask = np.zeros((len(geometry), h, words), dtype=np.uint64)
-    for tick, boxes in enumerate(geometry):
-        for left, top, right, bottom in boxes:
-            if not (math.isfinite(left) and math.isfinite(top) and math.isfinite(right) and math.isfinite(bottom)) or right < left or bottom < top:
-                continue
-            x0 = max(0, math.ceil(left - 2.0 - margin - margin_x - ox))
-            x1 = min(w - 1, math.floor(right + 2.0 + margin + margin_x - ox))
-            y0 = max(0, math.ceil(top - 2.0 - margin - margin_y - oy))
-            y1 = min(h - 1, math.floor(bottom + 2.0 + margin + margin_y - oy))
-            if x1 < x0 or y1 < y0:
-                continue
-            for word in range(x0 // 64, x1 // 64 + 1):
-                lo = max(x0, word * 64) - word * 64
-                hi = min(x1, word * 64 + 63) - word * 64
-                length = hi - lo + 1
-                if length == 64:
-                    bits = np.uint64(0xFFFFFFFFFFFFFFFF)
-                else:
-                    bits = np.uint64(((1 << length) - 1) << lo)
-                mask[tick, y0:y1 + 1, word] |= bits
-    return mask
-
-
-@njit(cache=True)
-def prepare_collision_native(geometry: Any, margin: float = 0.0, margin_x: float = 0.0, margin_y: float = 0.0) -> np.ndarray:
-    """Native word-write collision operator preserving exact Platforms4Hard behavior."""
-    return _prepare_collision_plane_njit(geometry, 113, 231, 160, 435, 7, margin, margin_x, margin_y, 2.0, 2.0)
-
-
-@njit(cache=True, inline="always")
-def is_point_blocked(mask: np.ndarray, tick: int, xpos: float, ypos: float, origin_x: int, origin_y: int, W: int, H: int) -> bool:
-    """Queries whether world coordinates (xpos, ypos) intersect mask[tick]."""
-    xl, xh = int(math.floor(xpos)), int(math.ceil(xpos))
-    yl, yh = int(math.floor(ypos)), int(math.ceil(ypos))
-    W_words = mask.shape[2]
-    for x in (xl, xh):
-        xx = x - origin_x
-        if xx < 0 or xx >= W:
-            return True
-        w = xx >> 6
-        if w >= W_words:
-            return True
-        bit = np.uint64(1) << np.uint64(xx & 63)
-        for y in (yl, yh):
-            yy = y - origin_y
-            if yy < 0 or yy >= H:
-                return True
-            if mask[tick, yy, w] & bit:
-                return True
-    return False

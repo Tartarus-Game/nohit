@@ -70,7 +70,7 @@
     function install() {
         rt=window.c2runtime||document.getElementById('c2canvas')?.c2runtime;
         if(!rt)return;
-        if(query.has('oracle')||query.get('csvtas')==='1') {stop('Campaign cannot share control with oracle or Custom CSV TAS');return;}
+        if(query.get('csvtas')==='1') {stop('Campaign cannot share control with Custom CSV TAS');return;}
         if(window.__TAS_CLOCK?.mode!=='fixed-240hz-realtime-catchup'||window.__TAS_CLOCK.physicsHz!==240) {
             stop('Normal campaign requires compensate=1 and its native 240 Hz timestamp clock');return;
         }
