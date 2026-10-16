@@ -1,0 +1,36 @@
+{
+  "original_sha256": "fd494d9e8d9b7ae1c27bccd7088f6d8ce100054e635be020d3af5c23702c7799",
+  "test_sha256": "6fae36d1bdef87a5f9605080da045ed8121e7c867113bef5fc9c38f102775075",
+  "changes": [
+    {
+      "line": 5,
+      "before": "0,setmaxhp,92,,,,,,,",
+      "after": "0,,,,,,,,,",
+      "reason": "missing exported original handler"
+    },
+    {
+      "line": 6,
+      "before": "0,damafeeplayer,0,,,,,,,",
+      "after": "0,,,,,,,,,",
+      "reason": "missing exported original handler"
+    },
+    {
+      "line": 153,
+      "before": "0,NoTooth,0,,,,,,,",
+      "after": "0,,,,,,,,,",
+      "reason": "missing exported original handler"
+    },
+    {
+      "line": 163,
+      "before": "0,damageplayer,-10000,,,,,,,",
+      "after": "0,,,,,,,,,",
+      "reason": "remove scripted heal with missing KR parameter for strict nohit"
+    },
+    {
+      "line": 8032,
+      "before": null,
+      "after": "15-second wait then EndAttack",
+      "reason": "explicit finite test completion"
+    }
+  ]
+}

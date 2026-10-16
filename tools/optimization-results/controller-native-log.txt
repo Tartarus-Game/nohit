@@ -1,0 +1,19 @@
+
+[A] Booting the real Construct 2 export
+  ✓ jcw adapter exposes named plugin ABI
+  ✓ real Runtime instantiated
+  ✓ cr.runtime constructor exposed (runtime prototype hook source)
+  ✓ engine runtime reachable as window.c2runtime
+  ✓ data.js requested by the real loader
+  ✓ real layout running
+  ✓ exported type names are minified (t55/t14/t2 present)
+{
+  "status": "unknown",
+  "reason": "native_search_limited",
+  "reached_tick": 0,
+  "verified": false,
+  "wall_seconds": 4.160866120999799,
+  "physics_hz": 30.0,
+  "original_replay_passed": false
+}
+ 

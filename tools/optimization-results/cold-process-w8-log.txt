@@ -1,0 +1,15 @@
+{"wave": "sans_bonegap1", "external_wall_seconds": 0.18477948399959132, "sampled_tree_peak_rss_bytes": null, "status": "candidate_found"}
+{"wave": "sans_bonegap1", "external_wall_seconds": 0.18229567199978192, "sampled_tree_peak_rss_bytes": null, "status": "candidate_found"}
+{"wave": "sans_bonegap1", "external_wall_seconds": 0.18167174700010946, "sampled_tree_peak_rss_bytes": null, "status": "candidate_found"}
+{"wave": "sans_bonegap1fast", "external_wall_seconds": 0.18730150100054743, "sampled_tree_peak_rss_bytes": null, "status": "candidate_found"}
+{"wave": "sans_bonegap1fast", "external_wall_seconds": 0.1834220760001699, "sampled_tree_peak_rss_bytes": null, "status": "candidate_found"}
+{"wave": "sans_bonegap1fast", "external_wall_seconds": 0.1776114360000065, "sampled_tree_peak_rss_bytes": null, "status": "candidate_found"}
+{"wave": "sans_bluebone", "external_wall_seconds": 0.22366997199969774, "sampled_tree_peak_rss_bytes": null, "status": "candidate_found"}
+{"wave": "sans_bluebone", "external_wall_seconds": 0.21795861200007494, "sampled_tree_peak_rss_bytes": null, "status": "candidate_found"}
+{"wave": "sans_bluebone", "external_wall_seconds": 0.22838239100019564, "sampled_tree_peak_rss_bytes": null, "status": "candidate_found"}
+{"wave": "sans_platforms3", "external_wall_seconds": 0.20121848300004785, "sampled_tree_peak_rss_bytes": null, "status": "candidate_found"}
+{"wave": "sans_platforms3", "external_wall_seconds": 0.18363483099983569, "sampled_tree_peak_rss_bytes": null, "status": "candidate_found"}
+{"wave": "sans_platforms3", "external_wall_seconds": 0.18825009499960288, "sampled_tree_peak_rss_bytes": null, "status": "candidate_found"}
+{"wave": "sans_platforms4hard", "external_wall_seconds": 0.25858952199996565, "sampled_tree_peak_rss_bytes": null, "status": "candidate_found"}
+{"wave": "sans_platforms4hard", "external_wall_seconds": 0.2597527870002523, "sampled_tree_peak_rss_bytes": null, "status": "candidate_found"}
+{"wave": "sans_platforms4hard", "external_wall_seconds": 0.2531868959995336, "sampled_tree_peak_rss_bytes": null, "status": "candidate_found"}

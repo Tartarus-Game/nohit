@@ -1,0 +1,1 @@
+{"wave": "sans_bonegap1", "external_wall_seconds": 1.2862766960001863, "sampled_tree_peak_rss_bytes": 311296, "status": "candidate_found"}
