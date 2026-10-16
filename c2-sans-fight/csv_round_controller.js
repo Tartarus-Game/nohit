@@ -3,8 +3,44 @@
 (() => {
     const ownedKeys=[37,38,39,40,65,68,83,87,88,16,90,13];
     const blocked=new Set(['solving','unknown','failed','completed','cancelled']);
+    const sharedProgressRequests=new Map();
     const finite=value=>typeof value==='number'&&Number.isFinite(value);
     const vector=(value,size)=>Array.isArray(value)&&value.length===size&&value.every(finite);
+    function hudElements() {
+        if(typeof document==='undefined'||typeof document.getElementById!=='function'||typeof document.createElement!=='function')return null;
+        const badge=document.getElementById('tas-status-badge');
+        const hud=document.getElementById('tas-controller-overlay')||badge?.parentNode;
+        if(!badge||!hud)return null;
+        let panel=document.getElementById('csv-hud-details'),summary=document.getElementById('csv-hud-summary'),body=document.getElementById('csv-hud-body');
+        if(!panel) {
+            panel=document.createElement('details');summary=document.createElement('summary');body=document.createElement('div');
+            if(typeof panel.appendChild!=='function'||typeof hud.appendChild!=='function')return null;
+            panel.id='csv-hud-details';summary.id='csv-hud-summary';body.id='csv-hud-body';
+            panel.appendChild(summary);panel.appendChild(body);hud.appendChild(panel);
+            Object.assign(summary.style,{cursor:'pointer',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'});
+            Object.assign(body.style,{maxHeight:'min(36vh, 280px)',overflowY:'auto',marginTop:'6px',overflowWrap:'anywhere'});
+            if(typeof MutationObserver==='function') {
+                const observer=new MutationObserver(()=>{
+                    for(const item of Array.from(hud.children))if(item!==panel)body.appendChild(item);
+                });
+                observer.observe(hud,{childList:true});
+            }
+        }
+        for(const item of Array.from(hud.children||[]))if(item!==panel)body.appendChild(item);
+        for(const id of ['tas-status-badge','tas-clock-status','csv-solve-progress','csv-progress-dashboard-link','csv-source-warnings','csv-budget-status','csv-edit-link']) {
+            const item=document.getElementById(id);if(item&&item.parentNode!==body)body.appendChild(item);
+        }
+        if(hud.style&&typeof hud.style==='object')Object.assign(hud.style,{top:'8px',left:'auto',right:'8px',transform:'none',
+            maxWidth:'min(420px, calc(100vw - 24px))',padding:'4px 8px',fontSize:'12px',lineHeight:'1.4',
+            border:'1px solid rgba(255,255,255,.45)',background:'rgba(0,0,0,.78)'});
+        return {panel,summary,body};
+    }
+    function etaText(snap) {
+        const known=['csv_literal_duration_estimate','scalar_replay_tick_rate'].includes(snap?.eta_basis);
+        if(!known||!finite(snap?.eta_seconds)||snap.eta_seconds<0)return '估算中';
+        const seconds=Math.ceil(snap.eta_seconds),duration=seconds>=60?`${Math.floor(seconds/60)}分${seconds%60}秒`:`${seconds}秒`;
+        return '预计剩余约 '+duration;
+    }
     function describeResult(plan,budgetMode=plan.budget_selection?.mode) {
         if(plan.reason==='unsupported_mechanism') {
             const issues=Array.isArray(plan.issues)?plan.issues:[];
@@ -111,7 +147,19 @@
         // Live solve telemetry lives here, in the controller both the Custom shell
         // and the Normal campaign share, so every entry shows the same numbers.
         // Hosts without timers (the Node controller harnesses) simply never poll.
-        let progressTimer=null;
+        let progressTimer=null,progressWatch=null,progressAttempt=null,hudStatus=null;
+        function renderHud() {
+            const elements=hudElements();if(!elements)return;
+            const {panel,summary}=elements;
+            if(hudStatus!==C.status){panel.open=!['playing','completed'].includes(C.status);hudStatus=C.status;}
+            const label={waiting_source:'等待 CSV',waiting_start:'准备起点',solving:'解算中',playing:'执行中',completed:'已完成',
+                unknown:'未找到完整路线',failed:'已停止',cancelled:'已取消'}[C.status]||C.status;
+            const attempt=C.solve_timing?.attempts.at(-1);
+            const elapsed=attempt?(attempt.total_ms??timingNow()-attempt.started_at_ms)/1000:null;
+            summary.textContent=label+(elapsed!==null?` · 解算 ${elapsed.toFixed(1)}s`:'')+
+                (C.status==='solving'?' · '+etaText(C.solve_progress):'')+' · '+(panel.open?'收起':'详情');
+            panel.ontoggle=()=>{try{renderHud();}catch(error){/* HUD only */}};
+        }
         function progressLine(){
             // Hosts without a DOM (controller harnesses) get no line, never an error.
             if(typeof document==='undefined'||typeof document.createElement!=='function')return null;
@@ -126,45 +174,91 @@
             badge.parentNode.insertBefore(line,badge.nextSibling);
             return line;
         }
-        function progressText(snap){
-            const finite=value=>typeof value==='number'&&Number.isFinite(value);
+        function progressText(watch){
+            const snap=watch.snapshot||{},state=watch.outcome||snap.state||'running';
             const count=value=>Number.isInteger(value)?value.toLocaleString('en-US'):'—';
             const phases={prepare:'准备',compile:'编译',bake:'烘焙 C-space',search:'搜索前沿',
                 dialogue:'对话',completion:'终点证书',verify:'逐帧复核',visualization:'逐帧几何'};
-            const elapsed=finite(snap.elapsed_seconds)?snap.elapsed_seconds.toFixed(1)+'s':'—';
-            const eta=(finite(snap.fraction)&&snap.fraction>=0.02&&finite(snap.elapsed_seconds))
-                ?(snap.elapsed_seconds*(1-snap.fraction)/snap.fraction).toFixed(1)+'s':'—';
-            return `解算 · ${phases[snap.phase]||snap.phase||''} · ${elapsed}`
+            const elapsed=Math.max(finite(snap.elapsed_seconds)?snap.elapsed_seconds:0,
+                ((watch.finishedAt??timingNow())-watch.startedAt)/1000);
+            const label={done:'解算已结束',failed:'解算失败',cancelled:'解算已取消'}[state]||'解算中';
+            const phase=phases[snap.phase]||snap.phase||'等待服务端阶段信息';
+            const noCounters=![snap.tick,snap.alive_states,snap.expanded_states].some(Number.isInteger);
+            const unchanged=watch.active&&state==='running'&&timingNow()-watch.changedAt>=2000;
+            return `${label} · ${phase} · 已用 ${elapsed.toFixed(1)}s`
                 +` · 前沿 ${count(snap.alive_states)} · 展开 ${count(snap.expanded_states)}`
                 +` · ${finite(snap.states_per_second)?Math.round(snap.states_per_second).toLocaleString('en-US'):'—'} 态/秒`
                 +` · tick ${Number.isInteger(snap.tick)?snap.tick:'—'}/${Number.isInteger(snap.ticks)?snap.ticks:'—'}`
-                +` · 预计剩余 ${eta}`;
+                +(state==='running'?' · '+etaText(snap):'')
+                +(noCounters?' · 阶段计数尚未上报':'')
+                +(unchanged?' · 阶段处理中，等待计数更新':'')+(snap.message?' · '+snap.message:'');
         }
-        function stopProgressWatch(){
-            if(progressTimer!==null&&typeof clearInterval==='function'){clearInterval(progressTimer);progressTimer=null;}
+        function renderProgress(watch) {
             try {
-                if(typeof document==='undefined'||typeof document.getElementById!=='function')return;
-                const line=document.getElementById('csv-solve-progress');
-                if(line&&line.parentNode)line.parentNode.removeChild(line);
-            } catch(error) { /* the HUD is observation; it must never break a solve */ }
+                const line=progressLine();if(!line)return;
+                line.hidden=false;line.textContent=progressText(watch);
+                let link=document.getElementById('csv-progress-dashboard-link');
+                if(!link&&line.parentNode) {
+                    link=document.createElement('a');link.id='csv-progress-dashboard-link';
+                    link.textContent='在 Dashboard 查看本次解算';link.target='_blank';link.rel='noopener';
+                    if(link.style)Object.assign(link.style,{display:'block',fontSize:'12px',color:'#8be0b7',marginTop:'4px'});
+                    line.parentNode.appendChild(link);
+                }
+                if(link){link.hidden=false;link.href='/?progress_id='+encodeURIComponent(watch.id);}
+                renderHud();
+            } catch(error) { /* HUD only */ }
         }
-        function startProgressWatch(){
-            if(progressTimer!==null||typeof setInterval!=='function')return;
+        function stopProgressWatch(outcome=null){
+            if(progressTimer!==null&&typeof clearInterval==='function'){clearInterval(progressTimer);progressTimer=null;}
+            if(!progressWatch)return;
+            const watch=progressWatch;watch.active=false;watch.finishedAt=timingNow();
+            if(outcome)watch.outcome=outcome;
+            renderProgress(watch);progressWatch=null;
+        }
+        function startProgressWatch(timing){
+            stopProgressWatch();
+            const watch=progressWatch={id:C.request.progress_id,generation:requestId,active:true,polling:false,
+                startedAt:timing.record.started_at_ms,changedAt:timingNow(),snapshot:null,fingerprint:null};
+            C.solve_progress=null;renderProgress(watch);
+            if(typeof setInterval!=='function')return;
             progressTimer=setInterval(async () => {
-                const id=C.request&&C.request.progress_id;
-                if(!id)return;
+                if(progressWatch!==watch||!watch.active)return;
+                renderProgress(watch);
+                if(watch.polling)return;
+                watch.polling=true;
                 try {
-                    const reply=await fetch('/api/progress/'+encodeURIComponent(id));
+                    const reply=await fetch('/api/progress/'+encodeURIComponent(watch.id));
                     if(!reply.ok)return;
                     const snap=await reply.json();
-                    C.solve_progress=snap;
-                    try {
-                        const line=progressLine();
-                        if(line)line.textContent=progressText(snap);
-                    } catch(error) { /* HUD only */ }
+                    if(progressWatch!==watch||!watch.active||requestId!==watch.generation||
+                        (snap.progress_id!==undefined&&snap.progress_id!==watch.id))return;
+                    const fingerprint=JSON.stringify([snap.state,snap.phase,snap.tick,snap.ticks,snap.alive_states,
+                        snap.expanded_states,snap.fraction,snap.fraction_basis,snap.message]);
+                    if(fingerprint!==watch.fingerprint){watch.fingerprint=fingerprint;watch.changedAt=timingNow();}
+                    C.solve_progress=watch.snapshot=snap;renderProgress(watch);
                     if(snap.state==='done'||snap.state==='failed')stopProgressWatch();
                 } catch(error) { /* observation only; the solve owns the outcome */ }
+                finally {watch.polling=false;}
             },250);
+        }
+        function nextRequestIdentity() {
+            const shared=query.get('progress_id');
+            if(query.has('progress_id')&&(!shared||shared.length>128))throw Error('Invalid shared progress_id');
+            const previous=(shared&&sharedProgressRequests.get(shared))||C.request?.progress_id||null;
+            const id=shared&&!sharedProgressRequests.has(shared)?shared:crypto.randomUUID();
+            if(shared)sharedProgressRequests.set(shared,id);
+            C.previous_progress_id=previous;return id;
+        }
+        function publish(message) {
+            try {
+                const origin=window.location?.origin;
+                if(origin&&window.opener&&!window.opener.closed)window.opener.postMessage(message,origin);
+            } catch(error) { /* An optional dashboard never owns game control. */ }
+        }
+        function publishStatus() {
+            if(!progressAttempt||progressAttempt.generation!==C.request_generation)return;
+            publish({type:'nohit:csv-status',progress_id:progressAttempt.id,previous_progress_id:progressAttempt.previous,
+                status:C.status,error:C.error});
         }
         const timingClock=typeof globalThis.performance?.now==='function'?'performance.now':'Date.now';
         const timingNow=()=>timingClock==='performance.now'?globalThis.performance.now():Date.now();
@@ -197,6 +291,7 @@
             const totals=C.solve_timing.cumulative;totals.finished_attempts++;
             for(const key of timingFields)totals[key]+=record[key];
             if(activeTiming===timing)activeTiming=null;
+            try{renderHud();}catch(error){/* HUD only */}
         }
         function staleTiming(timing,kind,error=null) {
             if(timing.record.outcome===null)finishTiming(timing,'stale',error);
@@ -209,8 +304,10 @@
         }
         function status(value) {
             C.status=value;options.onStatus?.(value,C);
+            publishStatus();
             try {showWarnings(C.warnings);}catch(error) { /* Warning display never owns native execution. */ }
             try {showBudget(C.budget_mode,C.budget_selection);}catch(error) { /* HUD only. */ }
+            try {renderHud();}catch(error) { /* HUD only. */ }
         }
         function capture() {return window.NoHitSolverState.capturePhysical(rt);}
         function input(mask,confirm) {
@@ -228,6 +325,7 @@
             const timing=activeTiming;
             try {
                 ++requestId;abort?.abort();C.error=String(reason);status(state);release();
+                stopProgressWatch(state==='cancelled'?'cancelled':'failed');
                 window.cr_setSuspended(true);
             } finally {finishTiming(timing,state==='cancelled'?'aborted':'failed',reason);}
         }
@@ -338,9 +436,11 @@
         async function solve(boundary) {
             const generation=++requestId,timing=beginTiming(generation);
             // Preserve thrown status/boundary-hook errors while still closing their observation.
-            let frozen;
+            let frozen,identity;
             try {
                 C.request_generation=generation;C.issues=[];C.diagnostic=null;
+                identity=nextRequestIdentity();
+                progressAttempt={generation,id:identity,previous:C.previous_progress_id};
                 C.budget_mode=budgetMode();C.budget_selection=null;status('solving');frozen=boundaryKey(boundary);
             } catch(error) {finishTiming(timing,'failed',error);throw error;}
             try {
@@ -367,24 +467,25 @@
                     initial_arena:C.source_arena,initial_target_history:C.initial_target_history,
                     initial_confirm:boundary.initial_confirm,previous_confirm:boundary.previous_confirm,
                     termination_policy:terminationPolicy,visualization_mode:'entry',
-                    fps:clock.physicsHz,dt_schedule:schedule,max_ticks:count,request_id:crypto.randomUUID(),
+                    fps:clock.physicsHz,dt_schedule:schedule,max_ticks:count,request_id:identity,
                     seed:Number(query.get('seed')||42),...budgetSettings,...observationSettings};
                 timing.record.request_id=payload.request_id;
                 // Same identity for the read-only progress channel, so the HUD
                 // can show the running search and the plan provenance still
                 // agree on which request they describe.
                 payload.progress_id=payload.request_id;
-                startProgressWatch();
                 C.request=payload;C.fresh_computation=true;
                 C.request_recipe={generation,max_ticks:count,schedule_count:schedule.length,
+                    request_id:payload.request_id,progress_id:payload.progress_id,
                     termination_policy:terminationPolicy,visualization_mode:'entry',
                     clock_start_ms:boundary.clock_start_ms,initial_dt:boundary.dt,logical_step_ms:clock.logicalStepMs,
                     schedule_sha256:scheduleHash,seed:payload.seed,...budgetSettings,...observationSettings};
+                startProgressWatch(timing);
                 timingPhase(timing,'fetch_json');
                 const response=await fetch('/api/solve-csv',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),signal:abort.signal});
                 const plan=await response.json();
-                stopProgressWatch();
                 if(generation!==requestId){staleTiming(timing,'response');return;}
+                stopProgressWatch('done');
                 timingPhase(timing,'validation');
                 C.plan=plan;
                 C.issues=Array.isArray(plan.issues)?plan.issues:[];
@@ -397,10 +498,12 @@
                 if(!noDamage(capture()))throw Error('Damage was observed before playback');
                 if(plan.status==='unknown'&&plan.verified===false) {
                     C.diagnostic=describeResult(plan,C.budget_mode);
+                    publish({type:'nohit:csv-result',progress_id:payload.progress_id,result:{...plan,warnings:C.warnings}});
                     C.error=plan.reason||plan.status||'unknown';status('unknown');release();window.cr_setSuspended(true);
                     finishTiming(timing,'unknown');return;
                 }
                 const n=validatePlan(plan,boundary);
+                publish({type:'nohit:csv-result',progress_id:payload.progress_id,result:{...plan,warnings:C.warnings}});
                 if(C.completion_kind==='eof_invariant'&&plan.completion.drain_tick===0)
                     options.captureEof?.({requireRelease:false});
                 if(n===0) {
@@ -510,6 +613,7 @@
         // warning set must replace the previous round's HUD during that wait.
         try {showWarnings(C.warnings);}catch(error) { /* HUD only. */ }
         try {showBudget(C.budget_mode,C.budget_selection);}catch(error) { /* HUD only. */ }
+        try {renderHud();}catch(error) { /* HUD only. */ }
         return {state:C,beginSource,observeFunction,beforeTick,afterTick,input,release,fail:stop,
             canAdvance:C.canAdvance,retry:C.retry,cancel:C.cancel,hasSource:()=>activeText!==null};
     }

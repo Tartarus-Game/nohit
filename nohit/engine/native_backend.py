@@ -92,6 +92,9 @@ def load_backend():
     if hasattr(library,"nohit_search_goal"):
         library.nohit_search_goal.argtypes=library.nohit_search.argtypes+[P]
         library.nohit_search_goal.restype=I
+    if hasattr(library,"nohit_search_progress"):
+        library.nohit_search_progress.argtypes=library.nohit_search.argtypes+[P,P,P]
+        library.nohit_search_progress.restype=I
     if hasattr(library,"nohit_last_index_bytes"):
         library.nohit_last_index_bytes.argtypes=[]
         library.nohit_last_index_bytes.restype=C.c_uint64
@@ -158,7 +161,16 @@ def collision_batch(states, white, blue, polygons):
     return output
 
 
-def search(initial, wave, controls, counts, widths, seeds, workers, seconds, *, terminal_target=None):
+def report_progress(progress, **fields):
+    """Telemetry is optional and must never change a solver result."""
+    if progress is not None:
+        try:
+            progress(**fields)
+        except Exception:
+            pass
+
+
+def search(initial, wave, controls, counts, widths, seeds, workers, seconds, *, terminal_target=None, progress=None):
     if type(workers) is not int or not 1<=workers<=32:raise ValueError('workers must be in [1,32]')
     controls=np.ascontiguousarray(controls,np.int64);counts=np.ascontiguousarray(counts,np.int64)
     initial=np.ascontiguousarray(initial,np.float64)
@@ -185,6 +197,20 @@ def search(initial, wave, controls, counts, widths, seeds, workers, seconds, *, 
         if np.any(goal[2:]<0):raise ValueError('invalid terminal weights')
     invoke=library.nohit_search if goal is None else library.nohit_search_goal
     extra=[] if goal is None else [_ptr(goal)]
+    callback=None
+    if progress is not None and hasattr(library,'nohit_search_progress'):
+        probes={}
+        signature=C.CFUNCTYPE(None,C.c_void_p,C.c_int,C.c_int,C.c_int,C.c_uint64,C.c_uint64,C.c_uint64)
+        def publish(context,job,tick,alive,expanded,discarded,unique):
+            probes[job]=(tick,alive,expanded,discarded,unique)
+            report_progress(progress,phase='search',tick=max(row[0] for row in probes.values()),ticks=nt-1,
+                alive_states=sum(row[1] for row in probes.values()),
+                expanded_states=sum(row[2] for row in probes.values()),
+                discarded_states=sum(row[3] for row in probes.values()),
+                unique_states=sum(row[4] for row in probes.values()))
+        callback=signature(publish)
+        invoke=library.nohit_search_progress
+        extra=[None if goal is None else _ptr(goal),C.cast(callback,C.c_void_p),None]
     winner=invoke(_ptr(initial),_ptr(env),nt,_ptr(platforms),platforms.shape[1],
         _ptr(white),white.shape[1],_ptr(blue),blue.shape[1],_ptr(polygons),polygons.shape[1],
         _ptr(controls),_ptr(counts),controls.shape[1],_ptr(widths),_ptr(seeds),len(widths),workers,seconds,

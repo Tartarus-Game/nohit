@@ -8,6 +8,8 @@
 :root{color-scheme:dark;--bg:#101217;--panel:#181c24;--line:#303744;--text:#edf0f5;--muted:#a1acbc;--accent:#8be0b7;--red:#ff7188;--blue:#64c8ff}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px/1.55 system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif}button,input,textarea,select{font:inherit}button,a,input,textarea,select{outline-offset:4px}button{cursor:pointer}button:disabled{cursor:default;opacity:.4}a{color:var(--muted);text-decoration:none}a:hover{color:var(--text)}header{max-width:1260px;margin:auto;padding:28px 24px 20px;display:flex;align-items:center;justify-content:space-between;gap:24px}.eyebrow{color:var(--accent);font:600 11px/1.5 ui-monospace,Consolas,monospace;letter-spacing:2px}h1{margin:4px 0 3px;font-size:25px;letter-spacing:-.5px}p{margin:0;color:var(--muted)}.tag{display:inline-block;border:1px solid var(--line);border-radius:20px;padding:5px 11px;color:var(--muted);font-size:12px}main{max-width:1260px;margin:auto;padding:0 24px 32px;display:grid;grid-template-columns:340px minmax(0,1fr);gap:20px}.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}.config{padding:20px;align-self:start}h2{font-size:15px;margin:0 0 16px}.section-number{font-family:ui-monospace,Consolas,monospace;color:var(--muted);margin-right:9px}.tabs{display:flex;background:#11151c;padding:4px;border-radius:7px;margin-bottom:14px}.tabs button{border:0;border-radius:5px;background:transparent;color:var(--muted);padding:8px;flex:1}.tabs button[aria-selected="true"]{background:#303a49;color:var(--text)}label,.label{display:block;margin-bottom:6px;color:#d2d9e4;font-size:12px}input,textarea,select{width:100%;background:#10151d;color:var(--text);border:1px solid #3a4352;border-radius:6px;padding:9px 10px}input:focus,textarea:focus,select:focus{border-color:var(--accent)}textarea{resize:vertical;min-height:74px;font:12px/1.6 ui-monospace,Consolas,monospace;tab-size:2}#custom-csv{min-height:152px}.hint{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.65}.field{margin-top:15px}.pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}.divider{height:1px;background:var(--line);margin:20px 0}.primary{background:var(--accent);color:#10261d;border:0;border-radius:7px;padding:11px 16px;font-weight:650;width:100%;margin-top:20px}.primary:hover:not(:disabled){background:#acf2cf}.small-btn{background:#252c38;color:var(--text);border:1px solid var(--line);border-radius:6px;padding:7px 12px}.small-btn:hover:not(:disabled){background:#354154}.result{padding:18px 20px;border-bottom:1px solid var(--line)}.status-row{display:flex;justify-content:space-between;align-items:center;gap:12px}.status{font-weight:650;font-size:16px}.status[data-kind="success"]{color:var(--accent)}.status[data-kind="error"]{color:var(--red)}.status[data-kind="unknown"]{color:#ffd58b}#status-detail{font-size:12px;margin-top:5px;min-height:20px;overflow-wrap:anywhere}.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:17px}.metric span{font-size:11px;color:var(--muted);display:block}.metric strong{font:500 19px/1.6 ui-monospace,Consolas,monospace}.stage-wrap{padding:16px 20px 0}.stage{position:relative;background:#070a0f;border:1px solid #313a47;border-radius:7px;overflow:hidden;aspect-ratio:4/3;width:100%;max-width:760px;margin:auto}canvas{display:block;width:100%;height:100%;aspect-ratio:4/3}#empty-stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;text-align:center;color:#8d9aac;font-size:13px;white-space:pre-line}#empty-stage[hidden]{display:none}.legend{display:flex;flex-wrap:wrap;gap:7px 16px;font-size:11px;color:var(--muted);padding:11px 0}.legend i{display:inline-block;width:9px;height:9px;margin-right:5px;border-radius:2px;background:var(--swatch)}.playback{padding:8px 20px 18px}#timeline{padding:0;margin:10px 0 11px;accent-color:var(--accent)}.transport{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.transport-left{display:flex;gap:7px;align-items:center}.transport select{width:auto;padding:6px 7px}.counter{font:12px/1.5 ui-monospace,Consolas,monospace;color:var(--muted)}.keys{display:flex;align-items:center;gap:6px}.key{border:1px solid #3c4657;border-radius:5px;background:#11151d;padding:5px 9px;min-width:29px;text-align:center;color:#8190a4;font:12px/1.5 ui-monospace,Consolas,monospace}.key.active{background:#274d3c;border-color:var(--accent);color:#c8ffe5}.key-label{font-size:11px;color:var(--muted);margin-right:3px}.options{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-top:12px}.check{display:flex;align-items:center;gap:7px;margin:0}.check input{width:auto;margin:0;accent-color:var(--accent)}details{border-top:1px solid var(--line);padding:13px 20px;font-size:12px}summary{cursor:pointer;color:var(--muted)}pre{font:11px/1.65 ui-monospace,Consolas,monospace;white-space:pre-wrap;word-break:break-word;max-height:240px;overflow:auto;color:#cad4e3;margin-bottom:0}.note{padding:0 20px 17px;color:var(--muted);font-size:11px}.vis-error{color:#ffd58b;font-size:12px;margin-top:10px;white-space:pre-line}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}[hidden]{display:none!important}@media(max-width:950px){main{grid-template-columns:300px minmax(0,1fr);gap:14px}header,main{padding-left:16px;padding-right:16px}.config{padding:16px}.stage-wrap,.playback{padding-left:12px;padding-right:12px}.metrics{gap:5px}.metric strong{font-size:16px}}@media(max-width:740px){header{padding-top:20px;align-items:flex-start}.tag{display:none}main{grid-template-columns:1fr}.config{padding:18px}.metrics{gap:12px}.stage{max-width:640px}h1{font-size:22px}.transport{gap:10px}}
 #status-detail,#request-progress{white-space:pre-line}
+.config{grid-row:1 / span 2}.progress-panel{padding:18px 20px;align-self:start}
+@media(max-width:740px){.config{grid-row:auto}}
 </style>
 </head>
 <body>
@@ -19,9 +21,12 @@
   <div id="path-panel" role="tabpanel" aria-labelledby="path-tab"><label for="csv-path">CSV 文件路径</label><input id="csv-path" placeholder="C:\Users\…\Downloads\welcome_to_hell.csv" autocomplete="off" spellcheck="false"><p class="hint">读取本机 CSV，保留原文件并生成执行副本。</p></div>
   <div id="file-panel" role="tabpanel" aria-labelledby="file-tab" hidden><label for="csv-file">CSV 文件</label><input id="csv-file" type="file" accept=".csv,text/csv"><p class="hint">选择本机 CSV，系统会自动检查指令、清理直接伤害并求解。</p></div>
   <div id="text-panel" role="tabpanel" aria-labelledby="text-tab" hidden><label for="custom-csv">完整 CSV 内容</label><textarea id="custom-csv" spellcheck="false" placeholder="0,HeartMode,0&#10;1,EndAttack"></textarea></div>
-  <button class="primary" id="native-button" type="button">一键自动解算并执行</button>
-  <p class="hint">自动读取原版起点、选择计算预算并执行。直接伤害／回血指令会禁用并保留延时，无需调整参数。</p>
+  <button class="primary" id="solve-button" type="submit">在 Dashboard 解算</button>
+  <p class="hint">自动选择计算预算，在此查看实时进度、完整轨迹与按键序列，无需调整参数。</p>
+  <button class="small-btn" id="native-button" type="button" style="width:100%;margin-top:12px">在原游戏解算并执行 ↗</button>
+  <p class="hint">新标签页读取原版起点并执行，此页保留解算进度。直接伤害／回血指令会禁用并保留延时。</p>
   <p id="request-progress" class="hint" role="status" aria-live="polite"></p>
+  <p id="native-progress" class="hint" role="status" aria-live="polite"></p>
   <p id="source-warnings" class="vis-error" role="status" aria-live="polite" hidden></p>
   <details id="advanced-settings" style="padding:15px 0 0;margin-top:18px"><summary>高级设置（可选）</summary>
   <div class="field"><label for="budget-mode">计算预算</label><select id="budget-mode"><option value="auto" selected>自动选择（推荐）</option><option value="manual">手动设置</option></select></div>
@@ -33,27 +38,25 @@
   </div>
   <p class="hint"><button type="button" class="small-btn" id="reset-params">恢复自动设置</button></p>
   <div class="divider"></div>
-  <h2>源模型检查</h2>
+  <h2>Dashboard 预览与起点</h2>
+  <label class="check"><input id="full-geometry" type="checkbox">生成完整逐帧危险几何（耗时和内存较多）</label>
   <div class="field"><label for="initial-state">初始玩家状态 · 11 个数值</label><textarea id="initial-state" spellcheck="false">[320, 304, 0, 0, 0, 0, 0, 1, 750, 0, 0]</textarea><p class="hint">x, y, vx, vy, 上次按键掩码, slammed, 模式, 重力方向, 最大落速, slam 伤害, 本帧伤害。模式 0 = 红心、1 = 蓝心。</p></div>
   <div class="field"><label for="initial-environment">初始环境 · JSON 数组或 null</label><textarea id="initial-environment" spellcheck="false">null</textarea><p class="hint">null 使用脚本默认环境；自定义时填完整 22 项环境状态。</p></div>
-  <button class="small-btn" id="solve-button" type="submit" style="margin-top:16px">仅检查源模型</button>
   </details>
 </form>
-<section class="panel" aria-label="解算进度">
+<section class="panel progress-panel" aria-label="解算进度">
   <div class="status-row"><strong>解算进度</strong><span class="tag" id="progress-state">空闲</span></div>
   <div class="metrics">
     <div class="metric"><span>已用时间</span><strong id="p-elapsed">—</strong></div>
+    <div class="metric"><span>预计剩余（估算）</span><strong id="p-eta">—</strong></div>
     <div class="metric"><span>阶段</span><strong id="p-phase">—</strong></div>
-    <div class="metric"><span>进度</span><strong id="p-fraction">—</strong></div>
     <div class="metric"><span>tick</span><strong id="p-tick">—</strong></div>
     <div class="metric"><span>前沿状态</span><strong id="p-alive">—</strong></div>
     <div class="metric"><span>峰值状态</span><strong id="p-peak">—</strong></div>
     <div class="metric"><span>展开 / 丢弃</span><strong id="p-expanded">—</strong></div>
     <div class="metric"><span>状态 / 秒</span><strong id="p-rate">—</strong></div>
-    <div class="metric"><span>预计剩余</span><strong id="p-eta">—</strong></div>
   </div>
-  <div style="height:6px;background:#1b2430;border-radius:3px;overflow:hidden;margin:2px 0 8px"><div id="p-fill" style="height:100%;width:0;background:#6cc4ff;transition:width .2s"></div></div>
-  <p class="hint">预计剩余 = 已用时间 × (1 − 进度) ÷ 进度，按当前进度线性外推，只覆盖这一轮搜索：找到候选会提前结束（实际更快），随后的终点证书与逐帧几何生成时间不计入（实际更慢）。</p>
+  <p id="p-eta-note" class="hint">预计剩余基于当前阶段的实际处理速度估算，准备和后续验证耗时可能变化。</p>
   <details><summary>进度原始记录</summary><pre id="p-detail">尚无解算。</pre></details>
 </section>
 <section class="panel" aria-label="求解结果与轨迹">
@@ -151,8 +154,11 @@ function draw() {
   ctx.fillStyle = '#566274'; ctx.font = '10px ui-monospace,Consolas,monospace';
   ctx.fillText('0, 0',8,15); ctx.fillText('640, 480',579,470);
   if (!frames.length) return;
-  const f = frames[frameIndex], [l,t,r,b] = f.bounds;
-  ctx.strokeStyle = '#8390a5'; ctx.lineWidth = 1; ctx.strokeRect(l,t,r-l,b-t);
+  const f = frames[frameIndex];
+  if(f.bounds) {
+    const [l,t,r,b] = f.bounds;
+    ctx.strokeStyle = '#8390a5'; ctx.lineWidth = 1; ctx.strokeRect(l,t,r-l,b-t);
+  }
   if ($('show-trail').checked) {
     ctx.strokeStyle = 'rgba(255,113,136,.25)'; ctx.lineWidth = 1.2; ctx.beginPath();
     frames.forEach((row,i) => i ? ctx.lineTo(row.player[0],row.player[1]) : ctx.moveTo(row.player[0],row.player[1])); ctx.stroke();
@@ -178,7 +184,7 @@ function setFrame(value) {
   $('frame-counter').textContent = `帧 ${f.tick} / ${frames[frames.length-1].tick} · ${numberText(f.time_seconds)} s`;
   const mask = frameIndex ? response.actions[frameIndex-1] | (response.confirm_sequence[frameIndex-1] ? 32 : 0) : 0;
   $('key-label').textContent = frameIndex ? '本帧输入' : '起点观测'; updateKeys(mask);
-  $('frame-data').textContent = JSON.stringify({tick:f.tick,time_seconds:f.time_seconds,dt:f.dt,player:f.player,bounds:f.bounds,input:frameIndex ? {arrows:mask&15,confirm:!!(mask&32)} : null,env:f.env},null,2);
+  $('frame-data').textContent = JSON.stringify({tick:f.tick,time_seconds:f.time_seconds,dt:f.dt,player:f.player,bounds:f.bounds,input:frameIndex ? {arrows:mask&15,confirm:!!(mask&32)} : null,env:f.env,geometry_available:f.geometry_available!==false},null,2);
   draw();
 }
 function animate(stamp) {
@@ -207,6 +213,29 @@ function numericArray(text, size, label, nullable=false) {
 }
 function validateVisualization(result) {
   const v=result.visualization,n=result.actions.length;
+  if(v?.schema_version===1 && v.scope==='verified_source_model_entry' && v.mode==='entry') {
+    const tuple=(row,size)=>Array.isArray(row)&&row.length===size&&row.every(finite);
+    if(v.frame_count!==1||v.frames?.length!==1||v.candidate_frame_count!==n+1||result.trajectory?.length!==n+1||
+        result.confirm_sequence?.length!==n||result.dt_sequence?.length!==n+1||
+        !result.trajectory.every(row=>tuple(row,11))||!result.dt_sequence.every(dt=>finite(dt)&&dt>0)||
+        !result.actions.every(mask=>Number.isInteger(mask)&&mask>=0&&mask<16)||
+        !result.confirm_sequence.every(value=>typeof value==='boolean'))
+      throw Error('轻量轨迹的帧数、输入或精确时钟不完整。');
+    const entry=v.frames[0];
+    if(entry.tick!==0||entry.time_seconds!==0||entry.dt!==result.dt_sequence[0]||
+        !tuple(entry.player,11)||!entry.player.every((value,i)=>value===result.trajectory[0][i]))
+      throw Error('轻量轨迹的起点与场景不一致。');
+    // Reuse the full-scene validator for the one actual geometry observation.
+    validateVisualization({actions:[],confirm_sequence:[],trajectory:[result.trajectory[0]],
+      visualization:{schema_version:1,scope:'verified_source_model',frame_count:1,frames:[entry]}});
+    let time=0;
+    return result.trajectory.map((player,tick)=>{
+      if(!tick)return {...entry,geometry_available:true};
+      time+=result.dt_sequence[tick];
+      return {tick,time_seconds:time,dt:result.dt_sequence[tick],player,env:null,bounds:null,
+        white:[],blue:[],polygons:[],platforms:[],geometry_available:false};
+    });
+  }
   if(!v || v.schema_version!==1 || v.scope!=='verified_source_model') throw new Error('服务未返回受支持的逐帧验证几何。');
   if(!Array.isArray(v.frames) || v.frame_count!==n+1 || v.frames.length!==n+1 || result.trajectory.length!==n+1 || result.confirm_sequence.length!==n) throw new Error('帧数、轨迹与输入长度不一致，无法播放。');
   const tuple=(row,size) => Array.isArray(row)&&row.length===size&&row.every(finite);
@@ -270,7 +299,12 @@ function showResult(result) {
   $('result-data').textContent=JSON.stringify({...summary,action_count:actions?.length||0,visualization:visualization?{schema_version:visualization.schema_version,scope:visualization.scope,frame_count:visualization.frame_count}:null},null,2);
   if(!verified) { $('empty-stage').textContent=unsupported?'脚本兼容性检查未通过\n请按具体行修改文件或使用兼容副本':budgetMode==='auto'?'自动尝试后仍未找到完整路线，可重试/查看详情':'没有完整候选可播放\n可调整起点或计算预算后重试';return; }
   try {
+    $('visualization-warning').hidden=true;
     frames=validateVisualization(result);$('timeline').max=frames.length-1;$('empty-stage').hidden=true;
+    if(result.visualization.mode==='entry') {
+      $('visualization-warning').textContent='轻量轨迹：完整显示轨迹与输入，仅起点含场景几何；后续帧不显示危险物和边界。可在高级设置中启用完整几何。';
+      $('visualization-warning').hidden=false;
+    }
     for(const id of ['timeline','previous','play','next']) $(id).disabled=false;
     setFrame(0);
   } catch(error) {
@@ -284,6 +318,7 @@ function showResult(result) {
 // from the server snapshot; the local clock only fills the gap before the
 // first snapshot arrives.
 let progressTimer = null, progressId = null, progressBegan = 0, lastSnapshot = null;
+let progressGeneration = 0, snapshotStamp = 0, nativeWindow = null;
 const PHASE_TEXT = {prepare:'准备请求',compile:'编译 CSV 环境',bake:'烘焙精确 C-space',search:'展开前沿搜索',
   dialogue:'对话阶段',completion:'终点证书',verify:'逐帧复核',visualization:'生成逐帧几何'};
 const STATE_TEXT = {running:'解算中',done:'已完成',failed:'失败',unknown:'无实时记录'};
@@ -292,18 +327,29 @@ function newProgressId() {
   return `p-${Date.now()}-${Math.round(Math.random()*1e9)}`;
 }
 function countText(value) { return Number.isInteger(value) ? value.toLocaleString('en-US') : '—'; }
-function setFill(fraction) {
-  const width = finite(fraction) ? Math.max(0, Math.min(100, fraction*100)).toFixed(1) : '0';
-  $('p-fill').setAttribute('style', `height:100%;width:${width}%;background:#6cc4ff;transition:width .2s`);
+function renderEta(snap) {
+  if(['done','failed','cancelled'].includes(snap.state)) {
+    $('p-eta').textContent='—';$('p-eta-note').textContent='本次解算已结束。';return;
+  }
+  const scope={csv_literal_duration_estimate:'当前搜索阶段（不含后续复验）',
+    scalar_replay_tick_rate:'当前逐帧复验阶段'}[snap.eta_basis];
+  const available=scope&&finite(snap.eta_seconds)&&snap.eta_seconds>=0;
+  $('p-eta').textContent=available?`${snap.eta_seconds.toFixed(1)} s`:'估算中';
+  $('p-eta-note').textContent=(available?`按${scope}的实际处理速度估算。`:'等待当前阶段的处理速度与剩余工作量。')+
+    '准备和后续验证耗时可能变化。';
 }
 function renderProgress(snap) {
   if (!snap || typeof snap !== 'object') return;
+  const unchanged=lastSnapshot&&lastSnapshot.updated_at===snap.updated_at&&
+    lastSnapshot.elapsed_seconds===snap.elapsed_seconds&&lastSnapshot.state===snap.state;
+  if(!unchanged)snapshotStamp=performance.now();
   lastSnapshot = snap;
   $('progress-state').textContent = STATE_TEXT[snap.state] || snap.state || '—';
-  if (finite(snap.elapsed_seconds)) $('p-elapsed').textContent = `${snap.elapsed_seconds.toFixed(2)} s`;
+  if (finite(snap.elapsed_seconds)) {
+    const elapsed=snap.elapsed_seconds+(snap.state==='running'?(performance.now()-snapshotStamp)/1000:0);
+    $('p-elapsed').textContent = `${elapsed.toFixed(2)} s`;
+  }
   $('p-phase').textContent = PHASE_TEXT[snap.phase] || snap.phase || '—';
-  $('p-fraction').textContent = finite(snap.fraction)
-    ? `${(snap.fraction*100).toFixed(1)} %${snap.fraction_basis ? `（${snap.fraction_basis}）` : ''}` : '—';
   $('p-tick').textContent = Number.isInteger(snap.tick)
     ? (Number.isInteger(snap.ticks) ? `${snap.tick} / ${snap.ticks}` : String(snap.tick)) : '—';
   $('p-alive').textContent = countText(snap.alive_states);
@@ -311,35 +357,71 @@ function renderProgress(snap) {
   $('p-expanded').textContent = Number.isInteger(snap.expanded_states)
     ? `${countText(snap.expanded_states)} / ${countText(snap.discarded_states)}` : '—';
   $('p-rate').textContent = finite(snap.states_per_second) ? Math.round(snap.states_per_second).toLocaleString('en-US') : '—';
-  // Linear extrapolation of the search phase only, and only once the fraction is
-  // past a noise floor; below that the estimate is meaningless.
-  const eta = finite(snap.fraction) && snap.fraction >= 0.02 && finite(snap.elapsed_seconds)
-    ? snap.elapsed_seconds * (1 - snap.fraction) / snap.fraction : null;
-  $('p-eta').textContent = eta !== null && eta < 86400 ? `${eta.toFixed(1)} s` : '—';
-  setFill(snap.fraction);
+  renderEta(snap);
   $('p-detail').textContent = JSON.stringify(snap, null, 2);
 }
 function startProgress(id) {
   // The id must be the one the request carries: generating a second one here
   // makes the page poll an id the server never registered.
+  stopProgress();
   progressId = typeof id === 'string' && id ? id : newProgressId();
+  const generation=progressGeneration, watchedId=progressId;
+  let inFlight=false;
   progressBegan = performance.now(); lastSnapshot = null;
   $('progress-state').textContent = STATE_TEXT.running;
-  $('p-detail').textContent = '正在等待服务端第一份进度快照。'; setFill(null); $('p-eta').textContent = '—';
-  if (progressTimer !== null) clearInterval(progressTimer);
+  $('p-detail').textContent = '正在等待服务端第一份进度快照。';
+  for(const field of ['p-phase','p-tick','p-alive','p-peak','p-expanded','p-rate'])$(field).textContent='—';
+  $('p-elapsed').textContent='0.00 s';
+  renderEta({state:'running'});
   progressTimer = setInterval(async () => {
-    if (!lastSnapshot || !finite(lastSnapshot.elapsed_seconds))
-      $('p-elapsed').textContent = `${((performance.now()-progressBegan)/1000).toFixed(2)} s`;
+    if(generation!==progressGeneration)return;
+    if(nativeWindow?.closed) {
+      stopProgress();nativeWindow=null;
+      $('native-progress').textContent='原游戏标签页已关闭，已停止监控。';return;
+    }
+    const elapsed=finite(lastSnapshot?.elapsed_seconds)
+      ?lastSnapshot.elapsed_seconds+(performance.now()-snapshotStamp)/1000
+      :(performance.now()-progressBegan)/1000;
+    $('p-elapsed').textContent=`${Math.max(0,elapsed).toFixed(2)} s`;
+    if(inFlight)return;
+    inFlight=true;
     try {
-      const reply = await fetch(`/api/progress/${encodeURIComponent(progressId)}`);
+      const reply = await fetch(`/api/progress/${encodeURIComponent(watchedId)}`);
       if (!reply.ok) return;
       const snap = await reply.json();
+      if(generation!==progressGeneration||snap?.progress_id!==watchedId)return;
       renderProgress(snap);
       if (snap.state === 'done' || snap.state === 'failed') stopProgress();
     } catch { /* keep the local clock; the solve request still owns the outcome */ }
+    finally {inFlight=false;}
   }, 250);
 }
-function stopProgress() { if (progressTimer !== null) { clearInterval(progressTimer); progressTimer = null; } }
+function stopProgress() {
+  ++progressGeneration;
+  if (progressTimer !== null) { clearInterval(progressTimer); progressTimer = null; }
+}
+const NATIVE_STATUS_TEXT={waiting_source:'原游戏正在读取脚本',waiting_start:'原游戏正在读取起点',
+  solving:'原游戏已暂停，正在解算',playing:'原游戏执行中',completed:'原游戏执行完成',
+  unknown:'原游戏尚未找到完整候选，可在游戏中重试',failed:'原游戏执行失败',cancelled:'原游戏执行已取消'};
+window.addEventListener('message',event=>{
+  if(!nativeWindow||event.source!==nativeWindow||event.origin!==location.origin)return;
+  const message=event.data;
+  if(!message||typeof message!=='object'||typeof message.progress_id!=='string')return;
+  if(message.type==='nohit:csv-status') {
+    if(message.progress_id!==progressId) {
+      if(message.previous_progress_id!==progressId)return;
+      resetView();startProgress(message.progress_id);
+    }
+    $('native-progress').textContent=(NATIVE_STATUS_TEXT[message.status]||'原游戏状态：'+message.status)+
+      (message.error?' · '+message.error:'');
+    if(['failed','cancelled'].includes(message.status)){stopProgress();renderEta({state:message.status});}
+  } else if(message.type==='nohit:csv-result'&&message.progress_id===progressId) {
+    if(!message.result||typeof message.result!=='object'||typeof message.result.status!=='string')return;
+    resetView();showResult(message.result);
+    renderEta({state:'done'});
+    $('request-progress').textContent='原游戏求解结果已回传；执行状态见上方。';
+  }
+});
 $('solve-form').addEventListener('submit',async event => {
   event.preventDefault();if(busy)return;
   let payload=null;
@@ -348,12 +430,14 @@ $('solve-form').addEventListener('submit',async event => {
     if(![30,60,120,240].includes(fps)) throw new Error('请选择 30、60、120 或 240 帧的物理帧率。');
       const initial=numericArray($('initial-state').value,11,'初始玩家状态');
       const environment=numericArray($('initial-environment').value,22,'初始环境',true);
-      payload={initial,initial_environment:environment,fps,...budgetSettings()};
+      payload={initial,initial_environment:environment,fps,...budgetSettings(),
+        visualization_mode:$('full-geometry').checked?'full':'entry'};
       if(inputMode==='path') { const path=$('csv-path').value.trim();if(!path)throw new Error('请输入 CSV 文件路径。');payload.csv_path=path; }
       else if(inputMode==='file') { payload.custom_csv=await selectedFileText(); }
       else { const text=$('custom-csv').value;if(!text.trim())throw new Error('请粘贴完整 CSV 内容。');payload.custom_csv=text; }
   } catch(error) { $('request-progress').textContent=error.message;return; }
-  resetView();busy=true;$('solve-button').disabled=true;$('solve-button').textContent='解算中…';
+  nativeWindow=null;$('native-progress').textContent='';
+  resetView();busy=true;$('solve-button').disabled=true;$('native-button').disabled=true;$('solve-button').textContent='解算中…';
   $('status').textContent='正在解算并验证';$('status').dataset.kind='';$('scope-tag').textContent='有限搜索';
   $('status-detail').textContent='准备环境、展开前沿并逐帧验证。';
   $('result-data').textContent='正在计算。';
@@ -374,6 +458,7 @@ $('solve-form').addEventListener('submit',async event => {
       if(missingEndAttack && !payload.termination_policy) {
         $('request-progress').textContent='脚本没有 EndAttack：按 EOF 危险耗尽不变式重试…';
         payload.termination_policy='eof_hazards_drained';
+        payload.progress_id=newProgressId();startProgress(payload.progress_id);
         reply=await fetch('/api/solve-csv',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
         try {result=await reply.json();} catch {throw new Error(`服务返回了非 JSON 响应（HTTP ${reply.status}）。`);}
         if(!reply.ok || result.error) throw new Error(result.error || `HTTP ${reply.status}`);
@@ -384,29 +469,41 @@ $('solve-form').addEventListener('submit',async event => {
   } catch(error) {
     $('status').textContent='请求未完成';$('status').dataset.kind='error';$('status-detail').textContent=error.message;
     $('empty-stage').textContent='没有可播放的结果';$('request-progress').textContent='请检查输入和本机服务后重试。';$('result-data').textContent=error.message;
-  } finally {clearInterval(timer);stopProgress();busy=false;$('solve-button').disabled=false;$('solve-button').textContent='仅检查源模型';}
+  } finally {clearInterval(timer);stopProgress();renderEta({state:'done'});busy=false;$('solve-button').disabled=false;$('native-button').disabled=false;$('solve-button').textContent='在 Dashboard 解算';}
 });
 $('native-button').addEventListener('click',async () => {
   if(busy)return;
   // The native entry registers a source and hands it to the original AJAX
   // loader, so a picked file has to be read here: the paste textarea is empty
   // in file mode, and using it silently sent an empty source.
-  let source;
+  let source,sourceRead,settings;
   try {
+    settings=budgetSettings();
+    if(![30,60,120,240].includes(Number($('fps').value)))throw Error('请选择 30、60、120 或 240 帧的物理帧率。');
     if(inputMode==='path') {
       const path=$('csv-path').value.trim();
       if(!path) throw new Error('请先填写 CSV 文件路径。');
       source={csv_path:path};
     } else if(inputMode==='file') {
-      source={custom_csv:await selectedFileText()};
+      const file=$('csv-file').files?.[0];
+      if(!file)throw Error('请先选择一个 CSV 文件。');
+      sourceRead=selectedFileText();
     } else {
       const text=$('custom-csv').value;
       if(!text.trim()) throw new Error('请先粘贴完整 CSV 内容。');
       source={custom_csv:text};
     }
   } catch(error) { $('request-progress').textContent=error.message; return; }
-  busy=true;$('native-button').disabled=true;showSourceWarnings([]);
+  // Reserve the tab during the click gesture, before any file read or request.
+  const gameWindow=window.open('about:blank','_blank');
+  if(!gameWindow) {
+    if(sourceRead)sourceRead.catch(()=>{});
+    $('request-progress').textContent='浏览器阻止了新标签页，请允许弹出窗口后重试。';return;
+  }
+  busy=true;$('native-button').disabled=true;$('solve-button').disabled=true;showSourceWarnings([]);
+  let launched=false;
   try {
+    if(sourceRead)source={custom_csv:await sourceRead};
     const reply=await fetch('/api/csv-source',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(source)});
     const result=await reply.json();
     if(!reply.ok || result.error)throw Error(result.error||'CSV 加载失败');
@@ -419,13 +516,25 @@ $('native-button').addEventListener('click',async () => {
       $('request-progress').textContent=unsupportedText(result.preflight.issues);
       return;
     }
+    const id=newProgressId();
     const params=new URLSearchParams({csvtas:'1',csv_source:result.id,attack:'custom',custom_acceptance:'1',seed:'42',fps:$('fps').value,
-      ...budgetSettings()});
+      mute:'1',progress_id:id,...settings});
     if(result.import_id)params.set('csv_import',result.import_id);
-    location.assign('/game/index.html?'+params);
+    if(gameWindow.closed)throw Error('原游戏标签页已关闭，请重试。');
+    gameWindow.location.replace('/game/index.html?'+params);launched=true;
+    nativeWindow=gameWindow;resetView();showSourceWarnings(warnings);startProgress(id);
+    $('status').textContent='等待原游戏读取起点并解算';$('status').dataset.kind='';
+    $('status-detail').textContent='原游戏在新标签页运行，此页同步显示解算进度与返回结果。';
+    $('request-progress').textContent='已打开原游戏；此页继续跟踪同一次求解。';
+    $('native-progress').textContent='原游戏正在读取脚本';
   } catch(error) { $('request-progress').textContent=error.message; }
-  finally {busy=false;$('native-button').disabled=false;}
+  finally {if(!launched)gameWindow.close();busy=false;$('native-button').disabled=false;$('solve-button').disabled=false;}
 });
+const watchedProgress=new URLSearchParams(location.search).get('progress_id');
+if(watchedProgress&&watchedProgress.length<=128) {
+  startProgress(watchedProgress);
+  $('request-progress').textContent='只读监控此求解的实时进度；该链接不恢复历史结果。';
+}
 draw();
 </script>
 </body>

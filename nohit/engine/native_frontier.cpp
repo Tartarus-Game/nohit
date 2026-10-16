@@ -29,6 +29,9 @@ struct State { double v[11]; };
 struct FrameCollisionIndex { int white,blue,quad_begin,quad_count; };
 struct CachedQuad { double left,top,right,bottom;double axes[4][5]; };
 static thread_local const double* requested_goal=nullptr;
+using ProgressCallback=void(*)(void*,int,int,int,uint64_t,uint64_t,uint64_t);
+struct NativeProgress { ProgressCallback callback;void* context; };
+static thread_local const NativeProgress* requested_progress=nullptr;
 static thread_local uint64_t last_index_bytes=0;
 static thread_local double last_index_seconds=0.;
 static thread_local int last_edge_workers=1;
@@ -43,6 +46,7 @@ struct World {
     std::vector<uint32_t> collision_offsets,collision_members;
     std::vector<std::array<double,2>> gravity_axes;
     const double* goal=nullptr;
+    const NativeProgress* progress=nullptr;
     const double* axes(int t) const {return gravity_axes.empty()?nullptr:gravity_axes[t].data();}
     const double* row(int t) const { return env + t*22; }
     const double* platform(int t) const { return platforms + size_t(t)*np*9; }
@@ -499,6 +503,19 @@ struct SpareWorkers {
     void record(int count){int value=peak.load();while(value<count && !peak.compare_exchange_weak(value,count)){};}
 };
 using Clock=std::chrono::steady_clock;
+// Each probe reads only its own counters. Python receives copied values,
+// never a pointer to Stats while another native thread is writing it.
+struct ProbeProgress {
+    const NativeProgress* progress;int job;Stats& stats;
+    Clock::time_point next=Clock::time_point::min();
+    void emit(int tick,int alive,bool force=false) {
+        if(!progress || !progress->callback)return;
+        const auto now=Clock::now();if(!force && now<next)return;
+        next=now+std::chrono::milliseconds(100);
+        progress->callback(progress->context,job,tick,alive,stats.expanded,stats.discarded,stats.unique);
+    }
+    ~ProbeProgress(){emit(stats.reached,0,true);}
+};
 static bool probe(const World& w,const State& initial,const int64_t* controls,const int64_t* counts,
                   int stride,int width,uint32_t seed,int job,std::atomic<int>& best,
                   Clock::time_point deadline,int64_t* actions,Stats& stats,SpareWorkers& pool) {
@@ -544,9 +561,11 @@ static bool probe(const World& w,const State& initial,const int64_t* controls,co
     auto account_history=[&](){stats.workspace_bytes=std::max(stats.workspace_bytes,base_workspace+
         history.bytes()-initial_history_bytes+bucket_keys.capacity()*sizeof(Bucket)+bucket_slots.capacity()*sizeof(uint32_t)+(table.capacity()-capacity)*sizeof(int32_t));};
     current[0]=initial;int count=1;int live_limit=(width>=2048 && job<3)?512:width;uint32_t rng=seed?seed:0x6d2b79f5U;
+    ProbeProgress progress{w.progress,job,stats};
     capture(0,current,costs,count);
     for(int tick=1;tick<w.nt;tick++) {
         stats.reached=tick-1;
+        progress.emit(stats.reached,count);
         const int horizon=job<3?0:12+12*(job%3);
         if((tick%64==1 || inner_workers==1) && (count>=512 || (horizon && count>=64))) {
             int extra=pool.acquire(std::max(0,pool.limit-inner_workers));
@@ -968,7 +987,7 @@ int nohit_search(const double* initial,const double* env,int nt,const double* pl
                  const uint32_t* seeds,int jobs,int workers,double seconds,int64_t* actions,
                  double* trace,Stats* stats,int32_t* controller_delay) {
     try {
-        last_edge_workers=1;last_hash_rebuilds=0;World world{env,platforms,white,blue,polygons,nt,np,nw,nb,nq};world.goal=requested_goal;State state;std::memcpy(state.v,initial,88);
+        last_edge_workers=1;last_hash_rebuilds=0;World world{env,platforms,white,blue,polygons,nt,np,nw,nb,nq};world.goal=requested_goal;world.progress=requested_progress;State state;std::memcpy(state.v,initial,88);
         {CpuAccounting index_cpu(stats[0]);stats[0].cpu_nanoseconds+=prepare_collision_index(world,workers);}
         last_index_bytes=world.collision_frames.size()*sizeof(FrameCollisionIndex)+world.collision_quads.size()*sizeof(CachedQuad)+
             world.collision_cells.size()+world.collision_offsets.size()*4+world.collision_members.size()*4+world.gravity_axes.size()*16;
@@ -1047,6 +1066,19 @@ int nohit_search_goal(const double* initial,const double* env,int nt,const doubl
     double* trace,Stats* stats,int32_t* controller_delay,const double* goal) {
     struct Reset {~Reset(){requested_goal=nullptr;}} reset;
     requested_goal=goal;
+    return nohit_search(initial,env,nt,platforms,np,white,nw,blue,nb,polygons,nq,
+        controls,counts,stride,widths,seeds,jobs,workers,seconds,actions,trace,stats,controller_delay);
+}
+
+int nohit_search_progress(const double* initial,const double* env,int nt,const double* platforms,int np,
+    const double* white,int nw,const double* blue,int nb,const double* polygons,int nq,
+    const int64_t* controls,const int64_t* counts,int stride,const int32_t* widths,
+    const uint32_t* seeds,int jobs,int workers,double seconds,int64_t* actions,
+    double* trace,Stats* stats,int32_t* controller_delay,const double* goal,
+    ProgressCallback callback,void* context) {
+    struct Reset {const double* goal;const NativeProgress* progress;
+        ~Reset(){requested_goal=goal;requested_progress=progress;}} reset{requested_goal,requested_progress};
+    NativeProgress progress{callback,context};requested_goal=goal;requested_progress=&progress;
     return nohit_search(initial,env,nt,platforms,np,white,nw,blue,nb,polygons,nq,
         controls,counts,stride,widths,seeds,jobs,workers,seconds,actions,trace,stats,controller_delay);
 }

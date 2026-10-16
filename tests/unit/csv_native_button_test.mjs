@@ -7,7 +7,8 @@ const html=fs.readFileSync(new URL('../../nohit/dashboard/static/index.html',imp
 const script=html.match(/<script>([\s\S]*?)<\/script>/)[1];
 const id='a'.repeat(64);
 function page(options={}) {
-  const elements=new Map(),requests=[],navigations=[];let resolveFetch;
+  const elements=new Map(),requests=[],navigations=[],currentNavigations=[],opened=[];let resolveFetch;
+  const popup={closed:false,location:{replace:url=>navigations.push(url)},close(){this.closed=true;}};
   const gate=options.deferred?new Promise(resolve=>resolveFetch=resolve):Promise.resolve();
   const drawing=new Proxy({}, {get:(target,key)=>target[key]??(()=>{}),set:(target,key,value)=>(target[key]=value,true)});
   function element(name) {
@@ -15,15 +16,18 @@ function page(options={}) {
       addEventListener(type,handler){this.events[type]=handler;},setAttribute(){},getContext:()=>drawing});
     return elements.get(name);
   }
-  const context=vm.createContext({document:{getElementById:element,querySelectorAll:()=>[]},URLSearchParams,
-    location:{assign:url=>navigations.push(url)},performance:{now:()=>0},
+  const globals={document:{getElementById:element,querySelectorAll:()=>[]},URLSearchParams,
+    location:{search:'',origin:'http://localhost',assign:url=>currentNavigations.push(url)},performance:{now:()=>0},
+    addEventListener(){},open(url,target){opened.push({url,target});return options.popupBlocked?null:popup;},
     requestAnimationFrame:()=>1,cancelAnimationFrame(){},setInterval:()=>1,clearInterval(){},
     fetch:async(url,request)=>{requests.push({url,method:request.method,headers:request.headers,body:JSON.parse(request.body)});await gate;
       if(options.fetchError)throw Error(options.fetchError);
-      return {ok:options.ok!==false,json:async()=>{if(options.invalidJSON)throw Error('invalid JSON');return options.result??{id};}};}});
+      return {ok:options.ok!==false,json:async()=>{if(options.invalidJSON)throw Error('invalid JSON');return options.result??{id};}};}};
+  globals.window=globals;
+  const context=vm.createContext(globals);
   vm.runInContext(script,context,{filename:'csv.html'});
   element('seconds').value='7.5';element('width').value='1234';element('fps').value='30';
-  return {element,requests,navigations,resolveFetch,click:()=>element('native-button').events.click()};
+  return {element,requests,navigations,currentNavigations,opened,popup,resolveFetch,click:()=>element('native-button').events.click()};
 }
 
 for(const fps of ['30','60','120','240'])test('native button registers a trimmed path then navigates with source and search parameters at '+fps+'Hz',async()=>{
@@ -37,6 +41,8 @@ for(const fps of ['30','60','120','240'])test('native button registers a trimmed
   for(const [key,value] of Object.entries({csvtas:'1',csv_source:id,attack:'custom',custom_acceptance:'1',seed:'42',budget_mode:'manual',seconds:'7.5',width:'1234',fps}))
     assert.equal(url.searchParams.get(key),value,key);
   assert.equal(url.searchParams.has('initial'),false);assert.equal(url.searchParams.has('actions'),false);
+  assert.equal(p.currentNavigations.length,0);assert.deepEqual(p.opened,[{url:'about:blank',target:'_blank'}]);
+  assert.equal(url.searchParams.get('mute'),'1');assert(url.searchParams.get('progress_id'));
 });
 
 test('native launch defaults to automatic budget without forwarding stale slider values',async()=>{
@@ -88,6 +94,7 @@ test('the native entry reports a missing pick instead of registering an empty so
 test('a pending registration disables native launch and rejects duplicate clicks',async()=>{
   const p=page({deferred:true});p.element('csv-path').value='C:/x.csv';
   const pending=p.click();assert.equal(p.element('native-button').disabled,true);
+  assert.equal(p.opened.length,1);assert.equal(p.opened[0].url,'about:blank');
   await p.click();assert.equal(p.requests.length,1);assert.equal(p.navigations.length,0);
   p.resolveFetch();await pending;assert.equal(p.navigations.length,1);assert.equal(p.element('native-button').disabled,false);
 });
@@ -105,7 +112,21 @@ for(const [label,options] of [
 ])test(label+' keeps the user on the form and permits retry',async()=>{
   const p=page(options);p.element('csv-path').value='C:/x.csv';await p.click();
   assert.equal(p.navigations.length,0);assert.equal(p.element('native-button').disabled,false);
+  assert.equal(p.popup.closed,true);assert.equal(p.currentNavigations.length,0);
   assert(p.element('request-progress').textContent.length>0);
+});
+
+test('blocked popup keeps Dashboard usable and sends no registration request',async()=>{
+  const p=page({popupBlocked:true});p.element('csv-path').value='C:/x.csv';await p.click();
+  assert.equal(p.requests.length,0);assert.equal(p.navigations.length,0);assert.equal(p.currentNavigations.length,0);
+  assert.equal(p.element('native-button').disabled,false);assert.match(p.element('request-progress').textContent,/阻止.*新标签页/);
+});
+
+test('closing the reserved tab during registration reports the closure and permits retry',async()=>{
+  const p=page({deferred:true});p.element('csv-path').value='C:/x.csv';
+  const pending=p.click();p.popup.close();p.resolveFetch();await pending;
+  assert.equal(p.navigations.length,0);assert.match(p.element('request-progress').textContent,/标签页已关闭/);
+  assert.equal(p.element('native-button').disabled,false);assert.equal(p.element('solve-button').disabled,false);
 });
 
 test('unsupported source admission lists its command on the form and never launches the game',async()=>{

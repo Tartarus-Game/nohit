@@ -110,8 +110,11 @@ def _run_budgeted_csv(path, initial, budget, reporter, **settings):
             break
         selected = dict(selected, width=min(16384, selected['width']*2), seconds=min(90, remaining))
         if reporter is not None:
-            reporter.phase('prepare', tick=None, alive_states=None, expanded_states=None,
-                           message='自动增加搜索预算并重新求解')
+            reporter.phase('prepare', tick=None, ticks=settings.get('max_ticks'),
+                committed_tick=None,
+                alive_states=None, peak_alive_states=None, expanded_states=None,
+                discarded_states=None, unique_states=None, _seconds_budget=selected['seconds'],
+                message='自动增加搜索预算并重新求解')
     result['budget_selection'] = budget
     return result
 
@@ -219,7 +222,19 @@ def _solve_csv_request(data, reporter):
         budget = _budget_selection(data, path)
         if reporter is not None:
             limit = budget['total_search_seconds_limit']
-            reporter.update(_seconds_budget=limit if type(limit) in (int, float) and math.isfinite(limit) and limit > 0 else None)
+            summary = budget['source_summary']
+            duration = summary['timeline_seconds']
+            estimated_ticks = None
+            if not summary['dynamic_delay_rows'] and duration > 0:
+                elapsed_ticks = np.cumsum(schedule[1:ticks], dtype=np.float64)
+                # This is a sizing estimate from literal CSV delays, not a
+                # terminal certificate. Dialogue and future hazards can add work.
+                if len(elapsed_ticks) and duration <= elapsed_ticks[-1]:
+                    estimated_ticks = int(np.searchsorted(elapsed_ticks, duration)) + 1
+            reporter.update(
+                _seconds_budget=limit if type(limit) in (int, float) and math.isfinite(limit) and limit > 0 else None,
+                estimated_total_ticks=estimated_ticks,
+                estimated_total_ticks_basis='csv_literal_duration_estimate' if estimated_ticks is not None else 'unknown')
         result = _run_budgeted_csv(path, initial, budget, reporter, **settings,
             initial_confirm=data.get('initial_confirm',False),
             previous_confirm=data.get('previous_confirm',False),

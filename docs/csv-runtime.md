@@ -4,7 +4,13 @@
 
 ## 入口与时钟
 
-Dashboard 的 CSV 页面可以选择或导入文件，打开原版 Custom 模式，捕获真实入口后求解并执行。捕获字段包括完整玩家 `initial`、TLPlay 前的 `initial_environment` 和 `initial_arena`、独立的 `initial_confirm` / `previous_confirm`，以及同一首帧真实发生的 `initial_target_history`。
+Dashboard 的 CSV 页面可以选择或导入文件，在页面内独立解算并查看模型轨迹，或另开静音原版 Custom 页面捕获真实入口后求解并执行。打开游戏不会离开 Dashboard；两页通过同一 `progress_id` 读取后端进度，游戏向原 Dashboard 回传本次求解结果和执行状态。捕获字段包括完整玩家 `initial`、TLPlay 前的 `initial_environment` 和 `initial_arena`、独立的 `initial_confirm` / `previous_confirm`，以及同一首帧真实发生的 `initial_target_history`。
+
+`GET /api/progress/<id>` 提供最近的真实阶段与计数；运行时的耗时即使暂时没有计数事件也会持续更新。搜索、源准备、逐 tick 复验与完成证书分别显示，分窗和重试可以重新经过这些阶段。搜索 tick 上限与预算消耗都不能解释为整项任务的完成率或可靠 ETA。游戏 HUD 的进度链接可另开只读 Dashboard 监控；该链接仅恢复进度，不恢复已关闭页面的完整结果。
+
+页面和游戏 HUD 的 ETA 使用 `eta_seconds` / `eta_basis`，明确标为当前阶段的估算。源搜索按谱面字面时长、真实时钟和已提交 tick 的速度估算，前视探索不算已提交；逐帧复验按当前复验速度估算。没有足够数据、动态延时无法估计、重试或阶段切换时会重新估算，不用剩余预算冒充预计完成时间。游戏面板可折叠，进入执行后自动收起，只保留一行状态；警告、进度计数和链接仍可展开查看。
+
+Windows 的线程 CPU 时钟可能不足以测量极短的单线程预检。原始值超过实际墙钟时间时，CPU 耗时改报墙钟上界估计，并在 `native_code` 中保留原始值、`cpu_measurement_resolution_limited` 与 `search_cpu_seconds_kind` 标记。
 
 导入预检和求解结果将已审计的原版空调用放入 `warnings`，保留行号、名称、源文本与延时，并继续执行。名单为 `Score`、`mus_zz_megalovania`、`setmaxhp`、`damafeeplayer`、`NoTooth`（忽略大小写），仅在原版 `data.js` / `c2runtime.js` 身份匹配时有效。这些名称没有处理器，不会自动修正为近似名称；其他未建模机制仍列入阻断的 `issues`。能继续执行不代表已得到无伤路线，仍需完成求解和原版验收。
 
@@ -12,7 +18,7 @@ Dashboard 导入与直接求解 API 默认清空 CSV 中显式 `DamagePlayer` �
 
 页面默认使用自动预算，不要求用户填写初态、宽度或秒数。API 的 `budget_mode="auto"` 根据时长、指令数和目标读取数选择现有求解参数；长目标脚本自动分窗与前视。有限失败最多自动加宽一次，搜索预算合计上限 180 秒，准备和复验另外计时。结果的 `budget_selection` 记录实际参数和尝试。`budget_mode="manual"` 或旧 API 的显式预算参数保留手动行为；页面手动项位于高级设置。
 
-真机执行请求使用 `visualization_mode="entry"`，只重建用于核对原版入口的第 0 帧，避免为长谱额外分配整段预览几何。完整路线仍经过求解器的独立源算子复验，原游戏执行后仍须逐 tick 独立验收。高级模型预览默认保留完整逐帧展示。
+真机执行与 Dashboard 默认请求使用 `visualization_mode="entry"`，只重建用于核对原版入口的第 0 帧，避免为长谱额外分配整段预览几何。Dashboard 仍可播放完整玩家轨迹与输入，后续帧明确标注未生成危险几何；高级设置可选择完整逐帧几何。完整路线仍经过求解器的独立源算子复验，原游戏执行后仍须逐 tick 独立验收。
 
 玩家状态来自源首帧提交后的边界，环境和场地参数保留其各自的原版相位，不能用当前可见边框替代完整场地状态。目标读取发生在函数触发时；其后的传送或 clamp 后坐标不能替代该读取。
 

@@ -17,6 +17,45 @@ from .source_oracle import scalar_module
 from . import resumable_wave as world
 from .csv_completion import wave_terminal, controlled_terminal
 from .source_verification import scalar_frame_collision
+from .native_backend import report_progress
+
+
+class _Telemetry:
+    """Translate window-local search counters into source positions and totals."""
+    def __init__(self,progress):
+        self.progress=progress;self.next_update=0.;self.phase=None
+        self.committed_tick=0
+        self.counts=dict(expanded_states=0,discarded_states=0,unique_states=0)
+
+    def emit(self,phase,tick,*,force=False,**fields):
+        if self.progress is None:return
+        now=time.perf_counter()
+        if not force and phase==self.phase and now<self.next_update:return
+        self.phase=phase;self.next_update=now+.1
+        report_progress(self.progress,phase=phase,tick=tick,committed_tick=self.committed_tick,
+            **dict(self.counts,**fields))
+
+    def commit(self,tick):
+        self.committed_tick=tick
+        self.emit('search',tick,ticks=None,alive_states=1,force=True,
+            message='Committed through source tick '+str(tick))
+
+    def search(self,origin):
+        if self.progress is None:return None
+        offsets=dict(self.counts)
+        def publish(**fields):
+            fields=dict(fields);phase=fields.pop('phase','search')
+            local_tick=fields.pop('tick',0)
+            # The window may contain speculative future targets. Its end is
+            # not the source's terminal tick and must not imply 100% complete.
+            fields['ticks']=None
+            for name,offset in offsets.items():
+                if name in fields:
+                    self.counts[name]=offset+fields.pop(name)
+            fields['message']=('Search window: committed through source tick '+str(origin)+
+                '; exploring source tick '+str(origin+local_tick))
+            self.emit(phase,origin+local_tick,force=True,**fields)
+        return publish
 
 
 def _unknown_candidate(initial, settings, reason):
@@ -55,7 +94,7 @@ def _proposal_frame(frame):
 
 
 def _world(path, initial, settings, proposal, initial_confirm, previous_confirm,
-           initial_target_history, deadline, _setup=None):
+           initial_target_history, deadline, _setup=None, telemetry=None):
     if _setup is None:
         template=ParametricEnvironment(path,**settings)
         state=world._enable_bone_arrays(world.initialize(path,**settings),native=True)
@@ -71,6 +110,7 @@ def _world(path, initial, settings, proposal, initial_confirm, previous_confirm,
     while True:
         if time.perf_counter()>deadline:return None
         tick=state.data['tick'];confirm=initial_confirm if tick==0 else tick%2==0
+        if telemetry is not None:telemetry.emit('bake',tick,ticks=None,alive_states=None,message='Rebuilding source world')
         options={} if coupled else dict(previous_confirm=previous_confirm,previous_cancel=False)
         result=world._advance_with_dialogue_input_owned(state,confirm=confirm,cancel=False,**options);coupled=True
         while isinstance(result,world.NeedTarget):
@@ -125,11 +165,14 @@ def _controlled_tick_owned(state,control,physical,identity_parts,previous_contro
 
 
 def _certify(path,initial,settings,actions,expected,confirms,initial_confirm,
-             previous_confirm,initial_target_history,has_dialogue):
+             previous_confirm,initial_target_history,has_dialogue,telemetry=None):
     """Original scalar replay; one owned continuation for the committed word."""
+    if telemetry is not None:telemetry.emit('verify',0,ticks=len(actions),alive_states=None,force=True,message='Independent scalar replay')
     if not has_dialogue:
         from .source_verification import certify_observed
-        return certify_observed(path,initial,settings,actions,expected,initial_target_history)
+        result=certify_observed(path,initial,settings,actions,expected,initial_target_history)
+        if result is not None and telemetry is not None:telemetry.emit('verify',len(actions),ticks=len(actions),alive_states=None,force=True)
+        return result
     player=scalar_module('discrete_operator');joint=scalar_module('joint_transition')
     from .source_verification import compile_observed_prefix,scalar_collision_checker
     reference=compile_observed_prefix(path,settings,expected,initial_target_history)
@@ -179,6 +222,7 @@ def _certify(path,initial,settings,actions,expected,confirms,initial_confirm,
         for source_tick,command,args in events:
             if command=='damageplayer':
                 damage_events.append(dict(tick=source_tick,amount=float(args[0]),kr=float(args[1] or 0.)))
+        if telemetry is not None:telemetry.emit('verify',tick,ticks=len(actions),alive_states=None,force=tick==len(actions))
     if controlled is not None:
         if not isinstance(result,world.Terminal) or result.reason not in ('endattack','eof_hazards_drained'):return None
         terminal=SimpleNamespace(state=controlled,status='terminal',frame=result.frame,reason=result.reason)
@@ -209,7 +253,7 @@ def _merge_segments(last,segment_stats):
     last.stats['native_code']=code
 
 
-def _segmented(path,initial,settings,width,workers,memory_mb,selection_seed,initial_target_history,deadline):
+def _segmented(path,initial,settings,width,workers,memory_mb,selection_seed,initial_target_history,deadline,telemetry=None):
     # Commit inputs only up to the next actual observation. Every later world
     # is rebuilt from that committed player's sampling position.
     template=ParametricEnvironment(path,**settings)
@@ -217,6 +261,7 @@ def _segmented(path,initial,settings,width,workers,memory_mb,selection_seed,init
     player=scalar_module('discrete_operator')
     state=player.initial_state(initial,binding.wave.env_schedule[0]);word=[];last=None;segment_stats=[];traces=[state.reshape(1,11).copy()]
     for segment in range(256):
+        if telemetry is not None:telemetry.emit('bake',len(word),ticks=None,alive_states=None,message='Preparing next source observation',force=True)
         while binding.pending_target is not None and binding.pending_target['tick']<=len(word)+1:
             request=binding.pending_target;tick=request['tick'];wave=binding.wave
             xy=state[:2] if tick==0 else player.sample_position(state,wave.env_schedule[tick],wave.platform_table[tick])
@@ -232,7 +277,7 @@ def _segmented(path,initial,settings,width,workers,memory_mb,selection_seed,init
         if remaining<=0:return None
         last=find_native_candidate(path,state,width=width,seconds=remaining,workers=workers,
             memory_mb=memory_mb,selection_seed=selection_seed+segment,_resolved=(template,resolved),
-            _defer_verification=True,**settings)
+            _defer_verification=True,progress=telemetry.search(len(word)) if telemetry is not None else None,**settings)
         if last is None:return None
         if last.status!='proposal_found':
             segment_stats.append(dict(last.stats));_merge_segments(last,segment_stats)
@@ -241,6 +286,7 @@ def _segmented(path,initial,settings,width,workers,memory_mb,selection_seed,init
             return last
         segment_stats.append(dict(last.stats))
         traces.append(last.trajectory[1:].copy());word.extend(last.actions);state=last.trajectory[-1].copy()
+        if telemetry is not None:telemetry.commit(len(word))
         if binding.complete:
             last.actions=word;last.reached_tick=len(word)
             _merge_segments(last,segment_stats)
@@ -250,7 +296,7 @@ def _segmented(path,initial,settings,width,workers,memory_mb,selection_seed,init
 
 
 def _segmented_coupled(path,initial,settings,width,workers,memory_mb,selection_seed,
-                       initial_confirm,previous_confirm,initial_target_history,deadline,_goal_style=None,_preview_ticks=0,_audit=None,_chunk_ticks=0,_preview_reads=128,_goal_retries=False,_fixed_prefix=None,_failure=None):
+                       initial_confirm,previous_confirm,initial_target_history,deadline,_goal_style=None,_preview_ticks=0,_audit=None,_chunk_ticks=0,_preview_reads=128,_goal_retries=False,_fixed_prefix=None,_failure=None,telemetry=None):
     """Commit only through the next real observation under explicit dialogue.
 
     Confirm follows the same declared alternating sequence as the portfolio.
@@ -299,6 +345,7 @@ def _segmented_coupled(path,initial,settings,width,workers,memory_mb,selection_s
             count=prefix_end-len(word)
             trace_parts.append(fixed_trace[len(word)+1:prefix_end+1].copy())
             word.extend(fixed_actions[len(word):prefix_end])
+            if telemetry is not None:telemetry.commit(len(word))
             physical=fixed_trace[prefix_end].copy();frames=frames[count:];segment+=1
             committed_count=len(frames)-1
             if not committed_count:return True
@@ -310,6 +357,8 @@ def _segmented_coupled(path,initial,settings,width,workers,memory_mb,selection_s
             search_frames=list(frames);stop=preview.data['tick']+_preview_ticks
             while preview.data['tick']<stop and time.perf_counter()<deadline:
                 future_tick=preview.data['tick'];future_confirm=initial_confirm if future_tick==0 else future_tick%2==0
+                if telemetry is not None:telemetry.emit('bake',future_tick,ticks=None,alive_states=None,
+                    message='Preparing preview; committed through source tick '+str(len(word)))
                 future=world._advance_with_dialogue_input_owned(preview,confirm=future_confirm,cancel=False)
                 while isinstance(future,world.NeedTarget):
                     preview_reads+=1
@@ -345,7 +394,8 @@ def _segmented_coupled(path,initial,settings,width,workers,memory_mb,selection_s
             budget=min(remaining,4. if attempt==0 else 1.5) if _goal_retries else remaining
             last=find_native_candidate(path,physical,width=width,seconds=budget,workers=workers,
                 memory_mb=memory_mb,selection_seed=selection_seed+segment+attempt*0x9e3779b9,
-                _resolved=(template,resolved),_defer_verification=True,_terminal_target=goal,**settings)
+                _resolved=(template,resolved),_defer_verification=True,_terminal_target=goal,
+                progress=telemetry.search(len(word)) if telemetry is not None else None,**settings)
             if last is not None and last.status=='proposal_found':break
         if last is None:return False
         if _audit is not None:
@@ -367,10 +417,13 @@ def _segmented_coupled(path,initial,settings,width,workers,memory_mb,selection_s
         # Only the actual pre-observation prefix is committed. Speculative
         # future targets rank choices but are discarded and never certified.
         word.extend(last.actions[:committed_count]);trace_parts.append(last.trajectory[1:committed_count+1].copy())
+        if telemetry is not None:telemetry.commit(len(word))
         physical=last.trajectory[committed_count].copy();frames=frames[-1:];segment+=1
         return True
     while time.perf_counter()<deadline:
         tick=environment.data['tick'];confirm=initial_confirm if tick==0 else fixed_confirms[tick-1] if tick<=len(fixed_confirms) else tick%2==0
+        if telemetry is not None:telemetry.emit('bake',tick,ticks=None,alive_states=None,
+            message='Preparing source world; committed through source tick '+str(len(word)))
         options={} if coupled else dict(previous_confirm=previous_confirm,previous_cancel=False)
         result=world._advance_with_dialogue_input_owned(environment,confirm=confirm,cancel=False,**options)
         coupled=True
@@ -403,7 +456,8 @@ def _segmented_coupled(path,initial,settings,width,workers,memory_mb,selection_s
                     history=tuple(history),identity=b'')
                 last=find_native_candidate(path,physical,width=width,seconds=max(.001,deadline-time.perf_counter()),
                     workers=workers,memory_mb=memory_mb,selection_seed=selection_seed,
-                    _resolved=(template,resolved),_defer_verification=True,**settings)
+                    _resolved=(template,resolved),_defer_verification=True,
+                    progress=telemetry.search(len(word)) if telemetry is not None else None,**settings)
                 if last is None or last.status!='proposal_found':
                     if last is not None and last.reason=='native_search_limited':
                         limited('native_observation_budget' if time.perf_counter()>=deadline else last.reason)
@@ -414,7 +468,7 @@ def _segmented_coupled(path,initial,settings,width,workers,memory_mb,selection_s
             actual=np.concatenate(trace_parts)
             verification_started=time.perf_counter()
             verified=_certify(path,initial,settings,word,actual,confirms,initial_confirm,
-                previous_confirm,initial_target_history,True)
+                previous_confirm,initial_target_history,True,telemetry)
             if verified is None:return None
             base,actual_history,terminal,identity,first_tick,primed=verified
             last.scripted_damage_events=terminal.pop("scripted_damage_events",[])
@@ -440,13 +494,14 @@ def _segmented_coupled(path,initial,settings,width,workers,memory_mb,selection_s
 
 
 def _static_coupled_candidate(path,initial,settings,width,workers,memory_mb,selection_seed,
-                              initial_confirm,previous_confirm,initial_target_history,deadline):
+                              initial_confirm,previous_confirm,initial_target_history,deadline,telemetry=None):
     """A dialogue clock with no player reads needs one world, not speculation."""
     if initial_target_history:return None
     began=time.perf_counter();template=ParametricEnvironment(path,**settings)
     state=world._enable_bone_arrays(world.initialize(path,**settings),native=True);frames=[];confirms=[];coupled=False;peak_source_bodies=0
     while time.perf_counter()<deadline:
         tick=state.data['tick'];confirm=initial_confirm if tick==0 else tick%2==0
+        if telemetry is not None:telemetry.emit('bake',tick,ticks=None,alive_states=None,message='Preparing dialogue source world')
         options={} if coupled else dict(previous_confirm=previous_confirm,previous_cancel=False)
         result=world._advance_with_dialogue_input_owned(state,confirm=confirm,cancel=False,**options);coupled=True
         if isinstance(result,world.ResourceLimit):return _unknown_candidate(initial,settings,result.reason)
@@ -471,23 +526,26 @@ def _static_coupled_candidate(path,initial,settings,width,workers,memory_mb,sele
             if remaining<=0:break
             last=find_native_candidate(path,initial,width=min(width,128),seconds=min(1.5,remaining),
                 workers=workers,memory_mb=memory_mb,selection_seed=selection_seed,
-                _resolved=(template,resolved),_defer_verification=True,_terminal_target=target,**settings)
+                _resolved=(template,resolved),_defer_verification=True,_terminal_target=target,
+                progress=telemetry.search(0) if telemetry is not None else None,**settings)
             if last is not None:guided_stats.append(dict(last.stats))
             if last is not None and last.status=='proposal_found':break
     if last is None or last.status!='proposal_found':
         remaining=deadline-time.perf_counter()
         if remaining<=0:return last
         last=find_native_candidate(path,initial,width=width,seconds=remaining,workers=workers,memory_mb=memory_mb,
-            selection_seed=selection_seed,_resolved=(template,resolved),_defer_verification=True,**settings)
+            selection_seed=selection_seed,_resolved=(template,resolved),_defer_verification=True,
+            progress=telemetry.search(0) if telemetry is not None else None,**settings)
         if last is not None:guided_stats.append(dict(last.stats))
     if last is None or last.status!='proposal_found':return last
+    if telemetry is not None:telemetry.commit(len(last.actions))
     if guided_stats:_merge_segments(last,guided_stats)
     last.stats['static_guidance_attempts']=len(guided_stats)
     last.stats['proposal_geometry_scope']='bounded window with artificial outer walls; full source replay required'
     last.bindings=[];del resolved,wave
     verification_started=time.perf_counter()
     verified=_certify(path,initial,settings,last.actions,last.trajectory,confirms,initial_confirm,
-        previous_confirm,initial_target_history,True)
+        previous_confirm,initial_target_history,True,telemetry)
     if verified is None:return None
     base,history,terminal,identity,first_tick,primed=verified
     last.scripted_damage_events=terminal.pop("scripted_damage_events",[])
@@ -519,7 +577,8 @@ def find_dynamic_candidate(path,initial,*,width=3000,seconds=8.,selection_seed=4
     has_dialogue='sanstext' in names
     explicit_segments=bool(observation_chunk_ticks or observation_preview_ticks or fixed_prefix is not None)
     if not has_dialogue and 'getheartpos' not in names and not explicit_segments:return None
-    started=time.perf_counter();deadline=started+seconds
+    started=time.perf_counter();deadline=started+seconds;telemetry=_Telemetry(progress)
+    telemetry.emit('bake',0,ticks=None,alive_states=None,message='Preparing source world',force=True)
     proposal=[];attempts=[];last=None;world_seconds=0.;policy_audit=[];directed_attempts=[]
     if explicit_segments:
         failure={}
@@ -528,7 +587,7 @@ def find_dynamic_candidate(path,initial,*,width=3000,seconds=8.,selection_seed=4
             _goal_style=observation_goal_style,_preview_ticks=observation_preview_ticks,
             _audit=policy_audit,_chunk_ticks=observation_chunk_ticks,
             _preview_reads=observation_preview_reads,_goal_retries=observation_goal_retries,
-            _fixed_prefix=fixed_prefix,_failure=failure)
+            _fixed_prefix=fixed_prefix,_failure=failure,telemetry=telemetry)
         if candidate is None and failure.get('reason'):
             candidate=_unknown_candidate(initial,settings,failure['reason'])
         if candidate is not None:
@@ -538,20 +597,20 @@ def find_dynamic_candidate(path,initial,*,width=3000,seconds=8.,selection_seed=4
         return None
     if has_dialogue and 'getheartpos' not in names:
         static=_static_coupled_candidate(path,initial,settings,width,workers,memory_mb,selection_seed,
-            initial_confirm,previous_confirm,initial_target_history,deadline)
+            initial_confirm,previous_confirm,initial_target_history,deadline,telemetry)
         if static is not None:
             static.stats['dynamic_wall_seconds']=time.perf_counter()-started
             return static
     if not has_dialogue:
-        direct=_segmented(path,initial,settings,width,workers,memory_mb,selection_seed,initial_target_history,deadline)
+        direct=_segmented(path,initial,settings,width,workers,memory_mb,selection_seed,initial_target_history,deadline,telemetry)
         if direct is not None and direct.status=='proposal_found':
             built=_world(path,initial,settings,direct.actions,initial_confirm,previous_confirm,
-                initial_target_history,float('inf'))
+                initial_target_history,float('inf'),telemetry=telemetry)
             if built is not None and built[4]:
                 _,_,actual,confirms,_,_=built
                 verify_started=time.perf_counter()
                 verified=_certify(path,initial,settings,direct.actions,actual,confirms,initial_confirm,
-                    previous_confirm,initial_target_history,False)
+                    previous_confirm,initial_target_history,False,telemetry)
                 if verified is not None:
                     base,history,terminal,identity,first,primed=verified
                     direct.status='candidate_found';direct.verified=True;direct.reason='verified_endattack'
@@ -570,7 +629,7 @@ def find_dynamic_candidate(path,initial,*,width=3000,seconds=8.,selection_seed=4
             trial_started=time.perf_counter()
             trial_deadline=min(deadline,trial_started+(max(3.,min(15.,seconds/2)) if preview_ticks>=120 else max(.5,min(2.,seconds/6))))
             segmented=_segmented_coupled(path,initial,settings,width,workers,memory_mb,selection_seed,
-                initial_confirm,previous_confirm,initial_target_history,trial_deadline,_goal_style=goal_style,_preview_ticks=preview_ticks,_audit=policy_audit,_preview_reads=observation_preview_reads)
+                initial_confirm,previous_confirm,initial_target_history,trial_deadline,_goal_style=goal_style,_preview_ticks=preview_ticks,_audit=policy_audit,_preview_reads=observation_preview_reads,telemetry=telemetry)
             directed_attempts.append(dict(goal_style=goal_style,preview_ticks=preview_ticks,seconds=time.perf_counter()-trial_started,
                 found=segmented is not None))
             if segmented is not None:
@@ -584,7 +643,7 @@ def find_dynamic_candidate(path,initial,*,width=3000,seconds=8.,selection_seed=4
                 segmented.stats['native_code']['effective_search_cores']=segmented.stats['native_code']['search_cpu_seconds']/segmented.stats['search_seconds'] if segmented.stats['search_seconds'] else 0.
                 return segmented
     if not has_dialogue and last is None:
-        segmented=_segmented(path,initial,settings,width,workers,memory_mb,selection_seed,initial_target_history,deadline)
+        segmented=_segmented(path,initial,settings,width,workers,memory_mb,selection_seed,initial_target_history,deadline,telemetry)
         if segmented is not None:
             if segmented.status!='proposal_found':
                 segmented.stats.update(observation_policy_attempts=directed_attempts,observation_search_audit=policy_audit,dynamic_wall_seconds=time.perf_counter()-started)
@@ -596,7 +655,7 @@ def find_dynamic_candidate(path,initial,*,width=3000,seconds=8.,selection_seed=4
     for iteration in range(64):
         replay_started=time.perf_counter()
         built=_world(path,initial,settings,proposal,initial_confirm,previous_confirm,initial_target_history,deadline,
-            _setup=replay_setup)
+            _setup=replay_setup,telemetry=telemetry)
         world_seconds+=time.perf_counter()-replay_started
         if built is None:break
         template,binding,actual,confirms,safe,word=built
@@ -604,7 +663,7 @@ def find_dynamic_candidate(path,initial,*,width=3000,seconds=8.,selection_seed=4
         if last is not None and len(proposal)==len(actual)-1 and safe:
             certify_started=time.perf_counter()
             verified=_certify(path,initial,settings,proposal,actual,confirms,initial_confirm,
-                              previous_confirm,initial_target_history,has_dialogue)
+                              previous_confirm,initial_target_history,has_dialogue,telemetry)
             if verified is not None:
                 base,history,terminal,identity,first,primed=verified
                 last.scripted_damage_events=terminal.pop("scripted_damage_events",[])
@@ -626,7 +685,7 @@ def find_dynamic_candidate(path,initial,*,width=3000,seconds=8.,selection_seed=4
         remaining=deadline-time.perf_counter()
         if remaining<=0:break
         last=find_native_candidate(path,initial,width=width,seconds=remaining,selection_seed=selection_seed+iteration,
-            workers=workers,memory_mb=memory_mb,progress=progress,_resolved=(template,binding),
+            workers=workers,memory_mb=memory_mb,progress=telemetry.search(0),_resolved=(template,binding),
             _defer_verification=True,**settings)
         if last is None:break
         attempts.append(dict(status=last.status,stats=dict(last.stats)))

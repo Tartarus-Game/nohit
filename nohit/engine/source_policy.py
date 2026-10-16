@@ -44,7 +44,12 @@ def preflight(initial,wave,seconds):
             if collision.collision_query(wave.geometry_white,wave.geometry_blue,tick,following,0.,payload):safe=False;break
             state,following=following,state;actions[tick-1]=mask;trace[tick]=state
         if not safe:continue
-        elapsed=time.perf_counter()-began;cpu_seconds=time.thread_time()-cpu
+        elapsed=time.perf_counter()-began;raw_cpu_seconds=max(0.,time.thread_time()-cpu)
+        # Windows GetThreadTimes can advance by 15.625 ms during a sub-ms
+        # single-thread probe. Preserve that raw observation, but identify the
+        # physically bounded estimate rather than reporting dozens of cores.
+        resolution_limited=raw_cpu_seconds>elapsed
+        cpu_seconds=min(raw_cpu_seconds,elapsed)
         source=Path(__file__).with_name('native_frontier.cpp')
         stats=dict(width=1,seed=0,expanded=nt-1,generated=nt-1,unique=nt-1,discarded=0,
             workspace_bytes=trace.nbytes+actions.nbytes+3*88,preview_steps=0,recovery_steps=0,
@@ -54,6 +59,8 @@ def preflight(initial,wave,seconds):
             scalar_preflight=True,controller='ground-contact-jump',controller_delay=delay,workers_used=1,
             search_seconds=elapsed,search_cpu_seconds=cpu_seconds,process_cpu_seconds=cpu_seconds,
             cpu_measurement='python-thread-cpu-clock',effective_search_cores=cpu_seconds/elapsed if elapsed else 0.,
+            thread_cpu_clock_raw_seconds=raw_cpu_seconds,cpu_measurement_resolution_limited=resolution_limited,
+            search_cpu_seconds_kind='single_thread_wall_upper_bound' if resolution_limited else 'thread_cpu_clock',
             preflight_steps=steps)
         return 0,actions.copy(),trace.copy(),[stats],metadata
     return None

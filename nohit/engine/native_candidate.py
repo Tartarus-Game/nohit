@@ -10,12 +10,14 @@ from .control_quotient import control_classes, single_tick_control_table
 from .initial_target_history import bind_initial_target_history
 from .parametric_environment import ParametricEnvironment
 from .source_oracle import scalar_module
-from .native_backend import search,available_cpu_workers
+from .native_backend import search,available_cpu_workers,report_progress
 from .source_policy import preflight
 
 
-def verify_candidate(path, initial, settings, actions, expected, binding, initial_target_history=None):
+def verify_candidate(path, initial, settings, actions, expected, binding, initial_target_history=None, progress=None):
     """Rebuild monolithic source environment; use original scalar bodies only."""
+    report_progress(progress,phase='verify',tick=0,ticks=len(actions),alive_states=None,
+        message='Independent scalar replay')
     player=scalar_module('discrete_operator');collisions=scalar_module('cspace')
     template=ParametricEnvironment(path,backend='reference',**settings)
     rebuilt=bind_initial_target_history(template,initial_target_history)
@@ -28,11 +30,15 @@ def verify_candidate(path, initial, settings, actions, expected, binding, initia
     trace=np.empty((len(actions)+1,11),np.float64);trace[0]=state
     from .source_verification import scalar_collision_checker
     check=scalar_collision_checker(wave)
+    next_update=time.perf_counter()+.1
     for tick in range(len(trace)):
         if tick:
             player.step_mask_into(state,int(actions[tick-1]),wave.env_schedule[tick],wave.platform_table[tick],state)
             trace[tick]=state
         if not np.isfinite(state).all() or check(tick,state):return False,'replay_collision'
+        if tick==len(actions) or time.perf_counter()>=next_update:
+            report_progress(progress,phase='verify',tick=tick,ticks=len(actions),alive_states=None)
+            next_update=time.perf_counter()+.1
     if trace.tobytes()!=expected.tobytes():return False,'replay_state_mismatch'
     return True,'verified_'+wave.termination_reason
 
@@ -46,6 +52,8 @@ def find_native_candidate(path, initial, *, width=3000, seconds=30., selection_s
     workers=available_cpu_workers() if workers is None else workers
     if type(workers) is not int or not 1<=workers<=32:raise ValueError('workers must be in [1,32]')
     prepared=time.perf_counter()
+    report_progress(progress,phase='bake',tick=0,ticks=None,alive_states=None,
+        message='Preparing source world')
     template=ParametricEnvironment(path,**settings) if _resolved is None else _resolved[0]
     binding=bind_initial_target_history(template,initial_target_history) if _resolved is None else _resolved[1]
     player=scalar_module('discrete_operator')
@@ -56,6 +64,8 @@ def find_native_candidate(path, initial, *, width=3000, seconds=30., selection_s
     if not binding.complete or binding.wave.termination_reason not in ('endattack','eof_hazards_drained'):return None
     wave=binding.wave;env=wave.env_schedule
     if seconds==0:return None
+    report_progress(progress,phase='search',tick=0,ticks=len(env)-1,alive_states=1,
+        expanded_states=0,discarded_states=0,unique_states=0)
     controls=tuple(range(16))
     quick=preflight(state,wave,seconds) if _terminal_target is None else None
     if quick is None:table,counts=single_tick_control_table(env,controls)
@@ -72,8 +82,15 @@ def find_native_candidate(path, initial, *, width=3000, seconds=30., selection_s
         if allocated+estimate<=allowance:chosen.append((w,s));allocated+=estimate
     if not chosen:return None
     environment_seconds=time.perf_counter()-prepared
+    def search_progress(offsets):
+        def publish(**fields):
+            fields=dict(fields)
+            for name,value in offsets.items():
+                if name in fields:fields[name]+=value
+            report_progress(progress,**fields)
+        return publish
     winner,actions,trace,attempts,metadata=quick if quick is not None else search(state,wave,table,counts,[w for w,s in chosen],
-        [s for w,s in chosen],workers,min(seconds,0.5),terminal_target=_terminal_target)
+        [s for w,s in chosen],workers,min(seconds,0.5),terminal_target=_terminal_target,progress=progress)
     first_kernel_seconds=metadata['kernel_load_seconds']
     first_compiled=metadata['compiled']
     peak_workspace=sum(item['workspace_bytes'] for item in attempts)
@@ -93,8 +110,11 @@ def find_native_candidate(path, initial, *, width=3000, seconds=30., selection_s
         remaining=seconds-total_search_seconds
         if wide and remaining>0:
             offset=len(attempts)
+            offsets={name:sum(item[key] for item in attempts) for name,key in
+                (('expanded_states','expanded'),('discarded_states','discarded'),('unique_states','unique'))}
             second,actions,trace,more,later=search(state,wave,table,counts,[w for w,s in wide],
-                [s for w,s in wide],workers,remaining,terminal_target=_terminal_target)
+                [s for w,s in wide],workers,remaining,terminal_target=_terminal_target,
+                progress=search_progress(offsets) if progress is not None else None)
             winner=offset+second if second>=0 else second
             peak_workspace=max(peak_workspace,sum(item['workspace_bytes'] for item in more))
             attempts+=more;chosen+=wide
@@ -106,6 +126,10 @@ def find_native_candidate(path, initial, *, width=3000, seconds=30., selection_s
         search_seconds=total_search_seconds,search_cpu_seconds=total_search_cpu,
         process_cpu_seconds=total_process_cpu,collision_index_seconds=total_index_seconds,state_hash_rebuilds=total_hash_rebuilds,
         effective_search_cores=total_search_cpu/total_search_seconds if total_search_seconds else 0.)
+    report_progress(progress,phase='search',tick=len(env)-1 if winner>=0 else max((item['reached'] for item in attempts),default=0),
+        ticks=len(env)-1,alive_states=1 if winner>=0 else 0,
+        expanded_states=sum(item['expanded'] for item in attempts),
+        discarded_states=sum(item['discarded'] for item in attempts),unique_states=sum(item['unique'] for item in attempts))
     if winner<0:
         # This world was handled natively. Do not surprise an exhausted request
         # with a second compiler or a retired search path.
@@ -118,7 +142,7 @@ def find_native_candidate(path, initial, *, width=3000, seconds=30., selection_s
                 kernel_materialization_seconds=first_kernel_seconds,environment_setup_seconds=environment_seconds,
                 verification_seconds=0.,native_code=metadata))
     verify_started=time.perf_counter()
-    valid,why=(True,'provisional_world') if _defer_verification else verify_candidate(path,initial,settings,actions,trace,binding,initial_target_history)
+    valid,why=(True,'provisional_world') if _defer_verification else verify_candidate(path,initial,settings,actions,trace,binding,initial_target_history,progress)
     if not valid:raise RuntimeError('Native candidate rejected by unchanged scalar replay: '+why)
     word=actions.tolist();churn=sum(mask!=(word[i-1] if i else 0) for i,mask in enumerate(word));held=sum(mask!=0 for mask in word)
     stats=dict(width=width,controls=controls,selection_seed=selection_seed,
@@ -135,7 +159,6 @@ def find_native_candidate(path, initial, *, width=3000, seconds=30., selection_s
         input_cost=dict(frames=len(word),churn=churn,held_frames=held,churn_weight=12,held_weight=1,total=churn*12+held))
     clock=dict(protocol='explicit_dt_schedule' if settings.get('dt_schedule') is not None else 'native_fixed_240' if settings.get('clock_start_ms') is not None else 'nominal_240',decision_ticks=1,original_replay_passed=False)
     if template.dt_schedule is not None:clock.update(schedule_count=len(template.dt_schedule),schedule_sha256=hashlib.sha256(np.asarray(template.dt_schedule,dtype='<f8').tobytes()).hexdigest())
-    if progress is not None:progress(tick=len(word),ticks=len(env),alive_states=1,expanded_states=stats['expanded_states'],workers=stats['workers'])
     return SimpleNamespace(status='proposal_found' if _defer_verification else 'candidate_found',reason=why,verified=not _defer_verification,reached_tick=len(word),actions=word,
         trajectory=trace,target_history=binding.history,terminal_tail=(dict(status='proven',reason='endattack')
             if wave.termination_reason=='endattack' else dict(status='unknown',reason='release_invariant_required')),

@@ -259,6 +259,47 @@ def test_auto_budget_retry_is_bounded_and_keeps_unknown_honest(monkeypatch, reas
     assert solve_progress.snapshot('auto-limited')['state']=='done'
 
 
+def test_auto_retry_clears_previous_attempt_counters(monkeypatch):
+    from nohit.dashboard import csv_api, solve_progress
+    calls = []
+    def limited_solver(path, initial, **settings):
+        calls.append(settings)
+        if len(calls) == 1:
+            settings['progress'](phase='search', tick=7, ticks=9,
+                alive_states=13, peak_alive_states=20, expanded_states=40,
+                discarded_states=10, unique_states=30)
+        else:
+            snap = solve_progress.snapshot('retry-counters')
+            assert snap['phase'] == 'prepare'
+            assert snap['tick'] is None and snap['ticks'] == 20
+            assert all(snap[field] is None for field in (
+                'alive_states', 'peak_alive_states', 'expanded_states',
+                'discarded_states', 'states_per_second'))
+            assert '重新求解' in snap['message']
+        return dict(status='unknown', verified=False, reason='wall_budget')
+    monkeypatch.setattr(csv_api, 'solve_csv', limited_solver)
+    solve_csv_request(dict(custom_csv='0,EndAttack\n', initial=INITIAL,
+        max_ticks=20, budget_mode='auto', progress_id='retry-counters'))
+    assert len(calls) == 2
+
+
+@pytest.mark.parametrize('delay,expected', [('1', 31), ('wait', None), ('9', None)])
+def test_eta_horizon_uses_csv_delays_and_the_supplied_clock(monkeypatch, delay, expected):
+    from nohit.dashboard import csv_api, solve_progress
+    observed = []
+    def limited_solver(path, initial, **settings):
+        snap = solve_progress.snapshot('eta-horizon')
+        observed.append(snap)
+        assert snap['estimated_total_ticks'] == expected
+        assert snap['estimated_total_ticks_basis'] == (
+            'csv_literal_duration_estimate' if expected is not None else 'unknown')
+        return dict(status='unknown', verified=False, reason='tick_budget')
+    monkeypatch.setattr(csv_api, 'solve_csv', limited_solver)
+    solve_csv_request(dict(custom_csv=f'0,HeartMode,0\n{delay},EndAttack\n', initial=INITIAL,
+        dt_schedule=[1/30]*91, fps=240, max_ticks=91, progress_id='eta-horizon'))
+    assert len(observed) == 1
+
+
 def test_manual_budget_never_retries_without_another_request(monkeypatch):
     from nohit.dashboard import csv_api
     calls=[]

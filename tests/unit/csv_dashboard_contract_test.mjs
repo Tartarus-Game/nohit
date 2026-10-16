@@ -6,8 +6,10 @@ import test from 'node:test';
 const html = fs.readFileSync(new URL('../../nohit/dashboard/static/index.html', import.meta.url),'utf8');
 const script = html.match(/<script>([\s\S]*?)<\/script>/)[1];
 
-function page() {
-  const elements = new Map(), keys=[],draws=[],requests=[];let fetchResult;let submitted;
+function page(search='') {
+  const elements = new Map(), keys=[],draws=[],requests=[],timers=new Map(),opened=[],navigations=[];
+  let fetchResult,submitted,responder,timerId=0,now=1000;const events={};
+  const popup={closed:false,location:{replace(url){popup.url=url;}},close(){this.closed=true;}};
   const context2d = new Proxy({}, {get:(target,key)=>target[key] || ((...args)=>draws.push({method:key,args})),set:(target,key,value)=>(target[key]=value,true)});
   function element(id) {
     if(!elements.has(id)) elements.set(id,{id,value:'',textContent:'',hidden:false,disabled:false,dataset:{},events:{},attributes:{},
@@ -23,16 +25,29 @@ function page() {
   for(const bit of [1,2,4,8,32]) {
     const key=element('key-'+bit);key.dataset.bit=String(bit);key.classList.toggle=(name,on)=>key.active=on;keys.push(key);
   }
-  const context=vm.createContext({document:{getElementById:element,querySelectorAll:()=>keys},
-    requestAnimationFrame:()=>1,cancelAnimationFrame(){},performance:{now:()=>1000},
-    setInterval:()=>1,clearInterval(){},
-    fetch:async(url,options)=>{submitted={url,payload:JSON.parse(options.body)};requests.push(submitted);return {ok:true,json:async()=>fetchResult};}});
+  const globals={document:{getElementById:element,querySelectorAll:()=>keys},URLSearchParams,
+    location:{search,origin:'http://localhost:8765',assign:url=>navigations.push(url)},
+    addEventListener(type,handler){events[type]=handler;},
+    open(url,target){opened.push({url,target});return popup;},
+    requestAnimationFrame:()=>1,cancelAnimationFrame(){},performance:{now:()=>now},
+    setInterval(callback){timers.set(++timerId,callback);return timerId;},clearInterval(id){timers.delete(id);},
+    fetch:async(url,options)=>{const request={url,payload:options?.body?JSON.parse(options.body):null};
+      requests.push(request);if(options?.body)submitted=request;
+      if(responder)return responder(request);
+      return {ok:true,json:async()=>fetchResult};}};
+  globals.window=globals;
+  const context=vm.createContext(globals);
   vm.runInContext(script,context,{filename:'csv.html'});
   Object.assign(element('initial-state'),{value:'[320,304,0,0,0,0,0,1,750,0,0]'});
   element('initial-environment').value='null';element('fps').value='30';element('seconds').value='30';
   element('width').value='3000';element('speed').value='1';
-  return {element,keys,context,draws,requests,evaluate:code=>vm.runInContext(code,context),
+  return {element,keys,context,draws,requests,timers,opened,navigations,popup,evaluate:code=>vm.runInContext(code,context),
+    respond(callback){responder=callback;},
+    advance(milliseconds){now+=milliseconds;},
+    message(data,{origin='http://localhost:8765',source=popup}={}){events.message({origin,source,data});},
+    async tick(){for(const callback of [...timers.values()])await callback();},
     result(value){context.testResult=value;vm.runInContext('showResult(testResult)',context);},
+    async launch(value){fetchResult=value;await element('native-button').events.click();return submitted;},
     async submit(value){fetchResult=value;await element('solve-form').events.submit({preventDefault(){}});return submitted;}};
 }
 
@@ -42,6 +57,142 @@ function candidate() {
   return {status:'candidate_found',verified:true,actions:[2,4],confirm_sequence:[false,true],trajectory:frames.map(f=>f.player),
     wall_seconds:2,game_seconds:.1,visualization:{schema_version:1,scope:'verified_source_model',frame_count:3,frames}};
 }
+
+function entryCandidate() {
+  const result=candidate(),entry=result.visualization.frames[0];
+  result.dt_sequence=[.04,.04,.06];
+  result.visualization={schema_version:1,mode:'entry',scope:'verified_source_model_entry',
+    frame_count:1,candidate_frame_count:3,frames:[entry]};
+  return result;
+}
+
+test('Dashboard solving is a main entry and defaults to light preview without budget tuning',async()=>{
+  const advanced=html.slice(html.indexOf('<details id="advanced-settings"'),html.indexOf('</form>'));
+  assert.doesNotMatch(advanced,/id="solve-button"/);
+  assert.match(html,/>在 Dashboard 解算<\/button>/);
+  const p=page();p.element('csv-path').value='C:/long.csv';
+  const request=await p.submit({status:'unknown',verified:false,reason:'wall_budget'});
+  assert.equal(request.payload.budget_mode,'auto');assert.equal(request.payload.visualization_mode,'entry');
+  assert.equal('seconds' in request.payload,false);assert.equal('width' in request.payload,false);
+  p.element('full-geometry').checked=true;
+  assert.equal((await p.submit({status:'unknown',verified:false})).payload.visualization_mode,'full');
+});
+
+test('entry preview plays the full exact trajectory and inputs without inventing later geometry',()=>{
+  const p=page();p.result(entryCandidate());
+  assert.equal(p.element('play').disabled,false);assert.equal(p.element('timeline').max,2);
+  assert.match(p.element('visualization-warning').textContent,/轻量轨迹.*仅起点.*几何/);
+  p.element('next').events.click();p.element('next').events.click();
+  assert.match(p.element('frame-counter').textContent,/0\.100 s/);
+  assert.deepEqual(p.keys.filter(k=>k.active).map(k=>k.dataset.bit),['4','32']);
+  const frame=JSON.parse(p.element('frame-data').textContent);
+  assert.equal(frame.bounds,null);assert.equal(frame.env,null);assert.equal(frame.geometry_available,false);
+  assert.deepEqual(frame.player,entryCandidate().trajectory[2]);
+});
+
+test('entry preview rejects incomplete exact clocks and mismatched source entry',()=>{
+  for(const mutate of [r=>r.dt_sequence.pop(),r=>r.dt_sequence[2]=0,r=>r.visualization.frames[0].player=[1],
+    r=>r.visualization.frames[0].player=[...r.trajectory[0]].map((x,i)=>i?x:x+1)]){
+    const p=page(),r=entryCandidate();mutate(r);p.result(r);
+    assert.equal(p.element('play').disabled,true);assert.equal(p.element('visualization-warning').hidden,false);
+  }
+});
+
+test('native launch keeps Dashboard open, shares progress identity and receives only its own result',async()=>{
+  const p=page();p.element('csv-path').value='C:/x.csv';await p.launch({id:'a'.repeat(64)});
+  assert.equal(p.navigations.length,0);assert.equal(p.opened.length,1);
+  const url=new URL(p.popup.url,'http://localhost:8765'),id=url.searchParams.get('progress_id');
+  assert(id);assert.equal(url.searchParams.get('mute'),'1');
+  p.respond(async request=>({ok:true,json:async()=>({state:'running',phase:'search',tick:51,
+    alive_states:123,elapsed_seconds:2,expanded_states:456,progress_id:id})}));
+  await p.tick();assert(p.requests.some(r=>r.url==='/api/progress/'+id));
+  assert.equal(p.element('p-tick').textContent,'51');assert.equal(p.element('p-alive').textContent,'123');
+  const message={type:'nohit:csv-result',progress_id:id,result:entryCandidate()};
+  p.message(message,{origin:'http://evil.test'});assert.equal(p.element('play').disabled,true);
+  p.message(message,{source:{}});assert.equal(p.element('play').disabled,true);
+  p.message({...message,progress_id:'stale'});assert.equal(p.element('play').disabled,true);
+  p.message(message);assert.equal(p.element('play').disabled,false);
+  p.message({type:'nohit:csv-status',progress_id:id,status:'playing'});
+  assert.match(p.element('native-progress').textContent,/原游戏.*执行中/);
+  p.message({type:'nohit:csv-status',progress_id:id,status:'completed'});
+  assert.match(p.element('native-progress').textContent,/原游戏.*执行完成/);
+});
+
+test('retry switches polling only from the active game and ignores stale in-flight progress',async()=>{
+  const p=page();p.element('csv-path').value='C:/x.csv';await p.launch({id:'a'.repeat(64)});
+  const first=new URL(p.popup.url,'http://localhost').searchParams.get('progress_id');
+  let release;
+  p.respond(request=>new Promise(resolve=>{release=()=>resolve({ok:true,json:async()=>({state:'done',phase:'stale',progress_id:first})});}));
+  const stale=p.tick();
+  p.message({type:'nohit:csv-status',previous_progress_id:first,progress_id:'retry-id',status:'solving'});
+  release();await stale;
+  assert.notEqual(p.element('p-phase').textContent,'stale');
+  p.respond(async()=>({ok:true,json:async()=>({state:'running',phase:'verify',progress_id:'retry-id',tick:71})}));
+  await p.tick();assert.equal(p.requests.at(-1).url,'/api/progress/retry-id');
+  assert.equal(p.element('p-tick').textContent,'71');
+  p.message({type:'nohit:csv-status',previous_progress_id:'unrelated',progress_id:'wrong',status:'solving'});
+  await p.tick();assert.equal(p.requests.at(-1).url,'/api/progress/retry-id');
+});
+
+test('query monitoring is read-only and never derives ETA from budget percentages',async()=>{
+  const p=page('?progress_id=read-only');
+  p.respond(async()=>({ok:true,json:async()=>({state:'running',phase:'search',progress_id:'read-only',
+    elapsed_seconds:3,tick:9,expanded_states:20,fraction:.99,fraction_basis:'wall_budget'})}));
+  await p.tick();assert.equal(p.requests[0].url,'/api/progress/read-only');
+  assert(p.requests.every(r=>r.payload===null));assert.equal(p.element('p-tick').textContent,'9');
+  assert.match(p.element('request-progress').textContent,/只读.*结果/);
+  assert.doesNotMatch(html,/id="p-(?:fraction|fill)"|线性外推/);
+  assert.equal(p.element('p-eta').textContent,'估算中');
+});
+
+test('Dashboard ETA displays server estimates with stage scope and clears them when unavailable or terminal',async()=>{
+  assert.match(html,/预计剩余（估算）/);
+  const p=page('?progress_id=estimated');
+  let snapshot={progress_id:'estimated',state:'running',phase:'prepare',elapsed_seconds:2,
+    eta_seconds:null,eta_basis:'unknown',fraction:.9,fraction_basis:'wall_budget'};
+  p.respond(async()=>({ok:true,json:async()=>snapshot}));await p.tick();
+  assert.equal(p.element('p-eta').textContent,'估算中');
+  snapshot={...snapshot,phase:'search',eta_seconds:12.5,eta_basis:'csv_literal_duration_estimate'};await p.tick();
+  assert.equal(p.element('p-eta').textContent,'12.5 s');
+  assert.match(p.element('p-eta-note').textContent,/当前搜索/);
+  assert.match(p.element('p-eta-note').textContent,/准备.*后续.*验证.*变化/);
+  snapshot={...snapshot,phase:'verify',eta_seconds:3.25,eta_basis:'scalar_replay_tick_rate'};await p.tick();
+  assert.equal(p.element('p-eta').textContent,'3.3 s');assert.match(p.element('p-eta-note').textContent,/当前.*复验/);
+  for(const seconds of [null,-1,Infinity,'9']) {
+    snapshot={...snapshot,eta_seconds:seconds};await p.tick();assert.equal(p.element('p-eta').textContent,'估算中');
+  }
+  snapshot={...snapshot,eta_seconds:0,eta_basis:'unknown'};await p.tick();
+  assert.equal(p.element('p-eta').textContent,'估算中');
+  snapshot={...snapshot,state:'done',eta_seconds:12,eta_basis:'csv_literal_duration_estimate'};await p.tick();
+  assert.equal(p.element('p-eta').textContent,'—');assert.match(p.element('p-eta-note').textContent,/已结束/);
+});
+
+test('native retry clears the preceding ETA while its new progress channel is waiting',async()=>{
+  const p=page();p.element('csv-path').value='C:/x.csv';await p.launch({id:'a'.repeat(64)});
+  const id=new URL(p.popup.url,'http://localhost').searchParams.get('progress_id');
+  p.respond(async()=>({ok:true,json:async()=>({progress_id:id,state:'running',phase:'search',
+    eta_seconds:20,eta_basis:'csv_literal_duration_estimate'})}));await p.tick();
+  assert.equal(p.element('p-eta').textContent,'20.0 s');
+  p.message({type:'nohit:csv-status',previous_progress_id:id,progress_id:'next-eta',status:'solving'});
+  assert.equal(p.element('p-eta').textContent,'估算中');
+});
+
+test('closing the running game stops Dashboard polling and keeps both solve entries usable',async()=>{
+  const p=page();p.element('csv-path').value='C:/x.csv';await p.launch({id:'a'.repeat(64)});
+  const count=p.requests.length;p.popup.close();await p.tick();
+  assert.equal(p.requests.length,count);assert.equal(p.timers.size,0);
+  assert.match(p.element('native-progress').textContent,/标签页已关闭.*停止/);
+  assert.equal(p.element('solve-button').disabled,false);assert.equal(p.element('native-button').disabled,false);
+});
+
+test('elapsed time continues across unchanged server snapshots and freezes on completion',async()=>{
+  const p=page('?progress_id=slow-phase');
+  let snapshot={progress_id:'slow-phase',state:'running',phase:'compile',elapsed_seconds:3,updated_at:10};
+  p.respond(async()=>({ok:true,json:async()=>snapshot}));await p.tick();
+  p.advance(2500);await p.tick();assert.equal(p.element('p-elapsed').textContent,'5.50 s');
+  snapshot={...snapshot,state:'done',elapsed_seconds:7,updated_at:14};await p.tick();
+  assert.equal(p.element('p-elapsed').textContent,'7.00 s');assert.equal(p.timers.size,0);
+});
 
 test('a verified candidate displays no-handler warnings without disabling playback and clears stale warnings',()=>{
   const p=page(),result=candidate();
@@ -170,6 +321,36 @@ test('a missing endpoint does not retry when other source mechanisms remain unsu
   await p.submit({status:'unknown',verified:false,reason:'unsupported_mechanism',issues:[
     {reason:'missing_endattack'},{line:5,command:'setmaxhp',reason:'mechanism_not_validated'}]});
   assert.equal(p.requests.length,1);
+});
+
+for(const lateSnapshot of [false,true])test('EOF retry starts fresh live progress after '+(lateSnapshot?'a delayed old snapshot':'the first progress channel completed'),async()=>{
+  const p=page(),posts=[];p.element('csv-path').value='C:/no-endpoint.csv';
+  let releaseFirst,releaseSecond,releaseSnapshot;
+  const reply=value=>({ok:true,json:async()=>value});
+  p.respond(request=>{
+    if(request.payload) {
+      posts.push(request.payload);
+      return new Promise(resolve=>{
+        if(posts.length===1)releaseFirst=()=>resolve(reply({status:'unknown',verified:false,
+          reason:'unsupported_mechanism',issues:[{reason:'missing_endattack'}]}));
+        else releaseSecond=()=>resolve(reply({status:'unknown',verified:false,reason:'wall_budget'}));
+      });
+    }
+    const id=request.url.split('/').at(-1);
+    const snapshot={progress_id:id,state:id===posts[0].progress_id?'done':'running',
+      phase:id===posts[0].progress_id?'old-phase':'search',tick:id===posts[0].progress_id?1:99};
+    return lateSnapshot&&id===posts[0].progress_id
+      ?new Promise(resolve=>{releaseSnapshot=()=>resolve(reply(snapshot));}):reply(snapshot);
+  });
+  const pending=p.submit({});const oldPoll=p.tick();if(!lateSnapshot)await oldPoll;
+  releaseFirst();await new Promise(setImmediate);
+  assert.equal(posts.length,2);assert.equal(posts[1].termination_policy,'eof_hazards_drained');
+  assert.notEqual(posts[1].progress_id,posts[0].progress_id);
+  assert.equal(p.evaluate('progressId'),posts[1].progress_id);
+  if(lateSnapshot){releaseSnapshot();await oldPoll;assert.notEqual(p.element('p-phase').textContent,'old-phase');}
+  await p.tick();assert.equal(p.requests.at(-1).url,'/api/progress/'+posts[1].progress_id);
+  assert.equal(p.element('p-tick').textContent,'99');
+  releaseSecond();await pending;
 });
 
 if(process.env.CSV_API_URL) test('live short CSV request satisfies the page geometry contract',async()=>{

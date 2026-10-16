@@ -198,3 +198,98 @@ def test_a_request_without_progress_id_registers_nothing():
     result = solve_csv_request(dict(custom_csv='10,EndAttack\n', initial=INITIAL, max_ticks=2))
     assert result['status'] == 'unknown'
     assert solve_progress.snapshot('')['state'] == 'unknown'
+
+
+def test_running_snapshots_refresh_elapsed_without_inventing_solver_activity(monkeypatch):
+    now=[100.]
+    monkeypatch.setattr(solve_progress,'_now',lambda:now[0])
+    reporter=solve_progress.begin('idle-clock',seconds_budget=10)
+    reporter.update(phase='search',expanded_states=100)
+    before=solve_progress.snapshot('idle-clock')
+    now[0]+=2
+    running=solve_progress.snapshot('idle-clock')
+    assert running['elapsed_seconds']==2
+    assert running['fraction']==.2 and running['states_per_second']==50
+    assert running['updated_at']==before['updated_at']
+    assert running['expanded_states']==100
+    reporter.finish(status='candidate_found')
+    finished=solve_progress.snapshot('idle-clock')
+    now[0]+=3
+    assert solve_progress.snapshot('idle-clock')==finished
+
+
+def test_source_eta_uses_committed_ticks_and_survives_window_baking(monkeypatch):
+    now=[100.]
+    monkeypatch.setattr(solve_progress,'_now',lambda:now[0])
+    reporter=solve_progress.begin('source-eta',seconds_budget=90)
+    reporter.update(estimated_total_ticks=1000,estimated_total_ticks_basis='csv_literal_duration_estimate')
+    reporter.update(phase='bake',committed_tick=0)
+    now[0]=102.
+    reporter.update(phase='search',tick=900,ticks=None,committed_tick=100)
+    snap=solve_progress.snapshot('source-eta')
+    assert snap['eta_seconds']==18.
+    assert snap['eta_basis']=='csv_literal_duration_estimate'
+    assert snap['committed_tick']==100 and snap['estimated_total_ticks']==1000
+    # Preview may reach the literal end; only actual committed progress counts.
+    now[0]=104.
+    reporter.update(phase='bake',tick=1000,committed_tick=200)
+    assert solve_progress.snapshot('source-eta')['eta_seconds']==16.
+    # Budget expiry is never presented as time to completion.
+    now[0]=200.
+    assert solve_progress.snapshot('source-eta')['eta_seconds']==400.
+    reporter.update(committed_tick=1000)
+    exhausted=solve_progress.snapshot('source-eta')
+    assert exhausted['eta_seconds'] is None and exhausted['eta_basis']=='unknown'
+
+
+def test_eta_resets_on_retry_and_verification_has_its_own_clock(monkeypatch):
+    now=[100.]
+    monkeypatch.setattr(solve_progress,'_now',lambda:now[0])
+    reporter=solve_progress.begin('eta-reset',estimated_total_ticks=1000,
+        estimated_total_ticks_basis='csv_literal_duration_estimate')
+    reporter.update(phase='search',committed_tick=0)
+    now[0]=102.;reporter.update(committed_tick=100)
+    assert solve_progress.snapshot('eta-reset')['eta_seconds']==18.
+    reporter.update(phase='prepare',committed_tick=None)
+    assert solve_progress.snapshot('eta-reset')['eta_seconds'] is None
+    now[0]=200.;reporter.update(phase='search',committed_tick=0)
+    now[0]=202.;reporter.update(committed_tick=200)
+    assert solve_progress.snapshot('eta-reset')['eta_seconds']==8.
+    reporter.update(phase='verify',tick=0,ticks=1200)
+    assert solve_progress.snapshot('eta-reset')['eta_seconds'] is None
+    now[0]=205.;reporter.update(tick=300)
+    assert solve_progress.snapshot('eta-reset')['eta_seconds'] is None
+    now[0]=208.;reporter.update(tick=600)
+    verifying=solve_progress.snapshot('eta-reset')
+    assert verifying['eta_seconds']==6. and verifying['eta_basis']=='scalar_replay_tick_rate'
+    reporter.finish(status='unknown')
+    assert solve_progress.snapshot('eta-reset')['eta_seconds'] is None
+
+
+def test_unknown_or_nonfinite_horizons_cannot_create_eta(monkeypatch):
+    now=[100.]
+    monkeypatch.setattr(solve_progress,'_now',lambda:now[0])
+    reporter=solve_progress.begin('eta-unknown',seconds_budget=2)
+    reporter.update(phase='search',tick=900,ticks=None,committed_tick=0)
+    now[0]+=3;reporter.update(committed_tick=100,estimated_total_ticks=float('inf'))
+    snap=solve_progress.snapshot('eta-unknown')
+    assert snap['eta_seconds'] is None and snap['eta_basis']=='unknown'
+    assert snap['estimated_total_ticks'] is None
+    assert solve_progress.unknown_snapshot('missing')['eta_seconds'] is None
+    json.dumps(snap,allow_nan=False)
+
+
+def test_verification_eta_excludes_source_rebuild_before_first_tick_progress(monkeypatch):
+    now=[100.]
+    monkeypatch.setattr(solve_progress,'_now',lambda:now[0])
+    reporter=solve_progress.begin('verify-preparation')
+    reporter.update(phase='verify',tick=0,ticks=1000)
+    # Source reconstruction is opaque; its time cannot predict scalar speed.
+    now[0]=106.;reporter.update(tick=0)
+    assert solve_progress.snapshot('verify-preparation')['eta_seconds'] is None
+    now[0]=106.1;reporter.update(tick=100)
+    assert solve_progress.snapshot('verify-preparation')['eta_seconds'] is None
+    now[0]=106.2;reporter.update(tick=200)
+    snap=solve_progress.snapshot('verify-preparation')
+    assert snap['eta_basis']=='scalar_replay_tick_rate'
+    assert snap['eta_seconds']==pytest.approx(.8)
