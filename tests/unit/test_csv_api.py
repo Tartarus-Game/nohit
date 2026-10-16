@@ -153,3 +153,193 @@ def test_invalid_termination_policy_is_rejected():
     with pytest.raises(ValueError,match='termination_policy'):
         solve_csv_request(dict(custom_csv='0,HeartMode,0\n',initial=INITIAL,
             max_ticks=3,termination_policy='pretend_endattack'))
+
+
+@pytest.mark.parametrize('option,value', [
+    ('observation_chunk_ticks', -1),
+    ('observation_preview_ticks', 1.5),
+    ('observation_preview_reads', True),
+    ('observation_goal_retries', 1),
+])
+def test_observation_options_reach_engine_validation(option, value):
+    with pytest.raises(ValueError, match=option):
+        solve_csv_request(dict(custom_csv='0,HeartMode,0\n0.1,EndAttack\n',
+            initial=INITIAL, max_ticks=20, **{option: value}))
+
+
+def test_observation_options_select_existing_segmented_solver_and_preserve_verification():
+    result=solve_csv_request(dict(custom_csv='0,HeartMode,0\n0.1,GetHeartPos,x,y\n0.1,EndAttack\n',
+        initial=INITIAL, max_ticks=40, fps=60, width=4, seconds=5,
+        observation_chunk_ticks=6, observation_preview_ticks=12,
+        observation_preview_reads=32, observation_goal_retries=True))
+    assert result['status']=='candidate_found' and result['verified'] is True
+    assert result['search_stats']['backend']=='native-coupled-segments'
+    for option,value in dict(observation_chunk_ticks=6, observation_preview_ticks=12,
+                             observation_preview_reads=32, observation_goal_retries=True).items():
+        assert result['search_stats'][option]==value
+    assert not result['original_replay_passed']
+
+
+@pytest.mark.parametrize('text,profile,seconds,width,segmented', [
+    ('0,HeartMode,0\n0.1,EndAttack\n', 'short', 30, 2048, False),
+    ('30,GetHeartPos,x,y\n0,EndAttack\n', 'medium', 60, 4096, False),
+    ('120,GetHeartPos,x,y\n0,EndAttack\n', 'long', 90, 8192, True),
+    ('0,GetHeartPos,x,y\n'*64+'0,EndAttack\n', 'long', 90, 8192, True),
+])
+def test_auto_budget_uses_source_complexity(tmp_path, monkeypatch, text, profile, seconds, width, segmented):
+    from nohit.dashboard import csv_api
+    path=tmp_path/'budget.csv';path.write_text(text, encoding='utf-8')
+    monkeypatch.setattr(csv_api.os, 'cpu_count', lambda: 32)
+    budget=csv_api._budget_selection({}, path)
+    assert budget['mode']=='auto' and budget['profile']==profile
+    assert budget['selected']['seconds']==seconds and budget['selected']['width']==width
+    assert budget['selected']['workers']==4
+    if segmented:
+        assert budget['selected']['observation_chunk_ticks']==480
+        assert budget['selected']['observation_preview_ticks']==480
+        assert budget['selected']['observation_preview_reads']==128
+        assert budget['selected']['observation_goal_retries'] is True
+    else:
+        assert 'observation_chunk_ticks' not in budget['selected']
+
+
+def test_default_auto_budget_is_returned_with_real_verified_candidate():
+    result=solve_csv_request(dict(custom_csv='0,HeartMode,0\n0.1,EndAttack\n',
+        initial=INITIAL, max_ticks=20, request_id='automatic-candidate'))
+    budget=result['budget_selection']
+    assert result['status']=='candidate_found' and result['verified'] is True
+    assert budget['mode']=='auto' and budget['profile']=='short'
+    assert budget['attempts'][0]['status']=='candidate_found'
+    assert len(budget['attempts'])==1
+    assert result['provenance']['request_id']=='automatic-candidate'
+    assert result['provenance']['fresh_computation'] is True
+    assert not result['original_replay_passed']
+
+
+@pytest.mark.parametrize('data,mode,width,seconds', [
+    ({'width':12,'seconds':7},'manual',12,7),
+    ({'budget_mode':'manual'},'manual',3000,30),
+    ({'budget_mode':'auto','width':12,'seconds':7},'auto',2048,30),
+])
+def test_budget_mode_preserves_explicit_legacy_requests_and_automatic_override(tmp_path, data, mode, width, seconds):
+    from nohit.dashboard import csv_api
+    path=tmp_path/'budget.csv';path.write_text('0,EndAttack\n', encoding='utf-8')
+    budget=csv_api._budget_selection(data,path)
+    assert budget['mode']==mode
+    assert budget['selected']['width']==width and budget['selected']['seconds']==seconds
+
+
+@pytest.mark.parametrize('reason,retries', [
+    ('wall_budget',True),('frontier_exhausted',True),
+    ('native_search_limited',True),
+    ('native_observation_budget',True),('unsupported_mechanism',False),
+    ('tick_budget',False),('native_scope_or_resource_limit',False),
+])
+def test_auto_budget_retry_is_bounded_and_keeps_unknown_honest(monkeypatch, reason, retries):
+    from nohit.dashboard import csv_api,solve_progress
+    calls=[]
+    def limited_solver(path, initial, **settings):
+        calls.append(settings)
+        snapshot=solve_progress.snapshot('auto-limited')
+        assert snapshot['state']=='running'
+        return dict(status='unknown',verified=False,reason=reason,deadlock_proven=False,
+                    original_replay_passed=False)
+    monkeypatch.setattr(csv_api,'solve_csv',limited_solver)
+    result=solve_csv_request(dict(custom_csv='120,GetHeartPos,x,y\n0,EndAttack\n',
+        initial=INITIAL, max_ticks=20, budget_mode='auto',progress_id='auto-limited',
+        request_id='bounded-request'))
+    assert len(calls)==(2 if retries else 1)
+    assert sum(call['seconds'] for call in calls)<=180
+    if retries:
+        assert calls[1]['width']>calls[0]['width']
+    assert result['status']=='unknown' and result['verified'] is False
+    assert not result['deadlock_proven'] and not result['original_replay_passed']
+    assert len(result['budget_selection']['attempts'])==len(calls)
+    assert result['provenance']['request_id']=='bounded-request'
+    assert solve_progress.snapshot('auto-limited')['state']=='done'
+
+
+def test_manual_budget_never_retries_without_another_request(monkeypatch):
+    from nohit.dashboard import csv_api
+    calls=[]
+    def limited_solver(path, initial, **settings):
+        calls.append(settings)
+        return dict(status='unknown',verified=False,reason='wall_budget')
+    monkeypatch.setattr(csv_api,'solve_csv',limited_solver)
+    result=solve_csv_request(dict(custom_csv='0,EndAttack\n',initial=INITIAL,max_ticks=20,
+        seconds=7,width=12))
+    assert len(calls)==1 and calls[0]['seconds']==7 and calls[0]['width']==12
+    assert result['budget_selection']['mode']=='manual'
+
+
+def test_invalid_budget_mode_is_rejected():
+    with pytest.raises(ValueError,match='budget_mode'):
+        solve_csv_request(dict(custom_csv='0,EndAttack\n',initial=INITIAL,budget_mode='guess'))
+
+
+@pytest.mark.parametrize('count,profile',[(250,'medium'),(2000,'long')])
+def test_command_count_can_raise_auto_budget_without_target_reads(tmp_path, count, profile):
+    from nohit.dashboard import csv_api
+    path=tmp_path/'many.csv';path.write_text('0,Wait\n'*count+'0,EndAttack\n',encoding='utf-8')
+    budget=csv_api._budget_selection({},path)
+    assert budget['profile']==profile
+    assert budget['source_summary']['command_count']==count+1
+    assert 'observation_chunk_ticks' not in budget['selected']
+
+
+@pytest.mark.parametrize('cpus',[1,None])
+def test_auto_budget_works_when_only_one_cpu_is_available(tmp_path, monkeypatch, cpus):
+    from nohit.dashboard import csv_api
+    path=tmp_path/'one.csv';path.write_text('0,EndAttack\n',encoding='utf-8')
+    monkeypatch.setattr(csv_api.os,'cpu_count',lambda:cpus)
+    assert csv_api._budget_selection({},path)['selected']['workers']==1
+
+
+def test_auto_retry_also_respects_elapsed_preparation_time(monkeypatch):
+    from types import SimpleNamespace
+    from nohit.dashboard import csv_api
+    now=[0.];calls=[]
+    monkeypatch.setattr(csv_api,'time',SimpleNamespace(perf_counter=lambda:now[0]))
+    def limited_solver(path, initial, **settings):
+        calls.append(settings)
+        now[0]+=100 if len(calls)==1 else settings['seconds']
+        return dict(status='unknown',verified=False,reason='wall_budget')
+    monkeypatch.setattr(csv_api,'solve_csv',limited_solver)
+    result=solve_csv_request(dict(custom_csv='120,GetHeartPos,x,y\n0,EndAttack\n',
+        initial=INITIAL,budget_mode='auto',max_ticks=20))
+    assert [call['seconds'] for call in calls]==[90,80]
+    assert result['request_seconds']==180
+
+
+def test_auto_retry_does_not_start_after_total_elapsed_limit(monkeypatch):
+    from types import SimpleNamespace
+    from nohit.dashboard import csv_api
+    now=[0.];calls=[]
+    monkeypatch.setattr(csv_api,'time',SimpleNamespace(perf_counter=lambda:now[0]))
+    def limited_solver(path, initial, **settings):
+        calls.append(settings);now[0]+=181
+        return dict(status='unknown',verified=False,reason='wall_budget')
+    monkeypatch.setattr(csv_api,'solve_csv',limited_solver)
+    solve_csv_request(dict(custom_csv='120,GetHeartPos,x,y\n0,EndAttack\n',
+        initial=INITIAL,budget_mode='auto',max_ticks=20))
+    assert len(calls)==1
+
+
+def test_native_entry_visualization_avoids_full_scene_rebuild_but_keeps_verified_route(monkeypatch):
+    from nohit.dashboard import csv_visualization
+    def forbidden(*args,**kwargs):
+        raise AssertionError('native requests must not rebuild full geometry history')
+    monkeypatch.setattr(csv_visualization,'build_csv_visualization',forbidden)
+    result=solve_csv_request(dict(custom_csv='0,HeartMode,0\n0,GetHeartPos,x,y\n0.1,EndAttack\n',
+        initial=INITIAL,max_ticks=40,width=4,visualization_mode='entry'))
+    assert result['status']=='candidate_found' and result['verified'] is True
+    assert result['visualization_mode']=='entry'
+    assert result['visualization']['frame_count']==1
+    assert len(result['trajectory'])==len(result['actions'])+1>1
+    assert not result['original_replay_passed']
+
+
+def test_unknown_visualization_mode_is_rejected_before_search():
+    with pytest.raises(ValueError,match='visualization_mode'):
+        solve_csv_request(dict(custom_csv='0,EndAttack\n',initial=INITIAL,
+            max_ticks=20,visualization_mode='skip_every_check'))

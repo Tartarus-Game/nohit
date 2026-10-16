@@ -39,7 +39,7 @@ function boot(options={}) {
         }});
     vm.runInContext(script,context);
     const core=window.NoHitCsvRoundController.create({runtime:rt,clock:{logicalStepMs:1000/30+1e-6,physicsHz:30},
-        query:'max_ticks=20',state,
+        query:options.query||'max_ticks=20',state,
         async prepare(){advance(2);await options.prepare?.();},
         onPlan(){advance(17);options.onPlan?.();},
         onStatus(value){if(value==='playing')advance(19);options.onStatus?.(value);}});
@@ -119,4 +119,25 @@ test('cancel during preparation records a null request id and excludes its late 
     assert.equal(attempt.outcome,'aborted');assert.equal(attempt.request_id,null);assert.equal(attempt.total_ms,11);
     g.advance(1000);gate.resolve();await solving;
     assert.equal(g.requests.length,0);assert.equal(attempt.total_ms,11);assert.equal(attempt.late_settlement.outcome,'stale');
+});
+
+test('explicit observation query options reach the solver request and reproducible recipe',async()=>{
+    const g=boot({query:'max_ticks=20&observation_chunk_ticks=480&observation_preview_ticks=480&observation_preview_reads=128&observation_goal_retries=1&workers=4'});
+    await g.start();assert.equal(g.state.status,'playing');
+    const expected={observation_chunk_ticks:480,observation_preview_ticks:480,
+        observation_preview_reads:128,observation_goal_retries:true,workers:4};
+    for(const [key,value] of Object.entries(expected)) {
+        assert.equal(g.requests[0].payload[key],value);
+        assert.equal(g.state.request_recipe[key],value);
+    }
+});
+test('observation options stay omitted by default and preserve an explicit disabled retry flag',async()=>{
+    const basic=boot();await basic.start();
+    for(const key of ['observation_chunk_ticks','observation_preview_ticks','observation_preview_reads','observation_goal_retries','workers']) {
+        assert.equal(Object.hasOwn(basic.requests[0].payload,key),false);
+        assert.equal(Object.hasOwn(basic.state.request_recipe,key),false);
+    }
+    const disabled=boot({query:'max_ticks=20&observation_goal_retries=0'});await disabled.start();
+    assert.equal(disabled.requests[0].payload.observation_goal_retries,false);
+    assert.equal(disabled.state.request_recipe.observation_goal_retries,false);
 });

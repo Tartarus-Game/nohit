@@ -59,6 +59,101 @@ def _wave_frame(wave,tick):
         polygons=_finite_rows(wave.geometry_polygons[tick],8))
 
 
+def build_csv_entry_scene(path, result, *, initial_environment=None, initial_arena=None, dt_schedule=None,
+                          clock_start_ms=None, seed=None, max_ticks=None, termination_policy=None):
+    """Rebuild only the source entry frame for an already certified native route.
+
+    solve_csv still independently verifies every physical transition before it
+    returns a candidate. Native playback additionally compares this source
+    entry with the actual paused game. Building its single frame needs no
+    padded geometry history or persistent environment ancestry.
+    """
+    from nohit.engine import resumable_wave as world
+    if result.get('status')!='candidate_found' or result.get('verified') is not True:
+        raise ValueError('verified candidate required')
+    path=Path(path);source_hash=hashlib.sha256(path.read_bytes()).hexdigest()
+    if source_hash!=result.get('csv_sha256'):raise ValueError('CSV identity mismatch')
+    actions=result.get('actions');confirms=result.get('confirm_sequence')
+    if not isinstance(actions,(list,tuple)) or any(type(mask) is not int or not 0<=mask<16 for mask in actions):
+        raise ValueError('arrow action sequence required')
+    if not isinstance(confirms,(list,tuple)) or len(confirms)!=len(actions) or any(type(value) is not bool for value in confirms):
+        raise ValueError('one boolean Confirm value per action required')
+    n=len(actions);trace=np.asarray(result.get('trajectory'),dtype=np.float64)
+    if trace.shape!=(n+1,11) or not np.isfinite(trace).all():raise ValueError('trajectory tick count mismatch')
+    if result.get('reached_tick')!=n:raise ValueError('terminal tick mismatch')
+    expected_dt=np.asarray(result.get('dt_sequence'),dtype=np.float64)
+    if expected_dt.shape!=(n+1,) or not np.isfinite(expected_dt).all() or np.any(expected_dt<=0.):
+        raise ValueError('complete positive per-tick clock required')
+    completion=result.get('completion')
+    if not isinstance(completion,dict) or completion.get('tick')!=n or completion.get('kind') not in ('endattack','eof_invariant'):
+        raise ValueError('explicit completion kind required')
+    clock=result.get('clock',{});protocol=clock.get('protocol')
+    if protocol=='explicit_dt_schedule' and dt_schedule is None:
+        raise ValueError('full explicit dt_schedule required')
+    if protocol=='native_fixed_240' and clock_start_ms is None:clock_start_ms=result.get('clock_start_ms')
+    actual_protocol='explicit_dt_schedule' if dt_schedule is not None else 'native_fixed_240' if clock_start_ms is not None else 'nominal_240'
+    if actual_protocol!=protocol:raise ValueError('clock protocol mismatch')
+    seed=result.get('seed',42) if seed is None else seed
+    max_ticks=result.get('max_ticks',40000) if max_ticks is None else max_ticks
+    initial_arena=result.get('initial_arena') if initial_arena is None else initial_arena
+    policy=result.get('termination_policy','endattack')
+    if termination_policy is not None and termination_policy!=policy:raise ValueError('termination policy mismatch')
+    template=ParametricEnvironment(path,seed=seed,initial_environment=initial_environment,
+        initial_arena=initial_arena,dt_schedule=dt_schedule,clock_start_ms=clock_start_ms,
+        max_ticks=max_ticks,termination_policy=policy)
+    if clock_sequence(template)[:n+1].tobytes()!=expected_dt.tobytes():
+        raise ValueError('candidate dt is not the exact full-clock prefix')
+    if template.dt_schedule is not None:
+        digest=hashlib.sha256(np.asarray(template.dt_schedule,dtype='<f8').tobytes()).hexdigest()
+        if clock.get('schedule_count')!=len(template.dt_schedule) or clock.get('schedule_sha256')!=digest:
+            raise ValueError('full clock identity mismatch')
+    history=tuple(tuple(row) for row in result.get('target_history',()))
+    base_history=history;provenance=result.get('environment_provenance')
+    expected_identity=result.get('environment_binding_identity')
+    if provenance is not None:
+        base_history=tuple(tuple(row) for row in provenance.get('base_target_history',()))
+        if (provenance.get('kind')!='controlled' or provenance.get('base_binding_identity')!=expected_identity
+                or provenance.get('final_binding_identity')!=result.get('controlled_environment_binding_identity')
+                or encode_typed(history[:len(base_history)])!=encode_typed(base_history)):
+            raise ValueError('controlled environment provenance mismatch')
+    # Identity construction is cheap and does not bind or materialize a world.
+    if template._history_key(base_history).hex()!=expected_identity:
+        raise ValueError('environment binding identity mismatch')
+    initial_confirm=result.get('initial_confirm',False);previous_confirm=result.get('previous_confirm',False)
+    if type(initial_confirm) is not bool or type(previous_confirm) is not bool:
+        raise ValueError('initial Confirm history required')
+    if result.get('primed_initial_frame') is True and result.get('initial_frame_control')!=(int(trace[0,4])|(32 if initial_confirm else 0)):
+        raise ValueError('initial control mismatch')
+    state=world.initialize(path,seed=seed,initial_environment=initial_environment,initial_arena=initial_arena,
+        dt_schedule=template.dt_schedule,
+        termination_policy=policy,max_ticks=1)
+    initial_targets=tuple(row for row in history if row[0]==0);consumed=0
+    edge=world.advance_with_dialogue_input(state,confirm=initial_confirm,cancel=False,
+        previous_confirm=previous_confirm,previous_cancel=False)
+    while isinstance(edge,world.NeedTarget):
+        if consumed>=len(initial_targets):raise ValueError('missing frame-zero target read')
+        row=initial_targets[consumed]
+        if tuple(row[:2])!=(0,edge.request['line']):raise ValueError('frame-zero target history mismatch')
+        state=world.supply_target(edge,row[2:])
+        if np.asarray(state.supplied_target,dtype=np.float64).tobytes()!=np.asarray(row[2:],dtype=np.float64).tobytes():
+            raise ValueError('frame-zero target contradicts source teleport')
+        consumed+=1
+        edge=world.advance_with_dialogue_input(state,confirm=initial_confirm,cancel=False)
+    if (not isinstance(edge,(world.TickCommitted,world.Terminal)) or edge.frame is None
+            or edge.frame.tick!=0 or consumed!=len(initial_targets)
+            or encode_typed(tuple(edge.frame.target_history))!=encode_typed(initial_targets)):
+        raise ValueError('unresolved or mismatched source entry frame')
+    if np.asarray([edge.frame.env[7]],dtype=np.float64).tobytes()!=expected_dt[:1].tobytes():
+        raise ValueError('entry frame dt mismatch')
+    if frame_collision(edge.frame,trace[0]):raise ValueError('candidate entry collision')
+    scene=_scene(0,0.,edge.frame,trace[0],initial_confirm)
+    if hashlib.sha256(path.read_bytes()).hexdigest()!=source_hash:raise ValueError('CSV changed during entry rebuild')
+    return dict(schema_version=1,mode='entry',frame_count=1,candidate_frame_count=n+1,
+        scope='verified_source_model_entry',csv_sha256=source_hash,
+        environment_binding_identity=expected_identity,original_replay_passed=False,
+        complete_in_original_game=False,end_reason=completion['kind'],frames=[scene])
+
+
 def build_csv_visualization(path, result, *, initial_environment=None, initial_arena=None, dt_schedule=None,
                             clock_start_ms=None, seed=None, max_ticks=None, termination_policy=None):
     """Return JSON-ready exact scenes; reject unverified or mismatched inputs.

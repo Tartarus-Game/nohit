@@ -8,6 +8,7 @@
     // shell and the Normal campaign both show it from one implementation.
     function show(value,state) {
         const badge=document.getElementById('tas-status-badge');
+        if(window.NoHitCsvRoundController.showDiagnostic(badge,value==='unknown'?state.diagnostic:null))return;
         if(value==='completed'&&state.completion_kind==='eof_invariant') {
             if(badge)badge.textContent='EOF 无伤执行完成，等待独立验收';
             return;

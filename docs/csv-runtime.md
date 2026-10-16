@@ -6,6 +6,14 @@
 
 Dashboard 的 CSV 页面可以选择或导入文件，打开原版 Custom 模式，捕获真实入口后求解并执行。捕获字段包括完整玩家 `initial`、TLPlay 前的 `initial_environment` 和 `initial_arena`、独立的 `initial_confirm` / `previous_confirm`，以及同一首帧真实发生的 `initial_target_history`。
 
+导入预检和求解结果将已审计的原版空调用放入 `warnings`，保留行号、名称、源文本与延时，并继续执行。名单为 `Score`、`mus_zz_megalovania`、`setmaxhp`、`damafeeplayer`、`NoTooth`（忽略大小写），仅在原版 `data.js` / `c2runtime.js` 身份匹配时有效。这些名称没有处理器，不会自动修正为近似名称；其他未建模机制仍列入阻断的 `issues`。能继续执行不代表已得到无伤路线，仍需完成求解和原版验收。
+
+Dashboard 导入与直接求解 API 默认清空 CSV 中显式 `DamagePlayer` 的命令单元格，保留原延时和行号，并报告 `scripted_damage_disabled` 警告。原始文件不变，原始字节和可执行字节分别绑定 SHA256；有清理的导入通过 `import_id`、`preparation` 和 `original_url` 保留追溯。模型、逐帧几何和原游戏均使用清理后的执行源；原游戏的碰撞伤害函数保持有效。
+
+页面默认使用自动预算，不要求用户填写初态、宽度或秒数。API 的 `budget_mode="auto"` 根据时长、指令数和目标读取数选择现有求解参数；长目标脚本自动分窗与前视。有限失败最多自动加宽一次，搜索预算合计上限 180 秒，准备和复验另外计时。结果的 `budget_selection` 记录实际参数和尝试。`budget_mode="manual"` 或旧 API 的显式预算参数保留手动行为；页面手动项位于高级设置。
+
+真机执行请求使用 `visualization_mode="entry"`，只重建用于核对原版入口的第 0 帧，避免为长谱额外分配整段预览几何。完整路线仍经过求解器的独立源算子复验，原游戏执行后仍须逐 tick 独立验收。高级模型预览默认保留完整逐帧展示。
+
 玩家状态来自源首帧提交后的边界，环境和场地参数保留其各自的原版相位，不能用当前可见边框替代完整场地状态。目标读取发生在函数触发时；其后的传送或 clamp 后坐标不能替代该读取。
 
 原版使用时间戳差并将 dt 钳制到 `1/30`。较高名义帧率的 binary64 时间戳差并非恒等的 `1/fps`。真实入口保存的 `dt_schedule` 必须原样复用；每个输入只推进一个相同时间戳协议下的原生 tick。

@@ -110,11 +110,13 @@ static bool solid(double x,double y,double dy,double dir,const double* e,
     const double l=e[j],t=e[j+1],r=e[j+2],b=e[j+3],qx=x+ox,qy=y+oy;
     if(overlap(qx,qy,l,t,r,t+5.) || overlap(qx,qy,l,t,l+5.,b) ||
        overlap(qx,qy,l,b-5.,r,b) || overlap(qx,qy,r-5.,t,r,b))return true;
-    // Match the existing source operator, including its downward-only platform contract.
-    if(dir==1.)for(int i=0;i<np;i++) {
+    // Both vertical platform branches are enabled in the checked-in runtime.
+    if(dir==1. || dir==3.)for(int i=0;i<np;i++) {
         const double* p=platforms+i*9;
-        if(p[old?7:6] && overlap(qx,qy,p[0],p[1],p[0]+p[2],p[1]+p[3]) &&
-           p[1]>y && dy>=p[old?8:5] && y+8.<=p[1]+2.)return true;
+        if(p[old?7:6] && overlap(qx,qy,p[0],p[1],p[0]+p[2],p[1]+p[3])) {
+            if(dir==1. && p[1]>y && dy>=p[old?8:5] && y+8.<=p[1]+2.)return true;
+            if(dir==3. && p[1]<y && dy<=p[old?8:5] && y-8.>=p[1]+p[3]-2.)return true;
+        }
     }
     return false;
 }
@@ -133,9 +135,9 @@ static bool clear_sweep(double x0,double y0,double x1,double y1,double dy,double
     if(!std::isfinite(x1) || !std::isfinite(y1))return false;
     double left=std::min(x0,x1),right=std::max(x0,x1),top=std::min(y0,y1),bottom=std::max(y0,y1);
     if(!(left-8.>e[14]+5. && right+8.<e[16]-5. && top-8.>e[15]+5. && bottom+8.<e[17]-5.))return false;
-    if(dir==1.)for(int i=0;i<np;i++) {
+    if(dir==1. || dir==3.)for(int i=0;i<np;i++) {
         const double* row=p+i*9;
-        if(row[7] && dy>=row[8] && right+8.>=row[0] && left-8.<=row[0]+row[2] &&
+        if(row[7] && (dir==1.?dy>=row[8]:dy<=row[8]) && right+8.>=row[0] && left-8.<=row[0]+row[2] &&
             bottom+8.>=row[1] && top-8.<=row[1]+row[3])return false;
     }
     return true;
@@ -223,6 +225,11 @@ static void finish_step(const State& s,int mask,const double* e,const double* p,
                 const double* q=p+i*9;
                 if(q[6] && overlap(x+gx*.5,y+gy*.5,q[0],q[1],q[0]+q[2],q[1]+q[3]) &&
                    dy>=q[5] && y+8.<=q[1]+2.){dx=q[4];dy=q[5];y=q[1]-8.05;}
+            }
+            else if(dir==3.)for(int i=0;i<np;i++) {
+                const double* q=p+i*9;
+                if(q[6] && overlap(x+gx*.5,y+gy*.5,q[0],q[1],q[0]+q[2],q[1]+q[3]) &&
+                   q[1]<y && dy<=q[5] && y-8.>=q[1]+q[3]-2.){dx=q[4];dy=q[5];y=q[1]+q[3]+8.05;}
             }
             dx=dx+ux*speed;
         }

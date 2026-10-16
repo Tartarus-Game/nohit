@@ -1,0 +1,15 @@
+{
+  "description": "First divergent tick from a native 60 Hz CSV replay: upward slam stops on the underside of a moving platform. The prior 11065 input frames matched the model.",
+  "source_evidence": "build/unsupported-repro/default-native-failed.json",
+  "source_evidence_sha256": "88ccec2a7b88c15ea76c734fae0f198874f9f535c8ad5961aef4a32971bb3fbd",
+  "source_data_sha256": "9f70e7179fe4260002321a75e5170e96583439bb39988b92ed93da42a0a402c7",
+  "solid_event_sid": 2332670214936478,
+  "carry_event_sid": 6626973457028389,
+  "before_tick": 11076,
+  "after_tick": 11077,
+  "input": 0,
+  "before": [451.99999999984425, 327.80624999991466, 0, -750, 0, 1, 1, 3, 750, 0, 0],
+  "environment": [133, 251, 508, 391, 1, 3, 0, 0.016666666666656966, 750, 0, 0, 0, 0, 0, 133, 251, 508, 391, 133, 251, 508, 391],
+  "platforms": [[446.33333333268655, 301, 45, 7, 100, 0, 1, 1, 0]],
+  "after": [451.99999999984425, 316.05, 100, 0, 0, 0, 1, 3, 750, 0, 0]
+}

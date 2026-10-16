@@ -1,6 +1,7 @@
 """Direct local CSV input for the source-model dashboard."""
 import hashlib
 import math
+import os
 from pathlib import Path
 import tempfile
 import time
@@ -9,6 +10,8 @@ import uuid
 import numpy as np
 
 from nohit.engine.csv_solver import solve_csv
+from nohit.engine.csv_preparation import prepare_csv_bytes
+from nohit.engine.timeline_csv import read_timeline_rows
 
 from . import solve_progress
 
@@ -16,7 +19,8 @@ from . import solve_progress
 _ROOT = Path(__file__).resolve().parents[2]
 IMPLEMENTATION_PATHS = tuple(sorted(
     [path.relative_to(_ROOT).as_posix() for path in (_ROOT/'nohit/engine').glob('*.py')]
-    + ['nohit/engine/native_frontier.cpp', 'nohit/__init__.py', 'nohit/dashboard/csv_api.py', 'nohit/dashboard/csv_visualization.py', 'nohit/dashboard/server.py', 'start_dashboard.py']))
+    + ['nohit/engine/native_frontier.cpp', 'nohit/__init__.py', 'nohit/dashboard/csv_api.py',
+       'nohit/dashboard/csv_source.py', 'nohit/dashboard/csv_visualization.py', 'nohit/dashboard/server.py', 'start_dashboard.py']))
 
 
 def implementation_hashes():
@@ -27,6 +31,89 @@ def implementation_hashes():
 # A long-running dashboard must not claim newly edited files describe its
 # already imported implementation. Restart it when solver sources change.
 _LOADED_IMPLEMENTATION = implementation_hashes()
+
+_OBSERVATION_OPTIONS = ('observation_chunk_ticks', 'observation_preview_ticks',
+                        'observation_preview_reads', 'observation_goal_retries')
+_BUDGET_OPTIONS = ('width', 'seconds', 'workers', *_OBSERVATION_OPTIONS)
+_AUTO_RETRY_REASONS = {'wall_budget', 'frontier_exhausted', 'native_search_limited',
+                       'native_observation_budget'}
+
+
+def _budget_selection(data, path):
+    """Choose existing solver settings from source size, without predicting safety.
+
+    Literal delays are a sizing estimate: jumps, dialogue and dynamic delays can
+    change the actual runtime. The solver's complete clock remains authoritative.
+    Explicit old API requests keep their manual settings for compatibility.
+    """
+    mode = data.get('budget_mode')
+    if mode is None:
+        mode = 'manual' if any(name in data for name in _BUDGET_OPTIONS) else 'auto'
+    if mode not in ('auto', 'manual'):
+        raise ValueError("budget_mode must be 'auto' or 'manual'")
+    duration = 0.; commands = 0; target_reads = 0; dynamic_delays = 0
+    for row in read_timeline_rows(path):
+        if len(row) < 2:
+            continue
+        command = row[1].strip().lower()
+        commands += bool(command)
+        target_reads += command == 'getheartpos'
+        try:
+            delay = float(row[0] or 0)
+            if not math.isfinite(delay) or delay < 0:
+                raise ValueError()
+            duration += delay
+        except ValueError:
+            dynamic_delays += 1
+    summary = dict(timeline_seconds=duration, command_count=commands,
+                   target_reads=target_reads, dynamic_delay_rows=dynamic_delays,
+                   duration_is_estimate=True)
+    if mode == 'manual':
+        selected = dict(width=data.get('width', 3000), seconds=data.get('seconds', 30),
+                        workers=data.get('workers'))
+        selected.update({name: data[name] for name in _OBSERVATION_OPTIONS if name in data})
+        return dict(mode=mode, profile='manual', source_summary=summary, selected=selected,
+                    total_search_seconds_limit=selected['seconds'], max_attempts=1, attempts=[])
+    if duration >= 120 or commands >= 2000 or target_reads >= 64:
+        profile, width, seconds = 'long', 8192, 90
+    elif duration >= 30 or commands >= 250 or target_reads >= 8:
+        profile, width, seconds = 'medium', 4096, 60
+    else:
+        profile, width, seconds = 'short', 2048, 30
+    selected = dict(width=width, seconds=seconds, workers=min(4, max(1, os.cpu_count() or 1)))
+    if profile == 'long' and target_reads:
+        selected.update(observation_chunk_ticks=480, observation_preview_ticks=480,
+                        observation_preview_reads=128, observation_goal_retries=True)
+    return dict(mode=mode, profile=profile, source_summary=summary, selected=selected,
+                total_search_seconds_limit=180, max_attempts=2, attempts=[])
+
+
+def _run_budgeted_csv(path, initial, budget, reporter, **settings):
+    """Run at most one wider fresh attempt for bounded auto search failures."""
+    selected = dict(budget['selected'])
+    allocated = 0.
+    started = time.perf_counter()
+    for attempt in range(1, budget['max_attempts'] + 1):
+        began = time.perf_counter()
+        result = solve_csv(path, initial, **settings, **selected)
+        budget['attempts'].append(dict(selected, attempt=attempt, status=result['status'],
+            reason=result.get('reason'), wall_seconds=time.perf_counter()-began))
+        if budget['mode'] != 'auto':
+            break
+        allocated += selected['seconds']
+        if (result['status'] != 'unknown' or result.get('reason') not in _AUTO_RETRY_REASONS
+                or attempt == budget['max_attempts']):
+            break
+        remaining = min(budget['total_search_seconds_limit']-allocated,
+                        budget['total_search_seconds_limit']-(time.perf_counter()-started))
+        if remaining < 1:
+            break
+        selected = dict(selected, width=min(16384, selected['width']*2), seconds=min(90, remaining))
+        if reporter is not None:
+            reporter.phase('prepare', tick=None, alive_states=None, expanded_states=None,
+                           message='自动增加搜索预算并重新求解')
+    result['budget_selection'] = budget
+    return result
 
 
 def solve_csv_request(data):
@@ -42,7 +129,7 @@ def solve_csv_request(data):
         if not isinstance(progress_id, str) or not progress_id or len(progress_id) > 128:
             raise ValueError('progress_id must be a nonempty string of at most 128 characters')
         reporter = solve_progress.begin(progress_id, engine='native-csv',
-                                        seconds_budget=data.get('seconds', 30),
+                                        seconds_budget=None,
                                         ticks=data.get('max_ticks'))
     try:
         return _solve_csv_request(data, reporter)
@@ -61,6 +148,9 @@ def _solve_csv_request(data, reporter):
     """
     if not isinstance(data, dict):
         raise ValueError('Request must be a JSON object')
+    visualization_mode = data.get('visualization_mode', 'full')
+    if visualization_mode not in ('full', 'entry'):
+        raise ValueError("visualization_mode must be 'full' or 'entry'")
     request_id = data.get('request_id', str(uuid.uuid4()))
     if not isinstance(request_id, str) or not request_id or len(request_id) > 128:
         raise ValueError('request_id must be a nonempty string of at most 128 characters')
@@ -121,21 +211,32 @@ def _solve_csv_request(data, reporter):
             path.write_bytes(text.encode('utf-8'))
         if path.suffix.lower() != '.csv' or not path.is_file():
             raise ValueError('CSV file does not exist')
-        result = solve_csv(path, initial, **settings, width=data.get('width', 3000),
-            seconds=data.get('seconds', 30),
+        prepared = prepare_csv_bytes(path.read_bytes())
+        # Freeze every captured source, including imports needing no cleanup.
+        # Budgeting, search and visualization must share these exact bytes.
+        path = Path(folder)/path.name
+        path.write_bytes(prepared['raw'])
+        budget = _budget_selection(data, path)
+        if reporter is not None:
+            limit = budget['total_search_seconds_limit']
+            reporter.update(_seconds_budget=limit if type(limit) in (int, float) and math.isfinite(limit) and limit > 0 else None)
+        result = _run_budgeted_csv(path, initial, budget, reporter, **settings,
             initial_confirm=data.get('initial_confirm',False),
             previous_confirm=data.get('previous_confirm',False),
             initial_target_history=data.get('initial_target_history'), progress=progress,
-            search_strategy=data.get('search_strategy','auto'),workers=data.get('workers'),
-            memory_mb=data.get('memory_mb',64))
+            search_strategy=data.get('search_strategy','auto'),memory_mb=data.get('memory_mb',64))
         result['initial'] = initial.tolist()
         result['initial_environment'] = environment
+        result['source_preparation'] = prepared['preparation']
+        result['warnings'] = sorted(prepared['warnings']+result.get('warnings',[]), key=lambda row: row['line'])
+        result['visualization_mode'] = visualization_mode
         if result['status'] == 'candidate_found':
-            from .csv_visualization import build_csv_visualization
+            from .csv_visualization import build_csv_visualization, build_csv_entry_scene
             if reporter is not None:
                 reporter.phase('visualization')
             started = time.perf_counter()
-            result['visualization'] = build_csv_visualization(path, result, **settings)
+            builder = build_csv_entry_scene if visualization_mode == 'entry' else build_csv_visualization
+            result['visualization'] = builder(path, result, **settings)
             result['visualization_seconds'] = time.perf_counter()-started
         result['request_seconds'] = time.perf_counter()-began
         if implementation_hashes() != _LOADED_IMPLEMENTATION:

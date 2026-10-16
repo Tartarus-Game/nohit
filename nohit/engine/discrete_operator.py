@@ -84,14 +84,17 @@ def heart_solid(x, y, dy, direction, bounds, platforms, ox=0., oy=0., old=False)
     if (overlaps(qx,qy,l,t,r,t+5.) or overlaps(qx,qy,l,t,l+5.,b)
             or overlaps(qx,qy,l,b-5.,r,b) or overlaps(qx,qy,r-5.,t,r,b)):
         return True
-    # Three rotated platform contact variants are disabled in the source.
-    if direction == 1:
+    # The checked-in runtime exports both vertical contact variants; the
+    # historical CAPX excerpt incorrectly disabled its upward branch.
+    if direction == 1 or direction == 3:
         for p in platforms:
             active=p[7] if old and len(p)>7 else p[6]
             platform_dy=p[8] if old and len(p)>8 else p[5]
-            if (active and overlaps(qx,qy,p[0],p[1],p[0]+p[2],p[1]+p[3])
-                    and p[1] > y and dy >= platform_dy and y+8. <= p[1]+2.):
-                return True
+            if active and overlaps(qx,qy,p[0],p[1],p[0]+p[2],p[1]+p[3]):
+                if direction == 1 and p[1] > y and dy >= platform_dy and y+8. <= p[1]+2.:
+                    return True
+                if direction == 3 and p[1] < y and dy <= platform_dy and y-8. >= p[1]+p[3]-2.:
+                    return True
     return False
 
 
@@ -221,6 +224,11 @@ The caller checks hazards after this operator and rejects out[10] != 0.
                     if (p[6] and overlaps(x+gx*.5,y+gy*.5,p[0],p[1],p[0]+p[2],p[1]+p[3])
                             and dy>=p[5] and y+8.<=p[1]+2.):
                         dx,dy,y=p[4],p[5],p[1]-8.05
+            elif direction==3.:
+                for p in platforms:
+                    if (p[6] and overlaps(x+gx*.5,y+gy*.5,p[0],p[1],p[0]+p[2],p[1]+p[3])
+                            and p[1]<y and dy<=p[5] and y-8.>=p[1]+p[3]-2.):
+                        dx,dy,y=p[4],p[5],p[1]+p[3]+8.05
             dx=dx+ux*speed
     # The top-level CombatZone group runs AFTER PlayerMovement in Battle.xml.
     x,y=clamp_to_arena(x,y,env,0)

@@ -5,10 +5,7 @@ from types import SimpleNamespace
 import numpy as np
 
 from .execution_schedule import execution_schedule
-
-
-AUDITED_NO_ACTION_COMMANDS = frozenset(('score', 'mus_zz_megalovania'))
-NO_ACTION_SOURCE_AUDIT = 'jcw87-absent-function-registry-20261007'
+from .native_function_dispatch import AUDITED_NO_ACTION_COMMANDS, NO_ACTION_SOURCE_AUDIT
 
 
 def wave_terminal(wave):

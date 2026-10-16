@@ -221,3 +221,69 @@ def test_primed_scene_rejects_changed_initial_confirm_history(tmp_path):
     changed=copy.deepcopy(result);changed['initial_confirm']=False
     with pytest.raises(ValueError,match='initial control'):
         build_csv_visualization(path,changed,initial_environment=env,dt_schedule=SCHEDULE)
+
+
+@pytest.mark.parametrize('text',[
+    '0,HeartMode,0\n0,Platform,100,350,50,0,30,1\n0,BoneV,100,100,20,0,0\n0.1,EndAttack\n',
+    '0,HeartMode,0\n0,GetHeartPos,x,y\n0,GetHeartPos,bx,by\n0,BoneV,$x,100,12,0,0\n0.1,EndAttack\n',
+])
+def test_entry_scene_matches_full_frame_zero_without_materializing_world_history(tmp_path,monkeypatch,text):
+    from nohit.dashboard import csv_visualization
+    path,result=solve(tmp_path,text)
+    expected=build_csv_visualization(path,result,dt_schedule=SCHEDULE)['frames'][0]
+    def forbidden(*args,**kwargs):
+        raise AssertionError('entry scene must not materialize an entire environment binding')
+    monkeypatch.setattr(ParametricEnvironment,'bind',forbidden)
+    monkeypatch.setattr(ParametricEnvironment,'_materialize',forbidden)
+    visual=csv_visualization.build_csv_entry_scene(path,result,dt_schedule=SCHEDULE)
+    assert visual['frames']==[expected]
+    assert visual['frame_count']==1 and visual['mode']=='entry'
+    assert visual['candidate_frame_count']==len(result['trajectory'])
+    assert visual['original_replay_passed'] is False
+    json.dumps(visual,allow_nan=False)
+
+
+@pytest.mark.parametrize('initial_confirm,previous_confirm',[(False,False),(True,False),(True,True)])
+def test_entry_scene_rebuilds_initial_dialogue_and_confirm_edge(tmp_path,initial_confirm,previous_confirm):
+    from nohit.dashboard.csv_visualization import build_csv_entry_scene
+    observed=INITIAL.copy();observed[2]=150.;observed[4]=2.
+    path,result,env=primed_fixture(tmp_path,initial=observed,
+        initial_confirm=initial_confirm,previous_confirm=previous_confirm)
+    full=build_csv_visualization(path,result,initial_environment=env,dt_schedule=SCHEDULE)
+    entry=build_csv_entry_scene(path,result,initial_environment=env,dt_schedule=SCHEDULE)
+    assert entry['frames']==full['frames'][:1]
+    assert entry['frames'][0]['player']==observed
+
+
+@pytest.mark.parametrize('change',[
+    lambda r:r.update(verified=False),
+    lambda r:r.update(csv_sha256='bad'),
+    lambda r:r.update(environment_binding_identity='bad'),
+    lambda r:r['target_history'][0].__setitem__(2,r['target_history'][0][2]+1),
+    lambda r:r['dt_sequence'].__setitem__(0,r['dt_sequence'][0]*2),
+])
+def test_entry_scene_rejects_foreign_source_clock_or_initial_target(tmp_path,change):
+    from nohit.dashboard.csv_visualization import build_csv_entry_scene
+    path,result=solve(tmp_path,'0,HeartMode,0\n0,GetHeartPos,x,y\n0.1,EndAttack\n')
+    changed=copy.deepcopy(result);change(changed)
+    with pytest.raises(ValueError):build_csv_entry_scene(path,changed,dt_schedule=SCHEDULE)
+
+
+def test_entry_scene_supports_native_timestamp_clock(tmp_path):
+    from nohit.dashboard.csv_visualization import build_csv_entry_scene
+    path=tmp_path/'entry-clock.csv';path.write_text('0,HeartMode,0\n0.1,EndAttack\n')
+    result=solve_csv(path,INITIAL,clock_start_ms=971260.6666634805,max_ticks=100,width=1)
+    expected=build_csv_visualization(path,result)['frames'][0]
+    assert build_csv_entry_scene(path,result)['frames']==[expected]
+
+
+def test_entry_scene_retains_the_verified_eof_release_certificate(tmp_path):
+    from nohit.dashboard.csv_visualization import build_csv_entry_scene
+    path=tmp_path/'entry-eof.csv';path.write_text('0,HeartMode,0\n0.1,Wait\n')
+    result=solve_csv(path,INITIAL,dt_schedule=SCHEDULE,max_ticks=100,width=1,
+        termination_policy='eof_hazards_drained')
+    expected=build_csv_visualization(path,result,dt_schedule=SCHEDULE)['frames'][0]
+    entry=build_csv_entry_scene(path,result,dt_schedule=SCHEDULE)
+    assert entry['frames']==[expected] and entry['end_reason']=='eof_invariant'
+    assert result['completion']['model_verified'] is True
+    assert result['completion']['native_verified'] is False

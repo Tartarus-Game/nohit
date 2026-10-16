@@ -90,6 +90,18 @@ def test_audited_absent_functions_keep_their_delays(tmp_path):
     assert result['trajectory']==reference['trajectory']
 
 
+def test_realhell_absent_functions_warn_and_keep_native_timing(tmp_path):
+    text='0,HeartMode,0\n0.1,setmaxhp,92\n0.1,damafeeplayer,0\n0.1,NoTooth,0\n'
+    path,result=solve(tmp_path,text)
+    check(path,result)
+    assert [(warning['line'], warning['command']) for warning in result['warnings']] == [
+        (2, 'setmaxhp'), (3, 'damafeeplayer'), (4, 'NoTooth')]
+    _,reference=solve(tmp_path,'0,HeartMode,0\n0.1,Sound,a\n0.1,Sound,b\n0.1,Sound,c\n')
+    assert result['completion']['drain_tick']==reference['completion']['drain_tick']>0
+    assert result['dt_sequence']==reference['dt_sequence']
+    assert result['trajectory']==reference['trajectory']
+
+
 @pytest.mark.parametrize('text',[
     '0,Platform,100,350,40,0,0\n',
     '0,AnUnauditedFunction,x\n',

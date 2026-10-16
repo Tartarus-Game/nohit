@@ -1,6 +1,7 @@
 """Source admission checks; no search kernels or JIT preparation."""
 import math
 from .timeline_csv import read_timeline_rows
+from .native_function_dispatch import audited_no_action_command
 
 STATIC_COMMANDS={'combatzoneresize','heartteleport','heartmode','tlpause','endattack','bonev','boneh','bonevrepeat','bonehrepeat'}
 PURE_COMMANDS={'set','add','sub','mul','rnd','jmpe','jmpne','jmpnl','jmprel','jmpabs'}
@@ -20,9 +21,27 @@ REQUIRED_TEXT_ARGUMENTS={command:(0,) for command in (
 # explicit empty strings (key ""). The shared nine-slot dispatcher preserves
 # that distinction; target-history admission below remains independently gated.
 def model_issues(path, allow_player_history=False,termination_policy='endattack',allow_scripted_healing=False,allow_scripted_damage=False):
+    return timeline_issues(read_timeline_rows(path), allow_player_history=allow_player_history,
+        termination_policy=termination_policy, allow_scripted_healing=allow_scripted_healing,
+        allow_scripted_damage=allow_scripted_damage)
+
+
+def native_source_diagnostics(rows, **settings):
+    """Separate blocking model gaps from source-bound native empty calls."""
+    issues=[];warnings=[]
+    for issue in timeline_issues(rows, **settings):
+        if (issue.get('reason')=='mechanism_not_validated' and
+                audited_no_action_command(issue.get('command','').strip())):
+            warnings.append(dict(issue,reason='native_function_has_no_handler'))
+        else:
+            issues.append(issue)
+    return dict(issues=issues,warnings=warnings)
+
+
+def timeline_issues(rows, allow_player_history=False,termination_policy='endattack',allow_scripted_healing=False,allow_scripted_damage=False):
+    """Check already captured native rows without reading a mutable source again."""
     if termination_policy not in ('endattack','eof_hazards_drained'):
         raise ValueError('invalid termination policy')
-    rows=read_timeline_rows(path)
     issues=[]
     elapsed=0.
     preparation_finished=False

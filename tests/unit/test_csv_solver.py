@@ -32,6 +32,45 @@ def check_candidate(result):
     json.dumps(result, allow_nan=False)
 
 
+def test_explicit_observation_segments_report_actual_wall_budget_exhaustion(tmp_path):
+    path=source(tmp_path,'0,HeartMode,0\n0.1,GetHeartPos,x,y\n0.1,EndAttack\n')
+    result=solve_csv(path,INITIAL,dt_schedule=(1/60,)*100,max_ticks=100,
+        width=4,seconds=1e-9,observation_chunk_ticks=6,observation_preview_ticks=6)
+    assert result['status']=='unknown' and result['verified'] is False
+    assert result['reason']=='native_observation_budget'
+    assert not result['deadlock_proven'] and result['actions']==[]
+    assert result['clock']['schedule_count']==100
+
+
+def test_explicit_observation_segments_do_not_call_tick_exhaustion_a_wall_budget(tmp_path):
+    path=source(tmp_path,'0,HeartMode,0\n0.1,GetHeartPos,x,y\n0.1,EndAttack\n')
+    result=solve_csv(path,INITIAL,dt_schedule=(1/60,)*100,max_ticks=1,
+        width=4,seconds=5,observation_chunk_ticks=6,observation_preview_ticks=6)
+    assert result['status']=='unknown' and result['verified'] is False
+    assert result['reason']=='native_scope_or_resource_limit'
+
+
+def test_explicit_observation_segments_keep_unidentified_backend_scope_separate(tmp_path,monkeypatch):
+    from nohit.engine import native_dynamic
+    monkeypatch.setattr(native_dynamic,'find_native_candidate',lambda *args,**kwargs:None)
+    path=source(tmp_path,'0,HeartMode,0\n0.1,GetHeartPos,x,y\n0.1,EndAttack\n')
+    result=solve_csv(path,INITIAL,dt_schedule=(1/60,)*100,max_ticks=100,
+        width=4,seconds=5,observation_chunk_ticks=6,observation_preview_ticks=6)
+    assert result['status']=='unknown' and result['reason']=='native_scope_or_resource_limit'
+
+
+def test_explicit_observation_segments_preserve_a_bounded_search_failure(tmp_path,monkeypatch):
+    from nohit.engine import native_dynamic
+    def limited(path,initial,**settings):
+        return native_dynamic._unknown_candidate(initial,settings,'native_search_limited')
+    monkeypatch.setattr(native_dynamic,'find_native_candidate',limited)
+    path=source(tmp_path,'0,HeartMode,0\n0.1,GetHeartPos,x,y\n0.1,EndAttack\n')
+    result=solve_csv(path,INITIAL,dt_schedule=(1/60,)*100,max_ticks=100,
+        width=4,seconds=5,observation_chunk_ticks=6,observation_preview_ticks=6)
+    assert result['status']=='unknown' and result['reason']=='native_search_limited'
+    assert result['verified'] is False and result['actions']==[]
+
+
 def test_complete_csv_without_dialogue(tmp_path):
     path = source(tmp_path, '0,HeartMode,0\n0.1,EndAttack\n')
     result = solve_csv(path, INITIAL, dt_schedule=(1/30,)*100,

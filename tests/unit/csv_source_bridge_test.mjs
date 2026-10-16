@@ -71,6 +71,26 @@ test('native AJAX loads immutable bytes and MenuCustomRun follows its completion
   assert(g.calls.indexOf('native completed(custom)')<g.calls.indexOf('MenuCustomRun'));
 });
 
+test('an import descriptor carries original preparation while native AJAX still loads the executable identity',async()=>{
+  const raw=Buffer.from('0,HeartMode,0\n0,,1,0\n0,EndAttack\n'),importId='b'.repeat(64);
+  const preparation={original_raw_sha256:importId,executable_raw_sha256:sha(raw),changes:[{line:2,command:'DamagePlayer'}]};
+  const g=boot({raw,query:'?csvtas=1&csv_source='+sha(raw)+'&csv_import='+importId,
+    mutate:source=>Object.assign(source,{import_id:importId,preparation})});
+  await g.ready();assert.deepEqual(g.fetches,['/api/csv-source/import/'+importId]);
+  assert.equal(g.context.__CSV_SOURCE.import_id,importId);assert.equal(g.context.__CSV_SOURCE.raw_sha256,sha(raw));
+  assert.equal(Object.isFrozen(g.context.__CSV_SOURCE),true);
+  g.emit('AttackLoadFinished');g.tick();assert.equal(g.requests[0].url,'/api/csv-source/'+sha(raw)+'.csv');
+  g.complete();g.tick();assert.equal(g.context.__CSV_SOURCE_BRIDGE.status,'entered');
+});
+
+for(const importId of ['','invalid','b'.repeat(64)])test('an invalid or mismatched import identity fails closed '+importId.slice(0,8),async()=>{
+  const raw=Buffer.from('0,EndAttack\n');
+  const g=boot({raw,query:'?csvtas=1&csv_source='+sha(raw)+'&csv_import='+importId,
+    mutate:source=>source.import_id='c'.repeat(64)});
+  await g.ready();assert.equal(g.context.__CSV_SOURCE_BRIDGE.status,'failed');
+  assert.equal(g.requests.length,0);assert.equal(g.rt.suspended,true);
+});
+
 test('the bridge stays inert outside csvtas mode',()=>{
   const g=boot({query:'?attack=custom'});g.emit('AttackLoadFinished');g.tick();
   assert.equal(g.context.__CSV_SOURCE_BRIDGE,undefined);assert.equal(g.fetches.length,0);assert.equal(g.requests.length,0);

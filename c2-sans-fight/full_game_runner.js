@@ -4,7 +4,7 @@
     const query=new URLSearchParams(location.search);
     if(query.get('campaign')!=='1')return;
     const C=window.__CAMPAIGN={version:3,status:'preparing',attack:null,round:null,
-        plans:[],error:null};
+        plans:[],issues:[],diagnostic:null,error:null};
     let rt=null,round=null,active=false,roundNumber=-1,retryWidths=[];
     const stopped=new Set(['solving','unknown','failed','cancelled','stopped']);
     C.canAdvance=()=>!C.error&&!window.__FULL_GAME?.done&&!stopped.has(C.status);
@@ -12,9 +12,10 @@
         boundary:{get:()=>round?.state.boundary?{captured:round.state.boundary,wave:C.attack}:null},
         solvePromise:{get:()=>round?.state.solvePromise},
     });
-    function status(value,detail='') {
+    function status(value,detail='',diagnostic=null) {
         C.status=value;
         const badge=document.getElementById('tas-status-badge');
+        if(window.NoHitCsvRoundController?.showDiagnostic(badge,diagnostic))return;
         if(badge)badge.textContent=({preparing:'推进原版对话',waiting_source:'等待原版攻击',waiting_start:'捕获原版起点',
             solving:'正在解算',playing:'执行数学路线',waiting:'等待下一轮',unknown:'有限搜索未找到候选',
             stopped:'求解暂停',failed:'执行已停止',cancelled:'执行已取消'}[value]||value)+(detail?' · '+detail:'');
@@ -36,9 +37,11 @@
             },
             onStatus(value,state) {
                 if(value==='completed')return;
-                status(value,C.attack||'');
+                C.issues=state.issues;C.diagnostic=state.diagnostic;
+                status(value,C.attack||'',value==='unknown'?state.diagnostic:null);
                 if(value==='failed'||value==='cancelled')C.error=state.error;
-                if(value==='unknown'&&retryIndex<retryWidths.length) {
+                if(value==='unknown'&&state.plan?.budget_selection?.mode!=='auto'&&
+                    state.diagnostic?.retryable!==false&&retryIndex<retryWidths.length) {
                     const generation=state.request_generation;
                     queueMicrotask(()=>{
                         if(round!==controller||!active||C.error||window.__FULL_GAME?.done||window.__FULL_GAME?.firstDamage||

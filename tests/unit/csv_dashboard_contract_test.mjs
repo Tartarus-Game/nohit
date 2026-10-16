@@ -7,7 +7,7 @@ const html = fs.readFileSync(new URL('../../nohit/dashboard/static/index.html', 
 const script = html.match(/<script>([\s\S]*?)<\/script>/)[1];
 
 function page() {
-  const elements = new Map(), keys=[],draws=[];let fetchResult;let submitted;
+  const elements = new Map(), keys=[],draws=[],requests=[];let fetchResult;let submitted;
   const context2d = new Proxy({}, {get:(target,key)=>target[key] || ((...args)=>draws.push({method:key,args})),set:(target,key,value)=>(target[key]=value,true)});
   function element(id) {
     if(!elements.has(id)) elements.set(id,{id,value:'',textContent:'',hidden:false,disabled:false,dataset:{},events:{},attributes:{},
@@ -26,12 +26,12 @@ function page() {
   const context=vm.createContext({document:{getElementById:element,querySelectorAll:()=>keys},
     requestAnimationFrame:()=>1,cancelAnimationFrame(){},performance:{now:()=>1000},
     setInterval:()=>1,clearInterval(){},
-    fetch:async(url,options)=>{submitted={url,payload:JSON.parse(options.body)};return {ok:true,json:async()=>fetchResult};}});
+    fetch:async(url,options)=>{submitted={url,payload:JSON.parse(options.body)};requests.push(submitted);return {ok:true,json:async()=>fetchResult};}});
   vm.runInContext(script,context,{filename:'csv.html'});
   Object.assign(element('initial-state'),{value:'[320,304,0,0,0,0,0,1,750,0,0]'});
   element('initial-environment').value='null';element('fps').value='30';element('seconds').value='30';
   element('width').value='3000';element('speed').value='1';
-  return {element,keys,context,draws,evaluate:code=>vm.runInContext(code,context),
+  return {element,keys,context,draws,requests,evaluate:code=>vm.runInContext(code,context),
     result(value){context.testResult=value;vm.runInContext('showResult(testResult)',context);},
     async submit(value){fetchResult=value;await element('solve-form').events.submit({preventDefault(){}});return submitted;}};
 }
@@ -42,6 +42,36 @@ function candidate() {
   return {status:'candidate_found',verified:true,actions:[2,4],confirm_sequence:[false,true],trajectory:frames.map(f=>f.player),
     wall_seconds:2,game_seconds:.1,visualization:{schema_version:1,scope:'verified_source_model',frame_count:3,frames}};
 }
+
+test('a verified candidate displays no-handler warnings without disabling playback and clears stale warnings',()=>{
+  const p=page(),result=candidate();
+  result.warnings=[{line:5,command:'setmaxhp',reason:'native_function_has_no_handler'},
+    {line:6,command:'damafeeplayer',reason:'native_function_has_no_handler'},
+    {line:153,command:'NoTooth',reason:'native_function_has_no_handler'}];
+  p.result(result);
+  const warning=p.element('source-warnings');
+  assert.equal(warning.hidden,false);assert.match(warning.textContent,/警告.*继续/);
+  for(const item of result.warnings)assert(warning.textContent.includes(`第 ${item.line} 行「${item.command}」`));
+  assert.match(warning.textContent,/原游戏没有对应处理函数/);assert.doesNotMatch(warning.textContent,/native_function_has_no_handler/);
+  assert.equal(p.element('play').disabled,false);assert.equal(p.element('status').dataset.kind,'success');
+  p.result(candidate());assert.equal(warning.hidden,true);assert.equal(warning.textContent,'');
+});
+
+test('sanitized direct damage warns without blocking the verified model candidate',()=>{
+  const p=page(),result=candidate();
+  result.warnings=[{line:2,command:'DamagePlayer',reason:'scripted_damage_disabled'}];p.result(result);
+  assert.match(p.element('source-warnings').textContent,/第 2 行「DamagePlayer」：CSV 直接伤害\/回血指令无法按无伤脚本处理，已禁用（保留延时）/);
+  assert.equal(p.element('source-warnings').hidden,false);assert.equal(p.element('play').disabled,false);
+});
+
+test('automatic budget result shows its profile and a useful retry message without asking for tuning',()=>{
+  const p=page();p.result({status:'unknown',verified:false,reason:'wall_budget',budget_selection:{mode:'auto',profile:'long'}});
+  assert.match(p.element('budget-status').textContent,/自动预算.*长谱/);assert.equal(p.element('budget-status').hidden,false);
+  assert.match(p.element('empty-stage').textContent,/自动尝试后仍未找到完整路线，可重试\/查看详情/);
+  assert.doesNotMatch(p.element('empty-stage').textContent,/调整.*预算/);
+  p.result({status:'unknown',verified:false,reason:'wall_budget',budget_selection:{mode:'manual',profile:'manual'}});
+  assert.match(p.element('budget-status').textContent,/手动预算/);assert.match(p.element('empty-stage').textContent,/调整起点或计算预算/);
+});
 
 test('frame zero is observation; later frames show the input that reached them',()=>{
   const p=page();p.result(candidate());
@@ -79,9 +109,18 @@ test('request uses the direct path or exact pasted CSV API contract',async()=>{
   const p=page();p.element('csv-path').value='C:/Users/example/welcome.csv';
   const unknown={status:'unknown',reason:'wall_budget',verified:false,actions:[]};
   const a=await p.submit(unknown);assert.equal(a.url,'/api/solve-csv');assert.equal(a.payload.csv_path,'C:/Users/example/welcome.csv');
-  assert.equal(a.payload.fps,30);assert.equal(a.payload.seconds,30);assert.equal(a.payload.initial.length,11);assert.equal(a.payload.initial_environment,null);
+  assert.equal(a.payload.fps,30);assert.equal(a.payload.budget_mode,'auto');
+  assert.equal('seconds' in a.payload,false);assert.equal('width' in a.payload,false);
+  assert.equal(a.payload.initial.length,11);assert.equal(a.payload.initial_environment,null);
   p.element('text-tab').events.click();p.element('custom-csv').value='0,HeartMode,0\n0.1,EndAttack\n';
   const b=await p.submit(unknown);assert.equal(b.payload.custom_csv,p.element('custom-csv').value);assert(!('csv_path' in b.payload));
+});
+
+test('manual budget remains an explicit advanced option for source-model requests',async()=>{
+  const p=page();p.element('csv-path').value='C:/x.csv';p.element('budget-mode').value='manual';
+  p.element('seconds').value='7.5';p.element('width').value='1234';
+  const request=await p.submit({status:'unknown',verified:false,reason:'wall_budget'});
+  assert.equal(request.payload.budget_mode,'manual');assert.equal(request.payload.seconds,7.5);assert.equal(request.payload.width,1234);
 });
 
 test('CSV requests always use the current solver and carry live progress identity',async()=>{
@@ -112,6 +151,25 @@ test('inconsistent geometry and input lengths refuse playback',()=>{
   const p=page(),r=candidate();r.visualization.frames.pop();p.result(r);
   assert.equal(p.element('visualization-warning').hidden,false);assert.equal(p.element('play').disabled,true);
   assert.equal(p.evaluate('frames.length'),0);
+});
+
+test('unsupported mechanisms show source lines rather than a search-budget failure',()=>{
+  const p=page();p.result({status:'unknown',verified:false,reason:'unsupported_mechanism',issues:[
+    {line:5,command:'setmaxhp',reason:'mechanism_not_validated'},
+    {line:163,command:'DamagePlayer',reason:'mechanism_not_validated'}]});
+  assert.match(p.element('status').textContent,/CSV.*尚未支持/);
+  assert.doesNotMatch(p.element('status').textContent,/有限搜索/);
+  assert.match(p.element('status-detail').textContent,/第 5 行.*setmaxhp/);
+  assert.match(p.element('status-detail').textContent,/第 163 行.*DamagePlayer/);
+  assert.doesNotMatch(p.element('empty-stage').textContent,/预算后重试/);
+  assert.equal(p.element('play').disabled,true);
+});
+
+test('a missing endpoint does not retry when other source mechanisms remain unsupported',async()=>{
+  const p=page();p.element('csv-path').value='C:/original.csv';
+  await p.submit({status:'unknown',verified:false,reason:'unsupported_mechanism',issues:[
+    {reason:'missing_endattack'},{line:5,command:'setmaxhp',reason:'mechanism_not_validated'}]});
+  assert.equal(p.requests.length,1);
 });
 
 if(process.env.CSV_API_URL) test('live short CSV request satisfies the page geometry contract',async()=>{

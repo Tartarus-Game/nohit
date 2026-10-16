@@ -250,7 +250,7 @@ def _segmented(path,initial,settings,width,workers,memory_mb,selection_seed,init
 
 
 def _segmented_coupled(path,initial,settings,width,workers,memory_mb,selection_seed,
-                       initial_confirm,previous_confirm,initial_target_history,deadline,_goal_style=None,_preview_ticks=0,_audit=None,_chunk_ticks=0,_preview_reads=128,_goal_retries=False,_fixed_prefix=None):
+                       initial_confirm,previous_confirm,initial_target_history,deadline,_goal_style=None,_preview_ticks=0,_audit=None,_chunk_ticks=0,_preview_reads=128,_goal_retries=False,_fixed_prefix=None,_failure=None):
     """Commit only through the next real observation under explicit dialogue.
 
     Confirm follows the same declared alternating sequence as the portfolio.
@@ -266,6 +266,9 @@ def _segmented_coupled(path,initial,settings,width,workers,memory_mb,selection_s
     observations=None if initial_target_history is None else iter(initial_target_history)
     coupled=False;last=None;segment_stats=[];segment=0
     fixed_actions=[];fixed_trace=None;fixed_confirms=[]
+    def limited(reason):
+        if _failure is not None:_failure['reason']=reason
+        return False
     if _fixed_prefix is not None:
         supplied_hash=_fixed_prefix.get('csv_sha256',_fixed_prefix.get('source_sha256'))
         if supplied_hash!=hashlib.sha256(Path(path).read_bytes()).hexdigest():
@@ -285,7 +288,7 @@ def _segmented_coupled(path,initial,settings,width,workers,memory_mb,selection_s
         nonlocal physical,frames,last,segment
         if len(frames)<2:return True
         remaining=deadline-time.perf_counter()
-        if remaining<=0:return False
+        if remaining<=0:return limited('native_observation_budget')
         committed_count=len(frames)-1
         if fixed_trace is not None and len(word)<len(fixed_actions):
             prefix_end=min(len(fixed_actions),len(word)+committed_count)
@@ -338,7 +341,7 @@ def _segmented_coupled(path,initial,settings,width,workers,memory_mb,selection_s
                 if point not in goals:goals.append(point)
         for attempt,goal in enumerate(goals):
             remaining=deadline-time.perf_counter()
-            if remaining<=0:return False
+            if remaining<=0:return limited('native_observation_budget')
             budget=min(remaining,4. if attempt==0 else 1.5) if _goal_retries else remaining
             last=find_native_candidate(path,physical,width=width,seconds=budget,workers=workers,
                 memory_mb=memory_mb,selection_seed=selection_seed+segment+attempt*0x9e3779b9,
@@ -357,7 +360,10 @@ def _segmented_coupled(path,initial,settings,width,workers,memory_mb,selection_s
                 kernel_materialization_seconds=last.stats.get('kernel_materialization_seconds',0.),
                 deepest_tick=len(word)+max((v['reached'] for v in probes),default=last.reached_tick)))
         segment_stats.append(dict(last.stats))
-        if last.status!='proposal_found':return False
+        if last.status!='proposal_found':
+            if last.reason=='native_search_limited':
+                return limited('native_observation_budget' if time.perf_counter()>=deadline else last.reason)
+            return False
         # Only the actual pre-observation prefix is committed. Speculative
         # future targets rank choices but are discarded and never certified.
         word.extend(last.actions[:committed_count]);trace_parts.append(last.trajectory[1:committed_count+1].copy())
@@ -398,7 +404,10 @@ def _segmented_coupled(path,initial,settings,width,workers,memory_mb,selection_s
                 last=find_native_candidate(path,physical,width=width,seconds=max(.001,deadline-time.perf_counter()),
                     workers=workers,memory_mb=memory_mb,selection_seed=selection_seed,
                     _resolved=(template,resolved),_defer_verification=True,**settings)
-                if last is None or last.status!='proposal_found':return None
+                if last is None or last.status!='proposal_found':
+                    if last is not None and last.reason=='native_search_limited':
+                        limited('native_observation_budget' if time.perf_counter()>=deadline else last.reason)
+                    return None
                 segment_stats.append(dict(last.stats))
             if observations is not None and next(observations,None) is not None:
                 raise ValueError('initial_target_history contains an unused source read')
@@ -426,6 +435,7 @@ def _segmented_coupled(path,initial,settings,width,workers,memory_mb,selection_s
             last.stats['input_cost']=dict(frames=len(word),churn=churn,held_frames=held,
                 churn_weight=12,held_weight=1,total=12*churn+held)
             return last
+    limited('native_observation_budget')
     return None
 
 
@@ -512,12 +522,15 @@ def find_dynamic_candidate(path,initial,*,width=3000,seconds=8.,selection_seed=4
     started=time.perf_counter();deadline=started+seconds
     proposal=[];attempts=[];last=None;world_seconds=0.;policy_audit=[];directed_attempts=[]
     if explicit_segments:
+        failure={}
         candidate=_segmented_coupled(path,initial,settings,width,workers,memory_mb,selection_seed,
             initial_confirm,previous_confirm,initial_target_history,deadline,
             _goal_style=observation_goal_style,_preview_ticks=observation_preview_ticks,
             _audit=policy_audit,_chunk_ticks=observation_chunk_ticks,
             _preview_reads=observation_preview_reads,_goal_retries=observation_goal_retries,
-            _fixed_prefix=fixed_prefix)
+            _fixed_prefix=fixed_prefix,_failure=failure)
+        if candidate is None and failure.get('reason'):
+            candidate=_unknown_candidate(initial,settings,failure['reason'])
         if candidate is not None:
             candidate.stats['dynamic_wall_seconds']=time.perf_counter()-started
             candidate.stats['observation_search_audit']=policy_audit

@@ -5,6 +5,84 @@
     const blocked=new Set(['solving','unknown','failed','completed','cancelled']);
     const finite=value=>typeof value==='number'&&Number.isFinite(value);
     const vector=(value,size)=>Array.isArray(value)&&value.length===size&&value.every(finite);
+    function describeResult(plan,budgetMode=plan.budget_selection?.mode) {
+        if(plan.reason==='unsupported_mechanism') {
+            const issues=Array.isArray(plan.issues)?plan.issues:[];
+            const details=issues.map(issue=>{
+                const line=Number.isInteger(issue?.line)&&issue.line>0?`第 ${issue.line} 行`:'脚本';
+                const command=typeof issue?.command==='string'?`「${issue.command}」`:'';
+                const reason=issue?.reason==='missing_endattack'?'缺少结束攻击指令':'当前求解器尚未验证此指令的原版行为';
+                return `${line}${command}：${reason}`;
+            });
+            return {retryable:false,title:'CSV 机制尚未支持',detail:[...details,
+                '增加搜索时间或加宽搜索都无法解决指令支持问题。请修改 CSV 后重新导入；当前结果不能证明无解。'].join('\n')};
+        }
+        const reason={wall_budget:'已达到本次搜索时间上限。',frontier_exhausted:'当前搜索保留的状态已耗尽。'}[plan.reason]
+            ||'当前有限搜索尚未得到完整路线。';
+        return {retryable:true,title:'有限搜索暂未找到完整候选',detail:reason+
+            (budgetMode==='auto'?'自动尝试后仍未找到完整路线，可重试/查看详情；当前结果不能证明无解。':'可调整起点或搜索预算后重试；当前结果不能证明无解。')};
+    }
+    function showDiagnostic(badge,diagnostic) {
+        const existing=typeof document!=='undefined'?document.getElementById('csv-edit-link'):null;
+        if(existing) {
+            existing.hidden=!diagnostic||diagnostic.retryable!==false;
+            if(existing.style)existing.style.display=existing.hidden?'none':'block';
+        }
+        if(!badge||!diagnostic)return false;
+        badge.textContent=diagnostic.title+'\n'+diagnostic.detail;
+        if(badge.style)badge.style.whiteSpace='pre-line';
+        if(diagnostic.retryable===false&&badge.parentNode&&typeof document.createElement==='function') {
+            const link=existing||document.createElement('a');
+            link.id='csv-edit-link';link.href='/#solve-form';link.textContent='返回 CSV 页面修改文件';link.hidden=false;
+            if(link.style) {link.style.display='block';link.style.color='#8be0b7';link.style.marginTop='8px';}
+            if(!existing)badge.parentNode.appendChild(link);
+        }
+        return true;
+    }
+    function showWarnings(warnings) {
+        if(typeof document==='undefined'||typeof document.getElementById!=='function')return;
+        const items=Array.isArray(warnings)?warnings:[];
+        let line=document.getElementById('csv-source-warnings');
+        if(!items.length) {
+            if(line) {line.textContent='';line.hidden=true;if(line.style)line.style.display='none';}
+            return;
+        }
+        if(!line) {
+            const badge=document.getElementById('tas-status-badge');
+            if(!badge?.parentNode||typeof document.createElement!=='function')return;
+            line=document.createElement('div');line.id='csv-source-warnings';badge.parentNode.appendChild(line);
+        }
+        const details=items.map(item=>{
+            const location=Number.isInteger(item?.line)&&item.line>0?`第 ${item.line} 行`:'脚本';
+            const command=typeof item?.command==='string'?`「${item.command}」`:'';
+            const reason={native_function_has_no_handler:'原游戏没有对应处理函数，执行时不产生效果',
+                scripted_damage_disabled:'CSV 直接伤害/回血指令无法按无伤脚本处理，已禁用（保留延时）'}[item?.reason]||'请核对这条指令';
+            return `${location}${command}：${reason}`;
+        });
+        line.textContent='CSV 警告（仍可继续处理）\n'+details.join('\n');line.hidden=false;
+        if(line.style)Object.assign(line.style,{display:'block',color:'#ffd58b',fontSize:'12px',marginTop:'6px',whiteSpace:'pre-line',overflowWrap:'anywhere'});
+    }
+    function mergeWarnings(original,incoming) {
+        if(!Array.isArray(incoming)||!incoming.length)return original;
+        if(!original.length)return incoming;
+        const key=item=>JSON.stringify([item?.line,item?.command,item?.reason]);
+        const seen=new Set(original.map(key));
+        const additions=incoming.filter(item=>{const value=key(item);if(seen.has(value))return false;seen.add(value);return true;});
+        return additions.length?[...original,...additions]:original;
+    }
+    function showBudget(mode,selection) {
+        if(typeof document==='undefined'||typeof document.getElementById!=='function')return;
+        let line=document.getElementById('csv-budget-status');
+        if(!mode) {if(line) {line.hidden=true;if(line.style)line.style.display='none';}return;}
+        if(!line) {
+            const badge=document.getElementById('tas-status-badge');
+            if(!badge?.parentNode||typeof document.createElement!=='function')return;
+            line=document.createElement('div');line.id='csv-budget-status';badge.parentNode.appendChild(line);
+        }
+        const profile={short:'短谱',medium:'中等长度',long:'长谱'}[selection?.profile];
+        line.textContent=(mode==='auto'?'自动预算':'手动预算')+(profile?' · '+profile:'');line.hidden=false;
+        if(line.style)Object.assign(line.style,{display:'block',color:'#a1acbc',fontSize:'12px',marginTop:'4px'});
+    }
     function parameter(inst,index=0) {
         const result={value:null,set_any(v){this.value=v;},set_int(v){this.value=v;},set_float(v){this.value=v;},set_string(v){this.value=v;}};
         inst.exps.Param(result,index);return result.value;
@@ -20,10 +98,12 @@
     }
     function create(options) {
         const rt=options.runtime,clock=options.clock,query=new URLSearchParams(options.query||'');
+        const budgetMode=()=>query.get('budget_mode')||((query.has('width')||query.has('seconds'))?'manual':'auto');
         const terminationPolicy=options.terminationPolicy||'endattack';
         if(!['endattack','eof_hazards_drained'].includes(terminationPolicy))throw Error('Invalid CSV termination policy');
         const C=options.state||{};
-        Object.assign(C,{version:1,status:'waiting_source',error:null,plan:null,boundary:null,
+        Object.assign(C,{version:1,status:'waiting_source',error:null,plan:null,issues:[],warnings:[],diagnostic:null,boundary:null,
+            budget_mode:budgetMode(),budget_selection:null,
             actionsApplied:0,rows:[],events:[],firstDamage:null,nativeEndAttack:false,endSnapshot:null,
             original_replay_passed:false,complete_in_original_game:false,safe_forever_under_release:false,
             termination_policy:terminationPolicy,completion_kind:null,eofTerminal:null});
@@ -127,7 +207,11 @@
                 if(error!==null)timing.record.late_settlement.error=String(error);
             }
         }
-        function status(value) {C.status=value;options.onStatus?.(value,C);}
+        function status(value) {
+            C.status=value;options.onStatus?.(value,C);
+            try {showWarnings(C.warnings);}catch(error) { /* Warning display never owns native execution. */ }
+            try {showBudget(C.budget_mode,C.budget_selection);}catch(error) { /* HUD only. */ }
+        }
         function capture() {return window.NoHitSolverState.capturePhysical(rt);}
         function input(mask,confirm) {
             // Menus may use Cancel; candidate validation below restricts the
@@ -256,7 +340,8 @@
             // Preserve thrown status/boundary-hook errors while still closing their observation.
             let frozen;
             try {
-                C.request_generation=generation;status('solving');frozen=boundaryKey(boundary);
+                C.request_generation=generation;C.issues=[];C.diagnostic=null;
+                C.budget_mode=budgetMode();C.budget_selection=null;status('solving');frozen=boundaryKey(boundary);
             } catch(error) {finishTiming(timing,'failed',error);throw error;}
             try {
                 await options.prepare?.();
@@ -269,13 +354,21 @@
                 const scheduleHash=await scheduleDigest(schedule);
                 if(generation!==requestId){staleTiming(timing,'prepare');return;}
                 abort=new AbortController();
+                const observationSettings={};
+                for(const key of ['observation_chunk_ticks','observation_preview_ticks','observation_preview_reads','workers'])
+                    if(query.has(key))observationSettings[key]=Number(query.get(key));
+                if(query.has('observation_goal_retries')) {
+                    const flag=query.get('observation_goal_retries');
+                    observationSettings.observation_goal_retries=flag==='1'?true:flag==='0'?false:flag;
+                }
+                const budgetSettings={budget_mode:C.budget_mode,...(C.budget_mode==='manual'?{
+                    seconds:Number(query.get('seconds')||30),width:Number(query.get('width')||3000)}:{})};
                 const payload={custom_csv:activeText,initial:boundary.initial,initial_environment:C.source_environment,
                     initial_arena:C.source_arena,initial_target_history:C.initial_target_history,
                     initial_confirm:boundary.initial_confirm,previous_confirm:boundary.previous_confirm,
-                    termination_policy:terminationPolicy,
+                    termination_policy:terminationPolicy,visualization_mode:'entry',
                     fps:clock.physicsHz,dt_schedule:schedule,max_ticks:count,request_id:crypto.randomUUID(),
-                    seed:Number(query.get('seed')||42),seconds:Number(query.get('seconds')||30),
-                    width:Number(query.get('width')||3000)};
+                    seed:Number(query.get('seed')||42),...budgetSettings,...observationSettings};
                 timing.record.request_id=payload.request_id;
                 // Same identity for the read-only progress channel, so the HUD
                 // can show the running search and the plan provenance still
@@ -284,9 +377,9 @@
                 startProgressWatch();
                 C.request=payload;C.fresh_computation=true;
                 C.request_recipe={generation,max_ticks:count,schedule_count:schedule.length,
-                    termination_policy:terminationPolicy,
+                    termination_policy:terminationPolicy,visualization_mode:'entry',
                     clock_start_ms:boundary.clock_start_ms,initial_dt:boundary.dt,logical_step_ms:clock.logicalStepMs,
-                    schedule_sha256:scheduleHash,seed:payload.seed,seconds:payload.seconds,width:payload.width};
+                    schedule_sha256:scheduleHash,seed:payload.seed,...budgetSettings,...observationSettings};
                 timingPhase(timing,'fetch_json');
                 const response=await fetch('/api/solve-csv',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),signal:abort.signal});
                 const plan=await response.json();
@@ -294,12 +387,16 @@
                 if(generation!==requestId){staleTiming(timing,'response');return;}
                 timingPhase(timing,'validation');
                 C.plan=plan;
+                C.issues=Array.isArray(plan.issues)?plan.issues:[];
+                C.warnings=mergeWarnings(C.warnings,plan.warnings);
+                C.budget_selection=plan.budget_selection||null;
                 if(!response.ok)throw Error(plan.error||'CSV solve request failed');
                 if(!sourceIsCurrent()||(source.sha256!==undefined&&source.sha256!==hash))throw Error('Target CSV changed while solving');
                 if(!rt.suspended||boundaryKey(capture())!==frozen)throw Error('Paused original boundary changed while solving');
                 options.onPlan?.(C);
                 if(!noDamage(capture()))throw Error('Damage was observed before playback');
                 if(plan.status==='unknown'&&plan.verified===false) {
+                    C.diagnostic=describeResult(plan,C.budget_mode);
                     C.error=plan.reason||plan.status||'unknown';status('unknown');release();window.cr_setSuspended(true);
                     finishTiming(timing,'unknown');return;
                 }
@@ -322,7 +419,11 @@
             if(activeText!==null)throw Error('Unexpected TLPlay replaced the active CSV');
             if(!nextSource||typeof nextSource.text!=='string')throw Error('Native source text is required');
             source=nextSource;activeText=source.text;C.wave=source.wave||source.name||'custom.csv';
+            C.warnings=Array.isArray(source.preflight?.warnings)?source.preflight.warnings:
+                Array.isArray(source.warnings)?source.warnings:[];
             C.source_text=activeText;C.source_raw_sha256=source.raw_sha256??null;
+            C.source_import_id=source.import_id??null;C.source_preparation=source.preparation??null;
+            C.source_original_raw_sha256=source.preparation?.original_raw_sha256??null;
             C.source_environment=window.NoHitSolverState.capture(rt).initial_environment.slice();
             C.source_arena=window.NoHitSolverState.captureArena(rt);C.initial_target_history=[];
             pending={tick:rt.tickcount};status('waiting_start');C.events.push({tick:rt.tickcount,fn:'tlplay',sourceMatched:true});
@@ -396,15 +497,21 @@
         C.retry=(settings={})=>{
             if(!rt.suspended||!C.boundary||C.status!=='unknown'||boundaryKey(capture())!==boundaryKey(C.boundary))
                 throw Error('Retry requires the unchanged paused CSV boundary');
+            if(C.diagnostic?.retryable===false)throw Error('当前 CSV 机制尚未支持，请先修改 CSV 后重新导入。');
             const allowed=new Set(['width','seconds','max_ticks']);
             if(!settings||typeof settings!=='object'||Array.isArray(settings)||
                 Object.entries(settings).some(([key,value])=>!allowed.has(key)||!finite(value)||value<=0||
                     (key!=='seconds'&&!Number.isInteger(value))))throw Error('Invalid retry search settings');
             for(const [key,value] of Object.entries(settings))query.set(key,String(value));
+            if('width' in settings||'seconds' in settings)query.set('budget_mode','manual');
             C.error=null;return C.solvePromise=solve(C.boundary);
         };
+        // A new Normal round can wait for TLPlay after RunAttack. Its empty
+        // warning set must replace the previous round's HUD during that wait.
+        try {showWarnings(C.warnings);}catch(error) { /* HUD only. */ }
+        try {showBudget(C.budget_mode,C.budget_selection);}catch(error) { /* HUD only. */ }
         return {state:C,beginSource,observeFunction,beforeTick,afterTick,input,release,fail:stop,
             canAdvance:C.canAdvance,retry:C.retry,cancel:C.cancel,hasSource:()=>activeText!==null};
     }
-    window.NoHitCsvRoundController={create};
+    window.NoHitCsvRoundController={create,describeResult,showDiagnostic};
 })();

@@ -28,14 +28,30 @@ function page(options={}) {
 
 for(const fps of ['30','60','120','240'])test('native button registers a trimmed path then navigates with source and search parameters at '+fps+'Hz',async()=>{
   const p=page();p.element('csv-path').value='  C:\\用户\\欢迎 & 地狱.csv  ';p.element('fps').value=fps;
+  p.element('budget-mode').value='manual';
   await p.click();assert.equal(p.requests.length,1);assert.equal(p.requests[0].url,'/api/csv-source');
   assert.equal(p.requests[0].method,'POST');assert.equal(p.requests[0].headers['Content-Type'],'application/json');
   assert.deepEqual(p.requests[0].body,{csv_path:'C:\\用户\\欢迎 & 地狱.csv'});
   assert.equal(p.navigations.length,1);const url=new URL(p.navigations[0],'http://localhost');
   assert.equal(url.pathname,'/game/index.html');
-  for(const [key,value] of Object.entries({csvtas:'1',csv_source:id,attack:'custom',custom_acceptance:'1',seed:'42',seconds:'7.5',width:'1234',fps}))
+  for(const [key,value] of Object.entries({csvtas:'1',csv_source:id,attack:'custom',custom_acceptance:'1',seed:'42',budget_mode:'manual',seconds:'7.5',width:'1234',fps}))
     assert.equal(url.searchParams.get(key),value,key);
   assert.equal(url.searchParams.has('initial'),false);assert.equal(url.searchParams.has('actions'),false);
+});
+
+test('native launch defaults to automatic budget without forwarding stale slider values',async()=>{
+  const p=page();p.element('csv-path').value='C:/x.csv';
+  p.element('seconds').value='invalid';p.element('width').value='invalid';await p.click();
+  assert.equal(p.navigations.length,1);const url=new URL(p.navigations[0],'http://localhost');
+  assert.equal(url.searchParams.get('budget_mode'),'auto');
+  assert.equal(url.searchParams.has('seconds'),false);assert.equal(url.searchParams.has('width'),false);
+});
+
+test('native launch forwards the original import identity separately from executable source identity',async()=>{
+  const importId='b'.repeat(64),p=page({result:{id,import_id:importId}});
+  p.element('csv-path').value='C:/x.csv';await p.click();
+  const url=new URL(p.navigations[0],'http://localhost');
+  assert.equal(url.searchParams.get('csv_source'),id);assert.equal(url.searchParams.get('csv_import'),importId);
 });
 
 test('pasted CSV reaches registration byte-for-byte, including BOM, CRLF and surrounding whitespace',async()=>{
@@ -90,4 +106,29 @@ for(const [label,options] of [
   const p=page(options);p.element('csv-path').value='C:/x.csv';await p.click();
   assert.equal(p.navigations.length,0);assert.equal(p.element('native-button').disabled,false);
   assert(p.element('request-progress').textContent.length>0);
+});
+
+test('unsupported source admission lists its command on the form and never launches the game',async()=>{
+  const p=page({result:{id,preflight:{supported:false,issues:[
+    {line:5,command:'setmaxhp',reason:'mechanism_not_validated'},
+    {line:163,command:'DamagePlayer',reason:'mechanism_not_validated'}]}}});
+  p.element('csv-path').value='C:/original.csv';await p.click();
+  assert.equal(p.navigations.length,0);
+  assert.equal(p.element('native-button').disabled,false);
+  assert.match(p.element('request-progress').textContent,/第 5 行.*setmaxhp/);
+  assert.match(p.element('request-progress').textContent,/第 163 行.*DamagePlayer/);
+  assert.match(p.element('request-progress').textContent,/增加搜索时间.*无法解决/);
+  assert.equal(p.element('csv-path').value,'C:/original.csv');
+});
+
+for(const supported of [true,false])test('source admission keeps no-handler warnings visible with supported='+supported,async()=>{
+  const warnings=[{line:6,command:'damafeeplayer',reason:'native_function_has_no_handler'}];
+  const p=page({result:{id,preflight:{supported,warnings,issues:supported?[]:[
+    {line:163,command:'DamagePlayer',reason:'mechanism_not_validated'}]}}});
+  p.element('csv-path').value='C:/original.csv';await p.click();
+  assert.equal(p.navigations.length,supported?1:0);
+  assert.equal(p.element('source-warnings').hidden,false);
+  assert.match(p.element('source-warnings').textContent,/第 6 行「damafeeplayer」.*原游戏没有对应处理函数/);
+  assert.equal(p.element('csv-path').value,'C:/original.csv');assert.equal(p.element('native-button').disabled,false);
+  if(!supported)assert.match(p.element('status-detail').textContent,/第 163 行.*DamagePlayer/);
 });

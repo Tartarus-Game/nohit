@@ -7,6 +7,9 @@ import {createHash,webcrypto} from 'node:crypto';
 
 function boot(options={}) {
     const keys=Array(256).fill(false),pad=Array(14).fill(0),requests=[],inputs=[],queued=[];
+    const elements=new Map(),hud={appendChild(node){node.parentNode=this;elements.set(node.id,node);},
+        insertBefore(node){this.appendChild(node);},removeChild(node){elements.delete(node.id);node.parentNode=null;}};
+    const badge={id:'tas-status-badge',textContent:'',style:{},parentNode:hud};elements.set(badge.id,badge);
     const heart={x:320,y:304,angle:Math.PI/2,instance_vars:[0,0,0],behavior_insts:[{type:{name:'CustomMovement'},dx:0,dy:0}]};
     const zone={bbox:{left:133,top:251,right:508,bottom:391},width:375,height:140,
         instance_vars:[133,251,508,391,''],update_bbox(){}};
@@ -41,7 +44,8 @@ function boot(options={}) {
     c={console,URL,URLSearchParams,TextEncoder,Uint8Array,Float64Array,DataView,crypto:webcrypto,AbortController,
         queueMicrotask:options.deferRetries?callback=>queued.push(callback):queueMicrotask,
         location:{search:'?campaign=1&compensate=1&seed=42&max_ticks=20'+(options.query||'')},
-        document:{getElementById:id=>id==='c2canvas'?{c2runtime:rt}:null},c2runtime:rt,
+        document:{createElement:tag=>({tagName:tag.toUpperCase(),style:{},hidden:false}),
+            getElementById:id=>id==='c2canvas'?{c2runtime:rt}:elements.get(id)||null},c2runtime:rt,
         cr:{runtime:Runtime,plugins_:{Function:{prototype:{cnds:{OnFunction(){}}}}}},
         __TAS_CLOCK:{enabled:true,stepping:true,mode:'fixed-240hz-realtime-catchup',physicsHz:240,logicalStepMs:1000/240},
         __FULL_GAME:{done:false},TASRunner:{getKeyboardInstance:()=>({keyMap:keys}),releaseAllKeys:()=>keys.fill(false)},
@@ -73,7 +77,7 @@ function boot(options={}) {
         step(()=>{rt.varsBySid[2569112556112449].data=3;rt.varsBySid[164016619418963].data=0;work?.();});
         return c.__CAMPAIGN.solvePromise;
     }
-    return {c,rt,keys,pad,heart,zone,requests,inputs,queued,step,emit,start,resolveFetch};
+    return {c,rt,keys,pad,heart,zone,requests,inputs,queued,step,emit,start,resolveFetch,badge,elements};
 }
 
 async function settleSolves(g) {
@@ -82,6 +86,44 @@ async function settleSolves(g) {
         current=g.c.__CAMPAIGN.solvePromise;await current;await Promise.resolve();
     } while(current!==g.c.__CAMPAIGN.solvePromise);
 }
+
+test('Normal unsupported source keeps the issue visible and skips configured budget retries',async()=>{
+    const issues=[{line:163,command:'damageplayer',reason:'mechanism_not_validated'}];
+    const g=boot({query:'&retry_widths=1000,3000',reply:plan=>Object.assign(plan,
+        {status:'unknown',verified:false,reason:'unsupported_mechanism',issues})});
+    await g.start();await settleSolves(g);
+    assert.equal(g.requests.length,1);assert.equal(g.c.__CAMPAIGN.status,'unknown');
+    assert.deepEqual(g.c.__CAMPAIGN.issues,issues);
+    assert.match(g.badge.textContent,/机制尚未支持/);assert.match(g.badge.textContent,/第 163 行「damageplayer」/);
+    assert.doesNotMatch(g.badge.textContent,/有限搜索未找到|unsupported_mechanism/);
+    assert.equal(g.elements.get('csv-edit-link').href,'/#solve-form');
+    assert.equal(g.rt.suspended,true);assert.equal(g.c.__CAMPAIGN.canAdvance(),false);
+    assert.equal(g.keys.some(Boolean),false);assert.equal(g.inputs.filter(row=>row.driving).length,0);
+});
+
+test('Normal displays response warnings while playing and clears them for the next clean round',async()=>{
+    const warnings=[{line:5,command:'setmaxhp',reason:'native_function_has_no_handler'}];
+    const g=boot({reply:(plan,body,n)=>{if(n===1)plan.warnings=warnings;}});
+    await g.start();assert.equal(g.c.__CAMPAIGN.status,'playing');
+    const line=g.elements.get('csv-source-warnings');
+    assert(line);assert.equal(line.hidden,false);assert.match(line.textContent,/第 5 行「setmaxhp」/);
+    assert.deepEqual(g.c.__CAMPAIGN.round.warnings,warnings);
+    for(let i=0;i<4;i++)g.step();assert.equal(g.c.__CAMPAIGN.status,'waiting');
+    await g.start('sans_bonegap1');assert.equal(g.c.__CAMPAIGN.status,'playing');
+    assert.equal(line.hidden,true);assert.equal(line.textContent,'');
+});
+
+test('Normal clears the previous warning as soon as RunAttack starts before the next CSV arrives',async()=>{
+    const warnings=[{line:5,command:'setmaxhp',reason:'native_function_has_no_handler'}];
+    const g=boot({reply:plan=>plan.warnings=warnings});
+    await g.start();for(let i=0;i<4;i++)g.step();
+    const line=g.elements.get('csv-source-warnings');assert.equal(line.hidden,false);
+    g.emit('runattack','sans_bonegap1');
+    assert.equal(g.c.__CAMPAIGN.status,'waiting_source');
+    assert.equal(g.c.__CAMPAIGN.round.warnings.length,0);
+    assert.equal(line.hidden,true);assert.equal(line.style.display,'none');assert.equal(line.textContent,'');
+    assert.equal(g.requests.length,1);assert.equal(g.c.__CAMPAIGN.round.actionsApplied,0);
+});
 
 test('Intro paused source frame0 is captured and both inputs are replayed until last EndAttack',async()=>{
     const g=boot();await g.start();
@@ -179,6 +221,14 @@ test('configured widths automatically retry unknown on the same boundary and ret
     assert.equal(plans[1].actionsApplied,4);
     await g.start('sans_bonegap1');await settleSolves(g);
     assert.deepEqual(g.requests.map(r=>r.body.width),[200,1000,200]);
+});
+
+test('an API automatic budget outcome never stacks legacy outer width retries',async()=>{
+    const g=boot({query:'&budget_mode=auto&retry_widths=1000,3000',reply:p=>Object.assign(p,
+        {status:'unknown',verified:false,reason:'wall_budget',budget_selection:{mode:'auto',profile:'long'}})});
+    await g.start();await settleSolves(g);
+    assert.equal(g.requests.length,1);assert.equal(g.c.__CAMPAIGN.plans.length,1);
+    assert.equal(g.c.__CAMPAIGN.status,'unknown');assert.equal(g.rt.suspended,true);
 });
 
 for(const [name,mutate] of [

@@ -1,8 +1,9 @@
-// Supply unchanged user CSV bytes through the original AJAX custom-file path.
+// Supply registered executable CSV bytes through the original AJAX custom-file path.
 (() => {
     const query = new URLSearchParams(location.search);
     if (query.get('csvtas') !== '1') return;
     const id = query.get('csv_source');
+    const importId = query.get('csv_import');
     const B = window.__CSV_SOURCE_BRIDGE = {status:'loading',error:null};
     const fail = error => {
         B.error=String(error);B.status='failed';
@@ -13,9 +14,11 @@
     };
     window.__CSV_SOURCE_READY = (async () => {
         if (!/^[0-9a-f]{64}$/.test(id || '')) throw Error('Registered csv_source is required');
-        const response=await fetch('/api/csv-source/'+id);
+        if(query.has('csv_import')&&!/^[0-9a-f]{64}$/.test(importId || '')) throw Error('Invalid csv_import identity');
+        const response=await fetch(importId?'/api/csv-source/import/'+importId:'/api/csv-source/'+id);
         const source=await response.json();
         if(!response.ok) throw Error(source.error || 'CSV source unavailable');
+        if(importId&&source.import_id!==importId) throw Error('CSV import identity mismatch');
         const bytes=new TextEncoder().encode(source.text);
         const digest=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)),
             value=>value.toString(16).padStart(2,'0')).join('');

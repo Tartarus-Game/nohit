@@ -9,11 +9,12 @@ import time
 
 import numpy as np
 
-from .source_contract import model_issues
+from .source_contract import native_source_diagnostics
+from .timeline_csv import read_timeline_rows
 from .parametric_environment import ParametricEnvironment
 from .initial_target_history import normalize_initial_target_history
 from .compact_wave import normalize_initial_arena
-from .csv_completion import (AUDITED_NO_ACTION_COMMANDS, NO_ACTION_SOURCE_AUDIT,
+from .csv_completion import (NO_ACTION_SOURCE_AUDIT,
     wave_terminal, clock_sequence, compose_csv_completion)
 
 
@@ -74,10 +75,11 @@ that entire prefix again before any complete candidate is returned.
     result['termination_policy']=termination_policy
     result['no_action_source_audit']=NO_ACTION_SOURCE_AUDIT
     result['health_model']='scripted_damage_native_replay_required' if allow_scripted_damage else 'native_replay_required' if allow_scripted_healing else 'no_scripted_healing_admitted'
-    issues=[issue for issue in model_issues(path,allow_player_history=True,termination_policy=termination_policy,
-                                          allow_scripted_healing=allow_scripted_healing,allow_scripted_damage=allow_scripted_damage)
-            if not (issue.get('reason')=='mechanism_not_validated' and
-                    issue.get('command','').strip().lower() in AUDITED_NO_ACTION_COMMANDS)]
+    diagnostics=native_source_diagnostics(read_timeline_rows(path),allow_player_history=True,
+        termination_policy=termination_policy,allow_scripted_healing=allow_scripted_healing,
+        allow_scripted_damage=allow_scripted_damage)
+    result['warnings']=diagnostics['warnings']
+    issues=diagnostics['issues']
     if issues:return dict(result,reason='unsupported_mechanism',issues=issues)
     settings=dict(seed=seed,initial_environment=initial_environment,initial_arena=initial_arena,dt_schedule=dt_schedule,
                   clock_start_ms=clock_start_ms,max_ticks=max_ticks,termination_policy=termination_policy)

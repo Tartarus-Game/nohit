@@ -8,8 +8,12 @@ import {createHash,webcrypto} from 'node:crypto';
 
 function boot(options={}) {
     const text=options.text??'0,HeartMode,0\n0.1,SansText,a\n0,EndAttack\n';
-    const source={text,sha256:createHash('sha256').update(text).digest('hex'),name:'test.csv'};
+    const source={text,sha256:createHash('sha256').update(text).digest('hex'),name:'test.csv',
+        ...(options.preflight?{preflight:options.preflight}:{}),...(options.sourceMetadata||{})};
     const keys=Array(256).fill(false),pad=Array(14).fill(0),raf=[],inputs=[],requests=[];
+    const elements=new Map(),hud={appendChild(node){node.parentNode=this;elements.set(node.id,node);},
+        insertBefore(node){this.appendChild(node);},removeChild(node){elements.delete(node.id);node.parentNode=null;}};
+    const badge={id:'tas-status-badge',textContent:'',style:{},parentNode:hud};elements.set(badge.id,badge);
     const heart={x:320,y:304,angle:Math.PI/2,instance_vars:[0,0,0],behavior_insts:[{type:{name:'CustomMovement'},dx:0,dy:0}]};
     const zone={bbox:{left:133,top:251,right:508,bottom:391},width:375,height:140,
         instance_vars:[133,251,508,391,''],update_bbox(){}};
@@ -44,7 +48,8 @@ function boot(options={}) {
             3111584688851152:{data:30},1052618449272991:{data:''}}});
     c={console:{log(){},warn(){}},URL,URLSearchParams,TextEncoder,Uint8Array,crypto:webcrypto,AbortController,
         location:{search:'?csvtas=1&seed=42'+(options.query||'')},
-        document:{hidden:false,addEventListener(){},getElementById:id=>id==='c2canvas'?{c2runtime:rt}:null},
+        document:{hidden:false,addEventListener(){},createElement:tag=>({tagName:tag.toUpperCase(),style:{},hidden:false}),
+            getElementById:id=>id==='c2canvas'?{c2runtime:rt}:elements.get(id)||null},
         c2runtime:rt,cr:{runtime:Runtime,plugins_:{Function:{prototype:{cnds:{OnFunction(){}}}}}},
         TASRunner:{getKeyboardInstance:()=>({keyMap:keys}),isTickHooked:()=>true,releaseAllKeys:()=>keys.fill(false)},
         __CSV_SOURCE:source,__CSV_SOURCE_READY:Promise.resolve(source),
@@ -73,9 +78,115 @@ function boot(options={}) {
     function emit(fn,value='',second=0) {rt.trigger(c.cr.plugins_.Function.prototype.cnds.OnFunction,{exps:{Param(result,i){result.set_any(i===0?value:second);}}},fn);}
     function step(work) {rt.work=work;c.__TAS_CLOCK.stepping=true;try{rt.tick(true,rt.last_tick_time+c.__TAS_CLOCK.logicalStepMs,true);}finally{c.__TAS_CLOCK.stepping=false;}}
     function start() {emit('tlplay',source.text);step(()=>{rt.varsBySid[2569112556112449].data=2;rt.varsBySid[3521916820909801].data=rt.dt;});return c.__CSV_TAS.solvePromise;}
-    return {c,rt,keys,pad,heart,zone,inputs,requests,source,emit,step,start,resolveFetch,
+    return {c,rt,keys,pad,heart,zone,inputs,requests,source,emit,step,start,resolveFetch,badge,elements,
         frame(now){assert(raf.length);raf.shift()(now);}};
 }
+
+test('unsupported source reports its exact lines in Chinese and links back to CSV editing without native playback',async()=>{
+    const issues=[{line:5,command:'setmaxhp',reason:'mechanism_not_validated'},
+        {line:6,command:'damafeeplayer',reason:'mechanism_not_validated'},
+        {line:153,command:'NoTooth',reason:'mechanism_not_validated'},
+        {line:163,command:'damageplayer',reason:'mechanism_not_validated'}];
+    const g=boot({plan:plan=>Object.assign(plan,{status:'unknown',verified:false,reason:'unsupported_mechanism',issues})});
+    await g.start();
+    assert.equal(g.c.__CSV_TAS.status,'unknown');assert.equal(g.rt.suspended,true);
+    assert.deepEqual(g.c.__CSV_TAS.issues,issues);
+    assert.match(g.badge.textContent,/机制尚未支持/);
+    for(const issue of issues)assert(g.badge.textContent.includes(`第 ${issue.line} 行「${issue.command}」`));
+    assert.match(g.badge.textContent,/增加搜索时间或加宽搜索.*无法/);
+    assert.doesNotMatch(g.badge.textContent,/有限搜索未找到|unsupported_mechanism|mechanism_not_validated/);
+    const link=g.elements.get('csv-edit-link');
+    assert.equal(link.href,'/#solve-form');assert.equal(link.hidden,false);assert.match(link.textContent,/返回 CSV 页面修改文件/);
+    assert.equal(g.inputs.filter(row=>row.driving).length,0);assert.equal(g.keys.some(Boolean),false);
+});
+
+test('unsupported source cannot waste another request on a manual budget retry',async()=>{
+    const g=boot({plan:plan=>Object.assign(plan,{status:'unknown',verified:false,reason:'unsupported_mechanism',
+        issues:[{line:6,command:'damafeeplayer',reason:'mechanism_not_validated'}]})});
+    await g.start();
+    assert.throws(()=>g.c.__CSV_TAS.retry({width:20000,seconds:300}),/修改 CSV/);
+    assert.equal(g.requests.length,1);assert.equal(g.c.__CSV_TAS.status,'unknown');
+    assert.equal(g.rt.suspended,true);assert.equal(g.inputs.filter(row=>row.driving).length,0);
+});
+
+test('leaving an unsupported result hides its editing link as well as its diagnostic',async()=>{
+    const g=boot({plan:plan=>Object.assign(plan,{status:'unknown',verified:false,reason:'unsupported_mechanism'})});
+    await g.start();g.c.__CSV_TAS.cancel();
+    assert.equal(g.elements.get('csv-edit-link').hidden,true);
+    assert.equal(g.elements.get('csv-edit-link').style.display,'none');
+    assert.doesNotMatch(g.badge.textContent,/机制尚未支持/);assert.equal(g.rt.suspended,true);
+});
+
+test('no-handler warnings stay visible while solving and playing without weakening native completion',async()=>{
+    const warnings=[{line:5,command:'setmaxhp',reason:'native_function_has_no_handler'},
+        {line:6,command:'damafeeplayer',reason:'native_function_has_no_handler'},
+        {line:153,command:'NoTooth',reason:'native_function_has_no_handler'}];
+    const g=boot({deferred:true,preflight:{supported:true,warnings},plan:plan=>plan.warnings=warnings});
+    const pending=g.start();
+    assert.equal(g.c.__CSV_TAS.status,'solving');assert.deepEqual(g.c.__CSV_TAS.warnings,warnings);
+    const line=g.elements.get('csv-source-warnings');
+    assert(line);assert.equal(line.hidden,false);assert.match(line.textContent,/警告.*继续/);
+    for(const item of warnings)assert(line.textContent.includes(`第 ${item.line} 行「${item.command}」`));
+    assert.match(line.textContent,/原游戏没有对应处理函数/);assert.doesNotMatch(line.textContent,/native_function_has_no_handler/);
+    g.resolveFetch();await pending;assert.equal(g.c.__CSV_TAS.status,'playing');assert.equal(line.hidden,false);
+    g.step();g.step();assert.equal(g.c.__CSV_TAS.status,'completed');assert.equal(line.hidden,false);
+    assert.equal(g.c.__CSV_TAS.firstDamage,null);assert.equal(g.rt.all_global_vars[0].data,92);
+});
+
+test('a blocking mechanism and no-handler warning remain separately visible and keep playback stopped',async()=>{
+    const warnings=[{line:153,command:'NoTooth',reason:'native_function_has_no_handler'}];
+    const g=boot({plan:plan=>Object.assign(plan,{status:'unknown',verified:false,reason:'unsupported_mechanism',warnings,
+        issues:[{line:163,command:'DamagePlayer',reason:'mechanism_not_validated'}]})});
+    await g.start();
+    assert.match(g.badge.textContent,/第 163 行「DamagePlayer」/);
+    assert.match(g.elements.get('csv-source-warnings').textContent,/第 153 行「NoTooth」/);
+    assert.deepEqual(g.c.__CSV_TAS.warnings,warnings);assert.equal(g.c.__CSV_TAS.status,'unknown');
+    assert.equal(g.rt.suspended,true);assert.equal(g.inputs.filter(row=>row.driving).length,0);
+});
+
+for(const extraWarning of [false,true])test('frozen import preparation and damage warnings survive executable solve response '+extraWarning,async()=>{
+    const importId='b'.repeat(64),warning=Object.freeze({line:2,command:'DamagePlayer',reason:'scripted_damage_disabled'});
+    const warnings=Object.freeze([warning]),extra={line:5,command:'NoTooth',reason:'native_function_has_no_handler'};
+    const preparation=Object.freeze({original_raw_sha256:importId,executable_raw_sha256:'a'.repeat(64),changes:Object.freeze([warning])});
+    const g=boot({deferred:true,preflight:Object.freeze({supported:true,warnings}),
+        sourceMetadata:{import_id:importId,preparation},plan:plan=>plan.warnings=extraWarning?[warning,extra]:[]});
+    Object.freeze(g.source);const pending=g.start(),state=g.c.__CSV_TAS;
+    assert.equal(state.source_import_id,importId);assert.equal(state.source_preparation,preparation);
+    assert.equal(state.source_original_raw_sha256,importId);
+    const line=g.elements.get('csv-source-warnings');
+    assert.match(line.textContent,/CSV 直接伤害\/回血指令无法按无伤脚本处理，已禁用（保留延时）/);
+    g.resolveFetch();await pending;assert.equal(state.status,'playing');
+    assert.deepEqual(JSON.parse(JSON.stringify(state.warnings)),extraWarning?[warning,extra]:[warning]);
+    assert.equal(g.requests[0].body.custom_csv,g.source.text);assert.equal(state.csv_sha256,g.source.sha256);
+    g.step();g.step();assert.equal(state.status,'completed');assert.equal(line.hidden,false);
+    assert.match(line.textContent,/已禁用（保留延时）/);assert.equal(state.firstDamage,null);
+    assert.equal(g.source.preflight.warnings,warnings);assert.equal(warnings.length,1);
+});
+
+for(const query of ['', '&budget_mode=manual'])test('unknown diagnostics respect automatic versus manual budget '+query,async()=>{
+    const g=boot({query,plan:plan=>Object.assign(plan,{status:'unknown',verified:false,reason:'wall_budget'})});
+    await g.start();
+    if(query)assert.match(g.badge.textContent,/调整起点或搜索预算/);
+    else {assert.match(g.badge.textContent,/自动尝试后仍未找到完整路线，可重试\/查看详情/);assert.doesNotMatch(g.badge.textContent,/调整.*预算/);}
+});
+
+for(const query of ['', '&budget_mode=auto&seconds=1&width=2'])
+test('native CSV defaults to automatic budgets and ignores stale limits '+query,async()=>{
+    const selection={mode:'auto',profile:'long',selected:{seconds:90,width:4000}};
+    const g=boot({query,plan:plan=>plan.budget_selection=selection});await g.start();
+    const body=g.requests[0].body;
+    assert.equal(body.budget_mode,'auto');assert.equal('seconds' in body,false);assert.equal('width' in body,false);
+    assert.deepEqual(g.c.__CSV_TAS.budget_selection,selection);
+    assert.match(g.elements.get('csv-budget-status').textContent,/自动预算.*长谱/);
+    assert.equal(g.c.__CSV_TAS.status,'playing');
+});
+
+for(const query of ['&budget_mode=manual&seconds=7.5&width=1234','&seconds=7.5&width=1234'])
+test('native CSV keeps explicit manual and legacy budgets '+query,async()=>{
+    const g=boot({query});await g.start();
+    assert.equal(g.requests[0].body.budget_mode,'manual');
+    assert.equal(g.requests[0].body.seconds,7.5);assert.equal(g.requests[0].body.width,1234);
+});
 
 test('physical capture preserves old API but reads all committed VPad latches',()=>{
     const g=boot();g.pad.fill(1);g.keys.fill(false);
@@ -416,6 +527,7 @@ test('an explicit 60Hz maximum tick count bounds the requested native schedule',
 test('shared round exports the complete fresh request and exact future clock recipe',async()=>{
     const g=boot({query:'&fps=60&max_ticks=7',startTimestamp:0});await g.start();
     const state=g.c.__CSV_TAS,request=g.requests[0].body,recipe=state.request_recipe;
+    assert.equal(request.visualization_mode,'entry');assert.equal(recipe.visualization_mode,'entry');
     assert.equal(state.version,1); // Preserve the standalone native evidence schema.
     assert.deepEqual(JSON.parse(JSON.stringify(state.request)),request);
     assert.equal(state.request_generation,1);assert.equal(state.fresh_computation,true);

@@ -13,7 +13,13 @@ python -m venv .venv
 .venv/Scripts/python.exe start_dashboard.py 8080
 ```
 
-打开 <http://127.0.0.1:8080/>，选择内置 CSV 或导入文件，在原游戏捕获入口后自动求解、执行并记录无伤证据。Normal 模式使用同一 CSV 求解核心连续运行各回合。
+打开 <http://127.0.0.1:8080/>，导入 CSV，点击「一键自动解算并执行」。默认自动捕获真实起点，按脚本规模选择预算与分窗配置，必要时自动加宽重试一次。手动参数放在高级设置中；Normal 模式使用同一 CSV 求解核心连续运行各回合。
+
+导入时默认禁用 CSV 中直接调用的 `DamagePlayer`（包括回血），显示警告并保留延时；碰撞伤害仍照常验收。已核实没有处理器的 `setmaxhp`、`damafeeplayer`、`NoTooth` 等调用仅警告并继续。原文件、清理后的执行源和修改记录分别保留，求解器与原游戏使用同一份执行源。其他未支持的机制仍按行显示。
+
+自动 CSV 和战役测试默认静音，只关闭音频输出，保留播放时钟和回调。
+
+Real HELL 削弱版历史通过记录使用 `artifacts/realhell-weakened-20261017/source.csv`，另补有终点；该记录只适用于对应测试副本，见[具体差异](artifacts/realhell-weakened-20261017/README.md)。
 
 命令行可复用已捕获的完整入口与时钟：
 
@@ -55,7 +61,7 @@ python generic-engine/tools/nohit.py solve C:/path/to/game --godot C:/path/to/go
 ```powershell
 .venv/Scripts/python.exe -m pip install pytest
 .venv/Scripts/python.exe -m pytest tests -q
-node --test tools/*_test.mjs
+node --test tools/*_test.mjs tests/unit/*_test.mjs
 python generic-engine/tools/test_unpack_sample.py
 ```
 

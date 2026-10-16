@@ -35,12 +35,21 @@ class DashboardHandler(BaseHTTPRequestHandler):
         url_path = url_parts[0]
 
         if url_path.startswith('/api/csv-source/'):
-            key = url_path.removeprefix('/api/csv-source/').removesuffix('.csv')
+            relative = url_path.removeprefix('/api/csv-source/')
+            imported = relative.startswith('import/')
+            original_download = imported and relative.endswith('.original.csv')
+            if imported:
+                identity = relative.removeprefix('import/')
+                if original_download:
+                    identity = identity.removesuffix('.original.csv')
+                key = 'import:' + identity
+            else:
+                key = relative.removesuffix('.csv')
             source = getattr(self.server, 'csv_sources', {}).get(key)
             if source is None:
                 self.send_json_error('CSV source expired or not registered', HTTPStatus.NOT_FOUND)
-            elif url_path.endswith('.csv'):
-                body = source[0]
+            elif original_download or not imported and relative.endswith('.csv'):
+                body = source[2] if original_download else source[0]
                 self.send_response(HTTPStatus.OK)
                 self.send_header('Content-Type', 'text/csv; charset=utf-8')
                 self.send_header('Content-Length', str(len(body)))
