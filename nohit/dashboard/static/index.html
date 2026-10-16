@@ -269,6 +269,36 @@ function unsupportedText(issues) {
   });
   return [...lines,'增加搜索时间或加宽搜索都无法解决指令支持问题。请修改 CSV 或使用已记录修改项的兼容副本后重新导入。当前结果不能证明无解。'].join('\n');
 }
+function terminalProofText(reasons) {
+  const labels={
+    terminal_clock_boundary:'终点超出了可用时钟范围',terminal_dt_mismatch:'终点帧时长与时钟不一致',
+    pending_resize_callback:'场地缩放结束回调尚未处理',unsupported_source_terminal:'当前脚本终点类型尚未支持',
+    neutral_release_clock_exhausted:'释放按键所需的后续时钟不足',invalid_neutral_release:'释放按键后的状态无效',
+    released_fixed_point_unproven:'释放按键后的持续安全状态尚未证明',environment_incomplete:'环境演化尚未完成',
+    timeline_exhaustion_unproven:'尚未证明时间线已执行完毕',callback_exhaustion_unproven:'尚未证明所有回调已执行完毕',
+    dialogue_exhaustion_unproven:'尚未证明对话已结束',active_bones_not_zero:'尾部仍有骨头',
+    active_stabs_not_zero:'尾部仍有突刺',active_blasters_not_zero:'尾部仍有激光炮',
+    active_platforms_not_zero:'尾部仍有平台',arena_not_settled:'场地尚未停止变化',
+    invalid_numeric_state:'状态数值无效',complete_state11_and_environment22_required:'玩家或环境状态不完整',
+    nonfinite_state:'状态中存在非有限数值',terminal_details_required:'缺少终点环境详情',
+    invalid_previous_input:'上一次输入状态无效',unsupported_player_mode:'当前玩家模式尚未支持终点证明',
+    unsupported_fall_or_damage_state:'下落参数、砸地伤害参数或本帧伤害标记不满足当前终点证明前提（不等于已经受伤）',
+    state_environment_disagreement:'玩家状态与环境不一致',invalid_native_dt:'原版帧时长无效',
+    invalid_arena:'场地范围无效',outside_arena_inner_bounds:'玩家不在场地安全内边界内',
+    arena_phase_not_stationary:'场地变化阶段尚未静止',one_shot_pulse_present:'仍有待处理的瞬时效果',
+    nonzero_velocity:'玩家速度尚未归零',clamp_changes_position:'场地边界仍会改变玩家位置',
+    gravity_not_suppressed:'尚未证明重力不会继续移动玩家',invalid_step_budget:'尾部模拟步数预算无效',
+    invalid_dt_sequence:'尾部帧时钟序列无效',damage_or_invalid_transition:'尾部模拟出现伤害或无效状态',
+    step_budget_exhausted:'尾部持续安全证明已达到模拟步数上限',dt_sequence_exhausted:'尾部持续安全证明已用完可用时钟',
+    invalid_decision_ticks:'输入决策步长无效',invalid_last_mask:'最后一次按键状态无效',
+    last_mask_state_disagreement:'最后一次按键与玩家状态不一致',
+    control_grid_completion_exceeds_budget:'补齐当前输入所需的模拟步数不足',
+    damage_or_invalid_control_grid_transition:'补齐当前输入时出现伤害或无效状态'
+  };
+  const codes=Array.isArray(reasons)?reasons.filter(code=>typeof code==='string'&&code):[];
+  return codes.length?codes.map(code=>'• '+(labels[code]||`尚未分类的终点证明条件：${code}`)).join('\n')
+    :'未返回具体终点原因，可查看原始记录。';
+}
 function showResult(result) {
   response=result;
   showSourceWarnings(result.warnings);
@@ -278,12 +308,14 @@ function showResult(result) {
   $('budget-status').hidden=false;
   const verified=result.status==='candidate_found' && result.verified===true;
   const unsupported=result.reason==='unsupported_mechanism';
+  const terminalUnproven=result.reason==='terminal_invariant_unproven';
+  finishProgress('done',verified?'已完成':terminalUnproven?'已结束 · 终点未证明':'已结束 · 未知');
   const kind=result.completion&&result.completion.kind;
   const policy=typeof result.termination_policy==='string'?result.termination_policy:'';
   const policyNote=verified&&policy?`判据 ${policy}${result.policy_retry?'（脚本无 EndAttack，自动改用 EOF 不变式）':''}。`:'';
-  $('status').textContent=verified ? '找到模型中逐帧验证的候选' : unsupported?'CSV 机制尚未支持':'有限搜索尚未找到完整候选';
+  $('status').textContent=verified ? '找到模型中逐帧验证的候选' : unsupported?'CSV 机制尚未支持':terminalUnproven?'已找到有限避障候选，终点尚未证明':'有限搜索尚未找到完整候选';
   $('status').dataset.kind=verified?'success':'unknown';
-  $('scope-tag').textContent=verified?'源模型验证':unsupported?'脚本兼容性检查未通过':'有限搜索 · 未知';
+  $('scope-tag').textContent=verified?'源模型验证':unsupported?'脚本兼容性检查未通过':terminalUnproven?'终点未证明 · 未知':'有限搜索 · 未知';
   const cost=result.input_cost;
   const costNote=verified&&cost&&Number.isInteger(cost.total)
     ? `操作代价 ${cost.total}（换键 ${cost.churn} × ${cost.churn_weight} + 按键帧 ${cost.held_frames} × ${cost.held_weight}，共 ${cost.frames} 帧）。` : '';
@@ -291,13 +323,16 @@ function showResult(result) {
     ? (kind==='eof_invariant'
       ? `已证明 CSV 尾部危险耗尽（EOF 不变式），没有触发 EndAttack。${policyNote}${costNote}原版游戏尚未验收。`
       : `输入包含移动与 Confirm，已走到模型 EndAttack。${policyNote}${costNote}原版游戏尚未验收。`)
-    : unsupported?unsupportedText(result.issues):`原因：${result.reason || result.status || 'unknown'}。这个结果不能证明无解。`;
+    : unsupported?unsupportedText(result.issues):terminalUnproven?
+      '已找到有限范围内的避障候选，但尾部持续安全尚未证明，当前结果仍为未知。\n'+
+      terminalProofText(result.terminal_reasons)+'\n这不代表完整无伤通过，也不能证明无解。'
+      :`原因：${result.reason || result.status || 'unknown'}。这个结果不能证明无解。`;
   $('wall-time').textContent=finite(result.wall_seconds)?`${numberText(result.wall_seconds)} s`:'—';
   $('game-time').textContent=finite(result.game_seconds)?`${numberText(result.game_seconds)} s`:'—';
   $('time-ratio').textContent=finite(result.wall_seconds)&&finite(result.game_seconds)&&result.game_seconds>0?`${(result.wall_seconds/result.game_seconds).toFixed(2)} ×`:'—';
   const {trajectory,actions,confirm_sequence,unified_controls,dt_sequence,visualization,...summary}=result;
   $('result-data').textContent=JSON.stringify({...summary,action_count:actions?.length||0,visualization:visualization?{schema_version:visualization.schema_version,scope:visualization.scope,frame_count:visualization.frame_count}:null},null,2);
-  if(!verified) { $('empty-stage').textContent=unsupported?'脚本兼容性检查未通过\n请按具体行修改文件或使用兼容副本':budgetMode==='auto'?'自动尝试后仍未找到完整路线，可重试/查看详情':'没有完整候选可播放\n可调整起点或计算预算后重试';return; }
+  if(!verified) { $('empty-stage').textContent=unsupported?'脚本兼容性检查未通过\n请按具体行修改文件或使用兼容副本':terminalUnproven?'已有有限避障候选\n终点持续安全尚未证明，当前结果仍为未知':budgetMode==='auto'?'自动尝试后仍未找到完整路线，可重试/查看详情':'没有完整候选可播放\n可调整起点或计算预算后重试';return; }
   try {
     $('visualization-warning').hidden=true;
     frames=validateVisualization(result);$('timeline').max=frames.length-1;$('empty-stage').hidden=true;
@@ -321,7 +356,7 @@ let progressTimer = null, progressId = null, progressBegan = 0, lastSnapshot = n
 let progressGeneration = 0, snapshotStamp = 0, nativeWindow = null;
 const PHASE_TEXT = {prepare:'准备请求',compile:'编译 CSV 环境',bake:'烘焙精确 C-space',search:'展开前沿搜索',
   dialogue:'对话阶段',completion:'终点证书',verify:'逐帧复核',visualization:'生成逐帧几何'};
-const STATE_TEXT = {running:'解算中',done:'已完成',failed:'失败',unknown:'无实时记录'};
+const STATE_TEXT = {running:'解算中',done:'已结束',failed:'失败',cancelled:'已取消',unknown:'无实时记录'};
 function newProgressId() {
   if (globalThis.crypto && typeof globalThis.crypto.randomUUID === 'function') return globalThis.crypto.randomUUID();
   return `p-${Date.now()}-${Math.round(Math.random()*1e9)}`;
@@ -400,6 +435,9 @@ function stopProgress() {
   ++progressGeneration;
   if (progressTimer !== null) { clearInterval(progressTimer); progressTimer = null; }
 }
+function finishProgress(state,label=STATE_TEXT[state]) {
+  stopProgress();$('progress-state').textContent=label;renderEta({state});
+}
 const NATIVE_STATUS_TEXT={waiting_source:'原游戏正在读取脚本',waiting_start:'原游戏正在读取起点',
   solving:'原游戏已暂停，正在解算',playing:'原游戏执行中',completed:'原游戏执行完成',
   unknown:'原游戏尚未找到完整候选，可在游戏中重试',failed:'原游戏执行失败',cancelled:'原游戏执行已取消'};
@@ -414,11 +452,10 @@ window.addEventListener('message',event=>{
     }
     $('native-progress').textContent=(NATIVE_STATUS_TEXT[message.status]||'原游戏状态：'+message.status)+
       (message.error?' · '+message.error:'');
-    if(['failed','cancelled'].includes(message.status)){stopProgress();renderEta({state:message.status});}
+    if(['failed','cancelled'].includes(message.status))finishProgress(message.status);
   } else if(message.type==='nohit:csv-result'&&message.progress_id===progressId) {
     if(!message.result||typeof message.result!=='object'||typeof message.result.status!=='string')return;
     resetView();showResult(message.result);
-    renderEta({state:'done'});
     $('request-progress').textContent='原游戏求解结果已回传；执行状态见上方。';
   }
 });
@@ -467,6 +504,7 @@ $('solve-form').addEventListener('submit',async event => {
       showResult(result);
     $('request-progress').textContent=`请求完成 · 总等待 ${((performance.now()-began)/1000).toFixed(2)} 秒`;
   } catch(error) {
+    finishProgress('failed');
     $('status').textContent='请求未完成';$('status').dataset.kind='error';$('status-detail').textContent=error.message;
     $('empty-stage').textContent='没有可播放的结果';$('request-progress').textContent='请检查输入和本机服务后重试。';$('result-data').textContent=error.message;
   } finally {clearInterval(timer);stopProgress();renderEta({state:'done'});busy=false;$('solve-button').disabled=false;$('native-button').disabled=false;$('solve-button').textContent='在 Dashboard 解算';}

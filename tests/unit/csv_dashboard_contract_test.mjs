@@ -224,6 +224,43 @@ test('automatic budget result shows its profile and a useful retry message witho
   assert.match(p.element('budget-status').textContent,/手动预算/);assert.match(p.element('empty-stage').textContent,/调整起点或计算预算/);
 });
 
+test('terminal proof failure reports the finite avoidance candidate and ends progress without claiming success',async()=>{
+  const p=page();p.element('csv-path').value='C:/weakened.csv';
+  const result={status:'unknown',verified:false,reason:'terminal_invariant_unproven',actions:[],
+    terminal_reasons:['callback_exhaustion_unproven','neutral_release_clock_exhausted'],
+    reached_tick:53000,diagnostic_prefix_masks:[0,2],budget_selection:{mode:'auto',profile:'long'}};
+  await p.submit(result);
+  assert.match(p.element('status').textContent,/避障候选.*终点.*未证明/);
+  assert.equal(p.element('status').dataset.kind,'unknown');
+  assert.match(p.element('scope-tag').textContent,/终点.*未证明.*未知/);
+  assert.match(p.element('status-detail').textContent,/回调.*执行完毕/);
+  assert.match(p.element('status-detail').textContent,/释放按键.*时钟/);
+  assert.match(p.element('status-detail').textContent,/不能证明无解/);
+  assert.doesNotMatch(p.element('empty-stage').textContent,/未找到完整路线|可调整.*预算/);
+  assert.match(p.element('empty-stage').textContent,/有限避障候选.*\n.*终点/);
+  assert.equal(p.element('progress-state').textContent,'已结束 · 终点未证明');
+  assert.equal(p.element('p-eta-note').textContent,'本次解算已结束。');
+  assert.equal(p.element('play').disabled,true);assert.equal(p.timers.size,0);
+  const raw=JSON.parse(p.element('result-data').textContent);
+  assert.deepEqual(raw.terminal_reasons,result.terminal_reasons);assert.equal(raw.status,'unknown');
+});
+
+test('unknown terminal proof reasons retain their code and missing details stay explicitly unknown',()=>{
+  for(const reasons of [undefined,['future_terminal_condition']]) {
+    const p=page();p.result({status:'unknown',verified:false,reason:'terminal_invariant_unproven',terminal_reasons:reasons});
+    assert.match(p.element('status-detail').textContent,reasons?/尚未分类.*future_terminal_condition/:/未返回具体.*原因/);
+    assert.equal(p.element('play').disabled,true);assert.equal(p.element('status').dataset.kind,'unknown');
+  }
+});
+
+test('POST completion and request failure always leave progress in a terminal state',async()=>{
+  const p=page();p.element('csv-path').value='C:/x.csv';await p.submit({status:'unknown',verified:false,reason:'wall_budget'});
+  assert.equal(p.element('progress-state').textContent,'已结束 · 未知');
+  await p.submit(candidate());assert.equal(p.element('progress-state').textContent,'已完成');
+  p.respond(async()=>{throw Error('disconnected');});await p.submit({});
+  assert.equal(p.element('progress-state').textContent,'失败');assert.equal(p.element('p-eta').textContent,'—');
+});
+
 test('frame zero is observation; later frames show the input that reached them',()=>{
   const p=page();p.result(candidate());
   assert.equal(p.element('key-label').textContent,'起点观测');assert(p.keys.every(k=>!k.active));
