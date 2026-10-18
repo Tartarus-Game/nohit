@@ -64,6 +64,22 @@ def main():
     command.append(str(ROOT/'tools/distribution_entry.py'))
     subprocess.run(command, cwd=ROOT, env=environment, check=True)
     package = staging/'dist/nohit'
+    if os.name != 'nt':
+        # Ubuntu 22.04's strip can break page alignment in wheel ELF files
+        # previously rewritten by auditwheel/patchelf. Preserve those original
+        # NumPy images; their relative numpy/numpy.libs layout is unchanged.
+        import numpy
+        numpy_root = Path(numpy.__file__).parent
+        for installed in (package/'_internal/numpy').rglob('*.so'):
+            original = numpy_root/installed.relative_to(package/'_internal/numpy')
+            shutil.copyfile(original,installed)
+        libraries = numpy_root.parent/'numpy.libs'
+        if libraries.is_dir():
+            for original in libraries.iterdir():
+                if original.is_file():
+                    destination = package/'_internal/numpy.libs'/original.name
+                    destination.parent.mkdir(parents=True,exist_ok=True)
+                    shutil.copyfile(original,destination)
     licenses = package/'licenses'
     licenses.mkdir(exist_ok=True)
     for name in ('numpy','pyinstaller'):
