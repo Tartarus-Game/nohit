@@ -7,7 +7,7 @@
 
 每次提交自动构建两个平台的独立运行包，内含 Python 与预编译 C++，用户设备无需配置编译环境。
 前往 [Actions 下载成功构建的 Artifact](https://github.com/Tartarus-Game/nohit/actions/workflows/build.yml)。
-Windows 解压后运行 `nohit.exe`；Linux 解开 `.tar.xz` 后运行 `nohit`，浏览器打开 `http://127.0.0.1:8080`。
+Windows 运行自解压 EXE 后启动解压目录的 `nohit.exe`；Linux 解开 `.tar.xz` 后运行 `nohit`，浏览器打开 `http://127.0.0.1:8080`。
 每个平台压缩包设有 20 MB 硬上限，详情见 [自动构建说明](docs/portable-builds.md)。
 
 ## CSV 真机流程

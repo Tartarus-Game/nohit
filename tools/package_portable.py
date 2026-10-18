@@ -13,7 +13,6 @@ import subprocess
 import sys
 import tarfile
 import tempfile
-import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -89,7 +88,8 @@ def main():
                 shutil.copyfile(distribution.locate_file(path),licenses/(name+'-'+Path(path).name))
     (package/'START.txt').write_text(
         'NOHIT portable\n\nExtract the whole archive to a writable folder.\n'
-        'Windows: double-click nohit.exe. Linux: chmod +x nohit; ./nohit\n'
+        'Windows: run the self-extracting EXE, then launch the extracted nohit.exe.\n'
+        'Linux: chmod +x nohit; ./nohit\n'
         'Open http://127.0.0.1:8080 in your browser.\n'
         'No Python, C++ compiler, xmake or vcpkg installation is required.\n'
         'Keep _internal beside the executable. Optional port: nohit 8081\n'
@@ -101,12 +101,25 @@ def main():
     label = 'windows-x64' if os.name == 'nt' else 'linux-x64'
     for previous in release.glob(f'nohit-{label}.*'):
         previous.unlink()
-    archive = release/(f'nohit-{label}.zip' if os.name=='nt' else f'nohit-{label}.tar.xz')
+    archive = release/(f'nohit-{label}.exe' if os.name=='nt' else f'nohit-{label}.tar.xz')
     if os.name == 'nt':
-        with zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED,compresslevel=9) as output:
-            for path in sorted(package.rglob('*')):
-                if path.is_file():
-                    output.write(path, Path('nohit')/path.relative_to(package))
+        # A solid LZMA self-extractor avoids ZIP's per-file compression cost.
+        # NSIS is needed only on CI, never on the user's device; extraction
+        # requires no elevation and changes only the selected output folder.
+        maker = shutil.which('makensis') or shutil.which('makensis.exe')
+        if not maker:
+            raise SystemExit('NSIS 3 is required on the Windows build machine')
+        script = staging/'portable.nsi'
+        output_name = str(archive).replace('$','$$')
+        package_name = str(package/'*').replace('$','$$')
+        script.write_text('Unicode true\nName "NOHIT portable"\n'
+            f'OutFile "{output_name}"\n'
+            'InstallDir "$LOCALAPPDATA\\NOHIT"\nRequestExecutionLevel user\n'
+            'SetCompressor /SOLID lzma\nSetCompressorDictSize 64\n'
+            'Page directory\nPage instfiles\nSection "NOHIT"\n'
+            'SetOutPath "$INSTDIR"\n'
+            f'File /r "{package_name}"\nSectionEnd\n',encoding='utf-8-sig')
+        subprocess.run([maker,str(script)],cwd=ROOT,env=environment,check=True,timeout=180)
     else:
         # Preserve PyInstaller's library symlinks instead of storing duplicate
         # OpenBLAS/Fortran images. xz is supported by standard Linux tar.
@@ -116,9 +129,11 @@ def main():
                 output.add(package, arcname='nohit')
     with tempfile.TemporaryDirectory(prefix='nohit-release-test-') as directory:
         if os.name == 'nt':
-            with zipfile.ZipFile(archive) as source:
-                assert source.testzip() is None
-                source.extractall(directory)
+            destination = Path(directory)/'nohit'
+            # /D must be the final NSIS argument. Do not add shell quoting;
+            # subprocess already passes the complete argument (including spaces).
+            subprocess.run([str(archive),'/S','/D='+str(destination)],
+                           env=environment,check=True,timeout=90)
         else:
             with tarfile.open(archive) as source:
                 source.extractall(directory, filter='data')

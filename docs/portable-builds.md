@@ -8,7 +8,7 @@
 
 | 平台 | 平台包 | 启动方式 |
 | --- | --- | --- |
-| Windows 10/11 x64 | `nohit-windows-x64.zip` | 双击 `nohit.exe` |
+| Windows 10/11 x64 | `nohit-windows-x64.exe` | 运行自解压包，选择目录，再运行解压后的 `nohit.exe` |
 | Linux x86_64，glibc ≥ 2.35 | `nohit-linux-x64.tar.xz` | `tar -xf nohit-linux-x64.tar.xz`，然后 `./nohit/nohit` |
 
 浏览器打开 `http://127.0.0.1:8080`。可通过 `nohit 8081` 指定其他端口。
@@ -26,11 +26,12 @@
 - 先运行操作目标/失败诊断/难度分析测试，再解压最终平台包进行真实解算、独立验证及 HTTP 首页、游戏和解算 API 自测。
   自测禁止发现编译器和启动子进程；冻结版本缺失或校验不通过的内核会直接报错。
 - 每个平台压缩包必须 ≤ **20,000,000 字节**，超限会使构建失败，不会显示为成功发布。
-  Linux 使用 xz 并保留共享库链接，Windows 使用标准 ZIP。
+  Linux 使用 xz 并保留共享库链接；Windows 使用 NSIS solid LZMA 自解压 EXE，无需管理员权限或额外解压工具。
 - Artifact 同时提供 SHA-256 和实际字节数报告，保留 30 天。GitHub 外层包装与解压后体积不计入平台包预算。
 
 本地复现（仅开发者需要工具链）：安装 `requirements-build.txt`，执行 vcpkg install，
 设置 `NOHIT_NATIVE_TUNE=portable`，依次运行 `python -m tools.build_native --install`、
 `python -m tools.build_accelerators`、`python -m tools.package_portable`。
-输出位于 `build/releases/`。Linux CI 固定 Ubuntu 22.04；在更高版本 glibc 上自行构建的包
+输出位于 `build/releases/`。Windows 构建机还需要 NSIS 3（GitHub windows-2022 runner 已预装）。
+Linux CI 固定 Ubuntu 22.04；在更高版本 glibc 上自行构建的包
 不承诺兼容更旧系统，包内 `START.txt` 会记录本次构建的 glibc 基线。
