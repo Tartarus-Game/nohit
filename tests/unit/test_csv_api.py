@@ -41,6 +41,19 @@ def test_pasted_csv_does_not_need_a_browser_file_picker():
     assert result['csv_sha256'] == hashlib.sha256(b'10,EndAttack\n').hexdigest()
 
 
+@pytest.mark.parametrize('analyze',[True,False])
+def test_human_mode_and_optional_report_reach_dashboard_api(analyze):
+    result=solve_csv_request(dict(custom_csv='0,HeartMode,0\n0.1,SansText,Hi.,\n0.1,EndAttack\n',
+        initial=INITIAL,fps=60,max_ticks=100,seconds=3,width=16,workers=1,budget_mode='manual',
+        visualization_mode='entry',objective='human_friendly',analyze_difficulty=analyze))
+    assert result['verified'] and result['search_objective']['objective']=='human_friendly'
+    assert sum(result['confirm_sequence'])==1
+    if analyze:assert result['difficulty']['status']=='analyzed'
+    else:assert 'difficulty' not in result
+    assert 'nohit/engine/human_difficulty.py' in result['provenance']['implementation_sha256']
+    json.dumps(result,allow_nan=False)
+
+
 def test_fresh_request_provenance_binds_actual_solver_sources_and_request_identity():
     from nohit.dashboard.csv_api import implementation_hashes, IMPLEMENTATION_PATHS
     payload = dict(custom_csv='10,EndAttack\n', initial=INITIAL, max_ticks=2)

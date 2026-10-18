@@ -1,0 +1,42 @@
+{
+  "csv_sha256": "6fae36d1bdef87a5f9605080da045ed8121e7c867113bef5fc9c38f102775075",
+  "entry_sha256": "912d8eb5d389f9329649913627d44fa0fd4ab3f915dd8e16c4ba7b217e04c56e",
+  "implementation_sha256": "db5b683ab4361d9fedacf8f13449331f5e1b7094ad0941bb9254fdea47065bf6",
+  "median_solve_seconds": 8.40603939399989,
+  "max_external_seconds": 8.62535644799982,
+  "repeats": 3,
+  "all_verified": true,
+  "new_processes": true,
+  "empty_runtime_code_cache": true,
+  "installed_aot_code": true,
+  "installation_build_time_included": false,
+  "route_cache": false,
+  "environment_cache": false,
+  "native_passed": true,
+  "native_solve_seconds": 8.538171143999989,
+  "native_process_seconds": 8.718291726000002,
+  "native_frames": 25805,
+  "native_targets": 469,
+  "native_damage_events": 0,
+  "python_tests": {
+    "passed": 1420,
+    "xfailed": 1
+  },
+  "node_tests": {
+    "passed": 314
+  },
+  "files": {
+    "benchmark-full.json.gz": "a7da794e7341d3502322aa9dc57330ecfb15dd0345c638b400d3cac0d3404c73",
+    "native-build.json": "2f59e0b1607acb4a6d9b99776a608b224e8cd3b569a0f1c06205f9bc7f13e110",
+    "earlier-warm-benchmark.json.gz": "0741ecdc82ea94ac46ca754b9a2ee433778c2d620763d20e62a16a1983780477",
+    "native-route.json.gz": "efda42281e3faf7be05c41d88a07fdf03d2f5eec1e0d56f96b450d10a328e20a",
+    "benchmark.json": "5ab64399a23a1da4bfd291a48fcfcd4853f4da60ea77ba79e91e74eb3363c51f",
+    "scalar-build.json": "68099844aa45069a1b5b0100cb625e32ac48c66b4dbc57687c0c8b65153d4735",
+    "python-tests.log": "5093640f518b9582b4bed419311bbfc4e039fcb11ef4c17ddc0d37378f1b2bfe",
+    "native-summary.json": "44ebcc47dd6c03350fa29b7a24f6cde40857d21789b286d8118bf1dce656619e",
+    "native-entry.json.gz": "a9669cb38d2b3daeedd125adf89168c53b36192785c58d37017339793e6bcb2c",
+    "README.md": "54627aff0634282b27774b0630063cd4c854477caba64b4afc0d311d80eb0291",
+    "native-replay.json.gz": "2c1655f11bd01eb233f08817b46d2032cd86609eb71bc35a9a28af4abd4d1fb9",
+    "node-tests.log": "b6731a61ac961b45ac6ac87ab7d866fc2cf796e9993e843fe824fd176bae81ee"
+  }
+}

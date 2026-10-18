@@ -11,6 +11,7 @@ from types import SimpleNamespace
 import numpy as np
 
 from .native_candidate import find_native_candidate
+from .search_preferences import input_cost,confirm_for_state
 from .parametric_environment import ParametricEnvironment
 from .initial_target_history import bind_initial_target_history
 from .source_oracle import scalar_module
@@ -109,7 +110,7 @@ def _world(path, initial, settings, proposal, initial_confirm, previous_confirm,
     observations=None if initial_target_history is None else iter(initial_target_history)
     while True:
         if time.perf_counter()>deadline:return None
-        tick=state.data['tick'];confirm=initial_confirm if tick==0 else tick%2==0
+        tick=state.data['tick'];confirm=confirm_for_state(state,tick,initial_confirm)
         if telemetry is not None:telemetry.emit('bake',tick,ticks=None,alive_states=None,message='Rebuilding source world')
         options={} if coupled else dict(previous_confirm=previous_confirm,previous_cancel=False)
         result=world._advance_with_dialogue_input_owned(state,confirm=confirm,cancel=False,**options);coupled=True
@@ -174,23 +175,87 @@ def _certify(path,initial,settings,actions,expected,confirms,initial_confirm,
         if result is not None and telemetry is not None:telemetry.emit('verify',len(actions),ticks=len(actions),alive_states=None,force=True)
         return result
     player=scalar_module('discrete_operator');joint=scalar_module('joint_transition')
-    from .source_verification import compile_observed_prefix,scalar_collision_checker
-    reference=compile_observed_prefix(path,settings,expected,initial_target_history)
-    if reference is None:return None
+    from .source_verification import compile_observed_prefix
+    from .parametric_environment import EnvironmentContinuation,EnvironmentBinding
+    import copy
     template=ParametricEnvironment(path,backend='resumable',**settings)
-    binding=template.bind_history_once(reference.target_history)
-    if binding.wave.termination_reason!=reference.termination_reason:return None
-    reference_check=scalar_collision_checker(reference)
-    state=player.initial_state(initial,binding.wave.env_schedule[0]);controlled=None
-    base=None;first=None;history=[];primed=False;identity_parts=[];previous_control=None
-    damage_events=[];prefix_damage={}
+    if not np.isfinite(expected).all():return None
+    # These are geometry-query bounds only. Every entity still advances and
+    # the independently computed state must match this word before querying.
+    collision_bounds=np.column_stack((expected[:,0]-2.,expected[:,1]-2.,
+        expected[:,0]+2.,expected[:,1]+2.))
+    suspended=None
+    def capture_suspension(vm,scope):
+        nonlocal suspended
+        # Translate the independently executed monolithic VM at its exact
+        # pre-SansText transaction boundary, before any preview entity update.
+        suspended=world.initialize(path,**settings)
+        suspended.vm=copy.deepcopy(vm)
+        data={key:scope[key] for key in world._PERSISTENT+world._IN_FLIGHT}
+        data['active_bones']=list(data['active_bones'])
+        tick=scope['tick']
+        data['source_events']=[row for row in data['source_events'] if row[0]==tick]
+        data['target_history']=[row for row in data['target_history'] if row[0]==tick]
+        data['callback_events']=[row for row in data['callback_events'] if row['executed_tick']==tick]
+        suspended.data=copy.deepcopy(data);suspended.phase='await_dialogue'
+        suspended.request=dict(tick=tick,line=scope['pc']+1,text=vm.variable_key(scope['args'][0]),instruction_accounted=False)
+        suspended.stats['commands_executed']=len(scope['source_events'])
+        if settings.get('clock_start_ms') is not None:
+            timestamp=float(settings['clock_start_ms'])
+            for _ in range(tick):timestamp+=1000./240.
+            suspended.clock_timestamp=timestamp
+    class RejectedPrefix(Exception):pass
+    state=None
+    def check_prefix(tick,env,platforms,white,blue,polygons,committed):
+        nonlocal state
+        if state is None:state=player.initial_state(initial,env).tolist()
+        if not committed:return
+        if tick>=len(expected):raise RejectedPrefix
+        if tick:player.step_mask_into(state,actions[tick-1],env.tolist(),platforms.tolist(),state)
+        frame=SimpleNamespace(white=white,blue=blue,polygons=polygons)
+        if (struct.pack('=11d',*state)!=expected[tick].tobytes()
+                or scalar_frame_collision(frame,state)):raise RejectedPrefix
+        if telemetry is not None:telemetry.emit('verify',tick,ticks=len(actions),alive_states=None)
+    try:
+        reference=compile_observed_prefix(path,settings,expected,initial_target_history,
+            _frame_observer=check_prefix,_suspension_observer=capture_suspension,_collision_bounds=collision_bounds)
+    except RejectedPrefix:return None
+    if reference is None:return None
+    # Verify the independent monolithic prefix before materializing the
+    # resumable binding. Keeping both padded worlds alive doubles peak RSS.
+    # The unresolved dialogue row is a preview, so its actual controlled tick
+    # is checked below, exactly as in the original interleaved verifier.
+    reference_reason=reference.termination_reason
+    prefix_stop=len(reference.env_schedule)-(reference_reason=='dialogue_boundary')
+    reference_history=reference.target_history
+    initial_env=reference.env_schedule[0].copy()
+    if prefix_stop>len(expected):return None
+    damage_events=[]
+    prefix_damage={}
     for event in reference.source_events:
-        if event[1]=="damageplayer":prefix_damage.setdefault(event[0],[]).append(event)
-    for tick in range(len(actions)+1):
+        if event[1]=='damageplayer':prefix_damage.setdefault(event[0],[]).append(event)
+    for tick in range(prefix_stop):
+        for source_tick,command,args in prefix_damage.get(tick,()):
+            damage_events.append(dict(tick=source_tick,amount=float(args[0]),kr=float(args[1] or 0.)))
+    if reference.complete:
+        if len(reference.env_schedule)!=len(actions)+1:return None
+        binding=EnvironmentBinding(template._history_key(reference_history),reference_history,reference)
+        terminal=wave_terminal(reference);terminal['scripted_damage_events']=damage_events
+        if telemetry is not None:telemetry.emit('verify',len(actions),ticks=len(actions),alive_states=None,force=True)
+        return binding,reference_history,terminal,None,None,False
+    del reference,prefix_damage
+    if reference_reason!='dialogue_boundary' or suspended is None:return None
+    binding=EnvironmentContinuation(template._history_key(reference_history),reference_history,
+        suspended,initial_env,reference_reason,None,False,())
+    if (binding.reason!=reference_reason or binding.first_environment is None or
+            binding.first_environment.tobytes()!=initial_env.tobytes()):return None
+    controlled=None
+    base=None;first=None;history=[];primed=False;identity_parts=[];previous_control=None
+    for tick in range(prefix_stop,len(actions)+1):
         result=None
         if controlled is None:
-            if binding.pending_target is not None:return None
-            if binding.wave.termination_reason=='dialogue_boundary' and binding.resume_state.request['tick']==tick:
+            if binding.reason=='pending_target':return None
+            if binding.reason=='dialogue_boundary' and binding.resume_state.request['tick']==tick:
                 base=binding;history=list(binding.history);first=max(1,tick)
                 prior_confirm=previous_confirm if tick==0 else initial_confirm if tick==1 else confirms[tick-2]
                 previous_control=int(state[4])|(32 if prior_confirm else 0)
@@ -202,23 +267,22 @@ def _certify(path,initial,settings,actions,expected,confirms,initial_confirm,
                     result=_controlled_tick_owned(controlled,int(state[4])|(32 if initial_confirm else 0),
                         state,identity_parts,previous_control)
             else:
-                if tick>=len(reference.env_schedule):return None
-                if tick:player.step_mask_into(state,actions[tick-1],reference.env_schedule[tick],reference.platform_table[tick],state)
-                if reference_check(tick,state):return None
+                return None
         if controlled is not None:
+            controlled.data['active_bones'].clip_bounds=collision_bounds[tick]
             if tick:
                 result=_controlled_tick_owned(controlled,int(actions[tick-1])|(32 if confirms[tick-1] else 0),
                     state,identity_parts,previous_control)
             if not isinstance(result,(world.TickCommitted,world.Terminal)) or result.frame is None:return None
             controlled=result.state;frame=result.frame
-            if tick:player.step_mask_into(state,actions[tick-1],frame.env,frame.platforms,state)
+            if tick:player.step_mask_into(state,actions[tick-1],frame.env.tolist(),frame.platforms.tolist(),state)
             if scalar_frame_collision(frame,state) or frame.tick!=tick:return None
             rows=frame.target_history
             if tick==max(0,first-1) and primed:rows=rows[len([r for r in history if r[0]==tick]):]
             elif tick==first:rows=rows[len([r for r in history if r[0]==tick]):]
             history.extend(rows)
-        if not np.isfinite(state).all() or state.tobytes()!=expected[tick].tobytes():return None
-        events=frame.events if controlled is not None else prefix_damage.get(tick,())
+        if struct.pack('=11d',*state)!=expected[tick].tobytes():return None
+        events=frame.events
         for source_tick,command,args in events:
             if command=='damageplayer':
                 damage_events.append(dict(tick=source_tick,amount=float(args[0]),kr=float(args[1] or 0.)))
@@ -228,8 +292,15 @@ def _certify(path,initial,settings,actions,expected,confirms,initial_confirm,
         terminal=SimpleNamespace(state=controlled,status='terminal',frame=result.frame,reason=result.reason)
         source_terminal=controlled_terminal(terminal,template);source_terminal["scripted_damage_events"]=damage_events
         return base,tuple(history),source_terminal,b''.join(identity_parts),first-1,primed
-    if not binding.complete or len(binding.wave.env_schedule)!=len(actions)+1:return None
-    source_terminal=wave_terminal(binding.wave);source_terminal["scripted_damage_events"]=damage_events
+    if not binding.complete or binding.frame is None or binding.frame.tick!=len(actions):return None
+    # Reuse the ordinary source terminal schema on a one-frame terminal view;
+    # its tick and callback inventory belong to the full streamed execution.
+    final_view=template._materialize([binding.frame],binding.resume_state,binding.history,
+        None,None,binding.reason,(),True,include_combined_geometry=False)
+    source_terminal=wave_terminal(final_view);source_terminal['tick']=binding.frame.tick
+    source_terminal['details']['executed_callbacks']=list(binding.callback_events)
+    source_terminal["scripted_damage_events"]=damage_events
+    if telemetry is not None:telemetry.emit('verify',len(actions),ticks=len(actions),alive_states=None,force=True)
     return binding,binding.history,source_terminal,None,None,False
 
 
@@ -295,6 +366,46 @@ def _segmented(path,initial,settings,width,workers,memory_mb,selection_seed,init
     return None
 
 
+def _validate_coupled_window(suspension,physical,actions,start,origin,initial_confirm,safety_margin_px=0.):
+    """Execute a proposed future under its own real observations.
+
+    Retain a midpoint checkpoint only if the entire lookahead survives. The
+    uncommitted second half remains an escape witness, never a cached world.
+    """
+    if len(actions)-start<60:return None
+    state=suspension.state.clone();player=scalar_module('discrete_operator')
+    current=physical.tolist();half=(len(actions)-start)*3//4
+    trace=[];frames=[];checkpoints={}
+    def accepted(collision=False):
+        count=min(half,len(trace)-60) if collision else half
+        count=count//30*30
+        if count<30 or count not in checkpoints:return None
+        return checkpoints[count],np.asarray(trace),frames[:count],start+count
+    for index in range(start,len(actions)):
+        tick=state.data['tick'];confirm=confirm_for_state(state,tick,initial_confirm)
+        result=world._advance_with_dialogue_input_owned(state,confirm=confirm,cancel=False)
+        while isinstance(result,world.NeedTarget):
+            env,platforms=world._observation_sampling_arrays(result)
+            xy=player.sample_position(current,env.tolist(),platforms.tolist())
+            state=world._supply_target_owned(result.state,xy)
+            result=world._advance_with_dialogue_input_owned(state,confirm=confirm,cancel=False)
+        if not isinstance(result,(world.TickCommitted,world.Terminal)) or result.frame is None:return None
+        state=result.state;frame=result.frame
+        if frame.tick!=origin+index+1:return None
+        player.step_mask_into(current,actions[index],frame.env.tolist(),frame.platforms.tolist(),current)
+        row=np.asarray(current,np.float64)
+        if not np.isfinite(row).all() or scalar_frame_collision(frame,current):return accepted(True)
+        if safety_margin_px>0.:
+            from .native_backend import frame_clearance
+            if frame_clearance(frame,current)[0]<=safety_margin_px:return accepted(True)
+        trace.append(row)
+        frames.append(frame)
+        if len(trace)%30==0 and len(trace)<=half:checkpoints[len(trace)]=state.clone()
+        if isinstance(result,world.Terminal):
+            if index+1!=len(actions):return None
+    return accepted()
+
+
 def _segmented_coupled(path,initial,settings,width,workers,memory_mb,selection_seed,
                        initial_confirm,previous_confirm,initial_target_history,deadline,_goal_style=None,_preview_ticks=0,_audit=None,_chunk_ticks=0,_preview_reads=128,_goal_retries=False,_fixed_prefix=None,_failure=None,telemetry=None):
     """Commit only through the next real observation under explicit dialogue.
@@ -304,17 +415,50 @@ def _segmented_coupled(path,initial,settings,width,workers,memory_mb,selection_s
     Search remains bounded and may prune useful earlier observation branches.
     """
     template=ParametricEnvironment(path,**settings)
-    environment=world._enable_bone_arrays(world.initialize(path,**settings),native=True)
-    first=bind_initial_target_history(template,initial_target_history)
+    environment=world._enable_bone_arrays(world.initialize(path,**settings),native=True,proposal=True)
+    # Only frame zero seeds the player here. Binding the whole prefix would
+    # bake every frame up to the first observation, then immediately rebuild
+    # those same frames in the owned continuation below.
+    first=bind_initial_target_history(
+        ParametricEnvironment(path,**dict(settings,max_ticks=1)),initial_target_history)
     player=scalar_module('discrete_operator')
     physical=player.initial_state(initial,first.wave.env_schedule[0])
     frames=[];trace_parts=[physical.reshape(1,11).copy()];word=[];confirms=[];history=[]
     observations=None if initial_target_history is None else iter(initial_target_history)
     coupled=False;last=None;segment_stats=[];segment=0
+    checkpoints=[];backtracks=0;proposal=[];retry_origin=None;failed_origins={}
+    class RetryObservation(Exception):pass
+    class WindowAdvanced(Exception):pass
     fixed_actions=[];fixed_trace=None;fixed_confirms=[]
+    def remember(extra=()):
+        if _failure is None:return
+        from .search_preferences import current
+        routes=_failure.setdefault('routes',[])
+        candidates=[dict(actions=list(word),confirm_sequence=list(confirms[:len(word)]),stop_kind='committed_prefix')]
+        for route in extra:
+            actions=list(word)+list(route['actions'])
+            controls=[confirms[i] if i<len(confirms) else (i+1)%2==0 for i in range(len(actions))]
+            candidates.append(dict(route,actions=actions,confirm_sequence=controls))
+        for candidate in candidates:
+            # Longer receipts supersede their own shorter prefixes. Keep
+            # genuinely different branches, including ones later rolled back.
+            def extends(a,b):
+                n=len(b['actions'])
+                return len(a['actions'])>=n and a['actions'][:n]==b['actions'] and a['confirm_sequence'][:n]==b['confirm_sequence']
+            if any(extends(row,candidate) for row in routes):continue
+            routes[:]=[row for row in routes if not extends(candidate,row)]
+            if not any(row['actions']==candidate['actions'] and row['confirm_sequence']==candidate['confirm_sequence'] for row in routes):routes.append(candidate)
+        routes.sort(key=lambda row:-len(row['actions']))
+        cap=current()['diagnostic_routes']
+        if len(routes)>cap:_failure['truncated']=True;del routes[cap:]
     def limited(reason):
+        remember()
         if _failure is not None:_failure['reason']=reason
         return False
+    def incomplete(reason=None):
+        remember()
+        if _failure is not None and reason is not None:_failure['reason']=reason
+        return None
     if _fixed_prefix is not None:
         supplied_hash=_fixed_prefix.get('csv_sha256',_fixed_prefix.get('source_sha256'))
         if supplied_hash!=hashlib.sha256(Path(path).read_bytes()).hexdigest():
@@ -331,11 +475,13 @@ def _segmented_coupled(path,initial,settings,width,workers,memory_mb,selection_s
                 fixed_trace[0].tobytes()!=physical.tobytes()):
             raise ValueError('invalid fixed prefix witness')
     def commit(suspension=None):
-        nonlocal physical,frames,last,segment
+        nonlocal physical,frames,last,segment,proposal,environment
         if len(frames)<2:return True
         remaining=deadline-time.perf_counter()
         if remaining<=0:return limited('native_observation_budget')
         committed_count=len(frames)-1
+        if _chunk_ticks and suspension is not None and not isinstance(suspension,world.NeedTarget):
+            committed_count=min(committed_count,_chunk_ticks)
         if fixed_trace is not None and len(word)<len(fixed_actions):
             prefix_end=min(len(fixed_actions),len(word)+committed_count)
             if physical.tobytes()!=fixed_trace[len(word)].tobytes():
@@ -349,36 +495,70 @@ def _segmented_coupled(path,initial,settings,width,workers,memory_mb,selection_s
             physical=fixed_trace[prefix_end].copy();frames=frames[count:];segment+=1
             committed_count=len(frames)-1
             if not committed_count:return True
-        search_frames=frames;preview_reads=0
+        search_frames=frames;preview_reads=0;preview=None;future=None
+        e=frames[-1].env
+        evasive=(_goal_style==16 and isinstance(suspension,world.NeedTarget) and committed_count<=60
+            and e[4]==0. and e[6]==0. and e[3]>e[1] and e[2]-e[0]>=3.*(e[3]-e[1]))
+        preview_limit=0 if evasive else _preview_reads
         if suspension is not None and _preview_ticks and committed_count>4:
+            from .native_backend import neutral_rollout
             preview=suspension.state.clone();guess=physical.copy();preview_reads=0
-            for old_frame in frames[1:]:
-                player.step_mask_into(guess,0,old_frame.env,old_frame.platforms,guess)
-            search_frames=list(frames);stop=preview.data['tick']+_preview_ticks
+            forecast_cursor=0
+            forecast=list(frames[1:])
+            search_frames=list(frames)
+            stop=preview.data['tick']+max(0,_preview_ticks+committed_count-(len(frames)-1))
             while preview.data['tick']<stop and time.perf_counter()<deadline:
-                future_tick=preview.data['tick'];future_confirm=initial_confirm if future_tick==0 else future_tick%2==0
+                idle=world._advance_idle_world_owned(preview,stop-preview.data['tick'])
+                if idle:
+                    search_frames.extend(_proposal_frame(frame) for frame in idle)
+                    forecast.extend(idle)
+                    future=world.TickCommitted(preview,idle[-1])
+                    continue
+                future_tick=preview.data['tick'];future_confirm=confirm_for_state(preview,future_tick,initial_confirm)
                 if telemetry is not None:telemetry.emit('bake',future_tick,ticks=None,alive_states=None,
                     message='Preparing preview; committed through source tick '+str(len(word)))
                 future=world._advance_with_dialogue_input_owned(preview,confirm=future_confirm,cancel=False)
                 while isinstance(future,world.NeedTarget):
                     preview_reads+=1
+                    if preview_reads>preview_limit:break
+                    if forecast:
+                        if proposal:
+                            predicted=guess.tolist()
+                            for frame in forecast:
+                                mask=proposal[forecast_cursor] if forecast_cursor<len(proposal) else 0
+                                player.step_mask_into(predicted,mask,frame.env.tolist(),frame.platforms.tolist(),predicted)
+                                forecast_cursor+=1
+                            guess=np.asarray(predicted,np.float64)
+                        else:guess=neutral_rollout(guess,forecast)
+                        forecast=[]
                     xy=guess[:2] if future_tick==0 else player.sample_position(guess,*world._observation_sampling_arrays(future))
                     preview=world._supply_target_owned(future.state,xy)
                     future=world._advance_with_dialogue_input_owned(preview,confirm=future_confirm,cancel=False)
-                if preview_reads>_preview_reads:break
+                if preview_reads>preview_limit:break
                 if not isinstance(future,(world.TickCommitted,world.Terminal)) or future.frame is None:break
                 preview=future.state;search_frames.append(_proposal_frame(future.frame))
-                if future_tick:player.step_mask_into(guess,0,future.frame.env,future.frame.platforms,guess)
+                if future_tick:forecast.append(future.frame)
                 if isinstance(future,world.Terminal):break
         part=template._materialize(search_frames,environment,tuple(history),None,None,'endattack',(),True,
             include_combined_geometry=False)
         resolved=SimpleNamespace(wave=part,pending_target=None,complete=True,history=tuple(history),identity=b'')
         target=None
-        if _goal_style is not None:
+        if _goal_style is not None and (_goal_style!=16 or evasive):
             # Relative goals are policies, not saved routes or observed worlds.
             fractions=((.15,.15),(.85,.15),(.85,.85),(.15,.85),(.5,.15),(.85,.5),(.5,.85),(.15,.5))
-            slot=_goal_style if _goal_style<8 else (_goal_style-8+len(word)//30)%8
+            slot=_goal_style if _goal_style<8 else (max(0,_goal_style-8) +len(word)//30)%8
             u,v=fractions[slot];bounds=part.env_schedule[-1,:4]
+            if _goal_style==16:
+                directions=[]
+                for axis in range(2):
+                    low,high=bounds[axis]+13.,bounds[axis+2]-13.
+                    position=physical[axis];velocity=physical[axis+2]
+                    margin=min(30.,max(0.,high-low)/3.)
+                    positive=position<(low+high)/2. if velocity==0. else velocity>0.
+                    if position<=low+margin:positive=True
+                    elif position>=high-margin:positive=False
+                    directions.append(.85 if positive else .15)
+                u,v=directions
             target=(bounds[0]+13.+u*max(0.,bounds[2]-bounds[0]-26.),
                     bounds[1]+13.+v*max(0.,bounds[3]-bounds[1]-26.))
         goals=[target]
@@ -388,15 +568,51 @@ def _segmented_coupled(path,initial,settings,width,workers,memory_mb,selection_s
                 point=(bounds[0]+13.+u*max(0.,bounds[2]-bounds[0]-26.),
                        bounds[1]+13.+v*max(0.,bounds[3]-bounds[1]-26.))
                 if point not in goals:goals.append(point)
+        # A checkpoint owns the exact source transaction, including suspended
+        # observations. Frames and trace blocks are immutable; only the live
+        # world is cloned. Retain a bounded local rollback horizon.
+        if len(word)>=len(fixed_actions):
+            checkpoint=SimpleNamespace(origin=len(word),environment=environment.clone(),
+                physical=physical.copy(),frames=tuple(frames),traces=tuple(trace_parts),
+                confirms=len(confirms),history=len(history),segment=segment,coupled=coupled)
+            if checkpoints and checkpoints[-1].origin==checkpoint.origin:checkpoints[-1]=checkpoint
+            else:checkpoints.append(checkpoint)
+            del checkpoints[:-16]
         for attempt,goal in enumerate(goals):
             remaining=deadline-time.perf_counter()
             if remaining<=0:return limited('native_observation_budget')
-            budget=min(remaining,4. if attempt==0 else 1.5) if _goal_retries else remaining
+            budget=min(remaining,4. if attempt==0 else 1.5) if _goal_retries else min(remaining,max(.1,len(search_frames)*.003))
+            if (not _goal_retries and preview_reads and committed_count<=60
+                    and len(search_frames)-len(frames)>=60 and len(word)!=retry_origin):
+                # A guessed future is guidance, not a source constraint. Give
+                # cheap proposals a bounded trial before the exact-prefix
+                # fallback; actual rollback retries retain the full budget.
+                budget=min(budget,.04)
             last=find_native_candidate(path,physical,width=width,seconds=budget,workers=workers,
-                memory_mb=memory_mb,selection_seed=selection_seed+segment+attempt*0x9e3779b9,
+                memory_mb=memory_mb,selection_seed=selection_seed+segment+(attempt+backtracks)*0x9e3779b9,
                 _resolved=(template,resolved),_defer_verification=True,_terminal_target=goal,
+                _preferred_actions=proposal,
+                _skip_policies=len(word)==retry_origin,
                 progress=telemetry.search(len(word)) if telemetry is not None else None,**settings)
             if last is not None and last.status=='proposal_found':break
+        if (last is not None and last.reason=='native_search_limited' and preview_reads
+                and len(search_frames)-len(frames)>=60 and time.perf_counter()<deadline):
+            # Guessed future targets may reject every route in a world that
+            # the player's own controls will never produce. Retry only the
+            # exact observed prefix; the final source replay still certifies
+            # the entire actual word and every real target read.
+            failed_stats=dict(last.stats)
+            exact=template._materialize(frames,environment,tuple(history),None,None,'endattack',(),True,
+                include_combined_geometry=False)
+            exact_binding=SimpleNamespace(wave=exact,pending_target=None,complete=True,history=tuple(history),identity=b'')
+            fallback=find_native_candidate(path,physical,width=width,seconds=min(.05,max(.001,deadline-time.perf_counter())),
+                workers=workers,memory_mb=memory_mb,selection_seed=selection_seed+segment+backtracks*0x9e3779b9,
+                _resolved=(template,exact_binding),_defer_verification=True,
+                progress=telemetry.search(len(word)) if telemetry is not None else None,**settings)
+            if fallback is not None and fallback.status=='proposal_found':
+                fallback_stats=dict(fallback.stats);_merge_segments(fallback,[failed_stats,fallback_stats])
+                last=fallback;last.stats['forecast_rejected']=True
+                search_frames=frames;preview_reads=0;preview=None;future=None
         if last is None:return False
         if _audit is not None:
             probes=last.stats.get('probe_attempts',())
@@ -411,84 +627,150 @@ def _segmented_coupled(path,initial,settings,width,workers,memory_mb,selection_s
                 deepest_tick=len(word)+max((v['reached'] for v in probes),default=last.reached_tick)))
         segment_stats.append(dict(last.stats))
         if last.status!='proposal_found':
+            remember(getattr(last,'diagnostic_routes',()))
+            if _failure is not None:_failure['truncated']=_failure.get('truncated',False) or getattr(last,'diagnostic_truncated',False)
             if last.reason=='native_search_limited':
+                if backtracks<16 and time.perf_counter()<deadline and any(c.origin<len(word) for c in checkpoints):
+                    raise RetryObservation
                 return limited('native_observation_budget' if time.perf_counter()>=deadline else last.reason)
             return False
+        if (isinstance(suspension,world.NeedTarget) and preview_reads
+                and len(word)>=len(fixed_actions) and committed_count==len(frames)-1):
+            validated=_validate_coupled_window(suspension,last.trajectory[committed_count],
+                last.actions,committed_count,len(word),initial_confirm,
+                last.stats.get('native_code',{}).get('search_margin_px') or 0.)
+            if validated is not None:
+                environment,future_trace,actual_frames,middle=validated
+                last.trajectory=np.concatenate((last.trajectory[:committed_count+1],future_trace))
+                last.actions=last.actions[:len(last.trajectory)-1]
+                frames.extend(_proposal_frame(frame) for frame in actual_frames)
+                for frame in actual_frames:
+                    confirms.append(frame.dialogue_input[0]);history.extend(frame.target_history)
+                last.stats['coupled_validated_ticks']=middle-committed_count
+                segment_stats[-1]['coupled_validated_ticks']=middle-committed_count
+                committed_count=middle
+        if (preview is not None and preview_reads==0 and isinstance(future,world.TickCommitted)
+                and suspension is not None and not isinstance(suspension,world.NeedTarget)):
+            # This preview contains no player observation. Its source world
+            # is exact for every candidate control word, so commit it once
+            # rather than regenerating the same frames in the next window.
+            confirms.extend(frame.dialogue_input[0] for frame in search_frames[len(frames):] if frame.tick)
+            environment=preview;frames=search_frames
         # Only the actual pre-observation prefix is committed. Speculative
         # future targets rank choices but are discarded and never certified.
         word.extend(last.actions[:committed_count]);trace_parts.append(last.trajectory[1:committed_count+1].copy())
+        proposal=last.actions[committed_count:]
         if telemetry is not None:telemetry.commit(len(word))
-        physical=last.trajectory[committed_count].copy();frames=frames[-1:];segment+=1
+        physical=last.trajectory[committed_count].copy();frames=frames[committed_count:];segment+=1
         return True
     while time.perf_counter()<deadline:
-        tick=environment.data['tick'];confirm=initial_confirm if tick==0 else fixed_confirms[tick-1] if tick<=len(fixed_confirms) else tick%2==0
-        if telemetry is not None:telemetry.emit('bake',tick,ticks=None,alive_states=None,
-            message='Preparing source world; committed through source tick '+str(len(word)))
-        options={} if coupled else dict(previous_confirm=previous_confirm,previous_cancel=False)
-        result=world._advance_with_dialogue_input_owned(environment,confirm=confirm,cancel=False,**options)
-        coupled=True
-        while isinstance(result,world.NeedTarget):
-            environment=result.state
-            if not commit(result):return None
-            if tick==0 and observations is not None:
-                row=next(observations,None)
-                if row is None or tuple(row[:2])!=(0,result.request['line']):
-                    raise ValueError('initial_target_history omits a frame-zero source read')
-                xy=row[2:]
-            elif tick==0:xy=physical[:2]
-            else:xy=player.sample_position(physical,*world._observation_sampling_arrays(result))
-            world._supply_target_owned(environment,xy)
-            result=world._advance_with_dialogue_input_owned(environment,confirm=confirm,cancel=False)
-        if not isinstance(result,(world.TickCommitted,world.Terminal)) or result.frame is None:return None
-        environment=result.state;frames.append(_proposal_frame(result.frame));history.extend(result.frame.target_history)
-        if tick:confirms.append(confirm)
-        if _chunk_ticks and len(frames)>_chunk_ticks and not isinstance(result,world.Terminal):
-            if not commit(SimpleNamespace(state=environment)):return None
-        if isinstance(result,world.Terminal):
-            if result.reason not in ('endattack','eof_hazards_drained') or not commit():return None
-            if len(word)<len(fixed_actions):return None
-            if last is None:
-                # An empty source or an entirely fixed word still needs a
-                # terminal collision check and the same full scalar certificate.
-                part=template._materialize(frames[-1:],environment,tuple(history),None,None,
-                    'endattack',(),True,include_combined_geometry=False)
-                resolved=SimpleNamespace(wave=part,pending_target=None,complete=True,
-                    history=tuple(history),identity=b'')
-                last=find_native_candidate(path,physical,width=width,seconds=max(.001,deadline-time.perf_counter()),
-                    workers=workers,memory_mb=memory_mb,selection_seed=selection_seed,
-                    _resolved=(template,resolved),_defer_verification=True,
-                    progress=telemetry.search(len(word)) if telemetry is not None else None,**settings)
-                if last is None or last.status!='proposal_found':
-                    if last is not None and last.reason=='native_search_limited':
-                        limited('native_observation_budget' if time.perf_counter()>=deadline else last.reason)
-                    return None
-                segment_stats.append(dict(last.stats))
-            if observations is not None and next(observations,None) is not None:
-                raise ValueError('initial_target_history contains an unused source read')
-            actual=np.concatenate(trace_parts)
-            verification_started=time.perf_counter()
-            verified=_certify(path,initial,settings,word,actual,confirms,initial_confirm,
-                previous_confirm,initial_target_history,True,telemetry)
-            if verified is None:return None
-            base,actual_history,terminal,identity,first_tick,primed=verified
-            last.scripted_damage_events=terminal.pop("scripted_damage_events",[])
-            if actual_history!=tuple(history):return None
-            last.status='candidate_found';last.verified=True;last.reason='verified_endattack'
-            last.actions=word;last.trajectory=actual;last.reached_tick=len(word)
-            last.target_history=actual_history;last.bindings=[base];last.base_target_history=base.history
-            last.confirm_sequence=confirms;last.source_terminal=terminal;last.controlled_identity=identity
-            last.dialogue_start_tick=first_tick;last.primed_initial_frame=primed
-            _merge_segments(last,segment_stats)
-            last.stats.update(backend='native-coupled-segments',route_cache=False,
-                verification_seconds=time.perf_counter()-verification_started,
-                retained_trace_bytes=actual.nbytes,committed_observation_segments=segment,
-                observation_goal_style=_goal_style,observation_preview_ticks=_preview_ticks,observation_chunk_ticks=_chunk_ticks,observation_preview_reads=_preview_reads,
-                observation_goal_retries=_goal_retries,fixed_prefix_ticks=len(fixed_actions))
-            churn=sum(mask!=(word[i-1] if i else 0) for i,mask in enumerate(word))
-            held=sum(mask!=0 for mask in word)
-            last.stats['input_cost']=dict(frames=len(word),churn=churn,held_frames=held,
-                churn_weight=12,held_weight=1,total=12*churn+held)
-            return last
+        try:
+            if _chunk_ticks and len(frames)>_chunk_ticks:
+                if not commit(SimpleNamespace(state=environment)):return incomplete()
+                continue
+            if environment.data['tick']>len(fixed_confirms):
+                limit=_chunk_ticks+1-len(frames) if _chunk_ticks else 64
+                idle=world._advance_idle_world_owned(environment,limit)
+                if idle:
+                    frames.extend(_proposal_frame(frame) for frame in idle)
+                    confirms.extend(frame.dialogue_input[0] for frame in idle)
+                    continue
+            tick=environment.data['tick'];confirm=initial_confirm if tick==0 else fixed_confirms[tick-1] if tick<=len(fixed_confirms) else confirm_for_state(environment,tick,initial_confirm)
+            if telemetry is not None:telemetry.emit('bake',tick,ticks=None,alive_states=None,
+                message='Preparing source world; committed through source tick '+str(len(word)))
+            options={} if coupled else dict(previous_confirm=previous_confirm,previous_cancel=False)
+            result=world._advance_with_dialogue_input_owned(environment,confirm=confirm,cancel=False,**options)
+            coupled=True
+            while isinstance(result,world.NeedTarget):
+                environment=result.state
+                if not commit(result):return incomplete()
+                if environment.phase!='await_target' or environment.data['tick']!=tick:raise WindowAdvanced
+                if tick==0 and observations is not None:
+                    row=next(observations,None)
+                    if row is None or tuple(row[:2])!=(0,result.request['line']):
+                        raise ValueError('initial_target_history omits a frame-zero source read')
+                    xy=row[2:]
+                elif tick==0:xy=physical[:2]
+                else:xy=player.sample_position(physical,*world._observation_sampling_arrays(result))
+                world._supply_target_owned(environment,xy)
+                result=world._advance_with_dialogue_input_owned(environment,confirm=confirm,cancel=False)
+            if not isinstance(result,(world.TickCommitted,world.Terminal)) or result.frame is None:
+                return incomplete(getattr(result,'reason','unsupported_source_suspension'))
+            environment=result.state;frames.append(_proposal_frame(result.frame));history.extend(result.frame.target_history)
+            if tick:confirms.append(confirm)
+            if _chunk_ticks and len(frames)>_chunk_ticks and not isinstance(result,world.Terminal):
+                if not commit(SimpleNamespace(state=environment)):return incomplete()
+            if isinstance(result,world.Terminal):
+                if result.reason not in ('endattack','eof_hazards_drained') or not commit():return incomplete()
+                if len(word)<len(fixed_actions):return incomplete()
+                if last is None:
+                    # An empty source or an entirely fixed word still needs a
+                    # terminal collision check and the same full scalar certificate.
+                    part=template._materialize(frames[-1:],environment,tuple(history),None,None,
+                        'endattack',(),True,include_combined_geometry=False)
+                    resolved=SimpleNamespace(wave=part,pending_target=None,complete=True,
+                        history=tuple(history),identity=b'')
+                    last=find_native_candidate(path,physical,width=width,seconds=max(.001,deadline-time.perf_counter()),
+                        workers=workers,memory_mb=memory_mb,selection_seed=selection_seed,
+                        _resolved=(template,resolved),_defer_verification=True,
+                        progress=telemetry.search(len(word)) if telemetry is not None else None,**settings)
+                    if last is None or last.status!='proposal_found':
+                        if last is not None and last.reason=='native_search_limited':
+                            limited('native_observation_budget' if time.perf_counter()>=deadline else last.reason)
+                        return incomplete()
+                    segment_stats.append(dict(last.stats))
+                if observations is not None and next(observations,None) is not None:
+                    raise ValueError('initial_target_history contains an unused source read')
+                actual=np.concatenate(trace_parts)
+                verification_started=time.perf_counter()
+                verified=_certify(path,initial,settings,word,actual,confirms,initial_confirm,
+                    previous_confirm,initial_target_history,True,telemetry)
+                if verified is None:return incomplete('independent_verification_rejected')
+                base,actual_history,terminal,identity,first_tick,primed=verified
+                last.scripted_damage_events=terminal.pop("scripted_damage_events",[])
+                if actual_history!=tuple(history):return incomplete('verified_target_history_mismatch')
+                last.status='candidate_found';last.verified=True;last.reason='verified_endattack'
+                last.actions=word;last.trajectory=actual;last.reached_tick=len(word)
+                last.target_history=actual_history;last.bindings=[base];last.base_target_history=base.history
+                last.confirm_sequence=confirms;last.source_terminal=terminal;last.controlled_identity=identity
+                last.dialogue_start_tick=first_tick;last.primed_initial_frame=primed
+                _merge_segments(last,segment_stats)
+                last.stats.update(backend='native-coupled-segments',route_cache=False,
+                    verification_seconds=time.perf_counter()-verification_started,
+                    retained_trace_bytes=actual.nbytes,committed_observation_segments=segment,
+                    observation_goal_style=_goal_style,observation_preview_ticks=_preview_ticks,observation_chunk_ticks=_chunk_ticks,observation_preview_reads=_preview_reads,
+                    observation_goal_retries=_goal_retries,fixed_prefix_ticks=len(fixed_actions),
+                    observation_backtracks=backtracks,
+                    coupled_validation_windows=sum(bool(s.get('coupled_validated_ticks')) for s in segment_stats),
+                    coupled_validated_ticks=sum(s.get('coupled_validated_ticks',0) for s in segment_stats))
+                last.stats['input_cost']=input_cost(word,int(actual[0,4]))
+                return last
+        except WindowAdvanced:
+            continue
+        except RetryObservation:
+            # A monotonically growing word supersedes all its own prefixes.
+            # Snapshot only when leaving that branch, or when limited/failing;
+            # copying and comparing every intermediate prefix is quadratic.
+            remember()
+            # Discard the failed boundary, then retry an earlier, still-exact
+            # world with another ranking seed. Previously supplied targets and
+            # every later control/trace are rolled back together.
+            while checkpoints and checkpoints[-1].origin>=len(word):checkpoints.pop()
+            if not checkpoints:return incomplete()
+            failed_origins[len(word)]=failed_origins.get(len(word),0)+1
+            depth=min(len(checkpoints),1<<min(4,(failed_origins[len(word)]-1)//2))
+            checkpoint=checkpoints.pop()
+            for _ in range(depth-1):checkpoint=checkpoints.pop()
+            backtracks+=1
+            environment=checkpoint.environment;physical=checkpoint.physical
+            frames=list(checkpoint.frames);trace_parts=list(checkpoint.traces)
+            del word[checkpoint.origin:];del confirms[checkpoint.confirms:];del history[checkpoint.history:]
+            last=None;proposal=[];retry_origin=checkpoint.origin;segment=checkpoint.segment;coupled=checkpoint.coupled
+            if telemetry is not None:
+                telemetry.committed_tick=len(word)
+                telemetry.emit('bake',environment.data['tick'],ticks=None,alive_states=None,force=True,
+                    message='Backtracking to source tick '+str(len(word)))
+            continue
     limited('native_observation_budget')
     return None
 
@@ -498,15 +780,15 @@ def _static_coupled_candidate(path,initial,settings,width,workers,memory_mb,sele
     """A dialogue clock with no player reads needs one world, not speculation."""
     if initial_target_history:return None
     began=time.perf_counter();template=ParametricEnvironment(path,**settings)
-    state=world._enable_bone_arrays(world.initialize(path,**settings),native=True);frames=[];confirms=[];coupled=False;peak_source_bodies=0
+    state=world._enable_bone_arrays(world.initialize(path,**settings),native=True);frames=[];confirms=[];coupled=False
     while time.perf_counter()<deadline:
-        tick=state.data['tick'];confirm=initial_confirm if tick==0 else tick%2==0
+        tick=state.data['tick'];confirm=confirm_for_state(state,tick,initial_confirm)
         if telemetry is not None:telemetry.emit('bake',tick,ticks=None,alive_states=None,message='Preparing dialogue source world')
         options={} if coupled else dict(previous_confirm=previous_confirm,previous_cancel=False)
         result=world._advance_with_dialogue_input_owned(state,confirm=confirm,cancel=False,**options);coupled=True
         if isinstance(result,world.ResourceLimit):return _unknown_candidate(initial,settings,result.reason)
         if not isinstance(result,(world.TickCommitted,world.Terminal)) or result.frame is None:return None
-        state=result.state;peak_source_bodies=max(peak_source_bodies,len(result.frame.white)+len(result.frame.blue));frames.append(_proposal_frame(result.frame))
+        state=result.state;frames.append(_proposal_frame(result.frame))
         if tick:confirms.append(confirm)
         if isinstance(result,world.Terminal):
             if result.reason not in ('endattack','eof_hazards_drained'):return None
@@ -517,30 +799,15 @@ def _static_coupled_candidate(path,initial,settings,width,workers,memory_mb,sele
     frames.clear()
     source_seconds=time.perf_counter()-began;remaining=deadline-time.perf_counter()
     if remaining<=0:return None
-    last=None;guided_stats=[]
-    if peak_source_bodies>=256:
-        bounds=wave.env_schedule[-1,:4]
-        for target in ((bounds[2]-13.,(bounds[1]+bounds[3])*.5,1.,0.),
-                       ((bounds[0]+bounds[2])*.5,bounds[1]+13.,0.,1.)):
-            remaining=deadline-time.perf_counter()
-            if remaining<=0:break
-            last=find_native_candidate(path,initial,width=min(width,128),seconds=min(1.5,remaining),
-                workers=workers,memory_mb=memory_mb,selection_seed=selection_seed,
-                _resolved=(template,resolved),_defer_verification=True,_terminal_target=target,
-                progress=telemetry.search(0) if telemetry is not None else None,**settings)
-            if last is not None:guided_stats.append(dict(last.stats))
-            if last is not None and last.status=='proposal_found':break
-    if last is None or last.status!='proposal_found':
-        remaining=deadline-time.perf_counter()
-        if remaining<=0:return last
-        last=find_native_candidate(path,initial,width=width,seconds=remaining,workers=workers,memory_mb=memory_mb,
-            selection_seed=selection_seed,_resolved=(template,resolved),_defer_verification=True,
-            progress=telemetry.search(0) if telemetry is not None else None,**settings)
-        if last is not None:guided_stats.append(dict(last.stats))
+    # Let the ordinary safe-control portfolio run immediately. Global corner
+    # goals can reject a perfectly valid long attack and waste seconds before
+    # the same unconstrained portfolio is finally allowed to find its route.
+    last=find_native_candidate(path,initial,width=width,seconds=remaining,workers=workers,memory_mb=memory_mb,
+        selection_seed=selection_seed,_resolved=(template,resolved),_defer_verification=True,
+        progress=telemetry.search(0) if telemetry is not None else None,**settings)
     if last is None or last.status!='proposal_found':return last
     if telemetry is not None:telemetry.commit(len(last.actions))
-    if guided_stats:_merge_segments(last,guided_stats)
-    last.stats['static_guidance_attempts']=len(guided_stats)
+    last.stats['static_guidance_attempts']=0
     last.stats['proposal_geometry_scope']='bounded window with artificial outer walls; full source replay required'
     last.bindings=[];del resolved,wave
     verification_started=time.perf_counter()
@@ -567,8 +834,8 @@ def find_dynamic_candidate(path,initial,*,width=3000,seconds=8.,selection_seed=4
                        ('observation_preview_ticks',observation_preview_ticks),
                        ('observation_preview_reads',observation_preview_reads)):
         if type(value) is not int or value<0:raise ValueError(name+' must be a nonnegative integer')
-    if observation_goal_style is not None and (type(observation_goal_style) is not int or not 0<=observation_goal_style<=15):
-        raise ValueError('observation_goal_style must be an integer in [0,15] or None')
+    if observation_goal_style is not None and (type(observation_goal_style) is not int or not 0<=observation_goal_style<=16):
+        raise ValueError('observation_goal_style must be an integer in [0,16] or None')
     if type(observation_goal_retries) is not bool:raise ValueError('observation_goal_retries must be boolean')
     if seconds<=0:return None
     from .timeline_csv import parse_timeline_rows
@@ -576,6 +843,12 @@ def find_dynamic_candidate(path,initial,*,width=3000,seconds=8.,selection_seed=4
     names={str(row[1]).lower().strip() for row in rows if len(row)>1}
     has_dialogue='sanstext' in names
     explicit_segments=bool(observation_chunk_ticks or observation_preview_ticks or fixed_prefix is not None)
+    if not explicit_segments and 'getheartpos' in names:
+        observation_chunk_ticks=240
+        reads=sum(len(row)>1 and str(row[1]).strip().lower()=='getheartpos' for row in rows)
+        observation_preview_ticks=720 if reads==1 else 240
+        if observation_goal_style is None:observation_goal_style=16
+        explicit_segments=True
     if not has_dialogue and 'getheartpos' not in names and not explicit_segments:return None
     started=time.perf_counter();deadline=started+seconds;telemetry=_Telemetry(progress)
     telemetry.emit('bake',0,ticks=None,alive_states=None,message='Preparing source world',force=True)
@@ -588,8 +861,10 @@ def find_dynamic_candidate(path,initial,*,width=3000,seconds=8.,selection_seed=4
             _audit=policy_audit,_chunk_ticks=observation_chunk_ticks,
             _preview_reads=observation_preview_reads,_goal_retries=observation_goal_retries,
             _fixed_prefix=fixed_prefix,_failure=failure,telemetry=telemetry)
-        if candidate is None and failure.get('reason'):
-            candidate=_unknown_candidate(initial,settings,failure['reason'])
+        if candidate is None and (failure.get('reason') or failure.get('routes')):
+            candidate=_unknown_candidate(initial,settings,failure.get('reason','native_scope_or_resource_limit'))
+            candidate.diagnostic_routes=failure.get('routes',[])
+            candidate.diagnostic_truncated=failure.get('truncated',False)
         if candidate is not None:
             candidate.stats['dynamic_wall_seconds']=time.perf_counter()-started
             candidate.stats['observation_search_audit']=policy_audit
@@ -672,9 +947,7 @@ def find_dynamic_candidate(path,initial,*,width=3000,seconds=8.,selection_seed=4
                 last.confirm_sequence=confirms;last.source_terminal=terminal
                 last.base_target_history=base.history;last.controlled_identity=identity
                 last.dialogue_start_tick=first;last.primed_initial_frame=primed
-                churn=sum(mask!=(proposal[i-1] if i else 0) for i,mask in enumerate(proposal))
-                held=sum(mask!=0 for mask in proposal)
-                last.stats['input_cost']=dict(frames=len(proposal),churn=churn,held_frames=held,churn_weight=12,held_weight=1,total=12*churn+held)
+                last.stats['input_cost']=input_cost(proposal,int(actual[0,4]))
                 last.stats['retained_trace_bytes']=actual.nbytes
                 last.stats['verification_seconds']=time.perf_counter()-certify_started
                 last.stats['actual_world_seconds']=world_seconds

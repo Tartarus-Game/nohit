@@ -55,8 +55,10 @@
         }
         const reason={wall_budget:'已达到本次搜索时间上限。',frontier_exhausted:'当前搜索保留的状态已耗尽。'}[plan.reason]
             ||'当前有限搜索尚未得到完整路线。';
+        const diagnostic=plan.failure_diagnostics,stop=diagnostic?.failure;
+        const location=diagnostic?`\n最后安全 tick ${diagnostic.last_safe_tick??'未知'}（${finite(diagnostic.last_safe_seconds)?diagnostic.last_safe_seconds.toFixed(3):'未知'} 秒）；停止／待解 tick ${stop?.tick??'未知'}（${finite(stop?.seconds)?stop.seconds.toFixed(3):'未知'} 秒），CSV ${Number.isInteger(stop?.csv?.line)?'第 '+stop.csv.line+' 行':stop?.csv?.at_eof?'末尾':'位置未知'}。\n执行游标可能晚于危险物的生成行；已保留 ${diagnostic.routes?.length||0} 条安全前缀，可在 Dashboard 回放。`:'';
         return {retryable:true,title:'有限搜索暂未找到完整候选',detail:reason+
-            (budgetMode==='auto'?'自动尝试后仍未找到完整路线，可重试/查看详情；当前结果不能证明无解。':'可调整起点或搜索预算后重试；当前结果不能证明无解。')};
+            (budgetMode==='auto'?'自动尝试后仍未找到完整路线，可重试/查看详情；当前结果不能证明无解。':'可调整起点或搜索预算后重试；当前结果不能证明无解。')+location};
     }
     function showDiagnostic(badge,diagnostic) {
         const existing=typeof document!=='undefined'?document.getElementById('csv-edit-link'):null;
@@ -401,7 +403,7 @@
                         e<0||d<e||s!==d+1||r<2||d+r!==n||
                         plan.actions.slice(d).some(mask=>mask!==0)||plan.confirm_sequence.slice(d).some(Boolean))
                         throw Error('Invalid EOF release bridge');
-                    if(proof?.status!=='proven'||proof.proof!=='static-empty-release-fixed-point-v1'||
+                    if(proof?.status!=='proven'||!['static-empty-release-fixed-point-v1','static-blue-release-fixed-point-v1'].includes(proof.proof)||
                         proof.policy_mask!==0||proof.policy_confirm!==false||!vector(proof.invariant_state,11)||
                         !vector(proof.static_environment,22)||
                         proof.invariant_state.some((value,k)=>value!==plan.trajectory[n][k]))
@@ -455,8 +457,13 @@
                 if(generation!==requestId){staleTiming(timing,'prepare');return;}
                 abort=new AbortController();
                 const observationSettings={};
-                for(const key of ['observation_chunk_ticks','observation_preview_ticks','observation_preview_reads','workers'])
+                for(const key of ['observation_chunk_ticks','observation_preview_ticks','observation_preview_reads','workers','operation_weight','held_weight','diagnostic_routes'])
                     if(query.has(key))observationSettings[key]=Number(query.get(key));
+                if(query.has('objective'))observationSettings.objective=query.get('objective');
+                if(query.has('analyze_difficulty')) {
+                    const flag=query.get('analyze_difficulty');
+                    observationSettings.analyze_difficulty=['1','true'].includes(flag)?true:['0','false'].includes(flag)?false:flag;
+                }
                 if(query.has('observation_goal_retries')) {
                     const flag=query.get('observation_goal_retries');
                     observationSettings.observation_goal_retries=flag==='1'?true:flag==='0'?false:flag;

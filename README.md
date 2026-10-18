@@ -1,11 +1,11 @@
 # nohit
 
 保留两条主线：**CSV 原游戏求解与验收**、**Godot / GameMaker 通用 Live SDK**。
-旧算法、旧页面和研究原型保存在分支 `codex/history-before-cleanup-20261017`；当前分支为 `codex/latest-only`。
+旧算法、旧页面和研究原型保存在分支 `codex/history-before-cleanup-20261017`；清理基线为 `codex/latest-only`。
 
 ## CSV 真机流程
 
-Python 3.10+，以及支持 C++17 / OpenMP 的 `g++` 或 `clang++`。Windows 可安装 MSYS2 UCRT64 GCC；启动入口会自动识别标准安装目录。
+Python 3.10+。从源码构建原生核心需要 C++17 编译器、xmake 和 vcpkg；第三方依赖由根目录 `vcpkg.json` 固定。多线程使用 `std::thread`，不依赖 OpenMP。详见 [原生构建说明](docs/native-build.md)。已有匹配源码及 CPU 的预编译镜像时，运行不需要这些构建工具。
 
 ```powershell
 python -m venv .venv
@@ -26,6 +26,8 @@ python -m venv .venv
 
 Real HELL 削弱版历史通过记录使用 `artifacts/realhell-weakened-20261017/source.csv`，另补有终点；该记录只适用于对应测试副本，见[具体差异](artifacts/realhell-weakened-20261017/README.md)。
 
+Real HELL 固定测试从零求解并完整验证已达到 **10 秒内**；默认观测求解使用 240/240 分窗。安装源哈希与 CPU 匹配的预编译算子后，新进程及空运行时编译缓存的三次结果为 **8.33 / 8.41 / 8.43 秒**。详见[10 秒优化与复现报告](docs/optimization-realhell-10s-20261018.md)，以及[上一轮历史对照](docs/optimization-realhell-20261017.md)。
+
 命令行可复用已捕获的完整入口与时钟：
 
 ```powershell
@@ -33,8 +35,22 @@ Real HELL 削弱版历史通过记录使用 `artifacts/realhell-weakened-2026101
 .venv/Scripts/python.exe -m tools.verify_csv_native_acceptance evidence.json --output build/verdict.json
 ```
 
-当前只有 C++ 原生前沿搜索；代码首次使用时编译。长谱可用 `--observation-chunk-ticks 480 --observation-preview-ticks 480 --observation-goal-retries` 分窗搜索；其他参数见 `--help`。
+当前使用 C++ 原生搜索。先执行 `vcpkg install --triplet x64-linux`（Windows 根据工具链选择 triplet），再执行 `python -m tools.build_native --install`，通过 xmake 安装原生镜像。安装 `requirements-accelerated.txt` 后执行 `python -m tools.build_accelerators --native`，可同时预编译 Python 数值算子；求解时无需 JIT。未安装匹配原生镜像时使用 xmake 现场编译，编译计入该次冷启动耗时，运行时不会自动下载依赖。推荐 `--workers 4 --width 1024 --memory-mb 512`；含 GetHeartPos 的源默认分窗求解并自适应移动。其他参数见 `--help`。
 求解、原游戏执行与独立验收的具体接口见 [CSV 说明](docs/csv-runtime.md)。
+
+失败会显示最后安全 tick、累计游戏秒数和实际 CSV 执行游标，并可选择回放、导出当前保留的安全前缀。高级设置的「尽量少操作」会让搜索优先减少方向键组合的切换；命令行对应 `--objective fewest_operations`。有限搜索和有上限的前缀导出均不宣称穷举或全局最优。
+
+新增「人类友好」模式（`--objective human_friendly`）：分档优先搜索更大余量，再减少换键，避免相反方向同按，仅在对话可确认时按 Confirm；自动生成空间余量、局部时序扰动、重点 tick／秒／CSV 游标和路线难度报告。该报告不是人类成功率或弹幕无解证明，详见 [人类友好搜索与难度报告](docs/human-friendly-20261018.md)。
+
+上传的 Real HELL 最终补全版修复记录见 [失败诊断、少操作目标与完整回放报告](docs/realhell-final-and-diagnostics-20261018.md)。已修正 BlackScreen 同帧新建对象的销毁选择，并加入静止蓝骨／场外红心的释放输入尾部证明。
+
+vcpkg / xmake 构建、Highway 与 pdqsort 的逐项对照见 [库加速实验报告](docs/library-acceleration-20261018.md)。该报告保留失败试跑及耗时波动，不宣称所有样本都能在 1 秒内完成。
+
+连续 tick 的 C++ 批量推进及最新完整回放见 [批量推进实验](docs/idle-batching-20261018.md)：本轮原游戏验收解算 6.783 秒，仍未达到 1 秒目标；同参数开关对照未测出明确的整体提速。
+
+全部内置 CSV 的批量测试入口为 `python -m tools.benchmark_samples --out build/samples --seconds 8`。
+每项使用原 C2 捕获的入口和精确时钟，独立进程从零求解并完整复验；缺失文件、unknown 和错误都会保留。
+单个 GetHeartPos 行的源默认使用 240/720 分窗，其他观测源继续使用 240/240。基准包含独立验证，不包含安装时编译；原引擎回放另列。结果及限制见[全样本优化报告](docs/optimization-samples-20261018.md)。
 
 ## 通用 Live SDK
 

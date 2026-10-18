@@ -10,7 +10,7 @@ from .control_quotient import control_classes, single_tick_control_table
 from .initial_target_history import bind_initial_target_history
 from .parametric_environment import ParametricEnvironment
 from .source_oracle import scalar_module
-from .native_backend import search,available_cpu_workers,report_progress
+from .native_backend import search,available_cpu_workers,report_progress,replay_hint,load_backend
 from .source_policy import preflight
 
 
@@ -45,7 +45,8 @@ def verify_candidate(path, initial, settings, actions, expected, binding, initia
 
 def find_native_candidate(path, initial, *, width=3000, seconds=30., selection_seed=42,
                           workers=None, memory_mb=64, initial_target_history=None, progress=None,
-                          _resolved=None, _defer_verification=False, _terminal_target=None, **settings):
+                          _resolved=None, _defer_verification=False, _terminal_target=None,
+                          _preferred_actions=None, _skip_policies=False, **settings):
     if type(width) is not int or width<1:raise ValueError('width must be a positive integer')
     if not isinstance(seconds,(int,float)) or not math.isfinite(seconds) or seconds<0:raise ValueError('seconds must be finite and nonnegative')
     if type(memory_mb) is not int or not 1<=memory_mb<=4096:raise ValueError('memory_mb must be in [1,4096]')
@@ -64,15 +65,53 @@ def find_native_candidate(path, initial, *, width=3000, seconds=30., selection_s
     if not binding.complete or binding.wave.termination_reason not in ('endattack','eof_hazards_drained'):return None
     wave=binding.wave;env=wave.env_schedule
     if seconds==0:return None
+    # A rolling proposal comes only from an earlier window in this request.
+    # Re-execute its controls in the newly sampled world before using its end
+    # state to seed a short suffix search. Fall back to the full window if this
+    # single-state continuation cannot find an escape.
+    from .search_preferences import current,input_cost
+    config=current()
+    if config['objective']!='human_friendly' and _defer_verification and _terminal_target is None and _preferred_actions and load_backend.cache_info().currsize:
+        count=min(len(_preferred_actions),len(env)-2)
+        if count>0:
+            hint_started=time.perf_counter()
+            prefix=replay_hint(state,wave,_preferred_actions[:count])
+            if prefix is not None:
+                names=('env_schedule','platform_table','geometry_white','geometry_blue','geometry_polygons')
+                suffix=SimpleNamespace(**{name:getattr(wave,name)[count:] for name in names},
+                    termination_reason=wave.termination_reason)
+                suffix_binding=SimpleNamespace(wave=suffix,pending_target=None,complete=True,
+                    history=binding.history,identity=binding.identity)
+                trial=find_native_candidate(path,prefix[-1],width=width,seconds=min(seconds,.004),
+                    selection_seed=selection_seed,workers=workers,memory_mb=memory_mb,
+                    _resolved=(template,suffix_binding),_defer_verification=True,**settings)
+                if trial is not None and trial.status=='proposal_found':
+                    trial.actions=list(_preferred_actions[:count])+trial.actions
+                    trial.trajectory=np.concatenate((prefix[:-1],trial.trajectory))
+                    trial.reached_tick=len(trial.actions);trial.bindings=[binding]
+                    trial.stats['continued_proposal_ticks']=count
+                    trial.stats['search_seconds']=time.perf_counter()-hint_started
+                    report_progress(progress,phase='search',tick=len(env)-1,ticks=len(env)-1,alive_states=1,
+                        expanded_states=trial.stats.get('expanded_states',0),
+                        discarded_states=trial.stats.get('discarded_states',0),
+                        unique_states=sum(row['unique'] for row in trial.stats.get('probe_attempts',())))
+                    return trial
+            seconds=max(.001,seconds-(time.perf_counter()-hint_started))
     report_progress(progress,phase='search',tick=0,ticks=len(env)-1,alive_states=1,
         expanded_states=0,discarded_states=0,unique_states=0)
-    controls=tuple(range(16))
-    quick=preflight(state,wave,seconds) if _terminal_target is None else None
-    if quick is None:table,counts=single_tick_control_table(env,controls)
+    controls=(0,1,2,4,5,6,8,9,10) if config['objective']=='human_friendly' else tuple(range(16))
+    quick=preflight(state,wave,seconds) if config['objective']=='balanced' and (config['operation_weight'],config['held_weight'])==(12,1) and not _skip_policies and _terminal_target is None and not load_backend.cache_info().currsize else None
+    if quick is None:
+        if config['objective']=='human_friendly':
+            natural=np.array([0,1,2,4,5,6,8,9,10],np.int64)
+            table=np.tile(natural,(len(env)-1,1));counts=np.full(len(env)-1,len(natural),np.int64)
+        elif config['objective']=='fewest_operations':
+            table=np.tile(np.arange(16,dtype=np.int64),(len(env)-1,1));counts=np.full(len(env)-1,16,np.int64)
+        else:table,counts=single_tick_control_table(env,controls)
     else:table=np.empty((len(env)-1,16),np.int64);counts=np.empty(len(table),np.int64)
     # Shared world tensors; private rolling states and compact back-pointers.
-    jobs=[(min(width,8),selection_seed),(min(width,32),selection_seed),(min(width,128),selection_seed)]
-    jobs += [(min(width,128),int(selection_seed)+offset*0x9e3779b9) for offset in range(1,6)]
+    jobs=[(min(width,w),int(selection_seed)+offset*0x9e3779b9)
+          for w in (8,32,128) for offset in range(3)]
     jobs=list(dict.fromkeys((w,s&0xffffffff) for w,s in jobs))
     # Budget all job workspaces conservatively, including candidate/hash arrays.
     allowance=memory_mb*1024*1024
@@ -81,6 +120,9 @@ def find_native_candidate(path, initial, *, width=3000, seconds=30., selection_s
         estimate=len(env)*w*(3 if w<=65535 else 4)+w*16*332+w*256+(w*64*48+512 if w>=512 else 0)+len(env)*32
         if allocated+estimate<=allowance:chosen.append((w,s));allocated+=estimate
     if not chosen:return None
+    macro_limit=min(width,1024,max(1,(allowance-allocated)//(8*(7000+len(env)*5))))
+    macro_width=1
+    while macro_width*2<=macro_limit:macro_width*=2
     environment_seconds=time.perf_counter()-prepared
     def search_progress(offsets):
         def publish(**fields):
@@ -90,10 +132,12 @@ def find_native_candidate(path, initial, *, width=3000, seconds=30., selection_s
             report_progress(progress,**fields)
         return publish
     winner,actions,trace,attempts,metadata=quick if quick is not None else search(state,wave,table,counts,[w for w,s in chosen],
-        [s for w,s in chosen],workers,min(seconds,0.5),terminal_target=_terminal_target,progress=progress)
+        [s for w,s in chosen],workers,min(seconds,max(.2,len(env)*.0006)),terminal_target=_terminal_target,progress=progress,skip_policies=_skip_policies,race=_defer_verification and len(env)>=1000,macro_width=macro_width)
     first_kernel_seconds=metadata['kernel_load_seconds']
+    diagnostic_routes=list(metadata.pop('diagnostic_routes',[]))
+    diagnostic_truncated=metadata.pop('diagnostic_truncated',False)
     first_compiled=metadata['compiled']
-    peak_workspace=sum(item['workspace_bytes'] for item in attempts)
+    peak_workspace=metadata.get('peak_workspace_bytes',sum(item['workspace_bytes'] for item in attempts))
     total_search_seconds=metadata['search_seconds'];total_search_cpu=metadata['search_cpu_seconds']
     total_process_cpu=metadata['process_cpu_seconds'];total_index_seconds=metadata.get('collision_index_seconds') or 0.
     total_hash_rebuilds=metadata.get('state_hash_rebuilds',0)
@@ -114,9 +158,11 @@ def find_native_candidate(path, initial, *, width=3000, seconds=30., selection_s
                 (('expanded_states','expanded'),('discarded_states','discarded'),('unique_states','unique'))}
             second,actions,trace,more,later=search(state,wave,table,counts,[w for w,s in wide],
                 [s for w,s in wide],workers,remaining,terminal_target=_terminal_target,
-                progress=search_progress(offsets) if progress is not None else None)
+                progress=search_progress(offsets) if progress is not None else None,skip_policies=True,race=_defer_verification and len(env)>=1000)
+            diagnostic_routes+=later.pop('diagnostic_routes',[])
+            diagnostic_truncated=diagnostic_truncated or later.pop('diagnostic_truncated',False)
             winner=offset+second if second>=0 else second
-            peak_workspace=max(peak_workspace,sum(item['workspace_bytes'] for item in more))
+            peak_workspace=max(peak_workspace,later.get('peak_workspace_bytes',sum(item['workspace_bytes'] for item in more)))
             attempts+=more;chosen+=wide
             total_search_seconds+=later['search_seconds'];total_search_cpu+=later['search_cpu_seconds']
             total_process_cpu+=later['process_cpu_seconds'];total_index_seconds+=later.get('collision_index_seconds') or 0.
@@ -134,9 +180,10 @@ def find_native_candidate(path, initial, *, width=3000, seconds=30., selection_s
         # This world was handled natively. Do not surprise an exhausted request
         # with a second compiler or a retired search path.
         clock=dict(protocol='explicit_dt_schedule' if settings.get('dt_schedule') is not None else 'native_fixed_240' if settings.get('clock_start_ms') is not None else 'nominal_240',decision_ticks=1,original_replay_passed=False)
-        if template.dt_schedule is not None:clock.update(schedule_count=len(template.dt_schedule),schedule_sha256=hashlib.sha256(np.asarray(template.dt_schedule,dtype='<f8').tobytes()).hexdigest())
+        if template.dt_schedule is not None:clock.update(schedule_count=len(template.dt_schedule),schedule_sha256=template.schedule_sha256)
         return SimpleNamespace(status='unknown',reason='initial_collision' if winner==-2 else 'native_search_limited',
             verified=False,reached_tick=0,actions=[],trajectory=state.reshape(1,11),target_history=binding.history,
+            diagnostic_routes=diagnostic_routes,diagnostic_truncated=diagnostic_truncated,
             bindings=[binding],layers=[],clock=clock,stats=dict(backend='native-portfolio',probe_attempts=attempts,
                 expanded_states=sum(item['expanded'] for item in attempts),search_seconds=total_search_seconds,
                 kernel_materialization_seconds=first_kernel_seconds,environment_setup_seconds=environment_seconds,
@@ -144,7 +191,7 @@ def find_native_candidate(path, initial, *, width=3000, seconds=30., selection_s
     verify_started=time.perf_counter()
     valid,why=(True,'provisional_world') if _defer_verification else verify_candidate(path,initial,settings,actions,trace,binding,initial_target_history,progress)
     if not valid:raise RuntimeError('Native candidate rejected by unchanged scalar replay: '+why)
-    word=actions.tolist();churn=sum(mask!=(word[i-1] if i else 0) for i,mask in enumerate(word));held=sum(mask!=0 for mask in word)
+    word=actions.tolist()
     stats=dict(width=width,controls=controls,selection_seed=selection_seed,
         expanded_states=sum(item['expanded'] for item in attempts),safe_transition_rows=sum(item['generated'] for item in attempts),
         discarded_states=sum(item['discarded'] for item in attempts),observation_discarded_states=0,
@@ -156,9 +203,9 @@ def find_native_candidate(path, initial, *, width=3000, seconds=30., selection_s
             (wave.env_schedule,wave.platform_table,wave.geometry_white,wave.geometry_blue,wave.geometry_polygons)),
         retained_trace_bytes=trace.nbytes,layer_counts_scope='retained_native_witness',layer_counts=[],
         route_cache=False,environment_cache=False,native_code=metadata,
-        input_cost=dict(frames=len(word),churn=churn,held_frames=held,churn_weight=12,held_weight=1,total=churn*12+held))
+        input_cost=input_cost(word,int(state[4])))
     clock=dict(protocol='explicit_dt_schedule' if settings.get('dt_schedule') is not None else 'native_fixed_240' if settings.get('clock_start_ms') is not None else 'nominal_240',decision_ticks=1,original_replay_passed=False)
-    if template.dt_schedule is not None:clock.update(schedule_count=len(template.dt_schedule),schedule_sha256=hashlib.sha256(np.asarray(template.dt_schedule,dtype='<f8').tobytes()).hexdigest())
+    if template.dt_schedule is not None:clock.update(schedule_count=len(template.dt_schedule),schedule_sha256=template.schedule_sha256)
     return SimpleNamespace(status='proposal_found' if _defer_verification else 'candidate_found',reason=why,verified=not _defer_verification,reached_tick=len(word),actions=word,
         trajectory=trace,target_history=binding.history,terminal_tail=(dict(status='proven',reason='endattack')
             if wave.termination_reason=='endattack' else dict(status='unknown',reason='release_invariant_required')),

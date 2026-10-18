@@ -1,0 +1,140 @@
+[
+  {
+    "name": "stable-world-idle-0-0",
+    "options": {
+      "width": 128,
+      "workers": 1,
+      "observation_chunk_ticks": 240,
+      "observation_preview_ticks": 60,
+      "observation_goal_style": 16
+    },
+    "status": "candidate_found",
+    "verified": true,
+    "reached": 27953,
+    "seconds": 7.196796579999955,
+    "search_seconds": 1.3855071309981213,
+    "implementation_sha256": "c745377a6acef1ea54db5c2aded755b2a011e7933218d5383d983bef0eca43df",
+    "source_sha256": "fcef25222b9c0a96949de5dbc6e3cc35fff4a84e95a82ebf9f3c4174178fcc2a",
+    "entry_sha256": "c5b478d6834b58ff1e32b8bbab437896f606848f835d744d1967b3953c72f477",
+    "verify_seconds": 1.293689638999922,
+    "expanded": 9290038,
+    "calls": 0,
+    "ticks": 0,
+    "batch_enabled": false
+  },
+  {
+    "name": "stable-world-idle-1-0",
+    "options": {
+      "width": 128,
+      "workers": 1,
+      "observation_chunk_ticks": 240,
+      "observation_preview_ticks": 60,
+      "observation_goal_style": 16
+    },
+    "status": "candidate_found",
+    "verified": true,
+    "reached": 27953,
+    "seconds": 7.084458970000014,
+    "search_seconds": 1.363742568998532,
+    "implementation_sha256": "c745377a6acef1ea54db5c2aded755b2a011e7933218d5383d983bef0eca43df",
+    "source_sha256": "fcef25222b9c0a96949de5dbc6e3cc35fff4a84e95a82ebf9f3c4174178fcc2a",
+    "entry_sha256": "c5b478d6834b58ff1e32b8bbab437896f606848f835d744d1967b3953c72f477",
+    "verify_seconds": 1.2820940790002169,
+    "expanded": 9266985,
+    "calls": 1238,
+    "ticks": 13670,
+    "batch_enabled": true
+  },
+  {
+    "name": "stable-world-idle-0-1",
+    "options": {
+      "width": 128,
+      "workers": 1,
+      "observation_chunk_ticks": 240,
+      "observation_preview_ticks": 60,
+      "observation_goal_style": 16
+    },
+    "status": "candidate_found",
+    "verified": true,
+    "reached": 27953,
+    "seconds": 6.904612701000133,
+    "search_seconds": 1.375055033997569,
+    "implementation_sha256": "c745377a6acef1ea54db5c2aded755b2a011e7933218d5383d983bef0eca43df",
+    "source_sha256": "fcef25222b9c0a96949de5dbc6e3cc35fff4a84e95a82ebf9f3c4174178fcc2a",
+    "entry_sha256": "c5b478d6834b58ff1e32b8bbab437896f606848f835d744d1967b3953c72f477",
+    "verify_seconds": 1.2245902730001035,
+    "expanded": 9288036,
+    "calls": 0,
+    "ticks": 0,
+    "batch_enabled": false
+  },
+  {
+    "name": "stable-world-idle-1-1",
+    "options": {
+      "width": 128,
+      "workers": 1,
+      "observation_chunk_ticks": 240,
+      "observation_preview_ticks": 60,
+      "observation_goal_style": 16
+    },
+    "status": "candidate_found",
+    "verified": true,
+    "reached": 27953,
+    "seconds": 6.911181609000096,
+    "search_seconds": 1.3539623929946174,
+    "implementation_sha256": "c745377a6acef1ea54db5c2aded755b2a011e7933218d5383d983bef0eca43df",
+    "source_sha256": "fcef25222b9c0a96949de5dbc6e3cc35fff4a84e95a82ebf9f3c4174178fcc2a",
+    "entry_sha256": "c5b478d6834b58ff1e32b8bbab437896f606848f835d744d1967b3953c72f477",
+    "verify_seconds": 1.257013802000074,
+    "expanded": 9298698,
+    "calls": 1238,
+    "ticks": 13670,
+    "batch_enabled": true
+  },
+  {
+    "name": "stable-world-idle-0-2",
+    "options": {
+      "width": 128,
+      "workers": 1,
+      "observation_chunk_ticks": 240,
+      "observation_preview_ticks": 60,
+      "observation_goal_style": 16
+    },
+    "status": "candidate_found",
+    "verified": true,
+    "reached": 27953,
+    "seconds": 6.798283182999967,
+    "search_seconds": 1.3190185039959488,
+    "implementation_sha256": "c745377a6acef1ea54db5c2aded755b2a011e7933218d5383d983bef0eca43df",
+    "source_sha256": "fcef25222b9c0a96949de5dbc6e3cc35fff4a84e95a82ebf9f3c4174178fcc2a",
+    "entry_sha256": "c5b478d6834b58ff1e32b8bbab437896f606848f835d744d1967b3953c72f477",
+    "verify_seconds": 1.2428433039999618,
+    "expanded": 9289001,
+    "calls": 0,
+    "ticks": 0,
+    "batch_enabled": false
+  },
+  {
+    "name": "stable-world-idle-1-2",
+    "options": {
+      "width": 128,
+      "workers": 1,
+      "observation_chunk_ticks": 240,
+      "observation_preview_ticks": 60,
+      "observation_goal_style": 16
+    },
+    "status": "candidate_found",
+    "verified": true,
+    "reached": 27953,
+    "seconds": 6.889511607000031,
+    "search_seconds": 1.3544872459988255,
+    "implementation_sha256": "c745377a6acef1ea54db5c2aded755b2a011e7933218d5383d983bef0eca43df",
+    "source_sha256": "fcef25222b9c0a96949de5dbc6e3cc35fff4a84e95a82ebf9f3c4174178fcc2a",
+    "entry_sha256": "c5b478d6834b58ff1e32b8bbab437896f606848f835d744d1967b3953c72f477",
+    "verify_seconds": 1.34766926899988,
+    "expanded": 9296840,
+    "calls": 1238,
+    "ticks": 13670,
+    "batch_enabled": true
+  }
+]

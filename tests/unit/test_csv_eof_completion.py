@@ -1,6 +1,8 @@
 """An EOF witness includes real neutral inputs and an independently rebuilt tail."""
 import copy
 import json
+import subprocess
+import sys
 
 import numpy as np
 import pytest
@@ -125,6 +127,22 @@ def test_default_policy_still_requires_endattack(tmp_path):
     path=tmp_path/'default.csv';path.write_text('0,HeartMode,0\n')
     result=solve_csv(path,INITIAL,dt_schedule=SCHEDULE,max_ticks=len(SCHEDULE),width=1)
     assert result['status']=='unknown' and {'reason':'missing_endattack'} in result['issues']
+
+
+def test_eof_completion_does_not_import_a_second_jit_runtime(tmp_path):
+    path=tmp_path/'cold-eof.csv';path.write_text('0,HeartMode,0\n')
+    code="""
+import sys
+from nohit import _configure_solver_process
+_configure_solver_process()
+from nohit.engine.csv_solver import solve_csv
+r=solve_csv(sys.argv[1],[320.,304.,0.,0.,0.,0.,0.,1.,750.,0.,0.],
+    dt_schedule=[1/60]*50,max_ticks=50,width=4,termination_policy='eof_hazards_drained')
+assert r['verified'],r['reason']
+assert 'numba' not in sys.modules
+"""
+    process=subprocess.run([sys.executable,'-c',code,str(path)],capture_output=True,text=True)
+    assert process.returncode==0,process.stderr
 
 
 def test_explicit_eof_policy_keeps_an_actual_endattack(tmp_path):

@@ -1,0 +1,4322 @@
+{
+  "kind": "analysis of previously original-engine-verified route; not a fresh human-friendly solve",
+  "source_sha256": "fcef25222b9c0a96949de5dbc6e3cc35fff4a84e95a82ebf9f3c4174178fcc2a",
+  "route_sha256": "5b3af1953b2a51683b8d6d4f1a4d88f7a690bb703b7581adf7ef2fdd703e3b75",
+  "implementation_sha256": "4bdb789db2dabf122a3bda6d5aea963b6d8b0f469104711bec9ba6e1556542f1",
+  "difficulty": {
+    "schema_version": 1,
+    "status": "analyzed",
+    "scope": "this_verified_route_only",
+    "score": 92,
+    "label": "极限",
+    "score_kind": "heuristic_v1_not_empirically_calibrated",
+    "minimum_clearance_px": 2.3305801732931286e-11,
+    "clearance_definition": "additional L-infinity expansion per side of the 4x4 hitbox; sampled ticks, current blue activation",
+    "hard_points": [
+      {
+        "tick": 4506,
+        "seconds": 75.10000000035276,
+        "clearance_px": 2.3305801732931286e-11,
+        "hazard_kind": "white",
+        "hazard_index": 14,
+        "blue_motion_lock": false,
+        "csv": {
+          "line": 457,
+          "column": 2,
+          "row": [
+            "0.27",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 4499,
+            "line": 456,
+            "command": "bonestab"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        }
+      },
+      {
+        "tick": 4543,
+        "seconds": 75.71666666702255,
+        "clearance_px": 2.3305801732931286e-11,
+        "hazard_kind": "white",
+        "hazard_index": 15,
+        "blue_motion_lock": false,
+        "csv": {
+          "line": 461,
+          "column": 2,
+          "row": [
+            "0.27",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 4532,
+            "line": 460,
+            "command": "bonestab"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        }
+      },
+      {
+        "tick": 4573,
+        "seconds": 76.21666666702508,
+        "clearance_px": 2.3305801732931286e-11,
+        "hazard_kind": "white",
+        "hazard_index": 15,
+        "blue_motion_lock": false,
+        "csv": {
+          "line": 465,
+          "column": 2,
+          "row": [
+            "0.27",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 4564,
+            "line": 464,
+            "command": "bonestab"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        }
+      },
+      {
+        "tick": 4603,
+        "seconds": 76.71666666702761,
+        "clearance_px": 2.3305801732931286e-11,
+        "hazard_kind": "white",
+        "hazard_index": 15,
+        "blue_motion_lock": false,
+        "csv": {
+          "line": 469,
+          "column": 2,
+          "row": [
+            "0.27",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 4596,
+            "line": 468,
+            "command": "bonestab"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        }
+      },
+      {
+        "tick": 4352,
+        "seconds": 72.53333333367311,
+        "clearance_px": 4.661160346586257e-11,
+        "hazard_kind": "white",
+        "hazard_index": 3,
+        "blue_motion_lock": false,
+        "csv": {
+          "line": 453,
+          "column": 2,
+          "row": [
+            "3.7",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 4261,
+            "line": 452,
+            "command": "gasterblaster"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        }
+      },
+      {
+        "tick": 5807,
+        "seconds": 96.7833333337958,
+        "clearance_px": 4.661160346586257e-11,
+        "hazard_kind": "white",
+        "hazard_index": 6,
+        "blue_motion_lock": false,
+        "csv": {
+          "line": 621,
+          "column": 2,
+          "row": [
+            "0.4",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 5786,
+            "line": 620,
+            "command": "gasterblaster"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        }
+      },
+      {
+        "tick": 5931,
+        "seconds": 98.85000000047292,
+        "clearance_px": 4.661160346586257e-11,
+        "hazard_kind": "white",
+        "hazard_index": 3,
+        "blue_motion_lock": false,
+        "csv": {
+          "line": 641,
+          "column": 2,
+          "row": [
+            "0.4",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 5930,
+            "line": 640,
+            "command": "gasterblaster"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        }
+      },
+      {
+        "tick": 4643,
+        "seconds": 77.38333333369765,
+        "clearance_px": 9.322320693172514e-11,
+        "hazard_kind": "white",
+        "hazard_index": 3,
+        "blue_motion_lock": false,
+        "csv": {
+          "line": 473,
+          "column": 2,
+          "row": [
+            "0.27",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 4629,
+            "line": 472,
+            "command": "bonestab"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        }
+      },
+      {
+        "tick": 4675,
+        "seconds": 77.91666666703368,
+        "clearance_px": 9.322320693172514e-11,
+        "hazard_kind": "white",
+        "hazard_index": 3,
+        "blue_motion_lock": false,
+        "csv": {
+          "line": 477,
+          "column": 2,
+          "row": [
+            "0.27",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 4661,
+            "line": 476,
+            "command": "bonestab"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        }
+      },
+      {
+        "tick": 4855,
+        "seconds": 80.91666666704886,
+        "clearance_px": 9.322320693172514e-11,
+        "hazard_kind": "white",
+        "hazard_index": 3,
+        "blue_motion_lock": false,
+        "csv": {
+          "line": 489,
+          "column": 2,
+          "row": [
+            "0.2",
+            "GetHeartPos",
+            "HeartX",
+            "HeartY",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 4844,
+            "line": 488,
+            "command": "gasterblaster"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        }
+      }
+    ],
+    "timing_events": [
+      {
+        "tick": 3049,
+        "kind": "arrows",
+        "before": 2,
+        "after": 5,
+        "seconds": 50.816666666902194,
+        "csv": {
+          "line": 334,
+          "column": 2,
+          "row": [
+            "0.06",
+            "bonestab",
+            "0",
+            "20",
+            "0",
+            "0.84",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 3048,
+            "line": 333,
+            "command": "bonestab"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        },
+        "early_safe_ticks_tested": 0,
+        "late_safe_ticks_tested": 0,
+        "early_safe_ms_tested": 0.0,
+        "late_safe_ms_tested": 0.0,
+        "frame_exact_locally": true,
+        "probes": [
+          {
+            "shift_ticks": -1,
+            "shift_ms": -16.66666666674388,
+            "status": "collision",
+            "tick": 3054,
+            "csv": {
+              "line": 336,
+              "column": 2,
+              "row": [
+                "0.06",
+                "bonestab",
+                "0",
+                "30",
+                "0",
+                "0.78",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              "at_eof": false,
+              "timeline_running": true,
+              "last_executed": {
+                "tick": 3051,
+                "line": 335,
+                "command": "bonestab"
+              },
+              "executed_this_tick": [],
+              "semantics": "execution_cursor_not_proven_hazard_origin"
+            },
+            "seconds": 50.90000000023591
+          },
+          {
+            "shift_ticks": -2,
+            "shift_ms": -33.33333333348776,
+            "status": "collision",
+            "tick": 3052,
+            "csv": {
+              "line": 336,
+              "column": 2,
+              "row": [
+                "0.06",
+                "bonestab",
+                "0",
+                "30",
+                "0",
+                "0.78",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              "at_eof": false,
+              "timeline_running": true,
+              "last_executed": {
+                "tick": 3051,
+                "line": 335,
+                "command": "bonestab"
+              },
+              "executed_this_tick": [],
+              "semantics": "execution_cursor_not_proven_hazard_origin"
+            },
+            "seconds": 50.866666666902425
+          },
+          {
+            "shift_ticks": -3,
+            "shift_ms": -50.00000000023164,
+            "status": "collision",
+            "tick": 3050,
+            "csv": {
+              "line": 334,
+              "column": 2,
+              "row": [
+                "0.06",
+                "bonestab",
+                "0",
+                "20",
+                "0",
+                "0.84",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              "at_eof": false,
+              "timeline_running": true,
+              "last_executed": {
+                "tick": 3048,
+                "line": 333,
+                "command": "bonestab"
+              },
+              "executed_this_tick": [],
+              "semantics": "execution_cursor_not_proven_hazard_origin"
+            },
+            "seconds": 50.83333333356894
+          },
+          {
+            "shift_ticks": -4,
+            "shift_ms": -66.66666666697552,
+            "status": "collision",
+            "tick": 3048,
+            "csv": {
+              "line": 334,
+              "column": 2,
+              "row": [
+                "0.06",
+                "bonestab",
+                "0",
+                "20",
+                "0",
+                "0.84",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              "at_eof": false,
+              "timeline_running": true,
+              "last_executed": {
+                "tick": 3048,
+                "line": 333,
+                "command": "bonestab"
+              },
+              "executed_this_tick": [
+                {
+                  "tick": 3048,
+                  "line": 332,
+                  "command": "bonestab"
+                },
+                {
+                  "tick": 3048,
+                  "line": 333,
+                  "command": "bonestab"
+                }
+              ],
+              "semantics": "execution_cursor_not_proven_hazard_origin"
+            },
+            "seconds": 50.80000000023545
+          },
+          {
+            "shift_ticks": 1,
+            "shift_ms": 16.66666666674388,
+            "status": "collision",
+            "tick": 3058,
+            "csv": {
+              "line": 338,
+              "column": 2,
+              "row": [
+                "0.06",
+                "bonestab",
+                "0",
+                "40",
+                "0",
+                "0.72",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              "at_eof": false,
+              "timeline_running": true,
+              "last_executed": {
+                "tick": 3055,
+                "line": 337,
+                "command": "bonestab"
+              },
+              "executed_this_tick": [],
+              "semantics": "execution_cursor_not_proven_hazard_origin"
+            },
+            "seconds": 50.96666666690289
+          },
+          {
+            "shift_ticks": 2,
+            "shift_ms": 33.33333333348776,
+            "status": "collision",
+            "tick": 3056,
+            "csv": {
+              "line": 338,
+              "column": 2,
+              "row": [
+                "0.06",
+                "bonestab",
+                "0",
+                "40",
+                "0",
+                "0.72",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              "at_eof": false,
+              "timeline_running": true,
+              "last_executed": {
+                "tick": 3055,
+                "line": 337,
+                "command": "bonestab"
+              },
+              "executed_this_tick": [],
+              "semantics": "execution_cursor_not_proven_hazard_origin"
+            },
+            "seconds": 50.9333333335694
+          },
+          {
+            "shift_ticks": 3,
+            "shift_ms": 50.00000000023164,
+            "status": "collision",
+            "tick": 3056,
+            "csv": {
+              "line": 338,
+              "column": 2,
+              "row": [
+                "0.06",
+                "bonestab",
+                "0",
+                "40",
+                "0",
+                "0.72",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              "at_eof": false,
+              "timeline_running": true,
+              "last_executed": {
+                "tick": 3055,
+                "line": 337,
+                "command": "bonestab"
+              },
+              "executed_this_tick": [],
+              "semantics": "execution_cursor_not_proven_hazard_origin"
+            },
+            "seconds": 50.9333333335694
+          },
+          {
+            "shift_ticks": 4,
+            "shift_ms": 66.66666666697552,
+            "status": "collision",
+            "tick": 3054,
+            "csv": {
+              "line": 336,
+              "column": 2,
+              "row": [
+                "0.06",
+                "bonestab",
+                "0",
+                "30",
+                "0",
+                "0.78",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              "at_eof": false,
+              "timeline_running": true,
+              "last_executed": {
+                "tick": 3051,
+                "line": 335,
+                "command": "bonestab"
+              },
+              "executed_this_tick": [],
+              "semantics": "execution_cursor_not_proven_hazard_origin"
+            },
+            "seconds": 50.90000000023591
+          }
+        ]
+      },
+      {
+        "tick": 649,
+        "kind": "arrows",
+        "before": 4,
+        "after": 6,
+        "seconds": 10.816666666716882,
+        "csv": {
+          "line": 127,
+          "column": 2,
+          "row": [
+            "0.7",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 613,
+            "line": 126,
+            "command": "gasterblaster"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        },
+        "early_safe_ticks_tested": 1,
+        "late_safe_ticks_tested": 0,
+        "early_safe_ms_tested": 16.66666666674388,
+        "late_safe_ms_tested": 0.0,
+        "frame_exact_locally": false,
+        "probes": [
+          {
+            "shift_ticks": -1,
+            "shift_ms": -16.66666666674388,
+            "status": "survived_local_prefix",
+            "through_tick": 679
+          },
+          {
+            "shift_ticks": -2,
+            "shift_ms": -33.33333333348776,
+            "status": "collision",
+            "tick": 656,
+            "csv": {
+              "line": 135,
+              "column": 2,
+              "row": [
+                "0.699",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              "at_eof": false,
+              "timeline_running": true,
+              "last_executed": {
+                "tick": 655,
+                "line": 134,
+                "command": "gasterblaster"
+              },
+              "executed_this_tick": [],
+              "semantics": "execution_cursor_not_proven_hazard_origin"
+            },
+            "seconds": 10.93333333338409
+          },
+          {
+            "shift_ticks": -3,
+            "shift_ms": -50.00000000023164,
+            "status": "collision",
+            "tick": 656,
+            "csv": {
+              "line": 135,
+              "column": 2,
+              "row": [
+                "0.699",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              "at_eof": false,
+              "timeline_running": true,
+              "last_executed": {
+                "tick": 655,
+                "line": 134,
+                "command": "gasterblaster"
+              },
+              "executed_this_tick": [],
+              "semantics": "execution_cursor_not_proven_hazard_origin"
+            },
+            "seconds": 10.93333333338409
+          },
+          {
+            "shift_ticks": -4,
+            "shift_ms": -66.66666666697552,
+            "status": "collision",
+            "tick": 656,
+            "csv": {
+              "line": 135,
+              "column": 2,
+              "row": [
+                "0.699",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              "at_eof": false,
+              "timeline_running": true,
+              "last_executed": {
+                "tick": 655,
+                "line": 134,
+                "command": "gasterblaster"
+              },
+              "executed_this_tick": [],
+              "semantics": "execution_cursor_not_proven_hazard_origin"
+            },
+            "seconds": 10.93333333338409
+          },
+          {
+            "shift_ticks": 1,
+            "shift_ms": 16.66666666674388,
+            "status": "collision",
+            "tick": 660,
+            "csv": {
+              "line": 135,
+              "column": 2,
+              "row": [
+                "0.699",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              "at_eof": false,
+              "timeline_running": true,
+              "last_executed": {
+                "tick": 655,
+                "line": 134,
+                "command": "gasterblaster"
+              },
+              "executed_this_tick": [],
+              "semantics": "execution_cursor_not_proven_hazard_origin"
+            },
+            "seconds": 11.000000000051065
+          },
+          {
+            "shift_ticks": 2,
+            "shift_ms": 33.33333333348776,
+            "status": "collision",
+            "tick": 660,
+            "csv": {
+              "line": 135,
+              "column": 2,
+              "row": [
+                "0.699",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              "at_eof": false,
+              "timeline_running": true,
+              "last_executed": {
+                "tick": 655,
+                "line": 134,
+                "command": "gasterblaster"
+              },
+              "executed_this_tick": [],
+              "semantics": "execution_cursor_not_proven_hazard_origin"
+            },
+            "seconds": 11.000000000051065
+          },
+          {
+            "shift_ticks": 3,
+            "shift_ms": 50.00000000023164,
+            "status": "collision",
+            "tick": 659,
+            "csv": {
+              "line": 135,
+              "column": 2,
+              "row": [
+                "0.699",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              "at_eof": false,
+              "timeline_running": true,
+              "last_executed": {
+                "tick": 655,
+                "line": 134,
+                "command": "gasterblaster"
+              },
+              "executed_this_tick": [],
+              "semantics": "execution_cursor_not_proven_hazard_origin"
+            },
+            "seconds": 10.983333333384321
+          },
+          {
+            "shift_ticks": 4,
+            "status": "not_tested",
+            "reason": "input_boundary_or_neighbor"
+          }
+        ]
+      },
+      {
+        "tick": 10418,
+        "kind": "arrows",
+        "before": 9,
+        "after": 0,
+        "seconds": 173.63333333414568,
+        "csv": {
+          "line": 1239,
+          "column": 2,
+          "row": [
+            "0.3",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 10414,
+            "line": 1238,
+            "command": "bonev"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        },
+        "early_safe_ticks_tested": 4,
+        "late_safe_ticks_tested": 0,
+        "early_safe_ms_tested": 66.6666666669471,
+        "late_safe_ms_tested": 0.0,
+        "frame_exact_locally": false,
+        "probes": [
+          {
+            "shift_ticks": -1,
+            "shift_ms": -16.666666666736774,
+            "status": "survived_local_prefix",
+            "through_tick": 10448
+          },
+          {
+            "shift_ticks": -2,
+            "shift_ms": -33.33333333347355,
+            "status": "survived_local_prefix",
+            "through_tick": 10448
+          },
+          {
+            "shift_ticks": -3,
+            "shift_ms": -50.00000000021032,
+            "status": "survived_local_prefix",
+            "through_tick": 10448
+          },
+          {
+            "shift_ticks": -4,
+            "shift_ms": -66.6666666669471,
+            "status": "survived_local_prefix",
+            "through_tick": 10448
+          },
+          {
+            "shift_ticks": 1,
+            "shift_ms": 16.666666666736774,
+            "status": "collision",
+            "tick": 10432,
+            "csv": {
+              "line": 1244,
+              "column": 2,
+              "row": [
+                "0.6",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              "at_eof": false,
+              "timeline_running": true,
+              "last_executed": {
+                "tick": 10432,
+                "line": 1243,
+                "command": "sansbody"
+              },
+              "executed_this_tick": [
+                {
+                  "tick": 10432,
+                  "line": 1239,
+                  "command": ""
+                },
+                {
+                  "tick": 10432,
+                  "line": 1240,
+                  "command": "bonestab"
+                },
+                {
+                  "tick": 10432,
+                  "line": 1241,
+                  "command": "bonestab"
+                },
+                {
+                  "tick": 10432,
+                  "line": 1242,
+                  "command": "sansslam"
+                },
+                {
+                  "tick": 10432,
+                  "line": 1243,
+                  "command": "sansbody"
+                }
+              ],
+              "semantics": "execution_cursor_not_proven_hazard_origin"
+            },
+            "seconds": 173.86666666748
+          },
+          {
+            "shift_ticks": 2,
+            "shift_ms": 33.33333333347355,
+            "status": "collision",
+            "tick": 10432,
+            "csv": {
+              "line": 1244,
+              "column": 2,
+              "row": [
+                "0.6",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              "at_eof": false,
+              "timeline_running": true,
+              "last_executed": {
+                "tick": 10432,
+                "line": 1243,
+                "command": "sansbody"
+              },
+              "executed_this_tick": [
+                {
+                  "tick": 10432,
+                  "line": 1239,
+                  "command": ""
+                },
+                {
+                  "tick": 10432,
+                  "line": 1240,
+                  "command": "bonestab"
+                },
+                {
+                  "tick": 10432,
+                  "line": 1241,
+                  "command": "bonestab"
+                },
+                {
+                  "tick": 10432,
+                  "line": 1242,
+                  "command": "sansslam"
+                },
+                {
+                  "tick": 10432,
+                  "line": 1243,
+                  "command": "sansbody"
+                }
+              ],
+              "semantics": "execution_cursor_not_proven_hazard_origin"
+            },
+            "seconds": 173.86666666748
+          },
+          {
+            "shift_ticks": 3,
+            "shift_ms": 50.00000000021032,
+            "status": "collision",
+            "tick": 10432,
+            "csv": {
+              "line": 1244,
+              "column": 2,
+              "row": [
+                "0.6",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              "at_eof": false,
+              "timeline_running": true,
+              "last_executed": {
+                "tick": 10432,
+                "line": 1243,
+                "command": "sansbody"
+              },
+              "executed_this_tick": [
+                {
+                  "tick": 10432,
+                  "line": 1239,
+                  "command": ""
+                },
+                {
+                  "tick": 10432,
+                  "line": 1240,
+                  "command": "bonestab"
+                },
+                {
+                  "tick": 10432,
+                  "line": 1241,
+                  "command": "bonestab"
+                },
+                {
+                  "tick": 10432,
+                  "line": 1242,
+                  "command": "sansslam"
+                },
+                {
+                  "tick": 10432,
+                  "line": 1243,
+                  "command": "sansbody"
+                }
+              ],
+              "semantics": "execution_cursor_not_proven_hazard_origin"
+            },
+            "seconds": 173.86666666748
+          },
+          {
+            "shift_ticks": 4,
+            "shift_ms": 66.6666666669471,
+            "status": "collision",
+            "tick": 10427,
+            "csv": {
+              "line": 1239,
+              "column": 2,
+              "row": [
+                "0.3",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              "at_eof": false,
+              "timeline_running": true,
+              "last_executed": {
+                "tick": 10414,
+                "line": 1238,
+                "command": "bonev"
+              },
+              "executed_this_tick": [],
+              "semantics": "execution_cursor_not_proven_hazard_origin"
+            },
+            "seconds": 173.7833333341463
+          }
+        ]
+      },
+      {
+        "tick": 8118,
+        "kind": "arrows",
+        "before": 4,
+        "after": 0,
+        "seconds": 135.3000000006511,
+        "csv": {
+          "line": 895,
+          "column": 2,
+          "row": [
+            "0.25",
+            "GetHeartPos",
+            "HeartX",
+            "HeartY",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 8118,
+            "line": 894,
+            "command": "bonev"
+          },
+          "executed_this_tick": [
+            {
+              "tick": 8118,
+              "line": 891,
+              "command": "getheartpos"
+            },
+            {
+              "tick": 8118,
+              "line": 892,
+              "command": "boneh"
+            },
+            {
+              "tick": 8118,
+              "line": 893,
+              "command": "getheartpos"
+            },
+            {
+              "tick": 8118,
+              "line": 894,
+              "command": "bonev"
+            }
+          ],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        },
+        "early_safe_ticks_tested": 4,
+        "late_safe_ticks_tested": 1,
+        "early_safe_ms_tested": 66.6666666669471,
+        "late_safe_ms_tested": 16.666666666736774,
+        "frame_exact_locally": false,
+        "probes": [
+          {
+            "shift_ticks": -1,
+            "shift_ms": -16.666666666736774,
+            "status": "survived_local_prefix",
+            "through_tick": 8148
+          },
+          {
+            "shift_ticks": -2,
+            "shift_ms": -33.33333333347355,
+            "status": "survived_local_prefix",
+            "through_tick": 8148
+          },
+          {
+            "shift_ticks": -3,
+            "shift_ms": -50.00000000021032,
+            "status": "survived_local_prefix",
+            "through_tick": 8148
+          },
+          {
+            "shift_ticks": -4,
+            "shift_ms": -66.6666666669471,
+            "status": "survived_local_prefix",
+            "through_tick": 8148
+          },
+          {
+            "shift_ticks": 1,
+            "shift_ms": 16.666666666736774,
+            "status": "survived_local_prefix",
+            "through_tick": 8148
+          },
+          {
+            "shift_ticks": 2,
+            "shift_ms": 33.33333333347355,
+            "status": "collision",
+            "tick": 8119,
+            "csv": {
+              "line": 895,
+              "column": 2,
+              "row": [
+                "0.25",
+                "GetHeartPos",
+                "HeartX",
+                "HeartY",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              "at_eof": false,
+              "timeline_running": true,
+              "last_executed": {
+                "tick": 8118,
+                "line": 894,
+                "command": "bonev"
+              },
+              "executed_this_tick": [],
+              "semantics": "execution_cursor_not_proven_hazard_origin"
+            },
+            "seconds": 135.31666666731783
+          },
+          {
+            "shift_ticks": 3,
+            "shift_ms": 50.00000000021032,
+            "status": "collision",
+            "tick": 8119,
+            "csv": {
+              "line": 895,
+              "column": 2,
+              "row": [
+                "0.25",
+                "GetHeartPos",
+                "HeartX",
+                "HeartY",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              "at_eof": false,
+              "timeline_running": true,
+              "last_executed": {
+                "tick": 8118,
+                "line": 894,
+                "command": "bonev"
+              },
+              "executed_this_tick": [],
+              "semantics": "execution_cursor_not_proven_hazard_origin"
+            },
+            "seconds": 135.31666666731783
+          },
+          {
+            "shift_ticks": 4,
+            "shift_ms": 66.6666666669471,
+            "status": "collision",
+            "tick": 8119,
+            "csv": {
+              "line": 895,
+              "column": 2,
+              "row": [
+                "0.25",
+                "GetHeartPos",
+                "HeartX",
+                "HeartY",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              "at_eof": false,
+              "timeline_running": true,
+              "last_executed": {
+                "tick": 8118,
+                "line": 894,
+                "command": "bonev"
+              },
+              "executed_this_tick": [],
+              "semantics": "execution_cursor_not_proven_hazard_origin"
+            },
+            "seconds": 135.31666666731783
+          }
+        ]
+      },
+      {
+        "tick": 8244,
+        "kind": "arrows",
+        "before": 4,
+        "after": 0,
+        "seconds": 137.40000000065993,
+        "csv": {
+          "line": 913,
+          "column": 2,
+          "row": [
+            "0.25",
+            "GetHeartPos",
+            "HeartX",
+            "HeartY",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 8244,
+            "line": 912,
+            "command": "bonev"
+          },
+          "executed_this_tick": [
+            {
+              "tick": 8244,
+              "line": 909,
+              "command": "getheartpos"
+            },
+            {
+              "tick": 8244,
+              "line": 910,
+              "command": "boneh"
+            },
+            {
+              "tick": 8244,
+              "line": 911,
+              "command": "getheartpos"
+            },
+            {
+              "tick": 8244,
+              "line": 912,
+              "command": "bonev"
+            }
+          ],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        },
+        "early_safe_ticks_tested": 3,
+        "late_safe_ticks_tested": 3,
+        "early_safe_ms_tested": 50.00000000021032,
+        "late_safe_ms_tested": 50.00000000021032,
+        "frame_exact_locally": false,
+        "probes": [
+          {
+            "shift_ticks": -1,
+            "shift_ms": -16.666666666736774,
+            "status": "survived_local_prefix",
+            "through_tick": 8274
+          },
+          {
+            "shift_ticks": -2,
+            "shift_ms": -33.33333333347355,
+            "status": "survived_local_prefix",
+            "through_tick": 8274
+          },
+          {
+            "shift_ticks": -3,
+            "shift_ms": -50.00000000021032,
+            "status": "survived_local_prefix",
+            "through_tick": 8274
+          },
+          {
+            "shift_ticks": -4,
+            "shift_ms": -66.6666666669471,
+            "status": "collision",
+            "tick": 8260,
+            "csv": {
+              "line": 915,
+              "column": 2,
+              "row": [
+                "0.25",
+                "GetHeartPos",
+                "HeartX",
+                "HeartY",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              "at_eof": false,
+              "timeline_running": true,
+              "last_executed": {
+                "tick": 8259,
+                "line": 914,
+                "command": "boneh"
+              },
+              "executed_this_tick": [],
+              "semantics": "execution_cursor_not_proven_hazard_origin"
+            },
+            "seconds": 137.66666666732772
+          },
+          {
+            "shift_ticks": 1,
+            "shift_ms": 16.666666666736774,
+            "status": "survived_local_prefix",
+            "through_tick": 8274
+          },
+          {
+            "shift_ticks": 2,
+            "shift_ms": 33.33333333347355,
+            "status": "survived_local_prefix",
+            "through_tick": 8274
+          },
+          {
+            "shift_ticks": 3,
+            "shift_ms": 50.00000000021032,
+            "status": "survived_local_prefix",
+            "through_tick": 8274
+          },
+          {
+            "shift_ticks": 4,
+            "shift_ms": 66.6666666669471,
+            "status": "collision",
+            "tick": 8247,
+            "csv": {
+              "line": 913,
+              "column": 2,
+              "row": [
+                "0.25",
+                "GetHeartPos",
+                "HeartX",
+                "HeartY",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              "at_eof": false,
+              "timeline_running": true,
+              "last_executed": {
+                "tick": 8244,
+                "line": 912,
+                "command": "bonev"
+              },
+              "executed_this_tick": [],
+              "semantics": "execution_cursor_not_proven_hazard_origin"
+            },
+            "seconds": 137.45000000066014
+          }
+        ]
+      },
+      {
+        "tick": 8512,
+        "kind": "arrows",
+        "before": 8,
+        "after": 0,
+        "seconds": 141.86666666734538,
+        "csv": {
+          "line": 951,
+          "column": 2,
+          "row": [
+            "0.25",
+            "GetHeartPos",
+            "HeartX",
+            "HeartY",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 8511,
+            "line": 950,
+            "command": "boneh"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        },
+        "early_safe_ticks_tested": 4,
+        "late_safe_ticks_tested": 3,
+        "early_safe_ms_tested": 66.6666666669471,
+        "late_safe_ms_tested": 50.00000000021032,
+        "frame_exact_locally": false,
+        "probes": [
+          {
+            "shift_ticks": -1,
+            "shift_ms": -16.666666666736774,
+            "status": "survived_local_prefix",
+            "through_tick": 8542
+          },
+          {
+            "shift_ticks": -2,
+            "shift_ms": -33.33333333347355,
+            "status": "survived_local_prefix",
+            "through_tick": 8542
+          },
+          {
+            "shift_ticks": -3,
+            "shift_ms": -50.00000000021032,
+            "status": "survived_local_prefix",
+            "through_tick": 8542
+          },
+          {
+            "shift_ticks": -4,
+            "shift_ms": -66.6666666669471,
+            "status": "survived_local_prefix",
+            "through_tick": 8542
+          },
+          {
+            "shift_ticks": 1,
+            "shift_ms": 16.666666666736774,
+            "status": "survived_local_prefix",
+            "through_tick": 8542
+          },
+          {
+            "shift_ticks": 2,
+            "shift_ms": 33.33333333347355,
+            "status": "survived_local_prefix",
+            "through_tick": 8542
+          },
+          {
+            "shift_ticks": 3,
+            "shift_ms": 50.00000000021032,
+            "status": "survived_local_prefix",
+            "through_tick": 8542
+          },
+          {
+            "shift_ticks": 4,
+            "shift_ms": 66.6666666669471,
+            "status": "collision",
+            "tick": 8528,
+            "csv": {
+              "line": 953,
+              "column": 2,
+              "row": [
+                "0.3",
+                "GetHeartPos",
+                "HeartX",
+                "HeartY",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              "at_eof": false,
+              "timeline_running": true,
+              "last_executed": {
+                "tick": 8526,
+                "line": 952,
+                "command": "boneh"
+              },
+              "executed_this_tick": [],
+              "semantics": "execution_cursor_not_proven_hazard_origin"
+            },
+            "seconds": 142.13333333401317
+          }
+        ]
+      },
+      {
+        "tick": 8615,
+        "kind": "arrows",
+        "before": 8,
+        "after": 0,
+        "seconds": 143.58333333401927,
+        "csv": {
+          "line": 963,
+          "column": 2,
+          "row": [
+            "0.25",
+            "GetHeartPos",
+            "HeartX",
+            "HeartY",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 8607,
+            "line": 962,
+            "command": "boneh"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        },
+        "early_safe_ticks_tested": 3,
+        "late_safe_ticks_tested": 4,
+        "early_safe_ms_tested": 50.00000000021032,
+        "late_safe_ms_tested": 66.6666666669471,
+        "frame_exact_locally": false,
+        "probes": [
+          {
+            "shift_ticks": -1,
+            "shift_ms": -16.666666666736774,
+            "status": "survived_local_prefix",
+            "through_tick": 8645
+          },
+          {
+            "shift_ticks": -2,
+            "shift_ms": -33.33333333347355,
+            "status": "survived_local_prefix",
+            "through_tick": 8645
+          },
+          {
+            "shift_ticks": -3,
+            "shift_ms": -50.00000000021032,
+            "status": "survived_local_prefix",
+            "through_tick": 8645
+          },
+          {
+            "shift_ticks": -4,
+            "shift_ms": -66.6666666669471,
+            "status": "collision",
+            "tick": 8640,
+            "csv": {
+              "line": 967,
+              "column": 2,
+              "row": [
+                "1.2",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ],
+              "at_eof": false,
+              "timeline_running": true,
+              "last_executed": {
+                "tick": 8622,
+                "line": 966,
+                "command": "bonev"
+              },
+              "executed_this_tick": [],
+              "semantics": "execution_cursor_not_proven_hazard_origin"
+            },
+            "seconds": 144.0000000006877
+          },
+          {
+            "shift_ticks": 1,
+            "shift_ms": 16.666666666736774,
+            "status": "survived_local_prefix",
+            "through_tick": 8645
+          },
+          {
+            "shift_ticks": 2,
+            "shift_ms": 33.33333333347355,
+            "status": "survived_local_prefix",
+            "through_tick": 8645
+          },
+          {
+            "shift_ticks": 3,
+            "shift_ms": 50.00000000021032,
+            "status": "survived_local_prefix",
+            "through_tick": 8645
+          },
+          {
+            "shift_ticks": 4,
+            "shift_ms": 66.6666666669471,
+            "status": "survived_local_prefix",
+            "through_tick": 8645
+          }
+        ]
+      },
+      {
+        "tick": 1350,
+        "kind": "confirm",
+        "end_tick": 1351,
+        "seconds": 22.500000000104343,
+        "csv": {
+          "line": 216,
+          "column": 2,
+          "row": [
+            "0.45",
+            "BoneStab",
+            "2",
+            "120",
+            "0",
+            "0.45",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 1344,
+            "line": 215,
+            "command": "bonestab"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        },
+        "early_safe_ticks_tested": 4,
+        "late_safe_ticks_tested": 4,
+        "early_safe_ms_tested": 66.66666666697552,
+        "late_safe_ms_tested": 66.66666666697552,
+        "frame_exact_locally": false,
+        "probes": [
+          {
+            "shift_ticks": -1,
+            "shift_ms": -16.66666666674388,
+            "status": "survived_local_prefix",
+            "through_tick": 1380
+          },
+          {
+            "shift_ticks": -2,
+            "shift_ms": -33.33333333348776,
+            "status": "survived_local_prefix",
+            "through_tick": 1380
+          },
+          {
+            "shift_ticks": -3,
+            "shift_ms": -50.00000000023164,
+            "status": "survived_local_prefix",
+            "through_tick": 1380
+          },
+          {
+            "shift_ticks": -4,
+            "shift_ms": -66.66666666697552,
+            "status": "survived_local_prefix",
+            "through_tick": 1380
+          },
+          {
+            "shift_ticks": 1,
+            "shift_ms": 16.66666666674388,
+            "status": "survived_local_prefix",
+            "through_tick": 1380
+          },
+          {
+            "shift_ticks": 2,
+            "shift_ms": 33.33333333348776,
+            "status": "survived_local_prefix",
+            "through_tick": 1380
+          },
+          {
+            "shift_ticks": 3,
+            "shift_ms": 50.00000000023164,
+            "status": "survived_local_prefix",
+            "through_tick": 1380
+          },
+          {
+            "shift_ticks": 4,
+            "shift_ms": 66.66666666697552,
+            "status": "survived_local_prefix",
+            "through_tick": 1380
+          }
+        ]
+      },
+      {
+        "tick": 4494,
+        "kind": "confirm",
+        "end_tick": 4495,
+        "seconds": 74.90000000035175,
+        "csv": {
+          "line": 455,
+          "column": 2,
+          "row": [
+            "0.27",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 4483,
+            "line": 454,
+            "command": "bonestab"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        },
+        "early_safe_ticks_tested": 4,
+        "late_safe_ticks_tested": 4,
+        "early_safe_ms_tested": 66.66666666700394,
+        "late_safe_ms_tested": 66.66666666700394,
+        "frame_exact_locally": false,
+        "probes": [
+          {
+            "shift_ticks": -1,
+            "shift_ms": -16.666666666750984,
+            "status": "survived_local_prefix",
+            "through_tick": 4524
+          },
+          {
+            "shift_ticks": -2,
+            "shift_ms": -33.33333333350197,
+            "status": "survived_local_prefix",
+            "through_tick": 4524
+          },
+          {
+            "shift_ticks": -3,
+            "shift_ms": -50.00000000025295,
+            "status": "survived_local_prefix",
+            "through_tick": 4524
+          },
+          {
+            "shift_ticks": -4,
+            "shift_ms": -66.66666666700394,
+            "status": "survived_local_prefix",
+            "through_tick": 4524
+          },
+          {
+            "shift_ticks": 1,
+            "shift_ms": 16.666666666750984,
+            "status": "survived_local_prefix",
+            "through_tick": 4524
+          },
+          {
+            "shift_ticks": 2,
+            "shift_ms": 33.33333333350197,
+            "status": "survived_local_prefix",
+            "through_tick": 4524
+          },
+          {
+            "shift_ticks": 3,
+            "shift_ms": 50.00000000025295,
+            "status": "survived_local_prefix",
+            "through_tick": 4524
+          },
+          {
+            "shift_ticks": 4,
+            "shift_ms": 66.66666666700394,
+            "status": "survived_local_prefix",
+            "through_tick": 4524
+          }
+        ]
+      },
+      {
+        "tick": 5796,
+        "kind": "confirm",
+        "end_tick": 5797,
+        "seconds": 96.60000000046153,
+        "csv": {
+          "line": 621,
+          "column": 2,
+          "row": [
+            "0.4",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 5786,
+            "line": 620,
+            "command": "gasterblaster"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        },
+        "early_safe_ticks_tested": 4,
+        "late_safe_ticks_tested": 4,
+        "early_safe_ms_tested": 66.66666666700394,
+        "late_safe_ms_tested": 66.66666666700394,
+        "frame_exact_locally": false,
+        "probes": [
+          {
+            "shift_ticks": -1,
+            "shift_ms": -16.666666666750984,
+            "status": "survived_local_prefix",
+            "through_tick": 5826
+          },
+          {
+            "shift_ticks": -2,
+            "shift_ms": -33.33333333350197,
+            "status": "survived_local_prefix",
+            "through_tick": 5826
+          },
+          {
+            "shift_ticks": -3,
+            "shift_ms": -50.00000000025295,
+            "status": "survived_local_prefix",
+            "through_tick": 5826
+          },
+          {
+            "shift_ticks": -4,
+            "shift_ms": -66.66666666700394,
+            "status": "survived_local_prefix",
+            "through_tick": 5826
+          },
+          {
+            "shift_ticks": 1,
+            "shift_ms": 16.666666666750984,
+            "status": "survived_local_prefix",
+            "through_tick": 5826
+          },
+          {
+            "shift_ticks": 2,
+            "shift_ms": 33.33333333350197,
+            "status": "survived_local_prefix",
+            "through_tick": 5826
+          },
+          {
+            "shift_ticks": 3,
+            "shift_ms": 50.00000000025295,
+            "status": "survived_local_prefix",
+            "through_tick": 5826
+          },
+          {
+            "shift_ticks": 4,
+            "shift_ms": 66.66666666700394,
+            "status": "survived_local_prefix",
+            "through_tick": 5826
+          }
+        ]
+      },
+      {
+        "tick": 5920,
+        "kind": "confirm",
+        "end_tick": 5921,
+        "seconds": 98.66666666713866,
+        "csv": {
+          "line": 639,
+          "column": 2,
+          "row": [
+            "0.2",
+            "GetHeartPos",
+            "HeartX",
+            "HeartY",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 5918,
+            "line": 638,
+            "command": "gasterblaster"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        },
+        "early_safe_ticks_tested": 4,
+        "late_safe_ticks_tested": 4,
+        "early_safe_ms_tested": 66.66666666700394,
+        "late_safe_ms_tested": 66.66666666700394,
+        "frame_exact_locally": false,
+        "probes": [
+          {
+            "shift_ticks": -1,
+            "shift_ms": -16.666666666750984,
+            "status": "survived_local_prefix",
+            "through_tick": 5950
+          },
+          {
+            "shift_ticks": -2,
+            "shift_ms": -33.33333333350197,
+            "status": "survived_local_prefix",
+            "through_tick": 5950
+          },
+          {
+            "shift_ticks": -3,
+            "shift_ms": -50.00000000025295,
+            "status": "survived_local_prefix",
+            "through_tick": 5950
+          },
+          {
+            "shift_ticks": -4,
+            "shift_ms": -66.66666666700394,
+            "status": "survived_local_prefix",
+            "through_tick": 5950
+          },
+          {
+            "shift_ticks": 1,
+            "shift_ms": 16.666666666750984,
+            "status": "survived_local_prefix",
+            "through_tick": 5950
+          },
+          {
+            "shift_ticks": 2,
+            "shift_ms": 33.33333333350197,
+            "status": "survived_local_prefix",
+            "through_tick": 5950
+          },
+          {
+            "shift_ticks": 3,
+            "shift_ms": 50.00000000025295,
+            "status": "survived_local_prefix",
+            "through_tick": 5950
+          },
+          {
+            "shift_ticks": 4,
+            "shift_ms": 66.66666666700394,
+            "status": "survived_local_prefix",
+            "through_tick": 5950
+          }
+        ]
+      },
+      {
+        "tick": 7988,
+        "kind": "confirm",
+        "end_tick": 7989,
+        "seconds": 133.13333333397532,
+        "csv": {
+          "line": 873,
+          "column": 2,
+          "row": [
+            "0.25",
+            "GetHeartPos",
+            "HeartX",
+            "HeartY",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 7977,
+            "line": 872,
+            "command": "boneh"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        },
+        "early_safe_ticks_tested": 4,
+        "late_safe_ticks_tested": 4,
+        "early_safe_ms_tested": 66.6666666669471,
+        "late_safe_ms_tested": 66.6666666669471,
+        "frame_exact_locally": false,
+        "probes": [
+          {
+            "shift_ticks": -1,
+            "shift_ms": -16.666666666736774,
+            "status": "survived_local_prefix",
+            "through_tick": 8018
+          },
+          {
+            "shift_ticks": -2,
+            "shift_ms": -33.33333333347355,
+            "status": "survived_local_prefix",
+            "through_tick": 8018
+          },
+          {
+            "shift_ticks": -3,
+            "shift_ms": -50.00000000021032,
+            "status": "survived_local_prefix",
+            "through_tick": 8018
+          },
+          {
+            "shift_ticks": -4,
+            "shift_ms": -66.6666666669471,
+            "status": "survived_local_prefix",
+            "through_tick": 8018
+          },
+          {
+            "shift_ticks": 1,
+            "shift_ms": 16.666666666736774,
+            "status": "survived_local_prefix",
+            "through_tick": 8018
+          },
+          {
+            "shift_ticks": 2,
+            "shift_ms": 33.33333333347355,
+            "status": "survived_local_prefix",
+            "through_tick": 8018
+          },
+          {
+            "shift_ticks": 3,
+            "shift_ms": 50.00000000021032,
+            "status": "survived_local_prefix",
+            "through_tick": 8018
+          },
+          {
+            "shift_ticks": 4,
+            "shift_ms": 66.6666666669471,
+            "status": "survived_local_prefix",
+            "through_tick": 8018
+          }
+        ]
+      },
+      {
+        "tick": 7990,
+        "kind": "confirm",
+        "end_tick": 7991,
+        "seconds": 133.1666666673088,
+        "csv": {
+          "line": 873,
+          "column": 2,
+          "row": [
+            "0.25",
+            "GetHeartPos",
+            "HeartX",
+            "HeartY",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 7977,
+            "line": 872,
+            "command": "boneh"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        },
+        "early_safe_ticks_tested": 4,
+        "late_safe_ticks_tested": 4,
+        "early_safe_ms_tested": 66.6666666669471,
+        "late_safe_ms_tested": 66.6666666669471,
+        "frame_exact_locally": false,
+        "probes": [
+          {
+            "shift_ticks": -1,
+            "shift_ms": -16.666666666736774,
+            "status": "survived_local_prefix",
+            "through_tick": 8020
+          },
+          {
+            "shift_ticks": -2,
+            "shift_ms": -33.33333333347355,
+            "status": "survived_local_prefix",
+            "through_tick": 8020
+          },
+          {
+            "shift_ticks": -3,
+            "shift_ms": -50.00000000021032,
+            "status": "survived_local_prefix",
+            "through_tick": 8020
+          },
+          {
+            "shift_ticks": -4,
+            "shift_ms": -66.6666666669471,
+            "status": "survived_local_prefix",
+            "through_tick": 8020
+          },
+          {
+            "shift_ticks": 1,
+            "shift_ms": 16.666666666736774,
+            "status": "survived_local_prefix",
+            "through_tick": 8020
+          },
+          {
+            "shift_ticks": 2,
+            "shift_ms": 33.33333333347355,
+            "status": "survived_local_prefix",
+            "through_tick": 8020
+          },
+          {
+            "shift_ticks": 3,
+            "shift_ms": 50.00000000021032,
+            "status": "survived_local_prefix",
+            "through_tick": 8020
+          },
+          {
+            "shift_ticks": 4,
+            "shift_ms": 66.6666666669471,
+            "status": "survived_local_prefix",
+            "through_tick": 8020
+          }
+        ]
+      },
+      {
+        "tick": 7994,
+        "kind": "arrows",
+        "before": 4,
+        "after": 0,
+        "seconds": 133.23333333397574,
+        "csv": {
+          "line": 877,
+          "column": 2,
+          "row": [
+            "0.25",
+            "GetHeartPos",
+            "HeartX",
+            "HeartY",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 7992,
+            "line": 876,
+            "command": "bonev"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        },
+        "early_safe_ticks_tested": 4,
+        "late_safe_ticks_tested": 4,
+        "early_safe_ms_tested": 66.6666666669471,
+        "late_safe_ms_tested": 66.6666666669471,
+        "frame_exact_locally": false,
+        "probes": [
+          {
+            "shift_ticks": -1,
+            "shift_ms": -16.666666666736774,
+            "status": "survived_local_prefix",
+            "through_tick": 8024
+          },
+          {
+            "shift_ticks": -2,
+            "shift_ms": -33.33333333347355,
+            "status": "survived_local_prefix",
+            "through_tick": 8024
+          },
+          {
+            "shift_ticks": -3,
+            "shift_ms": -50.00000000021032,
+            "status": "survived_local_prefix",
+            "through_tick": 8024
+          },
+          {
+            "shift_ticks": -4,
+            "shift_ms": -66.6666666669471,
+            "status": "survived_local_prefix",
+            "through_tick": 8024
+          },
+          {
+            "shift_ticks": 1,
+            "shift_ms": 16.666666666736774,
+            "status": "survived_local_prefix",
+            "through_tick": 8024
+          },
+          {
+            "shift_ticks": 2,
+            "shift_ms": 33.33333333347355,
+            "status": "survived_local_prefix",
+            "through_tick": 8024
+          },
+          {
+            "shift_ticks": 3,
+            "shift_ms": 50.00000000021032,
+            "status": "survived_local_prefix",
+            "through_tick": 8024
+          },
+          {
+            "shift_ticks": 4,
+            "shift_ms": 66.6666666669471,
+            "status": "survived_local_prefix",
+            "through_tick": 8024
+          }
+        ]
+      },
+      {
+        "tick": 8108,
+        "kind": "confirm",
+        "end_tick": 8109,
+        "seconds": 135.13333333398373,
+        "csv": {
+          "line": 891,
+          "column": 2,
+          "row": [
+            "0.25",
+            "GetHeartPos",
+            "HeartX",
+            "HeartY",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 8103,
+            "line": 890,
+            "command": "boneh"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        },
+        "early_safe_ticks_tested": 4,
+        "late_safe_ticks_tested": 4,
+        "early_safe_ms_tested": 66.6666666669471,
+        "late_safe_ms_tested": 66.6666666669471,
+        "frame_exact_locally": false,
+        "probes": [
+          {
+            "shift_ticks": -1,
+            "shift_ms": -16.666666666736774,
+            "status": "survived_local_prefix",
+            "through_tick": 8138
+          },
+          {
+            "shift_ticks": -2,
+            "shift_ms": -33.33333333347355,
+            "status": "survived_local_prefix",
+            "through_tick": 8138
+          },
+          {
+            "shift_ticks": -3,
+            "shift_ms": -50.00000000021032,
+            "status": "survived_local_prefix",
+            "through_tick": 8138
+          },
+          {
+            "shift_ticks": -4,
+            "shift_ms": -66.6666666669471,
+            "status": "survived_local_prefix",
+            "through_tick": 8138
+          },
+          {
+            "shift_ticks": 1,
+            "shift_ms": 16.666666666736774,
+            "status": "survived_local_prefix",
+            "through_tick": 8138
+          },
+          {
+            "shift_ticks": 2,
+            "shift_ms": 33.33333333347355,
+            "status": "survived_local_prefix",
+            "through_tick": 8138
+          },
+          {
+            "shift_ticks": 3,
+            "shift_ms": 50.00000000021032,
+            "status": "survived_local_prefix",
+            "through_tick": 8138
+          },
+          {
+            "shift_ticks": 4,
+            "shift_ms": 66.6666666669471,
+            "status": "survived_local_prefix",
+            "through_tick": 8138
+          }
+        ]
+      },
+      {
+        "tick": 8238,
+        "kind": "confirm",
+        "end_tick": 8239,
+        "seconds": 137.3000000006595,
+        "csv": {
+          "line": 909,
+          "column": 2,
+          "row": [
+            "0.25",
+            "GetHeartPos",
+            "HeartX",
+            "HeartY",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 8229,
+            "line": 908,
+            "command": "boneh"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        },
+        "early_safe_ticks_tested": 4,
+        "late_safe_ticks_tested": 4,
+        "early_safe_ms_tested": 66.6666666669471,
+        "late_safe_ms_tested": 66.6666666669471,
+        "frame_exact_locally": false,
+        "probes": [
+          {
+            "shift_ticks": -1,
+            "shift_ms": -16.666666666736774,
+            "status": "survived_local_prefix",
+            "through_tick": 8268
+          },
+          {
+            "shift_ticks": -2,
+            "shift_ms": -33.33333333347355,
+            "status": "survived_local_prefix",
+            "through_tick": 8268
+          },
+          {
+            "shift_ticks": -3,
+            "shift_ms": -50.00000000021032,
+            "status": "survived_local_prefix",
+            "through_tick": 8268
+          },
+          {
+            "shift_ticks": -4,
+            "shift_ms": -66.6666666669471,
+            "status": "survived_local_prefix",
+            "through_tick": 8268
+          },
+          {
+            "shift_ticks": 1,
+            "shift_ms": 16.666666666736774,
+            "status": "survived_local_prefix",
+            "through_tick": 8268
+          },
+          {
+            "shift_ticks": 2,
+            "shift_ms": 33.33333333347355,
+            "status": "survived_local_prefix",
+            "through_tick": 8268
+          },
+          {
+            "shift_ticks": 3,
+            "shift_ms": 50.00000000021032,
+            "status": "survived_local_prefix",
+            "through_tick": 8268
+          },
+          {
+            "shift_ticks": 4,
+            "shift_ms": 66.6666666669471,
+            "status": "survived_local_prefix",
+            "through_tick": 8268
+          }
+        ]
+      },
+      {
+        "tick": 8240,
+        "kind": "confirm",
+        "end_tick": 8241,
+        "seconds": 137.33333333399298,
+        "csv": {
+          "line": 909,
+          "column": 2,
+          "row": [
+            "0.25",
+            "GetHeartPos",
+            "HeartX",
+            "HeartY",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 8229,
+            "line": 908,
+            "command": "boneh"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        },
+        "early_safe_ticks_tested": 4,
+        "late_safe_ticks_tested": 4,
+        "early_safe_ms_tested": 66.6666666669471,
+        "late_safe_ms_tested": 66.6666666669471,
+        "frame_exact_locally": false,
+        "probes": [
+          {
+            "shift_ticks": -1,
+            "shift_ms": -16.666666666736774,
+            "status": "survived_local_prefix",
+            "through_tick": 8270
+          },
+          {
+            "shift_ticks": -2,
+            "shift_ms": -33.33333333347355,
+            "status": "survived_local_prefix",
+            "through_tick": 8270
+          },
+          {
+            "shift_ticks": -3,
+            "shift_ms": -50.00000000021032,
+            "status": "survived_local_prefix",
+            "through_tick": 8270
+          },
+          {
+            "shift_ticks": -4,
+            "shift_ms": -66.6666666669471,
+            "status": "survived_local_prefix",
+            "through_tick": 8270
+          },
+          {
+            "shift_ticks": 1,
+            "shift_ms": 16.666666666736774,
+            "status": "survived_local_prefix",
+            "through_tick": 8270
+          },
+          {
+            "shift_ticks": 2,
+            "shift_ms": 33.33333333347355,
+            "status": "survived_local_prefix",
+            "through_tick": 8270
+          },
+          {
+            "shift_ticks": 3,
+            "shift_ms": 50.00000000021032,
+            "status": "survived_local_prefix",
+            "through_tick": 8270
+          },
+          {
+            "shift_ticks": 4,
+            "shift_ms": 66.6666666669471,
+            "status": "survived_local_prefix",
+            "through_tick": 8270
+          }
+        ]
+      },
+      {
+        "tick": 8370,
+        "kind": "confirm",
+        "end_tick": 8371,
+        "seconds": 139.50000000066876,
+        "csv": {
+          "line": 931,
+          "column": 2,
+          "row": [
+            "0.25",
+            "GetHeartPos",
+            "HeartX",
+            "HeartY",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 8370,
+            "line": 930,
+            "command": "bonev"
+          },
+          "executed_this_tick": [
+            {
+              "tick": 8370,
+              "line": 927,
+              "command": "getheartpos"
+            },
+            {
+              "tick": 8370,
+              "line": 928,
+              "command": "boneh"
+            },
+            {
+              "tick": 8370,
+              "line": 929,
+              "command": "getheartpos"
+            },
+            {
+              "tick": 8370,
+              "line": 930,
+              "command": "bonev"
+            }
+          ],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        },
+        "early_safe_ticks_tested": 4,
+        "late_safe_ticks_tested": 4,
+        "early_safe_ms_tested": 66.6666666669471,
+        "late_safe_ms_tested": 66.6666666669471,
+        "frame_exact_locally": false,
+        "probes": [
+          {
+            "shift_ticks": -1,
+            "shift_ms": -16.666666666736774,
+            "status": "survived_local_prefix",
+            "through_tick": 8400
+          },
+          {
+            "shift_ticks": -2,
+            "shift_ms": -33.33333333347355,
+            "status": "survived_local_prefix",
+            "through_tick": 8400
+          },
+          {
+            "shift_ticks": -3,
+            "shift_ms": -50.00000000021032,
+            "status": "survived_local_prefix",
+            "through_tick": 8400
+          },
+          {
+            "shift_ticks": -4,
+            "shift_ms": -66.6666666669471,
+            "status": "survived_local_prefix",
+            "through_tick": 8400
+          },
+          {
+            "shift_ticks": 1,
+            "shift_ms": 16.666666666736774,
+            "status": "survived_local_prefix",
+            "through_tick": 8400
+          },
+          {
+            "shift_ticks": 2,
+            "shift_ms": 33.33333333347355,
+            "status": "survived_local_prefix",
+            "through_tick": 8400
+          },
+          {
+            "shift_ticks": 3,
+            "shift_ms": 50.00000000021032,
+            "status": "survived_local_prefix",
+            "through_tick": 8400
+          },
+          {
+            "shift_ticks": 4,
+            "shift_ms": 66.6666666669471,
+            "status": "survived_local_prefix",
+            "through_tick": 8400
+          }
+        ]
+      },
+      {
+        "tick": 8372,
+        "kind": "arrows",
+        "before": 4,
+        "after": 0,
+        "seconds": 139.53333333400224,
+        "csv": {
+          "line": 931,
+          "column": 2,
+          "row": [
+            "0.25",
+            "GetHeartPos",
+            "HeartX",
+            "HeartY",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 8370,
+            "line": 930,
+            "command": "bonev"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        },
+        "early_safe_ticks_tested": 4,
+        "late_safe_ticks_tested": 4,
+        "early_safe_ms_tested": 66.6666666669471,
+        "late_safe_ms_tested": 66.6666666669471,
+        "frame_exact_locally": false,
+        "probes": [
+          {
+            "shift_ticks": -1,
+            "shift_ms": -16.666666666736774,
+            "status": "survived_local_prefix",
+            "through_tick": 8402
+          },
+          {
+            "shift_ticks": -2,
+            "shift_ms": -33.33333333347355,
+            "status": "survived_local_prefix",
+            "through_tick": 8402
+          },
+          {
+            "shift_ticks": -3,
+            "shift_ms": -50.00000000021032,
+            "status": "survived_local_prefix",
+            "through_tick": 8402
+          },
+          {
+            "shift_ticks": -4,
+            "shift_ms": -66.6666666669471,
+            "status": "survived_local_prefix",
+            "through_tick": 8402
+          },
+          {
+            "shift_ticks": 1,
+            "shift_ms": 16.666666666736774,
+            "status": "survived_local_prefix",
+            "through_tick": 8402
+          },
+          {
+            "shift_ticks": 2,
+            "shift_ms": 33.33333333347355,
+            "status": "survived_local_prefix",
+            "through_tick": 8402
+          },
+          {
+            "shift_ticks": 3,
+            "shift_ms": 50.00000000021032,
+            "status": "survived_local_prefix",
+            "through_tick": 8402
+          },
+          {
+            "shift_ticks": 4,
+            "shift_ms": 66.6666666669471,
+            "status": "survived_local_prefix",
+            "through_tick": 8402
+          }
+        ]
+      },
+      {
+        "tick": 8506,
+        "kind": "confirm",
+        "end_tick": 8507,
+        "seconds": 141.76666666734496,
+        "csv": {
+          "line": 949,
+          "column": 2,
+          "row": [
+            "0.25",
+            "GetHeartPos",
+            "HeartX",
+            "HeartY",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 8496,
+            "line": 948,
+            "command": "bonev"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        },
+        "early_safe_ticks_tested": 4,
+        "late_safe_ticks_tested": 4,
+        "early_safe_ms_tested": 66.6666666669471,
+        "late_safe_ms_tested": 66.6666666669471,
+        "frame_exact_locally": false,
+        "probes": [
+          {
+            "shift_ticks": -1,
+            "shift_ms": -16.666666666736774,
+            "status": "survived_local_prefix",
+            "through_tick": 8536
+          },
+          {
+            "shift_ticks": -2,
+            "shift_ms": -33.33333333347355,
+            "status": "survived_local_prefix",
+            "through_tick": 8536
+          },
+          {
+            "shift_ticks": -3,
+            "shift_ms": -50.00000000021032,
+            "status": "survived_local_prefix",
+            "through_tick": 8536
+          },
+          {
+            "shift_ticks": -4,
+            "shift_ms": -66.6666666669471,
+            "status": "survived_local_prefix",
+            "through_tick": 8536
+          },
+          {
+            "shift_ticks": 1,
+            "shift_ms": 16.666666666736774,
+            "status": "survived_local_prefix",
+            "through_tick": 8536
+          },
+          {
+            "shift_ticks": 2,
+            "shift_ms": 33.33333333347355,
+            "status": "survived_local_prefix",
+            "through_tick": 8536
+          },
+          {
+            "shift_ticks": 3,
+            "shift_ms": 50.00000000021032,
+            "status": "survived_local_prefix",
+            "through_tick": 8536
+          },
+          {
+            "shift_ticks": 4,
+            "shift_ms": 66.6666666669471,
+            "status": "survived_local_prefix",
+            "through_tick": 8536
+          }
+        ]
+      },
+      {
+        "tick": 8612,
+        "kind": "confirm",
+        "end_tick": 8613,
+        "seconds": 143.53333333401906,
+        "csv": {
+          "line": 963,
+          "column": 2,
+          "row": [
+            "0.25",
+            "GetHeartPos",
+            "HeartX",
+            "HeartY",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 8607,
+            "line": 962,
+            "command": "boneh"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        },
+        "early_safe_ticks_tested": 4,
+        "late_safe_ticks_tested": 4,
+        "early_safe_ms_tested": 66.6666666669471,
+        "late_safe_ms_tested": 66.6666666669471,
+        "frame_exact_locally": false,
+        "probes": [
+          {
+            "shift_ticks": -1,
+            "shift_ms": -16.666666666736774,
+            "status": "survived_local_prefix",
+            "through_tick": 8642
+          },
+          {
+            "shift_ticks": -2,
+            "shift_ms": -33.33333333347355,
+            "status": "survived_local_prefix",
+            "through_tick": 8642
+          },
+          {
+            "shift_ticks": -3,
+            "shift_ms": -50.00000000021032,
+            "status": "survived_local_prefix",
+            "through_tick": 8642
+          },
+          {
+            "shift_ticks": -4,
+            "shift_ms": -66.6666666669471,
+            "status": "survived_local_prefix",
+            "through_tick": 8642
+          },
+          {
+            "shift_ticks": 1,
+            "shift_ms": 16.666666666736774,
+            "status": "survived_local_prefix",
+            "through_tick": 8642
+          },
+          {
+            "shift_ticks": 2,
+            "shift_ms": 33.33333333347355,
+            "status": "survived_local_prefix",
+            "through_tick": 8642
+          },
+          {
+            "shift_ticks": 3,
+            "shift_ms": 50.00000000021032,
+            "status": "survived_local_prefix",
+            "through_tick": 8642
+          },
+          {
+            "shift_ticks": 4,
+            "shift_ms": 66.6666666669471,
+            "status": "survived_local_prefix",
+            "through_tick": 8642
+          }
+        ]
+      },
+      {
+        "tick": 10414,
+        "kind": "confirm",
+        "end_tick": 10415,
+        "seconds": 173.56666666747873,
+        "csv": {
+          "line": 1239,
+          "column": 2,
+          "row": [
+            "0.3",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 10414,
+            "line": 1238,
+            "command": "bonev"
+          },
+          "executed_this_tick": [
+            {
+              "tick": 10414,
+              "line": 1237,
+              "command": "bonev"
+            },
+            {
+              "tick": 10414,
+              "line": 1238,
+              "command": "bonev"
+            }
+          ],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        },
+        "early_safe_ticks_tested": 4,
+        "late_safe_ticks_tested": 4,
+        "early_safe_ms_tested": 66.6666666669471,
+        "late_safe_ms_tested": 66.6666666669471,
+        "frame_exact_locally": false,
+        "probes": [
+          {
+            "shift_ticks": -1,
+            "shift_ms": -16.666666666736774,
+            "status": "survived_local_prefix",
+            "through_tick": 10444
+          },
+          {
+            "shift_ticks": -2,
+            "shift_ms": -33.33333333347355,
+            "status": "survived_local_prefix",
+            "through_tick": 10444
+          },
+          {
+            "shift_ticks": -3,
+            "shift_ms": -50.00000000021032,
+            "status": "survived_local_prefix",
+            "through_tick": 10444
+          },
+          {
+            "shift_ticks": -4,
+            "shift_ms": -66.6666666669471,
+            "status": "survived_local_prefix",
+            "through_tick": 10444
+          },
+          {
+            "shift_ticks": 1,
+            "shift_ms": 16.666666666736774,
+            "status": "survived_local_prefix",
+            "through_tick": 10444
+          },
+          {
+            "shift_ticks": 2,
+            "shift_ms": 33.33333333347355,
+            "status": "survived_local_prefix",
+            "through_tick": 10444
+          },
+          {
+            "shift_ticks": 3,
+            "shift_ms": 50.00000000021032,
+            "status": "survived_local_prefix",
+            "through_tick": 10444
+          },
+          {
+            "shift_ticks": 4,
+            "shift_ms": 66.6666666669471,
+            "status": "survived_local_prefix",
+            "through_tick": 10444
+          }
+        ]
+      },
+      {
+        "tick": 11160,
+        "kind": "confirm",
+        "end_tick": 11161,
+        "seconds": 186.00000000086436,
+        "csv": {
+          "line": 1367,
+          "column": 2,
+          "row": [
+            "0.6",
+            "BoneV",
+            "426",
+            "126",
+            "1000",
+            "2",
+            "600",
+            "1",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 11125,
+            "line": 1365,
+            "command": "sansbody"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        },
+        "early_safe_ticks_tested": 4,
+        "late_safe_ticks_tested": 4,
+        "early_safe_ms_tested": 66.6666666669471,
+        "late_safe_ms_tested": 66.6666666669471,
+        "frame_exact_locally": false,
+        "probes": [
+          {
+            "shift_ticks": -1,
+            "shift_ms": -16.666666666736774,
+            "status": "survived_local_prefix",
+            "through_tick": 11190
+          },
+          {
+            "shift_ticks": -2,
+            "shift_ms": -33.33333333347355,
+            "status": "survived_local_prefix",
+            "through_tick": 11190
+          },
+          {
+            "shift_ticks": -3,
+            "shift_ms": -50.00000000021032,
+            "status": "survived_local_prefix",
+            "through_tick": 11190
+          },
+          {
+            "shift_ticks": -4,
+            "shift_ms": -66.6666666669471,
+            "status": "survived_local_prefix",
+            "through_tick": 11190
+          },
+          {
+            "shift_ticks": 1,
+            "shift_ms": 16.666666666736774,
+            "status": "survived_local_prefix",
+            "through_tick": 11190
+          },
+          {
+            "shift_ticks": 2,
+            "shift_ms": 33.33333333347355,
+            "status": "survived_local_prefix",
+            "through_tick": 11190
+          },
+          {
+            "shift_ticks": 3,
+            "shift_ms": 50.00000000021032,
+            "status": "survived_local_prefix",
+            "through_tick": 11190
+          },
+          {
+            "shift_ticks": 4,
+            "shift_ms": 66.6666666669471,
+            "status": "survived_local_prefix",
+            "through_tick": 11190
+          }
+        ]
+      },
+      {
+        "tick": 11161,
+        "kind": "arrows",
+        "before": 2,
+        "after": 0,
+        "seconds": 186.0166666675311,
+        "csv": {
+          "line": 1370,
+          "column": 2,
+          "row": [
+            "0.032",
+            "BoneV",
+            "426",
+            "126",
+            "1000",
+            "2",
+            "600",
+            "1",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 11161,
+            "line": 1369,
+            "command": "heartmode"
+          },
+          "executed_this_tick": [
+            {
+              "tick": 11161,
+              "line": 1367,
+              "command": "bonev"
+            },
+            {
+              "tick": 11161,
+              "line": 1368,
+              "command": "sound"
+            },
+            {
+              "tick": 11161,
+              "line": 1369,
+              "command": "heartmode"
+            }
+          ],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        },
+        "early_safe_ticks_tested": 4,
+        "late_safe_ticks_tested": 4,
+        "early_safe_ms_tested": 66.6666666669471,
+        "late_safe_ms_tested": 66.6666666669471,
+        "frame_exact_locally": false,
+        "probes": [
+          {
+            "shift_ticks": -1,
+            "shift_ms": -16.666666666736774,
+            "status": "survived_local_prefix",
+            "through_tick": 11191
+          },
+          {
+            "shift_ticks": -2,
+            "shift_ms": -33.33333333347355,
+            "status": "survived_local_prefix",
+            "through_tick": 11191
+          },
+          {
+            "shift_ticks": -3,
+            "shift_ms": -50.00000000021032,
+            "status": "survived_local_prefix",
+            "through_tick": 11191
+          },
+          {
+            "shift_ticks": -4,
+            "shift_ms": -66.6666666669471,
+            "status": "survived_local_prefix",
+            "through_tick": 11191
+          },
+          {
+            "shift_ticks": 1,
+            "shift_ms": 16.666666666736774,
+            "status": "survived_local_prefix",
+            "through_tick": 11191
+          },
+          {
+            "shift_ticks": 2,
+            "shift_ms": 33.33333333347355,
+            "status": "survived_local_prefix",
+            "through_tick": 11191
+          },
+          {
+            "shift_ticks": 3,
+            "shift_ms": 50.00000000021032,
+            "status": "survived_local_prefix",
+            "through_tick": 11191
+          },
+          {
+            "shift_ticks": 4,
+            "shift_ms": 66.6666666669471,
+            "status": "survived_local_prefix",
+            "through_tick": 11191
+          }
+        ]
+      }
+    ],
+    "operations": {
+      "arrow_changes": 1262,
+      "confirm_presses": 13975,
+      "individual_arrow_key_transitions": 1916,
+      "max_simultaneous_arrows": 2,
+      "opposed_direction_frames": 0,
+      "effective_dialogue_confirms": 2,
+      "redundant_confirm_presses": 13973,
+      "peak_events_per_second": 76,
+      "shortest_arrow_run_ms": 16.66666666653782
+    },
+    "blue_motion_lock_ticks": 236,
+    "blue_motion_lock_windows": [
+      {
+        "start_tick": 8000,
+        "end_tick": 8009,
+        "start_seconds": 133.33333333397616,
+        "end_seconds": 133.4833333339768,
+        "csv": {
+          "line": 877,
+          "column": 2,
+          "row": [
+            "0.25",
+            "GetHeartPos",
+            "HeartX",
+            "HeartY",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 7992,
+            "line": 876,
+            "command": "bonev"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        }
+      },
+      {
+        "start_tick": 8119,
+        "end_tick": 8128,
+        "start_seconds": 135.31666666731783,
+        "end_seconds": 135.46666666731846,
+        "csv": {
+          "line": 895,
+          "column": 2,
+          "row": [
+            "0.25",
+            "GetHeartPos",
+            "HeartX",
+            "HeartY",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 8118,
+            "line": 894,
+            "command": "bonev"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        }
+      },
+      {
+        "start_tick": 8249,
+        "end_tick": 8258,
+        "start_seconds": 137.4833333339936,
+        "end_seconds": 137.63333333399424,
+        "csv": {
+          "line": 913,
+          "column": 2,
+          "row": [
+            "0.25",
+            "GetHeartPos",
+            "HeartX",
+            "HeartY",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 8244,
+            "line": 912,
+            "command": "bonev"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        }
+      },
+      {
+        "start_tick": 8382,
+        "end_tick": 8391,
+        "start_seconds": 139.7000000006696,
+        "end_seconds": 139.85000000067024,
+        "csv": {
+          "line": 931,
+          "column": 2,
+          "row": [
+            "0.25",
+            "GetHeartPos",
+            "HeartX",
+            "HeartY",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 8370,
+            "line": 930,
+            "command": "bonev"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        }
+      },
+      {
+        "start_tick": 8517,
+        "end_tick": 8526,
+        "start_seconds": 141.95000000067907,
+        "end_seconds": 142.1000000006797,
+        "csv": {
+          "line": 951,
+          "column": 2,
+          "row": [
+            "0.25",
+            "GetHeartPos",
+            "HeartX",
+            "HeartY",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 8511,
+            "line": 950,
+            "command": "boneh"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        }
+      },
+      {
+        "start_tick": 8623,
+        "end_tick": 8632,
+        "start_seconds": 143.71666666735317,
+        "end_seconds": 143.8666666673538,
+        "csv": {
+          "line": 967,
+          "column": 2,
+          "row": [
+            "1.2",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 8622,
+            "line": 966,
+            "command": "bonev"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        }
+      },
+      {
+        "start_tick": 10425,
+        "end_tick": 10426,
+        "start_seconds": 173.75000000081283,
+        "end_seconds": 173.76666666747957,
+        "csv": {
+          "line": 1239,
+          "column": 2,
+          "row": [
+            "0.3",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 10414,
+            "line": 1238,
+            "command": "bonev"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        }
+      },
+      {
+        "start_tick": 10430,
+        "end_tick": 10431,
+        "start_seconds": 173.83333333414652,
+        "end_seconds": 173.85000000081325,
+        "csv": {
+          "line": 1239,
+          "column": 2,
+          "row": [
+            "0.3",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 10414,
+            "line": 1238,
+            "command": "bonev"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        }
+      },
+      {
+        "start_tick": 11171,
+        "end_tick": 11204,
+        "start_seconds": 186.18333333419847,
+        "end_seconds": 186.73333333420078,
+        "csv": {
+          "line": 1375,
+          "column": 2,
+          "row": [
+            "0.032",
+            "BoneV",
+            "426",
+            "126",
+            "1000",
+            "2",
+            "600",
+            "1",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 11171,
+            "line": 1374,
+            "command": "bonev"
+          },
+          "executed_this_tick": [
+            {
+              "tick": 11171,
+              "line": 1374,
+              "command": "bonev"
+            }
+          ],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        }
+      },
+      {
+        "start_tick": 11298,
+        "end_tick": 11300,
+        "start_seconds": 188.30000000087404,
+        "end_seconds": 188.3333333342075,
+        "csv": {
+          "line": 1420,
+          "column": 2,
+          "row": [
+            "1",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 11286,
+            "line": 1419,
+            "command": "bonev"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        }
+      },
+      {
+        "start_tick": 11374,
+        "end_tick": 11376,
+        "start_seconds": 189.56666666754603,
+        "end_seconds": 189.6000000008795,
+        "csv": {
+          "line": 1424,
+          "column": 2,
+          "row": [
+            "1",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 11346,
+            "line": 1423,
+            "command": "bonev"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        }
+      },
+      {
+        "start_tick": 11446,
+        "end_tick": 11448,
+        "start_seconds": 190.76666666755108,
+        "end_seconds": 190.80000000088455,
+        "csv": {
+          "line": 1429,
+          "column": 2,
+          "row": [
+            "1",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 11406,
+            "line": 1428,
+            "command": "bonev"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        }
+      },
+      {
+        "start_tick": 11522,
+        "end_tick": 11524,
+        "start_seconds": 192.03333333422307,
+        "end_seconds": 192.06666666755655,
+        "csv": {
+          "line": 1433,
+          "column": 2,
+          "row": [
+            "1",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 11466,
+            "line": 1432,
+            "command": "bonev"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        }
+      },
+      {
+        "start_tick": 11582,
+        "end_tick": 11584,
+        "start_seconds": 193.03333333422728,
+        "end_seconds": 193.06666666756075,
+        "csv": {
+          "line": 1437,
+          "column": 2,
+          "row": [
+            "1",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 11526,
+            "line": 1436,
+            "command": "bonev"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        }
+      },
+      {
+        "start_tick": 11642,
+        "end_tick": 11644,
+        "start_seconds": 194.0333333342315,
+        "end_seconds": 194.06666666756496,
+        "csv": {
+          "line": 1441,
+          "column": 2,
+          "row": [
+            "2.5",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 11586,
+            "line": 1440,
+            "command": "bonev"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        }
+      },
+      {
+        "start_tick": 11776,
+        "end_tick": 11778,
+        "start_seconds": 196.2666666675742,
+        "end_seconds": 196.3000000009077,
+        "csv": {
+          "line": 1445,
+          "column": 2,
+          "row": [
+            "1",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 11736,
+            "line": 1444,
+            "command": "bonev"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        }
+      },
+      {
+        "start_tick": 11820,
+        "end_tick": 11822,
+        "start_seconds": 197.00000000091063,
+        "end_seconds": 197.0333333342441,
+        "csv": {
+          "line": 1449,
+          "column": 2,
+          "row": [
+            "1",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 11796,
+            "line": 1448,
+            "command": "bonev"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        }
+      },
+      {
+        "start_tick": 11872,
+        "end_tick": 11874,
+        "start_seconds": 197.86666666758094,
+        "end_seconds": 197.90000000091442,
+        "csv": {
+          "line": 1454,
+          "column": 2,
+          "row": [
+            "1",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 11856,
+            "line": 1453,
+            "command": "bonev"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        }
+      },
+      {
+        "start_tick": 11932,
+        "end_tick": 11934,
+        "start_seconds": 198.86666666758515,
+        "end_seconds": 198.90000000091862,
+        "csv": {
+          "line": 1458,
+          "column": 2,
+          "row": [
+            "1",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 11916,
+            "line": 1457,
+            "command": "bonev"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        }
+      },
+      {
+        "start_tick": 11992,
+        "end_tick": 11994,
+        "start_seconds": 199.86666666758936,
+        "end_seconds": 199.90000000092283,
+        "csv": {
+          "line": 1462,
+          "column": 2,
+          "row": [
+            "1",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "at_eof": false,
+          "timeline_running": true,
+          "last_executed": {
+            "tick": 11976,
+            "line": 1461,
+            "command": "bonev"
+          },
+          "executed_this_tick": [],
+          "semantics": "execution_cursor_not_proven_hazard_origin"
+        }
+      }
+    ],
+    "timing_coverage": {
+      "total_events": 15237,
+      "tested_events": 24,
+      "event_limit": 24,
+      "truncated": true,
+      "requested_horizon_seconds": 0.5,
+      "max_horizon_ticks": 240,
+      "max_shift_ticks": 4,
+      "selection": "spatial risk with time separation, then temporal strata",
+      "scope": "local_prefix_only; each probe reexecutes source and its own GetHeartPos",
+      "full_suffix_verified": false
+    },
+    "human_feasibility": {
+      "estimate": "manual_play_extremely_demanding",
+      "flags": [
+        "路线存在不超过 3px 的单侧空间余量",
+        "抽测中存在提前或延后一 tick 均碰撞的操作",
+        "路线存在一秒内至少八次输入事件"
+      ],
+      "actual_human_clear_verified": false,
+      "probability": null,
+      "impossibility_proven": false,
+      "alternative_easier_route_may_exist": true
+    },
+    "coverage": {
+      "source_ticks": 27952,
+      "route_ticks": 27954,
+      "release_tail_excluded": 2
+    },
+    "analysis_seconds": 2.4770534190001854,
+    "limitations": [
+      "Spatial clearance is instantaneous, not a guarantee under velocity/input errors.",
+      "Only selected input events and bounded local timing shifts were tested.",
+      "A hard found route does not prove the attack is humanly impossible."
+    ]
+  }
+}

@@ -70,6 +70,23 @@ class ControlledEnvironmentBinding:
     reason: str | None = None
 
 
+@dataclass(frozen=True,slots=True)
+class EnvironmentContinuation:
+    """Verified-prefix receipt: exact identity and state, no historical tensors.
+
+    This is deliberately not an EnvironmentBinding and cannot enter branch
+    search. Its caller has independently checked the discarded prefix frames.
+    """
+    identity: bytes
+    history: tuple
+    resume_state: object
+    first_environment: np.ndarray
+    reason: str
+    frame: object
+    complete: bool
+    callback_events: tuple
+
+
 class ParametricEnvironment:
     def __init__(self,path,seed=42,initial_environment=None,clock_start_ms=None,termination_policy='endattack',max_ticks=40000,capture_state_keys=False,backend='resumable',dt_schedule=None,initial_arena=None):
         """Bind one source and clock protocol to exact target histories.
@@ -106,6 +123,9 @@ class ParametricEnvironment:
             self._dt_schedule=None if clock_start_ms is None else tuple(native_fixed_dt(clock_start_ms,max_ticks,
                 initial_environment[7] if initial_environment is not None and len(initial_environment)>7 else None))
             self._clock_identity=b'N' if clock_start_ms is None else b'C'+struct.pack('<d',clock_start_ms)
+        self.schedule_sha256=(None if self._dt_schedule is None else
+            self._dt_schedule.identity[-32:].hex() if type(self._dt_schedule) is _FrozenDT else
+            hashlib.sha256(np.asarray(self._dt_schedule,dtype='<f8').tobytes()).hexdigest())
         self.source_digest=hashlib.sha256(self.path.read_bytes()).digest()
         self._bindings={}
         self._controlled_bindings={}
@@ -242,25 +262,29 @@ class ParametricEnvironment:
         self._bindings[key]=binding
         return binding
 
-    def bind_history_once(self,history=()):
+    def bind_history_once(self,history=(),*,include_combined_geometry=True,_continuation_only=False):
         """Replay a known history once without materializing all its ancestors.
 
         Every row is still checked against the actual suspended source read.
         Only the final immutable binding is published; search branches continue
         to use bind/extend and their ordinary persistent checkpoints.
         """
-        if self.backend=='reference':return self.bind(history)
+        if self.backend=='reference':
+            if _continuation_only:raise ValueError('continuation requires resumable backend')
+            return self.bind(history)
         from .resumable_wave import (initialize,_advance_owned_tick,_supply_target_owned,
-            preview_observation_frame,TickCommitted,Terminal,NeedTarget,NeedDialogue,ResourceLimit)
+            preview_observation_frame,TickCommitted,Terminal,NeedTarget,NeedDialogue,ResourceLimit,
+            _enable_bone_arrays)
         history=tuple(tuple(row) for row in history)
         key=self._history_key(history)
-        if key in self._bindings:return self._bindings[key]
+        if not _continuation_only and key in self._bindings:return self._bindings[key]
         if hashlib.sha256(self.path.read_bytes()).digest()!=self.source_digest:
             raise ValueError('source timeline changed while binding an environment')
         state=initialize(self.path,seed=self.seed,initial_environment=self.initial_environment,
             termination_policy=self.termination_policy,dt_schedule=self.dt_schedule,
             max_ticks=self.max_ticks,initial_arena=self.initial_arena)
-        frames=[];keys=[];consumed=0
+        _enable_bone_arrays(state)
+        frames=[];keys=[];consumed=0;first_environment=None;last_frame=None;callback_events=[]
         while True:
             result=_advance_owned_tick(state);state=result.state
             if isinstance(result,NeedTarget) and consumed<len(history):
@@ -274,8 +298,11 @@ class ParametricEnvironment:
                 continue
             if isinstance(result,(TickCommitted,Terminal)):
                 if result.frame is not None:
-                    frames.append(result.frame)
-                    if self.capture_state_keys:
+                    last_frame=result.frame
+                    if _continuation_only:callback_events.extend(result.frame.callback_events)
+                    if first_environment is None:first_environment=result.frame.env.copy()
+                    if not _continuation_only:frames.append(result.frame)
+                    if self.capture_state_keys and not _continuation_only:
                         from .resumable_wave import state_environment_key
                         keys.append(state_environment_key(state))
                 if isinstance(result,Terminal):break
@@ -283,6 +310,13 @@ class ParametricEnvironment:
             if isinstance(result,(NeedTarget,NeedDialogue,ResourceLimit)):break
             raise RuntimeError('unexpected environment continuation')
         if consumed!=len(history):raise ValueError('history does not match the source program')
+        if _continuation_only:
+            if first_environment is None and isinstance(result,(NeedTarget,NeedDialogue)):
+                first_environment=preview_observation_frame(state).env.copy()
+            reason=('pending_target' if isinstance(result,NeedTarget) else 'dialogue_boundary'
+                    if isinstance(result,NeedDialogue) else result.reason)
+            return EnvironmentContinuation(key,history,state,first_environment,reason,last_frame,
+                isinstance(result,Terminal),tuple(callback_events))
         committed=tuple(frames);committed_keys=tuple(keys)
         pending=dialogue=None
         if isinstance(result,(NeedTarget,NeedDialogue)):
@@ -298,7 +332,8 @@ class ParametricEnvironment:
         self.stats['executed_ticks']+=len(frames)
         self.stats['commands_executed']+=state.stats['commands_executed']
         self.stats['bindings_compiled']+=1
-        wave=self._materialize(frames,state,history,pending,dialogue,reason,tuple(keys),isinstance(result,Terminal))
+        wave=self._materialize(frames,state,history,pending,dialogue,reason,tuple(keys),isinstance(result,Terminal),
+            include_combined_geometry=include_combined_geometry)
         binding=EnvironmentBinding(key,history,wave,state,committed,committed_keys)
         self._bindings[key]=binding
         return binding
@@ -386,6 +421,8 @@ class ParametricEnvironment:
         callbacks=d['unproven_callbacks']+([dict(end_resize,status='awaiting_arena_settle')]
             if end_resize is not None and (end_resize['function'].lower()=='tlresume' or audited_no_action_function(end_resize['function'])) else [])
         details={name:len(d[name]) for name in ('active_bones','active_platforms','active_stabs','active_blasters')}
+        from .static_blue_tail import stationary_blue_rows
+        details['static_blue_bones']=stationary_blue_rows(d['active_bones'])
         details.update(arena_settled=d['cz']==d['tgt_cz'],player_invariant_proven=False,
             pending_dialogue=dialogue,timeline_exhausted=d['pc']>=len(state.program.parsed) and
                 d['loaded_line'] is None and pending is None and dialogue is None,

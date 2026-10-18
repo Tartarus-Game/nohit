@@ -1,0 +1,3 @@
+-r requirements-native.txt
+Cython==3.3.0
+setuptools>=65

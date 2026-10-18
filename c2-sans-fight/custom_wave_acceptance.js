@@ -62,6 +62,12 @@
             const families=familySids.map(family),rpg=family(8627438680975019);
             const union=new Set([...attackSids,...platformSids,...families.flatMap(f=>f.members)]);
             const attack_types=Array.from(union,sid=>({sid,count:type(sid).instances.length}));
+            const boneSids=[3019589746608161,3868174782291034];
+            const static_blue_bones=boneSids.flatMap(sid=>type(sid).instances.map(o=>describe(o,sid)));
+            const onlyStaticBlue=static_blue_bones.length>0&&static_blue_bones.every(o=>
+                Array.isArray(o.vars)&&o.vars.length===5&&o.vars[4]===1&&o.vars[1]===0&&o.angle===0&&
+                [o.x,o.y,o.width,o.height].every(Number.isFinite))&&
+                attack_types.every(t=>t.count===(boneSids.includes(t.sid)?type(t.sid).instances.length:0));
             const rpgtext_types=rpg.members.map(sid=>({sid,count:type(sid).instances.length}));
             const list=type(S.list).instances;
             if(list.length!==1||!Number.isInteger(list[0].ra)||list[0].ra<=0)
@@ -102,7 +108,7 @@
             const hearts=type(S.heart).instances,borders=type(6657741784745805).instances;
             if(hearts.length!==1||borders.length!==4)throw Error('Native EOF heart/border inventory is incomplete');
             if(!Number.isInteger(line)||line<=list[0].ra)throw Error('Native Timeline has not reached EOF');
-            if(attack_types.some(t=>t.count!==0)||rpgtext_types.some(t=>t.count!==(t.sid===6163397057824361?3:0)))
+            if((attack_types.some(t=>t.count!==0)&&!onlyStaticBlue)||rpgtext_types.some(t=>t.count!==(t.sid===6163397057824361?3:0)))
                 throw Error('Native EOF still owns attack or dialogue entities');
             if(!Array.isArray(rt.Hd?.fc)||rt.Hd.fc.length!==0)throw Error('Native EOF wait queue is not proven empty');
             if(!('ih' in rt)||rt.ih!==null||rt.isloading!==false||
@@ -118,13 +124,14 @@
             const result={schema_version:1,tick:physical.tick,capture_phase:'posttick',physical,
                 timeline:{line,width:list[0].ra,width_field:'ra',list_sid:S.list},
                 attack_types,attack_families:families,rpgtext_family:rpg,rpgtext_types,rpgtext_policy:'original-passive-ui-v1',
+                static_blue_bones:onlyStaticBlue?static_blue_bones:[],
                 wait_queue:{field:'Hd.fc',is_array:true,length:0,entries:[]},
                 pending_layout:{field:'ih',present:true,value:null},loading:rt.isloading,
                 layout:{sid:layout.Y,name:layout.name},owned_keys:keys,
                 globals:{SimulatorMode:physical.SimulatorMode,SingleAttack:physical.SingleAttack},
                 menu_state:{sid:5359025861573384,value:v(5359025861573384)},
                 heart_geometry:geometry(hearts[0],S.heart),borders:borders.map(o=>geometry(o,6657741784745805)),
-                release_snapshots:A.releaseSnapshots.slice(),callback_contract:'original-custom-empty-eof-v1',
+                release_snapshots:A.releaseSnapshots.slice(),callback_contract:onlyStaticBlue?'original-custom-static-blue-eof-v1':'original-custom-empty-eof-v1',
                 source_sha256:{...A.source_sha256}};
             if(requireRelease) {
                 if(!A.drainSnapshot)throw Error('Independent native drain snapshot is unavailable');

@@ -1,0 +1,32 @@
+{
+  "source_sha256": "b605cb28b45bf9f689fbfe423b84cc6f14ed0e9e606c212de3dbd698496f8c9d",
+  "source_dependencies": {
+    "native_simd.hpp": "ddad5f46be80253d7f665029f88d5ec2f68dff5637adfa5978703dbd012b317a",
+    "xmake.lua": "15e3a75e103d0dd36af9772d27ced1c9f45ef6747903a76810b9f55235fdab43",
+    "vcpkg.json": "0c9de58cc626afeeb6241e4032a636c4c4e98879644b5d98df0bdf6369a9d03a"
+  },
+  "compiler_flags": [
+    "-std=c++17",
+    "-O3",
+    "-ffp-contract=off",
+    "-fno-fast-math",
+    "-shared",
+    "-fPIC",
+    "-pthread"
+  ],
+  "cpu_features_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "cpu_target": "portable",
+  "system": "Linux",
+  "machine": "x86_64",
+  "compiler": [
+    "/usr/bin/g++"
+  ],
+  "build_system": "xmake",
+  "build_system_version": "xmake v3.1.2+HEAD.5d21e9d, A cross-platform build utility based on Lua",
+  "highway": true,
+  "pdqsort": true,
+  "vcpkg_triplet": "x64-linux",
+  "vcpkg_manifest_sha256": "0c9de58cc626afeeb6241e4032a636c4c4e98879644b5d98df0bdf6369a9d03a",
+  "binary_sha256": "b0fae392da2f3470e04820749672d6e7fea06d967a4ee1fa4ba8bb2ec624caa6",
+  "build_seconds": 7.76468604899992
+}

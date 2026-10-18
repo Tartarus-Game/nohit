@@ -3,7 +3,7 @@ import math
 
 import pytest
 
-from nohit.engine.native_numbers import native_int
+from nohit.engine.native_numbers import native_int, native_parameter_number
 
 
 @pytest.mark.parametrize('value,expected',[
@@ -28,3 +28,18 @@ def test_native_int_preserves_negative_zero(value):
 def test_numeric_nonfinite_is_not_silently_replaced_by_zero(value):
     result=native_int(value)
     assert math.isnan(result) if math.isnan(value) else result==value
+
+
+@pytest.mark.parametrize('value,expected',[
+    ('0x2',2.),('0b10',2.),('0o2',2.),('2e0',2.),('',0.),
+    ('\ufeff 2.9\n',2.9),('-0',-0.),(2.9,2.9),
+])
+def test_numeric_parameter_coercion_differs_from_typed_int(value,expected):
+    result=native_parameter_number(value)
+    assert result==expected
+    assert math.copysign(1.,result)==math.copysign(1.,expected)
+
+
+@pytest.mark.parametrize('value',['HandLeft','2tail','-0x2','\u00852'])
+def test_invalid_numeric_parameter_is_nan_for_native_comparisons(value):
+    assert math.isnan(native_parameter_number(value))

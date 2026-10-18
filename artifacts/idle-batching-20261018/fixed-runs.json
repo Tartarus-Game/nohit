@@ -1,0 +1,104 @@
+[
+  {
+    "name": "fixed-default-1",
+    "options": {
+      "width": 8192,
+      "workers": 4,
+      "observation_chunk_ticks": 240,
+      "observation_preview_ticks": 240,
+      "observation_goal_style": 16
+    },
+    "status": "candidate_found",
+    "verified": true,
+    "reached": 27953,
+    "seconds": 14.276179762000083,
+    "search_seconds": 6.938689345998,
+    "verify_seconds": 1.256384478999962,
+    "expanded": 52967884
+  },
+  {
+    "name": "fixed-narrow-1",
+    "options": {
+      "width": 128,
+      "workers": 1,
+      "observation_chunk_ticks": 240,
+      "observation_preview_ticks": 60,
+      "observation_goal_style": 16
+    },
+    "status": "candidate_found",
+    "verified": true,
+    "reached": 27953,
+    "seconds": 6.880365094999888,
+    "search_seconds": 1.3439855909985,
+    "verify_seconds": 1.3534463229998437,
+    "expanded": 9302553
+  },
+  {
+    "name": "fixed-default-2",
+    "options": {
+      "width": 8192,
+      "workers": 4,
+      "observation_chunk_ticks": 240,
+      "observation_preview_ticks": 240,
+      "observation_goal_style": 16
+    },
+    "status": "candidate_found",
+    "verified": true,
+    "reached": 27953,
+    "seconds": 12.0520261260001,
+    "search_seconds": 4.964396739998847,
+    "verify_seconds": 1.27103480400001,
+    "expanded": 38433370
+  },
+  {
+    "name": "fixed-narrow-2",
+    "options": {
+      "width": 128,
+      "workers": 1,
+      "observation_chunk_ticks": 240,
+      "observation_preview_ticks": 60,
+      "observation_goal_style": 16
+    },
+    "status": "candidate_found",
+    "verified": true,
+    "reached": 27953,
+    "seconds": 7.333809932000122,
+    "search_seconds": 1.505615607998834,
+    "verify_seconds": 1.3547641459999795,
+    "expanded": 10002336
+  },
+  {
+    "name": "fixed-default-3",
+    "options": {
+      "width": 8192,
+      "workers": 4,
+      "observation_chunk_ticks": 240,
+      "observation_preview_ticks": 240,
+      "observation_goal_style": 16
+    },
+    "status": "unknown",
+    "verified": false,
+    "reached": 24840,
+    "seconds": 25.963157178000074,
+    "search_seconds": null,
+    "verify_seconds": null,
+    "expanded": null
+  },
+  {
+    "name": "fixed-narrow-3",
+    "options": {
+      "width": 128,
+      "workers": 1,
+      "observation_chunk_ticks": 240,
+      "observation_preview_ticks": 60,
+      "observation_goal_style": 16
+    },
+    "status": "candidate_found",
+    "verified": true,
+    "reached": 27953,
+    "seconds": 6.90257118400018,
+    "search_seconds": 1.3316782979995878,
+    "verify_seconds": 1.256014714999992,
+    "expanded": 9305333
+  }
+]

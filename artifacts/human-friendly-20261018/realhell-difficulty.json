@@ -1,0 +1,6236 @@
+{
+  "schema_version": 1,
+  "status": "analyzed",
+  "scope": "this_verified_route_only",
+  "score": 92,
+  "label": "极限",
+  "score_kind": "heuristic_v1_not_empirically_calibrated",
+  "minimum_clearance_px": 2.3305801732931286e-11,
+  "clearance_definition": "additional L-infinity expansion per side of the 4x4 hitbox; sampled ticks, current blue activation",
+  "hard_points": [
+    {
+      "tick": 4506,
+      "seconds": 75.10000000035276,
+      "clearance_px": 2.3305801732931286e-11,
+      "hazard_kind": "white",
+      "hazard_index": 14,
+      "blue_motion_lock": false,
+      "csv": {
+        "line": 457,
+        "column": 2,
+        "row": [
+          "0.27",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 4499,
+          "line": 456,
+          "command": "bonestab"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      }
+    },
+    {
+      "tick": 4538,
+      "seconds": 75.6333333336888,
+      "clearance_px": 2.3305801732931286e-11,
+      "hazard_kind": "white",
+      "hazard_index": 15,
+      "blue_motion_lock": false,
+      "csv": {
+        "line": 461,
+        "column": 2,
+        "row": [
+          "0.27",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 4532,
+          "line": 460,
+          "command": "bonestab"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      }
+    },
+    {
+      "tick": 12746,
+      "seconds": 212.43333333430888,
+      "clearance_px": 3.029754225281067e-10,
+      "hazard_kind": "white",
+      "hazard_index": 5,
+      "blue_motion_lock": false,
+      "csv": {
+        "line": 1508,
+        "column": 2,
+        "row": [
+          "1",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 12726,
+          "line": 1507,
+          "command": "bonev"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      }
+    },
+    {
+      "tick": 930,
+      "seconds": 15.500000000071912,
+      "clearance_px": 0.020512820267176934,
+      "hazard_kind": "polygon",
+      "hazard_index": 0,
+      "blue_motion_lock": false,
+      "csv": {
+        "line": 167,
+        "column": 2,
+        "row": [
+          "0.4",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 930,
+          "line": 163,
+          "command": "combatzoneresize"
+        },
+        "executed_this_tick": [
+          {
+            "tick": 930,
+            "line": 161,
+            "command": "sound"
+          },
+          {
+            "tick": 930,
+            "line": 162,
+            "command": "sansslam"
+          },
+          {
+            "tick": 930,
+            "line": 163,
+            "command": "combatzoneresize"
+          }
+        ],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      }
+    },
+    {
+      "tick": 1292,
+      "seconds": 21.533333333433198,
+      "clearance_px": 0.03205128126549539,
+      "hazard_kind": "white",
+      "hazard_index": 0,
+      "blue_motion_lock": false,
+      "csv": {
+        "line": 214,
+        "column": 2,
+        "row": [
+          "0.45",
+          "BoneStab",
+          "2",
+          "60",
+          "0",
+          "0.45",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 1290,
+          "line": 213,
+          "command": "bonestab"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      }
+    },
+    {
+      "tick": 4412,
+      "seconds": 73.53333333367817,
+      "clearance_px": 0.1250000001747935,
+      "hazard_kind": "polygon",
+      "hazard_index": 2,
+      "blue_motion_lock": false,
+      "csv": {
+        "line": 453,
+        "column": 2,
+        "row": [
+          "3.7",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 4261,
+          "line": 452,
+          "command": "gasterblaster"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      }
+    },
+    {
+      "tick": 287,
+      "seconds": 4.783333333355598,
+      "clearance_px": 0.16408074737877243,
+      "hazard_kind": "polygon",
+      "hazard_index": 0,
+      "blue_motion_lock": false,
+      "csv": {
+        "line": 71,
+        "column": 2,
+        "row": [
+          "0.699",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 287,
+          "line": 70,
+          "command": "gasterblaster"
+        },
+        "executed_this_tick": [
+          {
+            "tick": 287,
+            "line": 63,
+            "command": ""
+          },
+          {
+            "tick": 287,
+            "line": 64,
+            "command": "gasterblaster"
+          },
+          {
+            "tick": 287,
+            "line": 65,
+            "command": "gasterblaster"
+          },
+          {
+            "tick": 287,
+            "line": 66,
+            "command": "gasterblaster"
+          },
+          {
+            "tick": 287,
+            "line": 67,
+            "command": "gasterblaster"
+          },
+          {
+            "tick": 287,
+            "line": 68,
+            "command": "gasterblaster"
+          },
+          {
+            "tick": 287,
+            "line": 69,
+            "command": "gasterblaster"
+          },
+          {
+            "tick": 287,
+            "line": 70,
+            "command": "gasterblaster"
+          }
+        ],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      }
+    },
+    {
+      "tick": 2941,
+      "seconds": 49.016666666893855,
+      "clearance_px": 0.1666666663830938,
+      "hazard_kind": "white",
+      "hazard_index": 297,
+      "blue_motion_lock": false,
+      "csv": {
+        "line": 331,
+        "column": 2,
+        "row": [
+          "7",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 2624,
+          "line": 330,
+          "command": "heartteleport"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      }
+    },
+    {
+      "tick": 2977,
+      "seconds": 49.616666666896634,
+      "clearance_px": 0.1666666663830938,
+      "hazard_kind": "white",
+      "hazard_index": 294,
+      "blue_motion_lock": false,
+      "csv": {
+        "line": 331,
+        "column": 2,
+        "row": [
+          "7",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 2624,
+          "line": 330,
+          "command": "heartteleport"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      }
+    },
+    {
+      "tick": 3007,
+      "seconds": 50.11666666689895,
+      "clearance_px": 0.1666666663830938,
+      "hazard_kind": "white",
+      "hazard_index": 291,
+      "blue_motion_lock": false,
+      "csv": {
+        "line": 331,
+        "column": 2,
+        "row": [
+          "7",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 2624,
+          "line": 330,
+          "command": "heartteleport"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      }
+    }
+  ],
+  "timing_events": [
+    {
+      "tick": 2944,
+      "kind": "arrows",
+      "before": 5,
+      "after": 6,
+      "seconds": 49.066666666894086,
+      "csv": {
+        "line": 331,
+        "column": 2,
+        "row": [
+          "7",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 2624,
+          "line": 330,
+          "command": "heartteleport"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      },
+      "early_safe_ticks_tested": 0,
+      "late_safe_ticks_tested": 0,
+      "early_safe_ms_tested": 0.0,
+      "late_safe_ms_tested": 0.0,
+      "frame_exact_locally": true,
+      "probes": [
+        {
+          "shift_ticks": -1,
+          "shift_ms": -16.66666666674388,
+          "status": "collision",
+          "tick": 2952,
+          "csv": {
+            "line": 331,
+            "column": 2,
+            "row": [
+              "7",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 2624,
+              "line": 330,
+              "command": "heartteleport"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 49.20000000022804
+        },
+        {
+          "shift_ticks": -2,
+          "shift_ms": -33.33333333348776,
+          "status": "collision",
+          "tick": 2950,
+          "csv": {
+            "line": 331,
+            "column": 2,
+            "row": [
+              "7",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 2624,
+              "line": 330,
+              "command": "heartteleport"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 49.16666666689455
+        },
+        {
+          "shift_ticks": -3,
+          "shift_ms": -50.00000000023164,
+          "status": "collision",
+          "tick": 2948,
+          "csv": {
+            "line": 331,
+            "column": 2,
+            "row": [
+              "7",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 2624,
+              "line": 330,
+              "command": "heartteleport"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 49.13333333356106
+        },
+        {
+          "shift_ticks": -4,
+          "shift_ms": -66.66666666697552,
+          "status": "collision",
+          "tick": 2948,
+          "csv": {
+            "line": 331,
+            "column": 2,
+            "row": [
+              "7",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 2624,
+              "line": 330,
+              "command": "heartteleport"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 49.13333333356106
+        },
+        {
+          "shift_ticks": 1,
+          "shift_ms": 16.66666666674388,
+          "status": "collision",
+          "tick": 2945,
+          "csv": {
+            "line": 331,
+            "column": 2,
+            "row": [
+              "7",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 2624,
+              "line": 330,
+              "command": "heartteleport"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 49.08333333356083
+        },
+        {
+          "shift_ticks": 2,
+          "shift_ms": 33.33333333348776,
+          "status": "collision",
+          "tick": 2945,
+          "csv": {
+            "line": 331,
+            "column": 2,
+            "row": [
+              "7",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 2624,
+              "line": 330,
+              "command": "heartteleport"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 49.08333333356083
+        },
+        {
+          "shift_ticks": 3,
+          "shift_ms": 50.00000000023164,
+          "status": "collision",
+          "tick": 2945,
+          "csv": {
+            "line": 331,
+            "column": 2,
+            "row": [
+              "7",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 2624,
+              "line": 330,
+              "command": "heartteleport"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 49.08333333356083
+        },
+        {
+          "shift_ticks": 4,
+          "shift_ms": 66.66666666697552,
+          "status": "collision",
+          "tick": 2945,
+          "csv": {
+            "line": 331,
+            "column": 2,
+            "row": [
+              "7",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 2624,
+              "line": 330,
+              "command": "heartteleport"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 49.08333333356083
+        }
+      ]
+    },
+    {
+      "tick": 4497,
+      "kind": "arrows",
+      "before": 4,
+      "after": 10,
+      "seconds": 74.950000000352,
+      "csv": {
+        "line": 455,
+        "column": 2,
+        "row": [
+          "0.27",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 4483,
+          "line": 454,
+          "command": "bonestab"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      },
+      "early_safe_ticks_tested": 0,
+      "late_safe_ticks_tested": 0,
+      "early_safe_ms_tested": 0.0,
+      "late_safe_ms_tested": 0.0,
+      "frame_exact_locally": true,
+      "probes": [
+        {
+          "shift_ticks": -1,
+          "shift_ms": -16.666666666750984,
+          "status": "collision",
+          "tick": 4522,
+          "csv": {
+            "line": 459,
+            "column": 2,
+            "row": [
+              "0.27",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 4515,
+              "line": 458,
+              "command": "bonestab"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 75.36666666702078
+        },
+        {
+          "shift_ticks": -2,
+          "shift_ms": -33.33333333350197,
+          "status": "collision",
+          "tick": 4513,
+          "csv": {
+            "line": 457,
+            "column": 2,
+            "row": [
+              "0.27",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 4499,
+              "line": 456,
+              "command": "bonestab"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 75.21666666702002
+        },
+        {
+          "shift_ticks": -3,
+          "shift_ms": -50.00000000025295,
+          "status": "collision",
+          "tick": 4512,
+          "csv": {
+            "line": 457,
+            "column": 2,
+            "row": [
+              "0.27",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 4499,
+              "line": 456,
+              "command": "bonestab"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 75.20000000035327
+        },
+        {
+          "shift_ticks": -4,
+          "shift_ms": -66.66666666700394,
+          "status": "collision",
+          "tick": 4511,
+          "csv": {
+            "line": 457,
+            "column": 2,
+            "row": [
+              "0.27",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 4499,
+              "line": 456,
+              "command": "bonestab"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 75.18333333368652
+        },
+        {
+          "shift_ticks": 1,
+          "shift_ms": 16.666666666750984,
+          "status": "collision",
+          "tick": 4506,
+          "csv": {
+            "line": 457,
+            "column": 2,
+            "row": [
+              "0.27",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 4499,
+              "line": 456,
+              "command": "bonestab"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 75.10000000035276
+        },
+        {
+          "shift_ticks": 2,
+          "shift_ms": 33.33333333350197,
+          "status": "collision",
+          "tick": 4506,
+          "csv": {
+            "line": 457,
+            "column": 2,
+            "row": [
+              "0.27",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 4499,
+              "line": 456,
+              "command": "bonestab"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 75.10000000035276
+        },
+        {
+          "shift_ticks": 3,
+          "shift_ms": 50.00000000025295,
+          "status": "collision",
+          "tick": 4506,
+          "csv": {
+            "line": 457,
+            "column": 2,
+            "row": [
+              "0.27",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 4499,
+              "line": 456,
+              "command": "bonestab"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 75.10000000035276
+        },
+        {
+          "shift_ticks": 4,
+          "shift_ms": 66.66666666700394,
+          "status": "collision",
+          "tick": 4506,
+          "csv": {
+            "line": 457,
+            "column": 2,
+            "row": [
+              "0.27",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 4499,
+              "line": 456,
+              "command": "bonestab"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 75.10000000035276
+        }
+      ]
+    },
+    {
+      "tick": 4689,
+      "kind": "arrows",
+      "before": 9,
+      "after": 2,
+      "seconds": 78.1500000003682,
+      "csv": {
+        "line": 479,
+        "column": 2,
+        "row": [
+          "0.27",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 4677,
+          "line": 478,
+          "command": "bonestab"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      },
+      "early_safe_ticks_tested": 0,
+      "late_safe_ticks_tested": 0,
+      "early_safe_ms_tested": 0.0,
+      "late_safe_ms_tested": 0.0,
+      "frame_exact_locally": true,
+      "probes": [
+        {
+          "shift_ticks": -1,
+          "shift_ms": -16.666666666750984,
+          "status": "collision",
+          "tick": 4705,
+          "csv": {
+            "line": 481,
+            "column": 2,
+            "row": [
+              "1.9",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 4694,
+              "line": 480,
+              "command": "bonestab"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 78.41666666703621
+        },
+        {
+          "shift_ticks": -2,
+          "shift_ms": -33.33333333350197,
+          "status": "collision",
+          "tick": 4703,
+          "csv": {
+            "line": 481,
+            "column": 2,
+            "row": [
+              "1.9",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 4694,
+              "line": 480,
+              "command": "bonestab"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 78.38333333370271
+        },
+        {
+          "shift_ticks": -3,
+          "shift_ms": -50.00000000025295,
+          "status": "collision",
+          "tick": 4701,
+          "csv": {
+            "line": 481,
+            "column": 2,
+            "row": [
+              "1.9",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 4694,
+              "line": 480,
+              "command": "bonestab"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 78.3500000003692
+        },
+        {
+          "shift_ticks": -4,
+          "shift_ms": -66.66666666700394,
+          "status": "collision",
+          "tick": 4689,
+          "csv": {
+            "line": 479,
+            "column": 2,
+            "row": [
+              "0.27",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 4677,
+              "line": 478,
+              "command": "bonestab"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 78.1500000003682
+        },
+        {
+          "shift_ticks": 1,
+          "shift_ms": 16.666666666750984,
+          "status": "collision",
+          "tick": 4690,
+          "csv": {
+            "line": 479,
+            "column": 2,
+            "row": [
+              "0.27",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 4677,
+              "line": 478,
+              "command": "bonestab"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 78.16666666703495
+        },
+        {
+          "shift_ticks": 2,
+          "shift_ms": 33.33333333350197,
+          "status": "collision",
+          "tick": 4690,
+          "csv": {
+            "line": 479,
+            "column": 2,
+            "row": [
+              "0.27",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 4677,
+              "line": 478,
+              "command": "bonestab"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 78.16666666703495
+        },
+        {
+          "shift_ticks": 3,
+          "shift_ms": 50.00000000025295,
+          "status": "collision",
+          "tick": 4690,
+          "csv": {
+            "line": 479,
+            "column": 2,
+            "row": [
+              "0.27",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 4677,
+              "line": 478,
+              "command": "bonestab"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 78.16666666703495
+        },
+        {
+          "shift_ticks": 4,
+          "shift_ms": 66.66666666700394,
+          "status": "collision",
+          "tick": 4690,
+          "csv": {
+            "line": 479,
+            "column": 2,
+            "row": [
+              "0.27",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 4677,
+              "line": 478,
+              "command": "bonestab"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 78.16666666703495
+        }
+      ]
+    },
+    {
+      "tick": 1791,
+      "kind": "arrows",
+      "before": 4,
+      "after": 10,
+      "seconds": 29.850000000138394,
+      "csv": {
+        "line": 247,
+        "column": 2,
+        "row": [
+          "0.3",
+          "SansBody",
+          "HandDown",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 1784,
+          "line": 246,
+          "command": "bonestab"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      },
+      "early_safe_ticks_tested": 4,
+      "late_safe_ticks_tested": 0,
+      "early_safe_ms_tested": 66.66666666697552,
+      "late_safe_ms_tested": 0.0,
+      "frame_exact_locally": false,
+      "probes": [
+        {
+          "shift_ticks": -1,
+          "shift_ms": -16.66666666674388,
+          "status": "survived_local_prefix",
+          "through_tick": 1821
+        },
+        {
+          "shift_ticks": -2,
+          "shift_ms": -33.33333333348776,
+          "status": "survived_local_prefix",
+          "through_tick": 1821
+        },
+        {
+          "shift_ticks": -3,
+          "shift_ms": -50.00000000023164,
+          "status": "survived_local_prefix",
+          "through_tick": 1821
+        },
+        {
+          "shift_ticks": -4,
+          "shift_ms": -66.66666666697552,
+          "status": "survived_local_prefix",
+          "through_tick": 1821
+        },
+        {
+          "shift_ticks": 1,
+          "shift_ms": 16.66666666674388,
+          "status": "collision",
+          "tick": 1792,
+          "csv": {
+            "line": 247,
+            "column": 2,
+            "row": [
+              "0.3",
+              "SansBody",
+              "HandDown",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 1784,
+              "line": 246,
+              "command": "bonestab"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 29.866666666805138
+        },
+        {
+          "shift_ticks": 2,
+          "shift_ms": 33.33333333348776,
+          "status": "collision",
+          "tick": 1792,
+          "csv": {
+            "line": 247,
+            "column": 2,
+            "row": [
+              "0.3",
+              "SansBody",
+              "HandDown",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 1784,
+              "line": 246,
+              "command": "bonestab"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 29.866666666805138
+        },
+        {
+          "shift_ticks": 3,
+          "shift_ms": 50.00000000023164,
+          "status": "collision",
+          "tick": 1792,
+          "csv": {
+            "line": 247,
+            "column": 2,
+            "row": [
+              "0.3",
+              "SansBody",
+              "HandDown",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 1784,
+              "line": 246,
+              "command": "bonestab"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 29.866666666805138
+        },
+        {
+          "shift_ticks": 4,
+          "shift_ms": 66.66666666697552,
+          "status": "collision",
+          "tick": 1792,
+          "csv": {
+            "line": 247,
+            "column": 2,
+            "row": [
+              "0.3",
+              "SansBody",
+              "HandDown",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 1784,
+              "line": 246,
+              "command": "bonestab"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 29.866666666805138
+        }
+      ]
+    },
+    {
+      "tick": 6218,
+      "kind": "arrows",
+      "before": 6,
+      "after": 4,
+      "seconds": 103.63333333383045,
+      "csv": {
+        "line": 681,
+        "column": 2,
+        "row": [
+          "0.4",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 6212,
+          "line": 680,
+          "command": "gasterblaster"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      },
+      "early_safe_ticks_tested": 0,
+      "late_safe_ticks_tested": 3,
+      "early_safe_ms_tested": 0.0,
+      "late_safe_ms_tested": 50.00000000025295,
+      "frame_exact_locally": false,
+      "probes": [
+        {
+          "shift_ticks": -1,
+          "shift_ms": -16.666666666750984,
+          "status": "collision",
+          "tick": 6222,
+          "csv": {
+            "line": 681,
+            "column": 2,
+            "row": [
+              "0.4",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 6212,
+              "line": 680,
+              "command": "gasterblaster"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 103.70000000049745
+        },
+        {
+          "shift_ticks": -2,
+          "shift_ms": -33.33333333350197,
+          "status": "collision",
+          "tick": 6222,
+          "csv": {
+            "line": 681,
+            "column": 2,
+            "row": [
+              "0.4",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 6212,
+              "line": 680,
+              "command": "gasterblaster"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 103.70000000049745
+        },
+        {
+          "shift_ticks": -3,
+          "shift_ms": -50.00000000025295,
+          "status": "collision",
+          "tick": 6222,
+          "csv": {
+            "line": 681,
+            "column": 2,
+            "row": [
+              "0.4",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 6212,
+              "line": 680,
+              "command": "gasterblaster"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 103.70000000049745
+        },
+        {
+          "shift_ticks": -4,
+          "shift_ms": -66.66666666700394,
+          "status": "collision",
+          "tick": 6222,
+          "csv": {
+            "line": 681,
+            "column": 2,
+            "row": [
+              "0.4",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 6212,
+              "line": 680,
+              "command": "gasterblaster"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 103.70000000049745
+        },
+        {
+          "shift_ticks": 1,
+          "shift_ms": 16.666666666750984,
+          "status": "survived_local_prefix",
+          "through_tick": 6248
+        },
+        {
+          "shift_ticks": 2,
+          "shift_ms": 33.33333333350197,
+          "status": "survived_local_prefix",
+          "through_tick": 6248
+        },
+        {
+          "shift_ticks": 3,
+          "shift_ms": 50.00000000025295,
+          "status": "survived_local_prefix",
+          "through_tick": 6248
+        },
+        {
+          "shift_ticks": 4,
+          "shift_ms": 66.66666666700394,
+          "status": "collision",
+          "tick": 6222,
+          "csv": {
+            "line": 681,
+            "column": 2,
+            "row": [
+              "0.4",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 6212,
+              "line": 680,
+              "command": "gasterblaster"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 103.70000000049745
+        }
+      ]
+    },
+    {
+      "tick": 8000,
+      "kind": "arrows",
+      "before": 4,
+      "after": 0,
+      "seconds": 133.33333333397616,
+      "csv": {
+        "line": 877,
+        "column": 2,
+        "row": [
+          "0.25",
+          "GetHeartPos",
+          "HeartX",
+          "HeartY",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 7992,
+          "line": 876,
+          "command": "bonev"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      },
+      "early_safe_ticks_tested": 4,
+      "late_safe_ticks_tested": 0,
+      "early_safe_ms_tested": 66.6666666669471,
+      "late_safe_ms_tested": 0.0,
+      "frame_exact_locally": false,
+      "probes": [
+        {
+          "shift_ticks": -1,
+          "shift_ms": -16.666666666736774,
+          "status": "survived_local_prefix",
+          "through_tick": 8030
+        },
+        {
+          "shift_ticks": -2,
+          "shift_ms": -33.33333333347355,
+          "status": "survived_local_prefix",
+          "through_tick": 8030
+        },
+        {
+          "shift_ticks": -3,
+          "shift_ms": -50.00000000021032,
+          "status": "survived_local_prefix",
+          "through_tick": 8030
+        },
+        {
+          "shift_ticks": -4,
+          "shift_ms": -66.6666666669471,
+          "status": "survived_local_prefix",
+          "through_tick": 8030
+        },
+        {
+          "shift_ticks": 1,
+          "shift_ms": 16.666666666736774,
+          "status": "collision",
+          "tick": 8000,
+          "csv": {
+            "line": 877,
+            "column": 2,
+            "row": [
+              "0.25",
+              "GetHeartPos",
+              "HeartX",
+              "HeartY",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 7992,
+              "line": 876,
+              "command": "bonev"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 133.33333333397616
+        },
+        {
+          "shift_ticks": 2,
+          "shift_ms": 33.33333333347355,
+          "status": "collision",
+          "tick": 8000,
+          "csv": {
+            "line": 877,
+            "column": 2,
+            "row": [
+              "0.25",
+              "GetHeartPos",
+              "HeartX",
+              "HeartY",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 7992,
+              "line": 876,
+              "command": "bonev"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 133.33333333397616
+        },
+        {
+          "shift_ticks": 3,
+          "shift_ms": 50.00000000021032,
+          "status": "collision",
+          "tick": 8000,
+          "csv": {
+            "line": 877,
+            "column": 2,
+            "row": [
+              "0.25",
+              "GetHeartPos",
+              "HeartX",
+              "HeartY",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 7992,
+              "line": 876,
+              "command": "bonev"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 133.33333333397616
+        },
+        {
+          "shift_ticks": 4,
+          "shift_ms": 66.6666666669471,
+          "status": "collision",
+          "tick": 8000,
+          "csv": {
+            "line": 877,
+            "column": 2,
+            "row": [
+              "0.25",
+              "GetHeartPos",
+              "HeartX",
+              "HeartY",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 7992,
+              "line": 876,
+              "command": "bonev"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 133.33333333397616
+        }
+      ]
+    },
+    {
+      "tick": 8268,
+      "kind": "arrows",
+      "before": 8,
+      "after": 0,
+      "seconds": 137.8000000006616,
+      "csv": {
+        "line": 915,
+        "column": 2,
+        "row": [
+          "0.25",
+          "GetHeartPos",
+          "HeartX",
+          "HeartY",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 8259,
+          "line": 914,
+          "command": "boneh"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      },
+      "early_safe_ticks_tested": 4,
+      "late_safe_ticks_tested": 0,
+      "early_safe_ms_tested": 66.6666666669471,
+      "late_safe_ms_tested": 0.0,
+      "frame_exact_locally": false,
+      "probes": [
+        {
+          "shift_ticks": -1,
+          "shift_ms": -16.666666666736774,
+          "status": "survived_local_prefix",
+          "through_tick": 8298
+        },
+        {
+          "shift_ticks": -2,
+          "shift_ms": -33.33333333347355,
+          "status": "survived_local_prefix",
+          "through_tick": 8298
+        },
+        {
+          "shift_ticks": -3,
+          "shift_ms": -50.00000000021032,
+          "status": "survived_local_prefix",
+          "through_tick": 8298
+        },
+        {
+          "shift_ticks": -4,
+          "shift_ms": -66.6666666669471,
+          "status": "survived_local_prefix",
+          "through_tick": 8298
+        },
+        {
+          "shift_ticks": 1,
+          "shift_ms": 16.666666666736774,
+          "status": "collision",
+          "tick": 8268,
+          "csv": {
+            "line": 915,
+            "column": 2,
+            "row": [
+              "0.25",
+              "GetHeartPos",
+              "HeartX",
+              "HeartY",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 8259,
+              "line": 914,
+              "command": "boneh"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 137.8000000006616
+        },
+        {
+          "shift_ticks": 2,
+          "shift_ms": 33.33333333347355,
+          "status": "collision",
+          "tick": 8268,
+          "csv": {
+            "line": 915,
+            "column": 2,
+            "row": [
+              "0.25",
+              "GetHeartPos",
+              "HeartX",
+              "HeartY",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 8259,
+              "line": 914,
+              "command": "boneh"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 137.8000000006616
+        },
+        {
+          "shift_ticks": 3,
+          "shift_ms": 50.00000000021032,
+          "status": "collision",
+          "tick": 8268,
+          "csv": {
+            "line": 915,
+            "column": 2,
+            "row": [
+              "0.25",
+              "GetHeartPos",
+              "HeartX",
+              "HeartY",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 8259,
+              "line": 914,
+              "command": "boneh"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 137.8000000006616
+        },
+        {
+          "shift_ticks": 4,
+          "shift_ms": 66.6666666669471,
+          "status": "collision",
+          "tick": 8268,
+          "csv": {
+            "line": 915,
+            "column": 2,
+            "row": [
+              "0.25",
+              "GetHeartPos",
+              "HeartX",
+              "HeartY",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 8259,
+              "line": 914,
+              "command": "boneh"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 137.8000000006616
+        }
+      ]
+    },
+    {
+      "tick": 8640,
+      "kind": "arrows",
+      "before": 4,
+      "after": 2,
+      "seconds": 144.0000000006877,
+      "csv": {
+        "line": 967,
+        "column": 2,
+        "row": [
+          "1.2",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 8622,
+          "line": 966,
+          "command": "bonev"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      },
+      "early_safe_ticks_tested": 4,
+      "late_safe_ticks_tested": 0,
+      "early_safe_ms_tested": 66.6666666669471,
+      "late_safe_ms_tested": 0.0,
+      "frame_exact_locally": false,
+      "probes": [
+        {
+          "shift_ticks": -1,
+          "shift_ms": -16.666666666736774,
+          "status": "survived_local_prefix",
+          "through_tick": 8670
+        },
+        {
+          "shift_ticks": -2,
+          "shift_ms": -33.33333333347355,
+          "status": "survived_local_prefix",
+          "through_tick": 8670
+        },
+        {
+          "shift_ticks": -3,
+          "shift_ms": -50.00000000021032,
+          "status": "survived_local_prefix",
+          "through_tick": 8670
+        },
+        {
+          "shift_ticks": -4,
+          "shift_ms": -66.6666666669471,
+          "status": "survived_local_prefix",
+          "through_tick": 8670
+        },
+        {
+          "shift_ticks": 1,
+          "shift_ms": 16.666666666736774,
+          "status": "collision",
+          "tick": 8640,
+          "csv": {
+            "line": 967,
+            "column": 2,
+            "row": [
+              "1.2",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 8622,
+              "line": 966,
+              "command": "bonev"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 144.0000000006877
+        },
+        {
+          "shift_ticks": 2,
+          "shift_ms": 33.33333333347355,
+          "status": "collision",
+          "tick": 8640,
+          "csv": {
+            "line": 967,
+            "column": 2,
+            "row": [
+              "1.2",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 8622,
+              "line": 966,
+              "command": "bonev"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 144.0000000006877
+        },
+        {
+          "shift_ticks": 3,
+          "shift_ms": 50.00000000021032,
+          "status": "collision",
+          "tick": 8640,
+          "csv": {
+            "line": 967,
+            "column": 2,
+            "row": [
+              "1.2",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 8622,
+              "line": 966,
+              "command": "bonev"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 144.0000000006877
+        },
+        {
+          "shift_ticks": 4,
+          "shift_ms": 66.6666666669471,
+          "status": "collision",
+          "tick": 8640,
+          "csv": {
+            "line": 967,
+            "column": 2,
+            "row": [
+              "1.2",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 8622,
+              "line": 966,
+              "command": "bonev"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 144.0000000006877
+        }
+      ]
+    },
+    {
+      "tick": 10427,
+      "kind": "arrows",
+      "before": 8,
+      "after": 0,
+      "seconds": 173.7833333341463,
+      "csv": {
+        "line": 1239,
+        "column": 2,
+        "row": [
+          "0.3",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 10414,
+          "line": 1238,
+          "command": "bonev"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      },
+      "early_safe_ticks_tested": 4,
+      "late_safe_ticks_tested": 0,
+      "early_safe_ms_tested": 66.6666666669471,
+      "late_safe_ms_tested": 0.0,
+      "frame_exact_locally": false,
+      "probes": [
+        {
+          "shift_ticks": -1,
+          "shift_ms": -16.666666666736774,
+          "status": "survived_local_prefix",
+          "through_tick": 10457
+        },
+        {
+          "shift_ticks": -2,
+          "shift_ms": -33.33333333347355,
+          "status": "survived_local_prefix",
+          "through_tick": 10457
+        },
+        {
+          "shift_ticks": -3,
+          "shift_ms": -50.00000000021032,
+          "status": "survived_local_prefix",
+          "through_tick": 10457
+        },
+        {
+          "shift_ticks": -4,
+          "shift_ms": -66.6666666669471,
+          "status": "survived_local_prefix",
+          "through_tick": 10457
+        },
+        {
+          "shift_ticks": 1,
+          "shift_ms": 16.666666666736774,
+          "status": "collision",
+          "tick": 10427,
+          "csv": {
+            "line": 1239,
+            "column": 2,
+            "row": [
+              "0.3",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 10414,
+              "line": 1238,
+              "command": "bonev"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 173.7833333341463
+        },
+        {
+          "shift_ticks": 2,
+          "shift_ms": 33.33333333347355,
+          "status": "collision",
+          "tick": 10427,
+          "csv": {
+            "line": 1239,
+            "column": 2,
+            "row": [
+              "0.3",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 10414,
+              "line": 1238,
+              "command": "bonev"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 173.7833333341463
+        },
+        {
+          "shift_ticks": 3,
+          "shift_ms": 50.00000000021032,
+          "status": "collision",
+          "tick": 10427,
+          "csv": {
+            "line": 1239,
+            "column": 2,
+            "row": [
+              "0.3",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 10414,
+              "line": 1238,
+              "command": "bonev"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 173.7833333341463
+        },
+        {
+          "shift_ticks": 4,
+          "shift_ms": 66.6666666669471,
+          "status": "collision",
+          "tick": 10427,
+          "csv": {
+            "line": 1239,
+            "column": 2,
+            "row": [
+              "0.3",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 10414,
+              "line": 1238,
+              "command": "bonev"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 173.7833333341463
+        }
+      ]
+    },
+    {
+      "tick": 11170,
+      "kind": "arrows",
+      "before": 2,
+      "after": 0,
+      "seconds": 186.16666666753173,
+      "csv": {
+        "line": 1374,
+        "column": 2,
+        "row": [
+          "0.032",
+          "BoneV",
+          "426",
+          "126",
+          "1000",
+          "2",
+          "600",
+          "1",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 11169,
+          "line": 1373,
+          "command": "bonev"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      },
+      "early_safe_ticks_tested": 4,
+      "late_safe_ticks_tested": 0,
+      "early_safe_ms_tested": 66.6666666669471,
+      "late_safe_ms_tested": 0.0,
+      "frame_exact_locally": false,
+      "probes": [
+        {
+          "shift_ticks": -1,
+          "shift_ms": -16.666666666736774,
+          "status": "survived_local_prefix",
+          "through_tick": 11200
+        },
+        {
+          "shift_ticks": -2,
+          "shift_ms": -33.33333333347355,
+          "status": "survived_local_prefix",
+          "through_tick": 11200
+        },
+        {
+          "shift_ticks": -3,
+          "shift_ms": -50.00000000021032,
+          "status": "survived_local_prefix",
+          "through_tick": 11200
+        },
+        {
+          "shift_ticks": -4,
+          "shift_ms": -66.6666666669471,
+          "status": "survived_local_prefix",
+          "through_tick": 11200
+        },
+        {
+          "shift_ticks": 1,
+          "shift_ms": 16.666666666736774,
+          "status": "collision",
+          "tick": 11170,
+          "csv": {
+            "line": 1374,
+            "column": 2,
+            "row": [
+              "0.032",
+              "BoneV",
+              "426",
+              "126",
+              "1000",
+              "2",
+              "600",
+              "1",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 11169,
+              "line": 1373,
+              "command": "bonev"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 186.16666666753173
+        },
+        {
+          "shift_ticks": 2,
+          "shift_ms": 33.33333333347355,
+          "status": "collision",
+          "tick": 11170,
+          "csv": {
+            "line": 1374,
+            "column": 2,
+            "row": [
+              "0.032",
+              "BoneV",
+              "426",
+              "126",
+              "1000",
+              "2",
+              "600",
+              "1",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 11169,
+              "line": 1373,
+              "command": "bonev"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 186.16666666753173
+        },
+        {
+          "shift_ticks": 3,
+          "shift_ms": 50.00000000021032,
+          "status": "collision",
+          "tick": 11170,
+          "csv": {
+            "line": 1374,
+            "column": 2,
+            "row": [
+              "0.032",
+              "BoneV",
+              "426",
+              "126",
+              "1000",
+              "2",
+              "600",
+              "1",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 11169,
+              "line": 1373,
+              "command": "bonev"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 186.16666666753173
+        },
+        {
+          "shift_ticks": 4,
+          "shift_ms": 66.6666666669471,
+          "status": "collision",
+          "tick": 11170,
+          "csv": {
+            "line": 1374,
+            "column": 2,
+            "row": [
+              "0.032",
+              "BoneV",
+              "426",
+              "126",
+              "1000",
+              "2",
+              "600",
+              "1",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 11169,
+              "line": 1373,
+              "command": "bonev"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 186.16666666753173
+        }
+      ]
+    },
+    {
+      "tick": 11298,
+      "kind": "arrows",
+      "before": 6,
+      "after": 0,
+      "seconds": 188.30000000087404,
+      "csv": {
+        "line": 1420,
+        "column": 2,
+        "row": [
+          "1",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 11286,
+          "line": 1419,
+          "command": "bonev"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      },
+      "early_safe_ticks_tested": 4,
+      "late_safe_ticks_tested": 0,
+      "early_safe_ms_tested": 66.6666666669471,
+      "late_safe_ms_tested": 0.0,
+      "frame_exact_locally": false,
+      "probes": [
+        {
+          "shift_ticks": -1,
+          "shift_ms": -16.666666666736774,
+          "status": "survived_local_prefix",
+          "through_tick": 11328
+        },
+        {
+          "shift_ticks": -2,
+          "shift_ms": -33.33333333347355,
+          "status": "survived_local_prefix",
+          "through_tick": 11328
+        },
+        {
+          "shift_ticks": -3,
+          "shift_ms": -50.00000000021032,
+          "status": "survived_local_prefix",
+          "through_tick": 11328
+        },
+        {
+          "shift_ticks": -4,
+          "shift_ms": -66.6666666669471,
+          "status": "survived_local_prefix",
+          "through_tick": 11328
+        },
+        {
+          "shift_ticks": 1,
+          "shift_ms": 16.666666666736774,
+          "status": "collision",
+          "tick": 11298,
+          "csv": {
+            "line": 1420,
+            "column": 2,
+            "row": [
+              "1",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 11286,
+              "line": 1419,
+              "command": "bonev"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 188.30000000087404
+        },
+        {
+          "shift_ticks": 2,
+          "shift_ms": 33.33333333347355,
+          "status": "collision",
+          "tick": 11298,
+          "csv": {
+            "line": 1420,
+            "column": 2,
+            "row": [
+              "1",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 11286,
+              "line": 1419,
+              "command": "bonev"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 188.30000000087404
+        },
+        {
+          "shift_ticks": 3,
+          "shift_ms": 50.00000000021032,
+          "status": "collision",
+          "tick": 11298,
+          "csv": {
+            "line": 1420,
+            "column": 2,
+            "row": [
+              "1",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 11286,
+              "line": 1419,
+              "command": "bonev"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 188.30000000087404
+        },
+        {
+          "shift_ticks": 4,
+          "shift_ms": 66.6666666669471,
+          "status": "collision",
+          "tick": 11298,
+          "csv": {
+            "line": 1420,
+            "column": 2,
+            "row": [
+              "1",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 11286,
+              "line": 1419,
+              "command": "bonev"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 188.30000000087404
+        }
+      ]
+    },
+    {
+      "tick": 11450,
+      "kind": "arrows",
+      "before": 2,
+      "after": 0,
+      "seconds": 190.83333333421803,
+      "csv": {
+        "line": 1429,
+        "column": 2,
+        "row": [
+          "1",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 11406,
+          "line": 1428,
+          "command": "bonev"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      },
+      "early_safe_ticks_tested": 4,
+      "late_safe_ticks_tested": 0,
+      "early_safe_ms_tested": 66.6666666669471,
+      "late_safe_ms_tested": 0.0,
+      "frame_exact_locally": false,
+      "probes": [
+        {
+          "shift_ticks": -1,
+          "shift_ms": -16.666666666736774,
+          "status": "survived_local_prefix",
+          "through_tick": 11480
+        },
+        {
+          "shift_ticks": -2,
+          "shift_ms": -33.33333333347355,
+          "status": "survived_local_prefix",
+          "through_tick": 11480
+        },
+        {
+          "shift_ticks": -3,
+          "shift_ms": -50.00000000021032,
+          "status": "survived_local_prefix",
+          "through_tick": 11480
+        },
+        {
+          "shift_ticks": -4,
+          "shift_ms": -66.6666666669471,
+          "status": "survived_local_prefix",
+          "through_tick": 11480
+        },
+        {
+          "shift_ticks": 1,
+          "shift_ms": 16.666666666736774,
+          "status": "collision",
+          "tick": 11450,
+          "csv": {
+            "line": 1429,
+            "column": 2,
+            "row": [
+              "1",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 11406,
+              "line": 1428,
+              "command": "bonev"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 190.83333333421803
+        },
+        {
+          "shift_ticks": 2,
+          "shift_ms": 33.33333333347355,
+          "status": "collision",
+          "tick": 11450,
+          "csv": {
+            "line": 1429,
+            "column": 2,
+            "row": [
+              "1",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 11406,
+              "line": 1428,
+              "command": "bonev"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 190.83333333421803
+        },
+        {
+          "shift_ticks": 3,
+          "shift_ms": 50.00000000021032,
+          "status": "collision",
+          "tick": 11450,
+          "csv": {
+            "line": 1429,
+            "column": 2,
+            "row": [
+              "1",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 11406,
+              "line": 1428,
+              "command": "bonev"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 190.83333333421803
+        },
+        {
+          "shift_ticks": 4,
+          "shift_ms": 66.6666666669471,
+          "status": "collision",
+          "tick": 11450,
+          "csv": {
+            "line": 1429,
+            "column": 2,
+            "row": [
+              "1",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 11406,
+              "line": 1428,
+              "command": "bonev"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 190.83333333421803
+        }
+      ]
+    },
+    {
+      "tick": 11774,
+      "kind": "arrows",
+      "before": 8,
+      "after": 0,
+      "seconds": 196.23333333424074,
+      "csv": {
+        "line": 1445,
+        "column": 2,
+        "row": [
+          "1",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 11736,
+          "line": 1444,
+          "command": "bonev"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      },
+      "early_safe_ticks_tested": 4,
+      "late_safe_ticks_tested": 0,
+      "early_safe_ms_tested": 66.6666666669471,
+      "late_safe_ms_tested": 0.0,
+      "frame_exact_locally": false,
+      "probes": [
+        {
+          "shift_ticks": -1,
+          "shift_ms": -16.666666666736774,
+          "status": "survived_local_prefix",
+          "through_tick": 11804
+        },
+        {
+          "shift_ticks": -2,
+          "shift_ms": -33.33333333347355,
+          "status": "survived_local_prefix",
+          "through_tick": 11804
+        },
+        {
+          "shift_ticks": -3,
+          "shift_ms": -50.00000000021032,
+          "status": "survived_local_prefix",
+          "through_tick": 11804
+        },
+        {
+          "shift_ticks": -4,
+          "shift_ms": -66.6666666669471,
+          "status": "survived_local_prefix",
+          "through_tick": 11804
+        },
+        {
+          "shift_ticks": 1,
+          "shift_ms": 16.666666666736774,
+          "status": "collision",
+          "tick": 11774,
+          "csv": {
+            "line": 1445,
+            "column": 2,
+            "row": [
+              "1",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 11736,
+              "line": 1444,
+              "command": "bonev"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 196.23333333424074
+        },
+        {
+          "shift_ticks": 2,
+          "shift_ms": 33.33333333347355,
+          "status": "collision",
+          "tick": 11774,
+          "csv": {
+            "line": 1445,
+            "column": 2,
+            "row": [
+              "1",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 11736,
+              "line": 1444,
+              "command": "bonev"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 196.23333333424074
+        },
+        {
+          "shift_ticks": 3,
+          "shift_ms": 50.00000000021032,
+          "status": "collision",
+          "tick": 11774,
+          "csv": {
+            "line": 1445,
+            "column": 2,
+            "row": [
+              "1",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 11736,
+              "line": 1444,
+              "command": "bonev"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 196.23333333424074
+        },
+        {
+          "shift_ticks": 4,
+          "shift_ms": 66.6666666669471,
+          "status": "collision",
+          "tick": 11774,
+          "csv": {
+            "line": 1445,
+            "column": 2,
+            "row": [
+              "1",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 11736,
+              "line": 1444,
+              "command": "bonev"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 196.23333333424074
+        }
+      ]
+    },
+    {
+      "tick": 288,
+      "kind": "arrows",
+      "before": 1,
+      "after": 4,
+      "seconds": 4.800000000022342,
+      "csv": {
+        "line": 71,
+        "column": 2,
+        "row": [
+          "0.699",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 287,
+          "line": 70,
+          "command": "gasterblaster"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      },
+      "early_safe_ticks_tested": 1,
+      "late_safe_ticks_tested": 4,
+      "early_safe_ms_tested": 16.66666666674388,
+      "late_safe_ms_tested": 66.66666666697552,
+      "frame_exact_locally": false,
+      "probes": [
+        {
+          "shift_ticks": -1,
+          "shift_ms": -16.66666666674388,
+          "status": "survived_local_prefix",
+          "through_tick": 318
+        },
+        {
+          "shift_ticks": -2,
+          "shift_ms": -33.33333333348776,
+          "status": "collision",
+          "tick": 287,
+          "csv": {
+            "line": 71,
+            "column": 2,
+            "row": [
+              "0.699",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 287,
+              "line": 70,
+              "command": "gasterblaster"
+            },
+            "executed_this_tick": [
+              {
+                "tick": 287,
+                "line": 63,
+                "command": ""
+              },
+              {
+                "tick": 287,
+                "line": 64,
+                "command": "gasterblaster"
+              },
+              {
+                "tick": 287,
+                "line": 65,
+                "command": "gasterblaster"
+              },
+              {
+                "tick": 287,
+                "line": 66,
+                "command": "gasterblaster"
+              },
+              {
+                "tick": 287,
+                "line": 67,
+                "command": "gasterblaster"
+              },
+              {
+                "tick": 287,
+                "line": 68,
+                "command": "gasterblaster"
+              },
+              {
+                "tick": 287,
+                "line": 69,
+                "command": "gasterblaster"
+              },
+              {
+                "tick": 287,
+                "line": 70,
+                "command": "gasterblaster"
+              }
+            ],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 4.783333333355598
+        },
+        {
+          "shift_ticks": -3,
+          "shift_ms": -50.00000000023164,
+          "status": "collision",
+          "tick": 287,
+          "csv": {
+            "line": 71,
+            "column": 2,
+            "row": [
+              "0.699",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 287,
+              "line": 70,
+              "command": "gasterblaster"
+            },
+            "executed_this_tick": [
+              {
+                "tick": 287,
+                "line": 63,
+                "command": ""
+              },
+              {
+                "tick": 287,
+                "line": 64,
+                "command": "gasterblaster"
+              },
+              {
+                "tick": 287,
+                "line": 65,
+                "command": "gasterblaster"
+              },
+              {
+                "tick": 287,
+                "line": 66,
+                "command": "gasterblaster"
+              },
+              {
+                "tick": 287,
+                "line": 67,
+                "command": "gasterblaster"
+              },
+              {
+                "tick": 287,
+                "line": 68,
+                "command": "gasterblaster"
+              },
+              {
+                "tick": 287,
+                "line": 69,
+                "command": "gasterblaster"
+              },
+              {
+                "tick": 287,
+                "line": 70,
+                "command": "gasterblaster"
+              }
+            ],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 4.783333333355598
+        },
+        {
+          "shift_ticks": -4,
+          "shift_ms": -66.66666666697552,
+          "status": "collision",
+          "tick": 287,
+          "csv": {
+            "line": 71,
+            "column": 2,
+            "row": [
+              "0.699",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 287,
+              "line": 70,
+              "command": "gasterblaster"
+            },
+            "executed_this_tick": [
+              {
+                "tick": 287,
+                "line": 63,
+                "command": ""
+              },
+              {
+                "tick": 287,
+                "line": 64,
+                "command": "gasterblaster"
+              },
+              {
+                "tick": 287,
+                "line": 65,
+                "command": "gasterblaster"
+              },
+              {
+                "tick": 287,
+                "line": 66,
+                "command": "gasterblaster"
+              },
+              {
+                "tick": 287,
+                "line": 67,
+                "command": "gasterblaster"
+              },
+              {
+                "tick": 287,
+                "line": 68,
+                "command": "gasterblaster"
+              },
+              {
+                "tick": 287,
+                "line": 69,
+                "command": "gasterblaster"
+              },
+              {
+                "tick": 287,
+                "line": 70,
+                "command": "gasterblaster"
+              }
+            ],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 4.783333333355598
+        },
+        {
+          "shift_ticks": 1,
+          "shift_ms": 16.66666666674388,
+          "status": "survived_local_prefix",
+          "through_tick": 318
+        },
+        {
+          "shift_ticks": 2,
+          "shift_ms": 33.33333333348776,
+          "status": "survived_local_prefix",
+          "through_tick": 318
+        },
+        {
+          "shift_ticks": 3,
+          "shift_ms": 50.00000000023164,
+          "status": "survived_local_prefix",
+          "through_tick": 318
+        },
+        {
+          "shift_ticks": 4,
+          "shift_ms": 66.66666666697552,
+          "status": "survived_local_prefix",
+          "through_tick": 318
+        }
+      ]
+    },
+    {
+      "tick": 7500,
+      "kind": "arrows",
+      "before": 4,
+      "after": 5,
+      "seconds": 125.00000000060521,
+      "csv": {
+        "line": 820,
+        "column": 2,
+        "row": [
+          "0.5",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 7494,
+          "line": 819,
+          "command": "bonestab"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      },
+      "early_safe_ticks_tested": 2,
+      "late_safe_ticks_tested": 1,
+      "early_safe_ms_tested": 33.33333333350197,
+      "late_safe_ms_tested": 16.666666666750984,
+      "frame_exact_locally": false,
+      "probes": [
+        {
+          "shift_ticks": -1,
+          "shift_ms": -16.666666666750984,
+          "status": "survived_local_prefix",
+          "through_tick": 7530
+        },
+        {
+          "shift_ticks": -2,
+          "shift_ms": -33.33333333350197,
+          "status": "survived_local_prefix",
+          "through_tick": 7530
+        },
+        {
+          "shift_ticks": -3,
+          "shift_ms": -50.00000000025295,
+          "status": "collision",
+          "tick": 7507,
+          "csv": {
+            "line": 820,
+            "column": 2,
+            "row": [
+              "0.5",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 7494,
+              "line": 819,
+              "command": "bonestab"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 125.11666666727247
+        },
+        {
+          "shift_ticks": -4,
+          "shift_ms": -66.66666666700394,
+          "status": "collision",
+          "tick": 7507,
+          "csv": {
+            "line": 820,
+            "column": 2,
+            "row": [
+              "0.5",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 7494,
+              "line": 819,
+              "command": "bonestab"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 125.11666666727247
+        },
+        {
+          "shift_ticks": 1,
+          "shift_ms": 16.666666666750984,
+          "status": "survived_local_prefix",
+          "through_tick": 7530
+        },
+        {
+          "shift_ticks": 2,
+          "shift_ms": 33.33333333350197,
+          "status": "collision",
+          "tick": 7511,
+          "csv": {
+            "line": 820,
+            "column": 2,
+            "row": [
+              "0.5",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 7494,
+              "line": 819,
+              "command": "bonestab"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 125.18333333393947
+        },
+        {
+          "shift_ticks": 3,
+          "shift_ms": 50.00000000025295,
+          "status": "collision",
+          "tick": 7511,
+          "csv": {
+            "line": 820,
+            "column": 2,
+            "row": [
+              "0.5",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 7494,
+              "line": 819,
+              "command": "bonestab"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 125.18333333393947
+        },
+        {
+          "shift_ticks": 4,
+          "shift_ms": 66.66666666700394,
+          "status": "collision",
+          "tick": 7510,
+          "csv": {
+            "line": 820,
+            "column": 2,
+            "row": [
+              "0.5",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 7494,
+              "line": 819,
+              "command": "bonestab"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 125.16666666727272
+        }
+      ]
+    },
+    {
+      "tick": 8133,
+      "kind": "arrows",
+      "before": 4,
+      "after": 0,
+      "seconds": 135.55000000065215,
+      "csv": {
+        "line": 897,
+        "column": 2,
+        "row": [
+          "0.25",
+          "GetHeartPos",
+          "HeartX",
+          "HeartY",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 8133,
+          "line": 896,
+          "command": "boneh"
+        },
+        "executed_this_tick": [
+          {
+            "tick": 8133,
+            "line": 895,
+            "command": "getheartpos"
+          },
+          {
+            "tick": 8133,
+            "line": 896,
+            "command": "boneh"
+          }
+        ],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      },
+      "early_safe_ticks_tested": 4,
+      "late_safe_ticks_tested": 1,
+      "early_safe_ms_tested": 66.6666666669471,
+      "late_safe_ms_tested": 16.666666666736774,
+      "frame_exact_locally": false,
+      "probes": [
+        {
+          "shift_ticks": -1,
+          "shift_ms": -16.666666666736774,
+          "status": "survived_local_prefix",
+          "through_tick": 8163
+        },
+        {
+          "shift_ticks": -2,
+          "shift_ms": -33.33333333347355,
+          "status": "survived_local_prefix",
+          "through_tick": 8163
+        },
+        {
+          "shift_ticks": -3,
+          "shift_ms": -50.00000000021032,
+          "status": "survived_local_prefix",
+          "through_tick": 8163
+        },
+        {
+          "shift_ticks": -4,
+          "shift_ms": -66.6666666669471,
+          "status": "survived_local_prefix",
+          "through_tick": 8163
+        },
+        {
+          "shift_ticks": 1,
+          "shift_ms": 16.666666666736774,
+          "status": "survived_local_prefix",
+          "through_tick": 8163
+        },
+        {
+          "shift_ticks": 2,
+          "shift_ms": 33.33333333347355,
+          "status": "collision",
+          "tick": 8134,
+          "csv": {
+            "line": 897,
+            "column": 2,
+            "row": [
+              "0.25",
+              "GetHeartPos",
+              "HeartX",
+              "HeartY",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 8133,
+              "line": 896,
+              "command": "boneh"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 135.56666666731888
+        },
+        {
+          "shift_ticks": 3,
+          "shift_ms": 50.00000000021032,
+          "status": "collision",
+          "tick": 8134,
+          "csv": {
+            "line": 897,
+            "column": 2,
+            "row": [
+              "0.25",
+              "GetHeartPos",
+              "HeartX",
+              "HeartY",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 8133,
+              "line": 896,
+              "command": "boneh"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 135.56666666731888
+        },
+        {
+          "shift_ticks": 4,
+          "shift_ms": 66.6666666669471,
+          "status": "collision",
+          "tick": 8134,
+          "csv": {
+            "line": 897,
+            "column": 2,
+            "row": [
+              "0.25",
+              "GetHeartPos",
+              "HeartX",
+              "HeartY",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 8133,
+              "line": 896,
+              "command": "boneh"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 135.56666666731888
+        }
+      ]
+    },
+    {
+      "tick": 11870,
+      "kind": "arrows",
+      "before": 1,
+      "after": 4,
+      "seconds": 197.83333333424747,
+      "csv": {
+        "line": 1454,
+        "column": 2,
+        "row": [
+          "1",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 11856,
+          "line": 1453,
+          "command": "bonev"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      },
+      "early_safe_ticks_tested": 4,
+      "late_safe_ticks_tested": 1,
+      "early_safe_ms_tested": 66.6666666669471,
+      "late_safe_ms_tested": 16.666666666736774,
+      "frame_exact_locally": false,
+      "probes": [
+        {
+          "shift_ticks": -1,
+          "shift_ms": -16.666666666736774,
+          "status": "survived_local_prefix",
+          "through_tick": 11900
+        },
+        {
+          "shift_ticks": -2,
+          "shift_ms": -33.33333333347355,
+          "status": "survived_local_prefix",
+          "through_tick": 11900
+        },
+        {
+          "shift_ticks": -3,
+          "shift_ms": -50.00000000021032,
+          "status": "survived_local_prefix",
+          "through_tick": 11900
+        },
+        {
+          "shift_ticks": -4,
+          "shift_ms": -66.6666666669471,
+          "status": "survived_local_prefix",
+          "through_tick": 11900
+        },
+        {
+          "shift_ticks": 1,
+          "shift_ms": 16.666666666736774,
+          "status": "survived_local_prefix",
+          "through_tick": 11900
+        },
+        {
+          "shift_ticks": 2,
+          "shift_ms": 33.33333333347355,
+          "status": "collision",
+          "tick": 11873,
+          "csv": {
+            "line": 1454,
+            "column": 2,
+            "row": [
+              "1",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 11856,
+              "line": 1453,
+              "command": "bonev"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 197.88333333424768
+        },
+        {
+          "shift_ticks": 3,
+          "shift_ms": 50.00000000021032,
+          "status": "collision",
+          "tick": 11873,
+          "csv": {
+            "line": 1454,
+            "column": 2,
+            "row": [
+              "1",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 11856,
+              "line": 1453,
+              "command": "bonev"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 197.88333333424768
+        },
+        {
+          "shift_ticks": 4,
+          "status": "not_tested",
+          "reason": "input_boundary_or_neighbor"
+        }
+      ]
+    },
+    {
+      "tick": 11926,
+      "kind": "arrows",
+      "before": 10,
+      "after": 9,
+      "seconds": 198.76666666758473,
+      "csv": {
+        "line": 1458,
+        "column": 2,
+        "row": [
+          "1",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 11916,
+          "line": 1457,
+          "command": "bonev"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      },
+      "early_safe_ticks_tested": 1,
+      "late_safe_ticks_tested": 3,
+      "early_safe_ms_tested": 16.666666666736774,
+      "late_safe_ms_tested": 50.00000000021032,
+      "frame_exact_locally": false,
+      "probes": [
+        {
+          "shift_ticks": -1,
+          "shift_ms": -16.666666666736774,
+          "status": "survived_local_prefix",
+          "through_tick": 11956
+        },
+        {
+          "shift_ticks": -2,
+          "shift_ms": -33.33333333347355,
+          "status": "collision",
+          "tick": 11929,
+          "csv": {
+            "line": 1458,
+            "column": 2,
+            "row": [
+              "1",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 11916,
+              "line": 1457,
+              "command": "bonev"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 198.81666666758494
+        },
+        {
+          "shift_ticks": -3,
+          "shift_ms": -50.00000000021032,
+          "status": "collision",
+          "tick": 11928,
+          "csv": {
+            "line": 1458,
+            "column": 2,
+            "row": [
+              "1",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 11916,
+              "line": 1457,
+              "command": "bonev"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 198.8000000009182
+        },
+        {
+          "shift_ticks": -4,
+          "shift_ms": -66.6666666669471,
+          "status": "collision",
+          "tick": 11928,
+          "csv": {
+            "line": 1458,
+            "column": 2,
+            "row": [
+              "1",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 11916,
+              "line": 1457,
+              "command": "bonev"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 198.8000000009182
+        },
+        {
+          "shift_ticks": 1,
+          "shift_ms": 16.666666666736774,
+          "status": "survived_local_prefix",
+          "through_tick": 11956
+        },
+        {
+          "shift_ticks": 2,
+          "shift_ms": 33.33333333347355,
+          "status": "survived_local_prefix",
+          "through_tick": 11956
+        },
+        {
+          "shift_ticks": 3,
+          "shift_ms": 50.00000000021032,
+          "status": "survived_local_prefix",
+          "through_tick": 11956
+        },
+        {
+          "shift_ticks": 4,
+          "status": "not_tested",
+          "reason": "input_boundary_or_neighbor"
+        }
+      ]
+    },
+    {
+      "tick": 12274,
+      "kind": "arrows",
+      "before": 6,
+      "after": 0,
+      "seconds": 204.56666666760913,
+      "csv": {
+        "line": 1474,
+        "column": 2,
+        "row": [
+          "1",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 12246,
+          "line": 1473,
+          "command": "bonev"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      },
+      "early_safe_ticks_tested": 4,
+      "late_safe_ticks_tested": 2,
+      "early_safe_ms_tested": 66.6666666669471,
+      "late_safe_ms_tested": 33.33333333347355,
+      "frame_exact_locally": false,
+      "probes": [
+        {
+          "shift_ticks": -1,
+          "shift_ms": -16.666666666736774,
+          "status": "survived_local_prefix",
+          "through_tick": 12304
+        },
+        {
+          "shift_ticks": -2,
+          "shift_ms": -33.33333333347355,
+          "status": "survived_local_prefix",
+          "through_tick": 12304
+        },
+        {
+          "shift_ticks": -3,
+          "shift_ms": -50.00000000021032,
+          "status": "survived_local_prefix",
+          "through_tick": 12304
+        },
+        {
+          "shift_ticks": -4,
+          "shift_ms": -66.6666666669471,
+          "status": "survived_local_prefix",
+          "through_tick": 12304
+        },
+        {
+          "shift_ticks": 1,
+          "shift_ms": 16.666666666736774,
+          "status": "survived_local_prefix",
+          "through_tick": 12304
+        },
+        {
+          "shift_ticks": 2,
+          "shift_ms": 33.33333333347355,
+          "status": "survived_local_prefix",
+          "through_tick": 12304
+        },
+        {
+          "shift_ticks": 3,
+          "shift_ms": 50.00000000021032,
+          "status": "collision",
+          "tick": 12276,
+          "csv": {
+            "line": 1474,
+            "column": 2,
+            "row": [
+              "1",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 12246,
+              "line": 1473,
+              "command": "bonev"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 204.6000000009426
+        },
+        {
+          "shift_ticks": 4,
+          "shift_ms": 66.6666666669471,
+          "status": "collision",
+          "tick": 12276,
+          "csv": {
+            "line": 1474,
+            "column": 2,
+            "row": [
+              "1",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 12246,
+              "line": 1473,
+              "command": "bonev"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 204.6000000009426
+        }
+      ]
+    },
+    {
+      "tick": 8370,
+      "kind": "arrows",
+      "before": 10,
+      "after": 0,
+      "seconds": 139.50000000066876,
+      "csv": {
+        "line": 931,
+        "column": 2,
+        "row": [
+          "0.25",
+          "GetHeartPos",
+          "HeartX",
+          "HeartY",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 8370,
+          "line": 930,
+          "command": "bonev"
+        },
+        "executed_this_tick": [
+          {
+            "tick": 8370,
+            "line": 927,
+            "command": "getheartpos"
+          },
+          {
+            "tick": 8370,
+            "line": 928,
+            "command": "boneh"
+          },
+          {
+            "tick": 8370,
+            "line": 929,
+            "command": "getheartpos"
+          },
+          {
+            "tick": 8370,
+            "line": 930,
+            "command": "bonev"
+          }
+        ],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      },
+      "early_safe_ticks_tested": 4,
+      "late_safe_ticks_tested": 3,
+      "early_safe_ms_tested": 66.6666666669471,
+      "late_safe_ms_tested": 50.00000000021032,
+      "frame_exact_locally": false,
+      "probes": [
+        {
+          "shift_ticks": -1,
+          "shift_ms": -16.666666666736774,
+          "status": "survived_local_prefix",
+          "through_tick": 8400
+        },
+        {
+          "shift_ticks": -2,
+          "shift_ms": -33.33333333347355,
+          "status": "survived_local_prefix",
+          "through_tick": 8400
+        },
+        {
+          "shift_ticks": -3,
+          "shift_ms": -50.00000000021032,
+          "status": "survived_local_prefix",
+          "through_tick": 8400
+        },
+        {
+          "shift_ticks": -4,
+          "shift_ms": -66.6666666669471,
+          "status": "survived_local_prefix",
+          "through_tick": 8400
+        },
+        {
+          "shift_ticks": 1,
+          "shift_ms": 16.666666666736774,
+          "status": "survived_local_prefix",
+          "through_tick": 8400
+        },
+        {
+          "shift_ticks": 2,
+          "shift_ms": 33.33333333347355,
+          "status": "survived_local_prefix",
+          "through_tick": 8400
+        },
+        {
+          "shift_ticks": 3,
+          "shift_ms": 50.00000000021032,
+          "status": "survived_local_prefix",
+          "through_tick": 8400
+        },
+        {
+          "shift_ticks": 4,
+          "shift_ms": 66.6666666669471,
+          "status": "collision",
+          "tick": 8373,
+          "csv": {
+            "line": 931,
+            "column": 2,
+            "row": [
+              "0.25",
+              "GetHeartPos",
+              "HeartX",
+              "HeartY",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "at_eof": false,
+            "timeline_running": true,
+            "last_executed": {
+              "tick": 8370,
+              "line": 930,
+              "command": "bonev"
+            },
+            "executed_this_tick": [],
+            "semantics": "execution_cursor_not_proven_hazard_origin"
+          },
+          "seconds": 139.55000000066897
+        }
+      ]
+    },
+    {
+      "tick": 8360,
+      "kind": "arrows",
+      "before": 4,
+      "after": 10,
+      "seconds": 139.3333333340014,
+      "csv": {
+        "line": 927,
+        "column": 2,
+        "row": [
+          "0.25",
+          "GetHeartPos",
+          "HeartX",
+          "HeartY",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 8355,
+          "line": 926,
+          "command": "boneh"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      },
+      "early_safe_ticks_tested": 4,
+      "late_safe_ticks_tested": 4,
+      "early_safe_ms_tested": 66.6666666669471,
+      "late_safe_ms_tested": 66.6666666669471,
+      "frame_exact_locally": false,
+      "probes": [
+        {
+          "shift_ticks": -1,
+          "shift_ms": -16.666666666736774,
+          "status": "survived_local_prefix",
+          "through_tick": 8390
+        },
+        {
+          "shift_ticks": -2,
+          "shift_ms": -33.33333333347355,
+          "status": "survived_local_prefix",
+          "through_tick": 8390
+        },
+        {
+          "shift_ticks": -3,
+          "shift_ms": -50.00000000021032,
+          "status": "survived_local_prefix",
+          "through_tick": 8390
+        },
+        {
+          "shift_ticks": -4,
+          "shift_ms": -66.6666666669471,
+          "status": "survived_local_prefix",
+          "through_tick": 8390
+        },
+        {
+          "shift_ticks": 1,
+          "shift_ms": 16.666666666736774,
+          "status": "survived_local_prefix",
+          "through_tick": 8390
+        },
+        {
+          "shift_ticks": 2,
+          "shift_ms": 33.33333333347355,
+          "status": "survived_local_prefix",
+          "through_tick": 8390
+        },
+        {
+          "shift_ticks": 3,
+          "shift_ms": 50.00000000021032,
+          "status": "survived_local_prefix",
+          "through_tick": 8390
+        },
+        {
+          "shift_ticks": 4,
+          "shift_ms": 66.6666666669471,
+          "status": "survived_local_prefix",
+          "through_tick": 8390
+        }
+      ]
+    },
+    {
+      "tick": 8489,
+      "kind": "arrows",
+      "before": 4,
+      "after": 0,
+      "seconds": 141.48333333401044,
+      "csv": {
+        "line": 945,
+        "column": 2,
+        "row": [
+          "0.25",
+          "GetHeartPos",
+          "HeartX",
+          "HeartY",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 8481,
+          "line": 944,
+          "command": "boneh"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      },
+      "early_safe_ticks_tested": 4,
+      "late_safe_ticks_tested": 4,
+      "early_safe_ms_tested": 66.6666666669471,
+      "late_safe_ms_tested": 66.6666666669471,
+      "frame_exact_locally": false,
+      "probes": [
+        {
+          "shift_ticks": -1,
+          "shift_ms": -16.666666666736774,
+          "status": "survived_local_prefix",
+          "through_tick": 8519
+        },
+        {
+          "shift_ticks": -2,
+          "shift_ms": -33.33333333347355,
+          "status": "survived_local_prefix",
+          "through_tick": 8519
+        },
+        {
+          "shift_ticks": -3,
+          "shift_ms": -50.00000000021032,
+          "status": "survived_local_prefix",
+          "through_tick": 8519
+        },
+        {
+          "shift_ticks": -4,
+          "shift_ms": -66.6666666669471,
+          "status": "survived_local_prefix",
+          "through_tick": 8519
+        },
+        {
+          "shift_ticks": 1,
+          "shift_ms": 16.666666666736774,
+          "status": "survived_local_prefix",
+          "through_tick": 8519
+        },
+        {
+          "shift_ticks": 2,
+          "shift_ms": 33.33333333347355,
+          "status": "survived_local_prefix",
+          "through_tick": 8519
+        },
+        {
+          "shift_ticks": 3,
+          "shift_ms": 50.00000000021032,
+          "status": "survived_local_prefix",
+          "through_tick": 8519
+        },
+        {
+          "shift_ticks": 4,
+          "shift_ms": 66.6666666669471,
+          "status": "survived_local_prefix",
+          "through_tick": 8519
+        }
+      ]
+    },
+    {
+      "tick": 11370,
+      "kind": "arrows",
+      "before": 6,
+      "after": 0,
+      "seconds": 189.50000000087908,
+      "csv": {
+        "line": 1424,
+        "column": 2,
+        "row": [
+          "1",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 11346,
+          "line": 1423,
+          "command": "bonev"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      },
+      "early_safe_ticks_tested": 4,
+      "late_safe_ticks_tested": 4,
+      "early_safe_ms_tested": 66.6666666669471,
+      "late_safe_ms_tested": 66.6666666669471,
+      "frame_exact_locally": false,
+      "probes": [
+        {
+          "shift_ticks": -1,
+          "shift_ms": -16.666666666736774,
+          "status": "survived_local_prefix",
+          "through_tick": 11400
+        },
+        {
+          "shift_ticks": -2,
+          "shift_ms": -33.33333333347355,
+          "status": "survived_local_prefix",
+          "through_tick": 11400
+        },
+        {
+          "shift_ticks": -3,
+          "shift_ms": -50.00000000021032,
+          "status": "survived_local_prefix",
+          "through_tick": 11400
+        },
+        {
+          "shift_ticks": -4,
+          "shift_ms": -66.6666666669471,
+          "status": "survived_local_prefix",
+          "through_tick": 11400
+        },
+        {
+          "shift_ticks": 1,
+          "shift_ms": 16.666666666736774,
+          "status": "survived_local_prefix",
+          "through_tick": 11400
+        },
+        {
+          "shift_ticks": 2,
+          "shift_ms": 33.33333333347355,
+          "status": "survived_local_prefix",
+          "through_tick": 11400
+        },
+        {
+          "shift_ticks": 3,
+          "shift_ms": 50.00000000021032,
+          "status": "survived_local_prefix",
+          "through_tick": 11400
+        },
+        {
+          "shift_ticks": 4,
+          "shift_ms": 66.6666666669471,
+          "status": "survived_local_prefix",
+          "through_tick": 11400
+        }
+      ]
+    },
+    {
+      "tick": 12034,
+      "kind": "arrows",
+      "before": 0,
+      "after": 9,
+      "seconds": 200.5666666675923,
+      "csv": {
+        "line": 1462,
+        "column": 2,
+        "row": [
+          "1",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 11976,
+          "line": 1461,
+          "command": "bonev"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      },
+      "early_safe_ticks_tested": 4,
+      "late_safe_ticks_tested": 4,
+      "early_safe_ms_tested": 66.6666666669471,
+      "late_safe_ms_tested": 66.6666666669471,
+      "frame_exact_locally": false,
+      "probes": [
+        {
+          "shift_ticks": -1,
+          "shift_ms": -16.666666666736774,
+          "status": "survived_local_prefix",
+          "through_tick": 12064
+        },
+        {
+          "shift_ticks": -2,
+          "shift_ms": -33.33333333347355,
+          "status": "survived_local_prefix",
+          "through_tick": 12064
+        },
+        {
+          "shift_ticks": -3,
+          "shift_ms": -50.00000000021032,
+          "status": "survived_local_prefix",
+          "through_tick": 12064
+        },
+        {
+          "shift_ticks": -4,
+          "shift_ms": -66.6666666669471,
+          "status": "survived_local_prefix",
+          "through_tick": 12064
+        },
+        {
+          "shift_ticks": 1,
+          "shift_ms": 16.666666666736774,
+          "status": "survived_local_prefix",
+          "through_tick": 12064
+        },
+        {
+          "shift_ticks": 2,
+          "shift_ms": 33.33333333347355,
+          "status": "survived_local_prefix",
+          "through_tick": 12064
+        },
+        {
+          "shift_ticks": 3,
+          "shift_ms": 50.00000000021032,
+          "status": "survived_local_prefix",
+          "through_tick": 12064
+        },
+        {
+          "shift_ticks": 4,
+          "shift_ms": 66.6666666669471,
+          "status": "survived_local_prefix",
+          "through_tick": 12064
+        }
+      ]
+    }
+  ],
+  "operations": {
+    "arrow_changes": 917,
+    "confirm_presses": 2,
+    "individual_arrow_key_transitions": 1842,
+    "max_simultaneous_arrows": 2,
+    "opposed_direction_frames": 0,
+    "effective_dialogue_confirms": 2,
+    "redundant_confirm_presses": 0,
+    "peak_events_per_second": 11,
+    "shortest_arrow_run_ms": 16.66666666653782
+  },
+  "blue_motion_lock_ticks": 215,
+  "blue_motion_lock_windows": [
+    {
+      "start_tick": 8000,
+      "end_tick": 8009,
+      "start_seconds": 133.33333333397616,
+      "end_seconds": 133.4833333339768,
+      "csv": {
+        "line": 877,
+        "column": 2,
+        "row": [
+          "0.25",
+          "GetHeartPos",
+          "HeartX",
+          "HeartY",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 7992,
+          "line": 876,
+          "command": "bonev"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      }
+    },
+    {
+      "start_tick": 8135,
+      "end_tick": 8144,
+      "start_seconds": 135.58333333398562,
+      "end_seconds": 135.73333333398625,
+      "csv": {
+        "line": 897,
+        "column": 2,
+        "row": [
+          "0.25",
+          "GetHeartPos",
+          "HeartX",
+          "HeartY",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 8133,
+          "line": 896,
+          "command": "boneh"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      }
+    },
+    {
+      "start_tick": 8268,
+      "end_tick": 8277,
+      "start_seconds": 137.8000000006616,
+      "end_seconds": 137.95000000066224,
+      "csv": {
+        "line": 915,
+        "column": 2,
+        "row": [
+          "0.25",
+          "GetHeartPos",
+          "HeartX",
+          "HeartY",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 8259,
+          "line": 914,
+          "command": "boneh"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      }
+    },
+    {
+      "start_tick": 8372,
+      "end_tick": 8381,
+      "start_seconds": 139.53333333400224,
+      "end_seconds": 139.68333333400287,
+      "csv": {
+        "line": 931,
+        "column": 2,
+        "row": [
+          "0.25",
+          "GetHeartPos",
+          "HeartX",
+          "HeartY",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 8370,
+          "line": 930,
+          "command": "bonev"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      }
+    },
+    {
+      "start_tick": 8496,
+      "end_tick": 8502,
+      "start_seconds": 141.6000000006776,
+      "end_seconds": 141.70000000067802,
+      "csv": {
+        "line": 949,
+        "column": 2,
+        "row": [
+          "0.25",
+          "GetHeartPos",
+          "HeartX",
+          "HeartY",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 8496,
+          "line": 948,
+          "command": "bonev"
+        },
+        "executed_this_tick": [
+          {
+            "tick": 8496,
+            "line": 945,
+            "command": "getheartpos"
+          },
+          {
+            "tick": 8496,
+            "line": 946,
+            "command": "boneh"
+          },
+          {
+            "tick": 8496,
+            "line": 947,
+            "command": "getheartpos"
+          },
+          {
+            "tick": 8496,
+            "line": 948,
+            "command": "bonev"
+          }
+        ],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      }
+    },
+    {
+      "start_tick": 8640,
+      "end_tick": 8649,
+      "start_seconds": 144.0000000006877,
+      "end_seconds": 144.15000000068832,
+      "csv": {
+        "line": 967,
+        "column": 2,
+        "row": [
+          "1.2",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 8622,
+          "line": 966,
+          "command": "bonev"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      }
+    },
+    {
+      "start_tick": 10427,
+      "end_tick": 10429,
+      "start_seconds": 173.7833333341463,
+      "end_seconds": 173.81666666747978,
+      "csv": {
+        "line": 1239,
+        "column": 2,
+        "row": [
+          "0.3",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 10414,
+          "line": 1238,
+          "command": "bonev"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      }
+    },
+    {
+      "start_tick": 11170,
+      "end_tick": 11170,
+      "start_seconds": 186.16666666753173,
+      "end_seconds": 186.16666666753173,
+      "csv": {
+        "line": 1374,
+        "column": 2,
+        "row": [
+          "0.032",
+          "BoneV",
+          "426",
+          "126",
+          "1000",
+          "2",
+          "600",
+          "1",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 11169,
+          "line": 1373,
+          "command": "bonev"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      }
+    },
+    {
+      "start_tick": 11172,
+      "end_tick": 11172,
+      "start_seconds": 186.2000000008652,
+      "end_seconds": 186.2000000008652,
+      "csv": {
+        "line": 1375,
+        "column": 2,
+        "row": [
+          "0.032",
+          "BoneV",
+          "426",
+          "126",
+          "1000",
+          "2",
+          "600",
+          "1",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 11171,
+          "line": 1374,
+          "command": "bonev"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      }
+    },
+    {
+      "start_tick": 11174,
+      "end_tick": 11174,
+      "start_seconds": 186.23333333419868,
+      "end_seconds": 186.23333333419868,
+      "csv": {
+        "line": 1376,
+        "column": 2,
+        "row": [
+          "0.032",
+          "BoneV",
+          "426",
+          "126",
+          "1000",
+          "2",
+          "600",
+          "1",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 11173,
+          "line": 1375,
+          "command": "bonev"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      }
+    },
+    {
+      "start_tick": 11176,
+      "end_tick": 11176,
+      "start_seconds": 186.26666666753215,
+      "end_seconds": 186.26666666753215,
+      "csv": {
+        "line": 1377,
+        "column": 2,
+        "row": [
+          "0.032",
+          "BoneV",
+          "426",
+          "126",
+          "1000",
+          "2",
+          "600",
+          "1",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 11175,
+          "line": 1376,
+          "command": "bonev"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      }
+    },
+    {
+      "start_tick": 11178,
+      "end_tick": 11178,
+      "start_seconds": 186.30000000086562,
+      "end_seconds": 186.30000000086562,
+      "csv": {
+        "line": 1378,
+        "column": 2,
+        "row": [
+          "0.032",
+          "BoneV",
+          "426",
+          "126",
+          "1000",
+          "2",
+          "600",
+          "1",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 11177,
+          "line": 1377,
+          "command": "bonev"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      }
+    },
+    {
+      "start_tick": 11180,
+      "end_tick": 11180,
+      "start_seconds": 186.3333333341991,
+      "end_seconds": 186.3333333341991,
+      "csv": {
+        "line": 1380,
+        "column": 2,
+        "row": [
+          "0.032",
+          "BoneV",
+          "426",
+          "126",
+          "1000",
+          "2",
+          "600",
+          "1",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 11180,
+          "line": 1379,
+          "command": "bonev"
+        },
+        "executed_this_tick": [
+          {
+            "tick": 11180,
+            "line": 1379,
+            "command": "bonev"
+          }
+        ],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      }
+    },
+    {
+      "start_tick": 11182,
+      "end_tick": 11182,
+      "start_seconds": 186.36666666753257,
+      "end_seconds": 186.36666666753257,
+      "csv": {
+        "line": 1381,
+        "column": 2,
+        "row": [
+          "0.032",
+          "BoneV",
+          "426",
+          "126",
+          "1000",
+          "2",
+          "600",
+          "1",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 11182,
+          "line": 1380,
+          "command": "bonev"
+        },
+        "executed_this_tick": [
+          {
+            "tick": 11182,
+            "line": 1380,
+            "command": "bonev"
+          }
+        ],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      }
+    },
+    {
+      "start_tick": 11184,
+      "end_tick": 11184,
+      "start_seconds": 186.40000000086604,
+      "end_seconds": 186.40000000086604,
+      "csv": {
+        "line": 1382,
+        "column": 2,
+        "row": [
+          "0.032",
+          "BoneV",
+          "426",
+          "126",
+          "1000",
+          "2",
+          "600",
+          "1",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 11184,
+          "line": 1381,
+          "command": "bonev"
+        },
+        "executed_this_tick": [
+          {
+            "tick": 11184,
+            "line": 1381,
+            "command": "bonev"
+          }
+        ],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      }
+    },
+    {
+      "start_tick": 11186,
+      "end_tick": 11186,
+      "start_seconds": 186.43333333419952,
+      "end_seconds": 186.43333333419952,
+      "csv": {
+        "line": 1383,
+        "column": 2,
+        "row": [
+          "0.032",
+          "BoneV",
+          "426",
+          "126",
+          "1000",
+          "2",
+          "600",
+          "1",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 11186,
+          "line": 1382,
+          "command": "bonev"
+        },
+        "executed_this_tick": [
+          {
+            "tick": 11186,
+            "line": 1382,
+            "command": "bonev"
+          }
+        ],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      }
+    },
+    {
+      "start_tick": 11188,
+      "end_tick": 11189,
+      "start_seconds": 186.466666667533,
+      "end_seconds": 186.48333333419973,
+      "csv": {
+        "line": 1384,
+        "column": 2,
+        "row": [
+          "0.032",
+          "BoneV",
+          "426",
+          "126",
+          "1000",
+          "2",
+          "600",
+          "1",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 11188,
+          "line": 1383,
+          "command": "bonev"
+        },
+        "executed_this_tick": [
+          {
+            "tick": 11188,
+            "line": 1383,
+            "command": "bonev"
+          }
+        ],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      }
+    },
+    {
+      "start_tick": 11191,
+      "end_tick": 11191,
+      "start_seconds": 186.5166666675332,
+      "end_seconds": 186.5166666675332,
+      "csv": {
+        "line": 1385,
+        "column": 2,
+        "row": [
+          "0.032",
+          "BoneV",
+          "426",
+          "126",
+          "1000",
+          "2",
+          "600",
+          "1",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 11190,
+          "line": 1384,
+          "command": "bonev"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      }
+    },
+    {
+      "start_tick": 11193,
+      "end_tick": 11193,
+      "start_seconds": 186.55000000086667,
+      "end_seconds": 186.55000000086667,
+      "csv": {
+        "line": 1386,
+        "column": 2,
+        "row": [
+          "0.032",
+          "BoneV",
+          "426",
+          "126",
+          "1000",
+          "2",
+          "600",
+          "1",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 11192,
+          "line": 1385,
+          "command": "bonev"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      }
+    },
+    {
+      "start_tick": 11195,
+      "end_tick": 11195,
+      "start_seconds": 186.58333333420015,
+      "end_seconds": 186.58333333420015,
+      "csv": {
+        "line": 1387,
+        "column": 2,
+        "row": [
+          "0.032",
+          "BoneV",
+          "426",
+          "126",
+          "1000",
+          "2",
+          "600",
+          "1",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "at_eof": false,
+        "timeline_running": true,
+        "last_executed": {
+          "tick": 11194,
+          "line": 1386,
+          "command": "bonev"
+        },
+        "executed_this_tick": [],
+        "semantics": "execution_cursor_not_proven_hazard_origin"
+      }
+    }
+  ],
+  "timing_coverage": {
+    "total_events": 919,
+    "tested_events": 24,
+    "event_limit": 24,
+    "truncated": true,
+    "requested_horizon_seconds": 0.5,
+    "max_horizon_ticks": 240,
+    "max_shift_ticks": 4,
+    "selection": "spatial risk with time separation, then temporal strata",
+    "scope": "local_prefix_only; each probe reexecutes source and its own GetHeartPos",
+    "full_suffix_verified": false
+  },
+  "human_feasibility": {
+    "estimate": "manual_play_extremely_demanding",
+    "flags": [
+      "路线存在不超过 3px 的单侧空间余量",
+      "抽测中存在提前或延后一 tick 均碰撞的操作",
+      "路线存在一秒内至少八次输入事件"
+    ],
+    "actual_human_clear_verified": false,
+    "probability": null,
+    "impossibility_proven": false,
+    "alternative_easier_route_may_exist": true
+  },
+  "coverage": {
+    "source_ticks": 27952,
+    "route_ticks": 27954,
+    "release_tail_excluded": 2
+  },
+  "analysis_seconds": 2.0986926370005676,
+  "limitations": [
+    "Spatial clearance is instantaneous, not a guarantee under velocity/input errors.",
+    "Only selected input events and bounded local timing shifts were tested.",
+    "A hard found route does not prove the attack is humanly impossible."
+  ]
+}

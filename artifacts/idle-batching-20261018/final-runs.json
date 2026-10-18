@@ -1,0 +1,104 @@
+[
+  {
+    "name": "final-default-1",
+    "options": {
+      "width": 8192,
+      "workers": 4,
+      "observation_chunk_ticks": 240,
+      "observation_preview_ticks": 240,
+      "observation_goal_style": 16
+    },
+    "status": "unknown",
+    "verified": false,
+    "reached": 4104,
+    "seconds": 23.049923530000342,
+    "search_seconds": null,
+    "verify_seconds": null,
+    "expanded": null
+  },
+  {
+    "name": "final-narrow-1",
+    "options": {
+      "width": 128,
+      "workers": 1,
+      "observation_chunk_ticks": 240,
+      "observation_preview_ticks": 60,
+      "observation_goal_style": 16
+    },
+    "status": "unknown",
+    "verified": false,
+    "reached": 4104,
+    "seconds": 17.480537138999807,
+    "search_seconds": null,
+    "verify_seconds": null,
+    "expanded": null
+  },
+  {
+    "name": "final-default-2",
+    "options": {
+      "width": 8192,
+      "workers": 4,
+      "observation_chunk_ticks": 240,
+      "observation_preview_ticks": 240,
+      "observation_goal_style": 16
+    },
+    "status": "unknown",
+    "verified": false,
+    "reached": 4104,
+    "seconds": 23.02824805599994,
+    "search_seconds": null,
+    "verify_seconds": null,
+    "expanded": null
+  },
+  {
+    "name": "final-narrow-2",
+    "options": {
+      "width": 128,
+      "workers": 1,
+      "observation_chunk_ticks": 240,
+      "observation_preview_ticks": 60,
+      "observation_goal_style": 16
+    },
+    "status": "unknown",
+    "verified": false,
+    "reached": 4104,
+    "seconds": 16.85630523100008,
+    "search_seconds": null,
+    "verify_seconds": null,
+    "expanded": null
+  },
+  {
+    "name": "final-default-3",
+    "options": {
+      "width": 8192,
+      "workers": 4,
+      "observation_chunk_ticks": 240,
+      "observation_preview_ticks": 240,
+      "observation_goal_style": 16
+    },
+    "status": "unknown",
+    "verified": false,
+    "reached": 4104,
+    "seconds": 22.86889866799993,
+    "search_seconds": null,
+    "verify_seconds": null,
+    "expanded": null
+  },
+  {
+    "name": "final-narrow-3",
+    "options": {
+      "width": 128,
+      "workers": 1,
+      "observation_chunk_ticks": 240,
+      "observation_preview_ticks": 60,
+      "observation_goal_style": 16
+    },
+    "status": "unknown",
+    "verified": false,
+    "reached": 4104,
+    "seconds": 17.812732367999615,
+    "search_seconds": null,
+    "verify_seconds": null,
+    "expanded": null
+  }
+]

@@ -1,0 +1,1903 @@
+TAP version 13
+# Subtest: Dashboard solving is a main entry and defaults to light preview without budget tuning
+ok 1 - Dashboard solving is a main entry and defaults to light preview without budget tuning
+  ---
+  duration_ms: 7.014787
+  type: 'test'
+  ...
+# Subtest: entry preview plays the full exact trajectory and inputs without inventing later geometry
+ok 2 - entry preview plays the full exact trajectory and inputs without inventing later geometry
+  ---
+  duration_ms: 4.749828
+  type: 'test'
+  ...
+# Subtest: entry preview rejects incomplete exact clocks and mismatched source entry
+ok 3 - entry preview rejects incomplete exact clocks and mismatched source entry
+  ---
+  duration_ms: 4.841344
+  type: 'test'
+  ...
+# Subtest: native launch keeps Dashboard open, shares progress identity and receives only its own result
+ok 4 - native launch keeps Dashboard open, shares progress identity and receives only its own result
+  ---
+  duration_ms: 21.2036
+  type: 'test'
+  ...
+# Subtest: retry switches polling only from the active game and ignores stale in-flight progress
+ok 5 - retry switches polling only from the active game and ignores stale in-flight progress
+  ---
+  duration_ms: 6.1012
+  type: 'test'
+  ...
+# Subtest: query monitoring is read-only and never derives ETA from budget percentages
+ok 6 - query monitoring is read-only and never derives ETA from budget percentages
+  ---
+  duration_ms: 1.714296
+  type: 'test'
+  ...
+# Subtest: Dashboard ETA displays server estimates with stage scope and clears them when unavailable or terminal
+ok 7 - Dashboard ETA displays server estimates with stage scope and clears them when unavailable or terminal
+  ---
+  duration_ms: 3.87612
+  type: 'test'
+  ...
+# Subtest: native retry clears the preceding ETA while its new progress channel is waiting
+ok 8 - native retry clears the preceding ETA while its new progress channel is waiting
+  ---
+  duration_ms: 1.408858
+  type: 'test'
+  ...
+# Subtest: closing the running game stops Dashboard polling and keeps both solve entries usable
+ok 9 - closing the running game stops Dashboard polling and keeps both solve entries usable
+  ---
+  duration_ms: 7.550078
+  type: 'test'
+  ...
+# Subtest: elapsed time continues across unchanged server snapshots and freezes on completion
+ok 10 - elapsed time continues across unchanged server snapshots and freezes on completion
+  ---
+  duration_ms: 4.688987
+  type: 'test'
+  ...
+# Subtest: a verified candidate displays no-handler warnings without disabling playback and clears stale warnings
+ok 11 - a verified candidate displays no-handler warnings without disabling playback and clears stale warnings
+  ---
+  duration_ms: 4.776157
+  type: 'test'
+  ...
+# Subtest: sanitized direct damage warns without blocking the verified model candidate
+ok 12 - sanitized direct damage warns without blocking the verified model candidate
+  ---
+  duration_ms: 1.404302
+  type: 'test'
+  ...
+# Subtest: automatic budget result shows its profile and a useful retry message without asking for tuning
+ok 13 - automatic budget result shows its profile and a useful retry message without asking for tuning
+  ---
+  duration_ms: 5.285319
+  type: 'test'
+  ...
+# Subtest: terminal proof failure reports the finite avoidance candidate and ends progress without claiming success
+ok 14 - terminal proof failure reports the finite avoidance candidate and ends progress without claiming success
+  ---
+  duration_ms: 1.722117
+  type: 'test'
+  ...
+# Subtest: unknown terminal proof reasons retain their code and missing details stay explicitly unknown
+ok 15 - unknown terminal proof reasons retain their code and missing details stay explicitly unknown
+  ---
+  duration_ms: 2.232331
+  type: 'test'
+  ...
+# Subtest: POST completion and request failure always leave progress in a terminal state
+ok 16 - POST completion and request failure always leave progress in a terminal state
+  ---
+  duration_ms: 9.031865
+  type: 'test'
+  ...
+# Subtest: frame zero is observation; later frames show the input that reached them
+ok 17 - frame zero is observation; later frames show the input that reached them
+  ---
+  duration_ms: 1.375929
+  type: 'test'
+  ...
+# Subtest: displayed hazard hitbox matches the source collision radius 2, not the larger wall-contact body
+ok 18 - displayed hazard hitbox matches the source collision radius 2, not the larger wall-contact body
+  ---
+  duration_ms: 1.15629
+  type: 'test'
+  ...
+# Subtest: playback obeys returned frame times, including unequal time steps
+ok 19 - playback obeys returned frame times, including unequal time steps
+  ---
+  duration_ms: 5.555213
+  type: 'test'
+  ...
+# Subtest: a following unknown request clears the prior candidate and cannot display stale playback
+ok 20 - a following unknown request clears the prior candidate and cannot display stale playback
+  ---
+  duration_ms: 1.386405
+  type: 'test'
+  ...
+# Subtest: request uses the direct path or exact pasted CSV API contract
+ok 21 - request uses the direct path or exact pasted CSV API contract
+  ---
+  duration_ms: 6.587829
+  type: 'test'
+  ...
+# Subtest: manual budget remains an explicit advanced option for source-model requests
+ok 22 - manual budget remains an explicit advanced option for source-model requests
+  ---
+  duration_ms: 1.182269
+  type: 'test'
+  ...
+# Subtest: CSV requests always use the current solver and carry live progress identity
+ok 23 - CSV requests always use the current solver and carry live progress identity
+  ---
+  duration_ms: 6.96357
+  type: 'test'
+  ...
+# Subtest: the file picker submits the chosen CSV text and never a path
+ok 24 - the file picker submits the chosen CSV text and never a path
+  ---
+  duration_ms: 1.471582
+  type: 'test'
+  ...
+# Subtest: inconsistent geometry and input lengths refuse playback
+ok 25 - inconsistent geometry and input lengths refuse playback
+  ---
+  duration_ms: 6.193589
+  type: 'test'
+  ...
+# Subtest: unsupported mechanisms show source lines rather than a search-budget failure
+ok 26 - unsupported mechanisms show source lines rather than a search-budget failure
+  ---
+  duration_ms: 1.246185
+  type: 'test'
+  ...
+# Subtest: a missing endpoint does not retry when other source mechanisms remain unsupported
+ok 27 - a missing endpoint does not retry when other source mechanisms remain unsupported
+  ---
+  duration_ms: 1.051143
+  type: 'test'
+  ...
+# Subtest: EOF retry starts fresh live progress after the first progress channel completed
+ok 28 - EOF retry starts fresh live progress after the first progress channel completed
+  ---
+  duration_ms: 34.910011
+  type: 'test'
+  ...
+# Subtest: EOF retry starts fresh live progress after a delayed old snapshot
+ok 29 - EOF retry starts fresh live progress after a delayed old snapshot
+  ---
+  duration_ms: 6.187279
+  type: 'test'
+  ...
+# Subtest: EOF executes the two public neutral frames exactly once and preserves native end flags
+ok 30 - EOF executes the two public neutral frames exactly once and preserves native end flags
+  ---
+  duration_ms: 17.493338
+  type: 'test'
+  ...
+# Subtest: EndAttack default still requires the real final event
+ok 31 - EndAttack default still requires the real final event
+  ---
+  duration_ms: 3.102923
+  type: 'test'
+  ...
+# Subtest: default EndAttack policy rejects EOF fails before playback
+ok 32 - default EndAttack policy rejects EOF fails before playback
+  ---
+  duration_ms: 4.490199
+  type: 'test'
+  ...
+# Subtest: one release frame fails before playback
+ok 33 - one release frame fails before playback
+  ---
+  duration_ms: 2.540152
+  type: 'test'
+  ...
+# Subtest: nonneutral release fails before playback
+ok 34 - nonneutral release fails before playback
+  ---
+  duration_ms: 4.232103
+  type: 'test'
+  ...
+# Subtest: Confirm in release fails before playback
+ok 35 - Confirm in release fails before playback
+  ---
+  duration_ms: 2.925728
+  type: 'test'
+  ...
+# Subtest: changed certificate endpoint fails before playback
+ok 36 - changed certificate endpoint fails before playback
+  ---
+  duration_ms: 2.918297
+  type: 'test'
+  ...
+# Subtest: unsupported certificate version fails before playback
+ok 37 - unsupported certificate version fails before playback
+  ---
+  duration_ms: 2.147523
+  type: 'test'
+  ...
+# Subtest: claim native verification in backend fails before playback
+ok 38 - claim native verification in backend fails before playback
+  ---
+  duration_ms: 7.249919
+  type: 'test'
+  ...
+# Subtest: changed termination policy fails before playback
+ok 39 - changed termination policy fails before playback
+  ---
+  duration_ms: 6.919024
+  type: 'test'
+  ...
+# Subtest: unexpected EndAttack rejects completed EOF
+ok 40 - unexpected EndAttack rejects completed EOF
+  ---
+  duration_ms: 4.67755
+  type: 'test'
+  ...
+# Subtest: missing native observer rejects completed EOF
+ok 41 - missing native observer rejects completed EOF
+  ---
+  duration_ms: 1.88426
+  type: 'test'
+  ...
+# Subtest: tiny final state difference rejects completed EOF
+ok 42 - tiny final state difference rejects completed EOF
+  ---
+  duration_ms: 2.246071
+  type: 'test'
+  ...
+# Subtest: EOF endpoint is observed with exact native queue, source and input facts
+ok 43 - EOF endpoint is observed with exact native queue, source and input facts
+  ---
+  duration_ms: 5.82087
+  type: 'test'
+  ...
+# Subtest: missing hazard type cannot certify an EOF endpoint
+ok 44 - missing hazard type cannot certify an EOF endpoint
+  ---
+  duration_ms: 1.558232
+  type: 'test'
+  ...
+# Subtest: missing family cannot certify an EOF endpoint
+ok 45 - missing family cannot certify an EOF endpoint
+  ---
+  duration_ms: 1.220326
+  type: 'test'
+  ...
+# Subtest: residual platform cannot certify an EOF endpoint
+ok 46 - residual platform cannot certify an EOF endpoint
+  ---
+  duration_ms: 2.379721
+  type: 'test'
+  ...
+# Subtest: missing wait queue cannot certify an EOF endpoint
+ok 47 - missing wait queue cannot certify an EOF endpoint
+  ---
+  duration_ms: 1.360957
+  type: 'test'
+  ...
+# Subtest: pending wait cannot certify an EOF endpoint
+ok 48 - pending wait cannot certify an EOF endpoint
+  ---
+  duration_ms: 1.446154
+  type: 'test'
+  ...
+# Subtest: missing layout transition field cannot certify an EOF endpoint
+ok 49 - missing layout transition field cannot certify an EOF endpoint
+  ---
+  duration_ms: 1.220667
+  type: 'test'
+  ...
+# Subtest: pending layout cannot certify an EOF endpoint
+ok 50 - pending layout cannot certify an EOF endpoint
+  ---
+  duration_ms: 1.00228
+  type: 'test'
+  ...
+# Subtest: loading cannot certify an EOF endpoint
+ok 51 - loading cannot certify an EOF endpoint
+  ---
+  duration_ms: 1.057472
+  type: 'test'
+  ...
+# Subtest: wrong layout cannot certify an EOF endpoint
+ok 52 - wrong layout cannot certify an EOF endpoint
+  ---
+  duration_ms: 1.27668
+  type: 'test'
+  ...
+# Subtest: previous Confirm still down cannot certify an EOF endpoint
+ok 53 - previous Confirm still down cannot certify an EOF endpoint
+  ---
+  duration_ms: 1.358924
+  type: 'test'
+  ...
+# Subtest: alternate owned key still down cannot certify an EOF endpoint
+ok 54 - alternate owned key still down cannot certify an EOF endpoint
+  ---
+  duration_ms: 3.070394
+  type: 'test'
+  ...
+# Subtest: arena callback cannot certify an EOF endpoint
+ok 55 - arena callback cannot certify an EOF endpoint
+  ---
+  duration_ms: 0.920978
+  type: 'test'
+  ...
+# Subtest: arena resizing cannot certify an EOF endpoint
+ok 56 - arena resizing cannot certify an EOF endpoint
+  ---
+  duration_ms: 0.895259
+  type: 'test'
+  ...
+# Subtest: dialogue still alive cannot certify an EOF endpoint
+ok 57 - dialogue still alive cannot certify an EOF endpoint
+  ---
+  duration_ms: 0.936021
+  type: 'test'
+  ...
+# Subtest: not EOF cannot certify an EOF endpoint
+ok 58 - not EOF cannot certify an EOF endpoint
+  ---
+  duration_ms: 0.939586
+  type: 'test'
+  ...
+# Subtest: passive UI callback cannot certify an EOF endpoint
+ok 59 - passive UI callback cannot certify an EOF endpoint
+  ---
+  duration_ms: 1.011513
+  type: 'test'
+  ...
+# Subtest: passive UI replaced cannot certify an EOF endpoint
+ok 60 - passive UI replaced cannot certify an EOF endpoint
+  ---
+  duration_ms: 1.170802
+  type: 'test'
+  ...
+# Subtest: malformed border polygon cannot certify an EOF endpoint
+ok 61 - malformed border polygon cannot certify an EOF endpoint
+  ---
+  duration_ms: 0.955671
+  type: 'test'
+  ...
+# Subtest: EndAttack records distinct native entry/return and the actual Timeline caller
+ok 62 - EndAttack records distinct native entry/return and the actual Timeline caller
+  ---
+  duration_ms: 1.704571
+  type: 'test'
+  ...
+# Subtest: callback EndAttack cannot acquire direct Timeline provenance from the loaded row
+ok 63 - callback EndAttack cannot acquire direct Timeline provenance from the loaded row
+  ---
+  duration_ms: 0.943352
+  type: 'test'
+  ...
+# Subtest: native button registers a trimmed path then navigates with source and search parameters at 30Hz
+ok 64 - native button registers a trimmed path then navigates with source and search parameters at 30Hz
+  ---
+  duration_ms: 9.746776
+  type: 'test'
+  ...
+# Subtest: native button registers a trimmed path then navigates with source and search parameters at 60Hz
+ok 65 - native button registers a trimmed path then navigates with source and search parameters at 60Hz
+  ---
+  duration_ms: 1.808816
+  type: 'test'
+  ...
+# Subtest: native button registers a trimmed path then navigates with source and search parameters at 120Hz
+ok 66 - native button registers a trimmed path then navigates with source and search parameters at 120Hz
+  ---
+  duration_ms: 5.624507
+  type: 'test'
+  ...
+# Subtest: native button registers a trimmed path then navigates with source and search parameters at 240Hz
+ok 67 - native button registers a trimmed path then navigates with source and search parameters at 240Hz
+  ---
+  duration_ms: 8.864325
+  type: 'test'
+  ...
+# Subtest: native launch defaults to automatic budget without forwarding stale slider values
+ok 68 - native launch defaults to automatic budget without forwarding stale slider values
+  ---
+  duration_ms: 1.059235
+  type: 'test'
+  ...
+# Subtest: native launch forwards the original import identity separately from executable source identity
+ok 69 - native launch forwards the original import identity separately from executable source identity
+  ---
+  duration_ms: 2.153753
+  type: 'test'
+  ...
+# Subtest: pasted CSV reaches registration byte-for-byte, including BOM, CRLF and surrounding whitespace
+ok 70 - pasted CSV reaches registration byte-for-byte, including BOM, CRLF and surrounding whitespace
+  ---
+  duration_ms: 6.892775
+  type: 'test'
+  ...
+# Subtest: a picked file is read and registered by the native entry in file mode
+ok 71 - a picked file is read and registered by the native entry in file mode
+  ---
+  duration_ms: 1.5774
+  type: 'test'
+  ...
+# Subtest: the native entry reports a missing pick instead of registering an empty source
+ok 72 - the native entry reports a missing pick instead of registering an empty source
+  ---
+  duration_ms: 0.799997
+  type: 'test'
+  ...
+# Subtest: a pending registration disables native launch and rejects duplicate clicks
+ok 73 - a pending registration disables native launch and rejects duplicate clicks
+  ---
+  duration_ms: 4.071052
+  type: 'test'
+  ...
+# Subtest: empty path input does not register or navigate
+ok 74 - empty path input does not register or navigate
+  ---
+  duration_ms: 1.05593
+  type: 'test'
+  ...
+# Subtest: empty text input does not register or navigate
+ok 75 - empty text input does not register or navigate
+  ---
+  duration_ms: 0.783252
+  type: 'test'
+  ...
+# Subtest: HTTP error keeps the user on the form and permits retry
+ok 76 - HTTP error keeps the user on the form and permits retry
+  ---
+  duration_ms: 0.867878
+  type: 'test'
+  ...
+# Subtest: network exception keeps the user on the form and permits retry
+ok 77 - network exception keeps the user on the form and permits retry
+  ---
+  duration_ms: 0.812436
+  type: 'test'
+  ...
+# Subtest: invalid JSON keeps the user on the form and permits retry
+ok 78 - invalid JSON keeps the user on the form and permits retry
+  ---
+  duration_ms: 4.87833
+  type: 'test'
+  ...
+# Subtest: missing identity keeps the user on the form and permits retry
+ok 79 - missing identity keeps the user on the form and permits retry
+  ---
+  duration_ms: 2.736865
+  type: 'test'
+  ...
+# Subtest: malformed identity keeps the user on the form and permits retry
+ok 80 - malformed identity keeps the user on the form and permits retry
+  ---
+  duration_ms: 0.546718
+  type: 'test'
+  ...
+# Subtest: error payload with HTTP 200 keeps the user on the form and permits retry
+ok 81 - error payload with HTTP 200 keeps the user on the form and permits retry
+  ---
+  duration_ms: 0.820477
+  type: 'test'
+  ...
+# Subtest: blocked popup keeps Dashboard usable and sends no registration request
+ok 82 - blocked popup keeps Dashboard usable and sends no registration request
+  ---
+  duration_ms: 0.635751
+  type: 'test'
+  ...
+# Subtest: closing the reserved tab during registration reports the closure and permits retry
+ok 83 - closing the reserved tab during registration reports the closure and permits retry
+  ---
+  duration_ms: 0.772877
+  type: 'test'
+  ...
+# Subtest: unsupported source admission lists its command on the form and never launches the game
+ok 84 - unsupported source admission lists its command on the form and never launches the game
+  ---
+  duration_ms: 1.911054
+  type: 'test'
+  ...
+# Subtest: source admission keeps no-handler warnings visible with supported=true
+ok 85 - source admission keeps no-handler warnings visible with supported=true
+  ---
+  duration_ms: 1.868456
+  type: 'test'
+  ...
+# Subtest: source admission keeps no-handler warnings visible with supported=false
+ok 86 - source admission keeps no-handler warnings visible with supported=false
+  ---
+  duration_ms: 1.594897
+  type: 'test'
+  ...
+# Subtest: full attempt includes prepare, fetch/body/JSON and candidate validation/installation
+ok 87 - full attempt includes prepare, fetch/body/JSON and candidate validation/installation
+  ---
+  duration_ms: 8.209044
+  type: 'test'
+  ...
+# Subtest: unknown and retry retain separate attempts while excluding user idle time
+ok 88 - unknown and retry retain separate attempts while excluding user idle time
+  ---
+  duration_ms: 3.594809
+  type: 'test'
+  ...
+# Subtest: prepare rejects finalizes the correct attempt exactly once
+ok 89 - prepare rejects finalizes the correct attempt exactly once
+  ---
+  duration_ms: 2.317378
+  type: 'test'
+  ...
+# Subtest: fetch rejects finalizes the correct attempt exactly once
+ok 90 - fetch rejects finalizes the correct attempt exactly once
+  ---
+  duration_ms: 1.608507
+  type: 'test'
+  ...
+# Subtest: body JSON rejects finalizes the correct attempt exactly once
+ok 91 - body JSON rejects finalizes the correct attempt exactly once
+  ---
+  duration_ms: 1.65038
+  type: 'test'
+  ...
+# Subtest: HTTP error finalizes the correct attempt exactly once
+ok 92 - HTTP error finalizes the correct attempt exactly once
+  ---
+  duration_ms: 1.849978
+  type: 'test'
+  ...
+# Subtest: plan validation fails finalizes the correct attempt exactly once
+ok 93 - plan validation fails finalizes the correct attempt exactly once
+  ---
+  duration_ms: 1.574887
+  type: 'test'
+  ...
+# Subtest: installation callback throws finalizes the correct attempt exactly once
+ok 94 - installation callback throws finalizes the correct attempt exactly once
+  ---
+  duration_ms: 1.599423
+  type: 'test'
+  ...
+# Subtest: cancel closes fetch immediately; late resolve cannot extend totals or install a candidate
+ok 95 - cancel closes fetch immediately; late resolve cannot extend totals or install a candidate
+  ---
+  duration_ms: 1.814055
+  type: 'test'
+  ...
+# Subtest: cancel closes fetch immediately; late reject cannot extend totals or install a candidate
+ok 96 - cancel closes fetch immediately; late reject cannot extend totals or install a candidate
+  ---
+  duration_ms: 1.907344
+  type: 'test'
+  ...
+# Subtest: cancel closes json immediately; late resolve cannot extend totals or install a candidate
+ok 97 - cancel closes json immediately; late resolve cannot extend totals or install a candidate
+  ---
+  duration_ms: 3.752296
+  type: 'test'
+  ...
+# Subtest: cancel closes json immediately; late reject cannot extend totals or install a candidate
+ok 98 - cancel closes json immediately; late reject cannot extend totals or install a candidate
+  ---
+  duration_ms: 1.334817
+  type: 'test'
+  ...
+# Subtest: a failed retry preparation cannot inherit the previous request id
+ok 99 - a failed retry preparation cannot inherit the previous request id
+  ---
+  duration_ms: 1.947985
+  type: 'test'
+  ...
+# Subtest: a solve status hook rejection is observed without swallowing the existing rejection
+ok 100 - a solve status hook rejection is observed without swallowing the existing rejection
+  ---
+  duration_ms: 1.534786
+  type: 'test'
+  ...
+# Subtest: cancel during preparation records a null request id and excludes its late completion
+ok 101 - cancel during preparation records a null request id and excludes its late completion
+  ---
+  duration_ms: 1.04234
+  type: 'test'
+  ...
+# Subtest: explicit observation query options reach the solver request and reproducible recipe
+ok 102 - explicit observation query options reach the solver request and reproducible recipe
+  ---
+  duration_ms: 5.937985
+  type: 'test'
+  ...
+# Subtest: observation options stay omitted by default and preserve an explicit disabled retry flag
+ok 103 - observation options stay omitted by default and preserve an explicit disabled retry flag
+  ---
+  duration_ms: 7.566063
+  type: 'test'
+  ...
+# Subtest: native HUD shows time before telemetry and keeps counting through unchanged server counters
+ok 104 - native HUD shows time before telemetry and keeps counting through unchanged server counters
+  ---
+  duration_ms: 43.313816
+  type: 'test'
+  ...
+# Subtest: a slow progress response cannot block elapsed time or apply after cancellation
+ok 105 - a slow progress response cannot block elapsed time or apply after cancellation
+  ---
+  duration_ms: 8.154193
+  type: 'test'
+  ...
+# Subtest: terminal telemetry keeps its raw fraction without displaying percentages or ETA
+ok 106 - terminal telemetry keeps its raw fraction without displaying percentages or ETA
+  ---
+  duration_ms: 2.154794
+  type: 'test'
+  ...
+# Subtest: a supplied progress identity is shared with provenance once and retries receive fresh identities
+ok 107 - a supplied progress identity is shared with provenance once and retries receive fresh identities
+  ---
+  duration_ms: 2.11864
+  type: 'test'
+  ...
+# Subtest: an invalid candidate never reaches the dashboard as a verified result
+ok 108 - an invalid candidate never reaches the dashboard as a verified result
+  ---
+  duration_ms: 8.402964
+  type: 'test'
+  ...
+# Subtest: preparation rejection notifies the dashboard using the shared identity before any request exists
+ok 109 - preparation rejection notifies the dashboard using the shared identity before any request exists
+  ---
+  duration_ms: 1.343731
+  type: 'test'
+  ...
+# Subtest: retry preparation rejection reserves a fresh identity and reports its failed transition
+ok 110 - retry preparation rejection reserves a fresh identity and reports its failed transition
+  ---
+  duration_ms: 1.795137
+  type: 'test'
+  ...
+# Subtest: native HUD collapses during playback and completion while keeping warning and counter details accessible
+ok 111 - native HUD collapses during playback and completion while keeping warning and counter details accessible
+  ---
+  duration_ms: 2.572619
+  type: 'test'
+  ...
+# Subtest: native HUD uses only backend ETA evidence and shows estimating when it is unavailable
+ok 112 - native HUD uses only backend ETA evidence and shows estimating when it is unavailable
+  ---
+  duration_ms: 6.308751
+  type: 'test'
+  ...
+# Subtest: native AJAX loads immutable bytes and MenuCustomRun follows its completion: b43e470f
+ok 113 - native AJAX loads immutable bytes and MenuCustomRun follows its completion: b43e470f
+  ---
+  duration_ms: 12.011224
+  type: 'test'
+  ...
+# Subtest: native AJAX loads immutable bytes and MenuCustomRun follows its completion: 032b5d70
+ok 114 - native AJAX loads immutable bytes and MenuCustomRun follows its completion: 032b5d70
+  ---
+  duration_ms: 5.646129
+  type: 'test'
+  ...
+# Subtest: an import descriptor carries original preparation while native AJAX still loads the executable identity
+ok 115 - an import descriptor carries original preparation while native AJAX still loads the executable identity
+  ---
+  duration_ms: 8.713659
+  type: 'test'
+  ...
+# Subtest: an invalid or mismatched import identity fails closed 
+ok 116 - an invalid or mismatched import identity fails closed 
+  ---
+  duration_ms: 1.47685
+  type: 'test'
+  ...
+# Subtest: an invalid or mismatched import identity fails closed invalid
+ok 117 - an invalid or mismatched import identity fails closed invalid
+  ---
+  duration_ms: 5.552048
+  type: 'test'
+  ...
+# Subtest: an invalid or mismatched import identity fails closed bbbbbbbb
+ok 118 - an invalid or mismatched import identity fails closed bbbbbbbb
+  ---
+  duration_ms: 1.101559
+  type: 'test'
+  ...
+# Subtest: the bridge stays inert outside csvtas mode
+ok 119 - the bridge stays inert outside csvtas mode
+  ---
+  duration_ms: 0.933337
+  type: 'test'
+  ...
+# Subtest: source and runtime readiness gates both precede native loading
+ok 120 - source and runtime readiness gates both precede native loading
+  ---
+  duration_ms: 13.150829
+  type: 'test'
+  ...
+# Subtest: missing registered identity never starts original custom execution
+ok 121 - missing registered identity never starts original custom execution
+  ---
+  duration_ms: 4.643208
+  type: 'test'
+  ...
+# Subtest: HTTP failure never starts original custom execution
+ok 122 - HTTP failure never starts original custom execution
+  ---
+  duration_ms: 1.152044
+  type: 'test'
+  ...
+# Subtest: network failure never starts original custom execution
+ok 123 - network failure never starts original custom execution
+  ---
+  duration_ms: 0.923972
+  type: 'test'
+  ...
+# Subtest: invalid JSON never starts original custom execution
+ok 124 - invalid JSON never starts original custom execution
+  ---
+  duration_ms: 0.784173
+  type: 'test'
+  ...
+# Subtest: changed text hash never starts original custom execution
+ok 125 - changed text hash never starts original custom execution
+  ---
+  duration_ms: 20.288305
+  type: 'test'
+  ...
+# Subtest: foreign identity never starts original custom execution
+ok 126 - foreign identity never starts original custom execution
+  ---
+  duration_ms: 3.622311
+  type: 'test'
+  ...
+# Subtest: raw hash mismatch never starts original custom execution
+ok 127 - raw hash mismatch never starts original custom execution
+  ---
+  duration_ms: 1.334918
+  type: 'test'
+  ...
+# Subtest: foreign download URL never starts original custom execution
+ok 128 - foreign download URL never starts original custom execution
+  ---
+  duration_ms: 1.127006
+  type: 'test'
+  ...
+# Subtest: stale custom response text cannot replace completion of the new request
+ok 129 - stale custom response text cannot replace completion of the new request
+  ---
+  duration_ms: 6.196152
+  type: 'test'
+  ...
+# Subtest: native HTTP error fails instead of hanging in native_loading
+ok 130 - native HTTP error fails instead of hanging in native_loading
+  ---
+  duration_ms: 2.192241
+  type: 'test'
+  ...
+# Subtest: native network error fails instead of hanging in native_loading
+ok 131 - native network error fails instead of hanging in native_loading
+  ---
+  duration_ms: 5.7006
+  type: 'test'
+  ...
+# Subtest: changed response text fails instead of hanging in native_loading
+ok 132 - changed response text fails instead of hanging in native_loading
+  ---
+  duration_ms: 0.962671
+  type: 'test'
+  ...
+# Subtest: MenuModeCustom exceptions fail closed
+ok 133 - MenuModeCustom exceptions fail closed
+  ---
+  duration_ms: 3.654639
+  type: 'test'
+  ...
+# Subtest: MenuCustomRun exceptions fail closed
+ok 134 - MenuCustomRun exceptions fail closed
+  ---
+  duration_ms: 2.53264
+  type: 'test'
+  ...
+# Subtest: normal mode has no prototype changes without opt-in
+ok 135 - normal mode has no prototype changes without opt-in
+  ---
+  duration_ms: 5.393071
+  type: 'test'
+  ...
+# Subtest: supported rates use the unmodified native setter with no deviation
+ok 136 - supported rates use the unmodified native setter with no deviation
+  ---
+  duration_ms: 2.096187
+  type: 'test'
+  ...
+# Subtest: requested 20 falls back to native-accepted 16 and records the cosmetic change
+ok 137 - requested 20 falls back to native-accepted 16 and records the cosmetic change
+  ---
+  duration_ms: 1.501107
+  type: 'test'
+  ...
+# Subtest: explicit opt-in works and unsupported fallback may use normal playback
+ok 138 - explicit opt-in works and unsupported fallback may use normal playback
+  ---
+  duration_ms: 0.872906
+  type: 'test'
+  ...
+# Subtest: unrelated exceptions and nonpositive values are not swallowed
+ok 139 - unrelated exceptions and nonpositive values are not swallowed
+  ---
+  duration_ms: 1.133576
+  type: 'test'
+  ...
+# Subtest: csvtas=1 silences new media before native play and preserves completion
+ok 140 - csvtas=1 silences new media before native play and preserves completion
+  ---
+  duration_ms: 0.912195
+  type: 'test'
+  ...
+# Subtest: csvtas=1 routes native WebAudio through zero gain without suspending it
+ok 141 - csvtas=1 routes native WebAudio through zero gain without suspending it
+  ---
+  duration_ms: 8.12593
+  type: 'test'
+  ...
+# Subtest: campaign=1 silences new media before native play and preserves completion
+ok 142 - campaign=1 silences new media before native play and preserves completion
+  ---
+  duration_ms: 1.179014
+  type: 'test'
+  ...
+# Subtest: campaign=1 routes native WebAudio through zero gain without suspending it
+ok 143 - campaign=1 routes native WebAudio through zero gain without suspending it
+  ---
+  duration_ms: 3.512977
+  type: 'test'
+  ...
+# Subtest: mute=1 silences new media before native play and preserves completion
+ok 144 - mute=1 silences new media before native play and preserves completion
+  ---
+  duration_ms: 3.249773
+  type: 'test'
+  ...
+# Subtest: mute=1 routes native WebAudio through zero gain without suspending it
+ok 145 - mute=1 routes native WebAudio through zero gain without suspending it
+  ---
+  duration_ms: 10.413523
+  type: 'test'
+  ...
+# Subtest: manual audio remains native for no query
+ok 146 - manual audio remains native for no query
+  ---
+  duration_ms: 0.866667
+  type: 'test'
+  ...
+# Subtest: manual audio remains native for ?audio_compat=1
+ok 147 - manual audio remains native for ?audio_compat=1
+  ---
+  duration_ms: 0.80827
+  type: 'test'
+  ...
+# Subtest: manual audio remains native for ?campaign=1&mute=0
+ok 148 - manual audio remains native for ?campaign=1&mute=0
+  ---
+  duration_ms: 0.763953
+  type: 'test'
+  ...
+# Subtest: Normal unsupported source keeps the issue visible and skips configured budget retries
+ok 149 - Normal unsupported source keeps the issue visible and skips configured budget retries
+  ---
+  duration_ms: 25.681861
+  type: 'test'
+  ...
+# Subtest: Normal displays response warnings while playing and clears them for the next clean round
+ok 150 - Normal displays response warnings while playing and clears them for the next clean round
+  ---
+  duration_ms: 10.079984
+  type: 'test'
+  ...
+# Subtest: Normal clears the previous warning as soon as RunAttack starts before the next CSV arrives
+ok 151 - Normal clears the previous warning as soon as RunAttack starts before the next CSV arrives
+  ---
+  duration_ms: 4.533635
+  type: 'test'
+  ...
+# Subtest: Intro paused source frame0 is captured and both inputs are replayed until last EndAttack
+ok 152 - Intro paused source frame0 is captured and both inputs are replayed until last EndAttack
+  ---
+  duration_ms: 5.865127
+  type: 'test'
+  ...
+# Subtest: TLPlay-only ticks wait, while RunAttack and frame0 in one native tick are captured
+ok 153 - TLPlay-only ticks wait, while RunAttack and frame0 in one native tick are captured
+  ---
+  duration_ms: 6.843881
+  type: 'test'
+  ...
+# Subtest: pre-source arena and early GetHeartPos remain separate from post-frame0 player
+ok 154 - pre-source arena and early GetHeartPos remain separate from post-frame0 player
+  ---
+  duration_ms: 4.55749
+  type: 'test'
+  ...
+# Subtest: early EndAttack stops, releases aliases and cannot give menu control
+ok 155 - early EndAttack stops, releases aliases and cannot give menu control
+  ---
+  duration_ms: 4.05573
+  type: 'test'
+  ...
+# Subtest: missing EndAttack stops, releases aliases and cannot give menu control
+ok 156 - missing EndAttack stops, releases aliases and cannot give menu control
+  ---
+  duration_ms: 5.788563
+  type: 'test'
+  ...
+# Subtest: native player mismatch stops, releases aliases and cannot give menu control
+ok 157 - native player mismatch stops, releases aliases and cannot give menu control
+  ---
+  duration_ms: 7.158202
+  type: 'test'
+  ...
+# Subtest: native damage stops, releases aliases and cannot give menu control
+ok 158 - native damage stops, releases aliases and cannot give menu control
+  ---
+  duration_ms: 3.895539
+  type: 'test'
+  ...
+# Subtest: wrong previous Confirm stops, releases aliases and cannot give menu control
+ok 159 - wrong previous Confirm stops, releases aliases and cannot give menu control
+  ---
+  duration_ms: 3.560959
+  type: 'test'
+  ...
+# Subtest: wrong exact dt stops, releases aliases and cannot give menu control
+ok 160 - wrong exact dt stops, releases aliases and cannot give menu control
+  ---
+  duration_ms: 4.434195
+  type: 'test'
+  ...
+# Subtest: wrong fresh request stops, releases aliases and cannot give menu control
+ok 161 - wrong fresh request stops, releases aliases and cannot give menu control
+  ---
+  duration_ms: 4.115559
+  type: 'test'
+  ...
+# Subtest: unknown can retry only the unchanged same boundary with a new request identity
+ok 162 - unknown can retry only the unchanged same boundary with a new request identity
+  ---
+  duration_ms: 4.533604
+  type: 'test'
+  ...
+# Subtest: manual retry settings apply only to the current round
+ok 163 - manual retry settings apply only to the current round
+  ---
+  duration_ms: 11.068063
+  type: 'test'
+  ...
+# Subtest: configured widths automatically retry unknown on the same boundary and retain every attempt
+ok 164 - configured widths automatically retry unknown on the same boundary and retain every attempt
+  ---
+  duration_ms: 10.786912
+  type: 'test'
+  ...
+# Subtest: an API automatic budget outcome never stacks legacy outer width retries
+ok 165 - an API automatic budget outcome never stacks legacy outer width retries
+  ---
+  duration_ms: 5.017509
+  type: 'test'
+  ...
+# Subtest: failed response cannot trigger an automatic retry
+ok 166 - failed response cannot trigger an automatic retry
+  ---
+  duration_ms: 4.014667
+  type: 'test'
+  ...
+# Subtest: unverified candidate cannot trigger an automatic retry
+ok 167 - unverified candidate cannot trigger an automatic retry
+  ---
+  duration_ms: 2.860891
+  type: 'test'
+  ...
+# Subtest: unknown claiming verification cannot trigger an automatic retry
+ok 168 - unknown claiming verification cannot trigger an automatic retry
+  ---
+  duration_ms: 5.688413
+  type: 'test'
+  ...
+# Subtest: DamagePlayer during a paused solve prevents an unknown response from being retried
+ok 169 - DamagePlayer during a paused solve prevents an unknown response from being retried
+  ---
+  duration_ms: 3.190664
+  type: 'test'
+  ...
+# Subtest: automatic retries deduplicate widths, exhaust in order and stay paused on unknown
+ok 170 - automatic retries deduplicate widths, exhaust in order and stay paused on unknown
+  ---
+  duration_ms: 5.236306
+  type: 'test'
+  ...
+# Subtest: each new round starts from the original width and gets its own automatic retry sequence
+ok 171 - each new round starts from the original width and gets its own automatic retry sequence
+  ---
+  duration_ms: 8.615673
+  type: 'test'
+  ...
+# Subtest: cancel blocks a queued automatic retry
+ok 172 - cancel blocks a queued automatic retry
+  ---
+  duration_ms: 3.272848
+  type: 'test'
+  ...
+# Subtest: observer completion blocks a queued automatic retry
+ok 173 - observer completion blocks a queued automatic retry
+  ---
+  duration_ms: 8.546824
+  type: 'test'
+  ...
+# Subtest: observer damage blocks a queued automatic retry
+ok 174 - observer damage blocks a queued automatic retry
+  ---
+  duration_ms: 3.655811
+  type: 'test'
+  ...
+# Subtest: a changed native boundary blocks a queued retry before any new request
+ok 175 - a changed native boundary blocks a queued retry before any new request
+  ---
+  duration_ms: 3.718615
+  type: 'test'
+  ...
+# Subtest: a manual retry supersedes an already queued automatic attempt
+ok 176 - a manual retry supersedes an already queued automatic attempt
+  ---
+  duration_ms: 3.946366
+  type: 'test'
+  ...
+# Subtest: a malformed candidate on an automatic retry stops before later widths
+ok 177 - a malformed candidate on an automatic retry stops before later widths
+  ---
+  duration_ms: 4.783048
+  type: 'test'
+  ...
+# Subtest: native playback damage never starts a configured retry
+ok 178 - native playback damage never starts a configured retry
+  ---
+  duration_ms: 3.66877
+  type: 'test'
+  ...
+# Subtest: invalid retry_widths "" is rejected before play
+ok 179 - invalid retry_widths "" is rejected before play
+  ---
+  duration_ms: 1.967494
+  type: 'test'
+  ...
+# Subtest: invalid retry_widths "0" is rejected before play
+ok 180 - invalid retry_widths "0" is rejected before play
+  ---
+  duration_ms: 1.511802
+  type: 'test'
+  ...
+# Subtest: invalid retry_widths "-1" is rejected before play
+ok 181 - invalid retry_widths "-1" is rejected before play
+  ---
+  duration_ms: 1.081008
+  type: 'test'
+  ...
+# Subtest: invalid retry_widths "1.5" is rejected before play
+ok 182 - invalid retry_widths "1.5" is rejected before play
+  ---
+  duration_ms: 1.119435
+  type: 'test'
+  ...
+# Subtest: invalid retry_widths "1e3" is rejected before play
+ok 183 - invalid retry_widths "1e3" is rejected before play
+  ---
+  duration_ms: 2.309666
+  type: 'test'
+  ...
+# Subtest: invalid retry_widths "+1" is rejected before play
+ok 184 - invalid retry_widths "+1" is rejected before play
+  ---
+  duration_ms: 1.131363
+  type: 'test'
+  ...
+# Subtest: invalid retry_widths "1000," is rejected before play
+ok 185 - invalid retry_widths "1000," is rejected before play
+  ---
+  duration_ms: 1.057983
+  type: 'test'
+  ...
+# Subtest: invalid retry_widths "1000, 3000" is rejected before play
+ok 186 - invalid retry_widths "1000, 3000" is rejected before play
+  ---
+  duration_ms: 1.439514
+  type: 'test'
+  ...
+# Subtest: invalid retry_widths "NaN" is rejected before play
+ok 187 - invalid retry_widths "NaN" is rejected before play
+  ---
+  duration_ms: 1.578713
+  type: 'test'
+  ...
+# Subtest: invalid retry_widths "9007199254740992" is rejected before play
+ok 188 - invalid retry_widths "9007199254740992" is rejected before play
+  ---
+  duration_ms: 1.181468
+  type: 'test'
+  ...
+# Subtest: cancellation rejects a late response
+ok 189 - cancellation rejects a late response
+  ---
+  duration_ms: 12.089161
+  type: 'test'
+  ...
+# Subtest: menu failure and independent observer completion stop physical advance
+ok 190 - menu failure and independent observer completion stop physical advance
+  ---
+  duration_ms: 3.535811
+  type: 'test'
+  ...
+# Subtest: csv clock defaults to the existing native-clamped 30 Hz protocol
+ok 191 - csv clock defaults to the existing native-clamped 30 Hz protocol
+  ---
+  duration_ms: 5.354623
+  type: 'test'
+  ...
+# Subtest: 60 Hz emits exact accumulating timestamps and naturally nonuniform binary64 dt
+ok 192 - 60 Hz emits exact accumulating timestamps and naturally nonuniform binary64 dt
+  ---
+  duration_ms: 1.72399
+  type: 'test'
+  ...
+# Subtest: 60 Hz pause/resume preserves phase even when native resume rebases its clock
+ok 193 - 60 Hz pause/resume preserves phase even when native resume rebases its clock
+  ---
+  duration_ms: 1.538432
+  type: 'test'
+  ...
+# Subtest: 60 Hz catch-up retains every native dt and physical step
+ok 194 - 60 Hz catch-up retains every native dt and physical step
+  ---
+  duration_ms: 1.226265
+  type: 'test'
+  ...
+# Subtest: 120 Hz emits exact accumulating timestamps and naturally nonuniform binary64 dt
+ok 195 - 120 Hz emits exact accumulating timestamps and naturally nonuniform binary64 dt
+  ---
+  duration_ms: 2.155025
+  type: 'test'
+  ...
+# Subtest: 120 Hz pause/resume preserves phase even when native resume rebases its clock
+ok 196 - 120 Hz pause/resume preserves phase even when native resume rebases its clock
+  ---
+  duration_ms: 1.436439
+  type: 'test'
+  ...
+# Subtest: 120 Hz catch-up retains every native dt and physical step
+ok 197 - 120 Hz catch-up retains every native dt and physical step
+  ---
+  duration_ms: 1.518902
+  type: 'test'
+  ...
+# Subtest: 240 Hz emits exact accumulating timestamps and naturally nonuniform binary64 dt
+ok 198 - 240 Hz emits exact accumulating timestamps and naturally nonuniform binary64 dt
+  ---
+  duration_ms: 1.605032
+  type: 'test'
+  ...
+# Subtest: 240 Hz pause/resume preserves phase even when native resume rebases its clock
+ok 199 - 240 Hz pause/resume preserves phase even when native resume rebases its clock
+  ---
+  duration_ms: 1.27655
+  type: 'test'
+  ...
+# Subtest: 240 Hz catch-up retains every native dt and physical step
+ok 200 - 240 Hz catch-up retains every native dt and physical step
+  ---
+  duration_ms: 2.046643
+  type: 'test'
+  ...
+# Subtest: unsupported csv fps 0 stops without consuming native ticks
+ok 201 - unsupported csv fps 0 stops without consuming native ticks
+  ---
+  duration_ms: 1.094528
+  type: 'test'
+  ...
+# Subtest: unsupported csv fps 59 stops without consuming native ticks
+ok 202 - unsupported csv fps 59 stops without consuming native ticks
+  ---
+  duration_ms: 0.733808
+  type: 'test'
+  ...
+# Subtest: unsupported csv fps NaN stops without consuming native ticks
+ok 203 - unsupported csv fps NaN stops without consuming native ticks
+  ---
+  duration_ms: 0.764524
+  type: 'test'
+  ...
+# Subtest: unsupported source reports its exact lines in Chinese and links back to CSV editing without native playback
+ok 204 - unsupported source reports its exact lines in Chinese and links back to CSV editing without native playback
+  ---
+  duration_ms: 61.550466
+  type: 'test'
+  ...
+# Subtest: unsupported source cannot waste another request on a manual budget retry
+ok 205 - unsupported source cannot waste another request on a manual budget retry
+  ---
+  duration_ms: 35.539663
+  type: 'test'
+  ...
+# Subtest: leaving an unsupported result hides its editing link as well as its diagnostic
+ok 206 - leaving an unsupported result hides its editing link as well as its diagnostic
+  ---
+  duration_ms: 26.057864
+  type: 'test'
+  ...
+# Subtest: no-handler warnings stay visible while solving and playing without weakening native completion
+ok 207 - no-handler warnings stay visible while solving and playing without weakening native completion
+  ---
+  duration_ms: 31.005447
+  type: 'test'
+  ...
+# Subtest: a blocking mechanism and no-handler warning remain separately visible and keep playback stopped
+ok 208 - a blocking mechanism and no-handler warning remain separately visible and keep playback stopped
+  ---
+  duration_ms: 25.482273
+  type: 'test'
+  ...
+# Subtest: frozen import preparation and damage warnings survive executable solve response false
+ok 209 - frozen import preparation and damage warnings survive executable solve response false
+  ---
+  duration_ms: 31.803041
+  type: 'test'
+  ...
+# Subtest: frozen import preparation and damage warnings survive executable solve response true
+ok 210 - frozen import preparation and damage warnings survive executable solve response true
+  ---
+  duration_ms: 25.83507
+  type: 'test'
+  ...
+# Subtest: unknown diagnostics respect automatic versus manual budget 
+ok 211 - unknown diagnostics respect automatic versus manual budget 
+  ---
+  duration_ms: 30.016297
+  type: 'test'
+  ...
+# Subtest: unknown diagnostics respect automatic versus manual budget &budget_mode=manual
+ok 212 - unknown diagnostics respect automatic versus manual budget &budget_mode=manual
+  ---
+  duration_ms: 33.669935
+  type: 'test'
+  ...
+# Subtest: native CSV defaults to automatic budgets and ignores stale limits 
+ok 213 - native CSV defaults to automatic budgets and ignores stale limits 
+  ---
+  duration_ms: 33.166872
+  type: 'test'
+  ...
+# Subtest: native CSV defaults to automatic budgets and ignores stale limits &budget_mode=auto&seconds=1&width=2
+ok 214 - native CSV defaults to automatic budgets and ignores stale limits &budget_mode=auto&seconds=1&width=2
+  ---
+  duration_ms: 24.075017
+  type: 'test'
+  ...
+# Subtest: native CSV keeps explicit manual and legacy budgets &budget_mode=manual&seconds=7.5&width=1234
+ok 215 - native CSV keeps explicit manual and legacy budgets &budget_mode=manual&seconds=7.5&width=1234
+  ---
+  duration_ms: 25.332208
+  type: 'test'
+  ...
+# Subtest: native CSV keeps explicit manual and legacy budgets &seconds=7.5&width=1234
+ok 216 - native CSV keeps explicit manual and legacy budgets &seconds=7.5&width=1234
+  ---
+  duration_ms: 24.602446
+  type: 'test'
+  ...
+# Subtest: physical capture preserves old API but reads all committed VPad latches
+ok 217 - physical capture preserves old API but reads all committed VPad latches
+  ---
+  duration_ms: 1.813283
+  type: 'test'
+  ...
+# Subtest: physical capture includes a detached snapshot of the current arena continuation
+ok 218 - physical capture includes a detached snapshot of the current arena continuation
+  ---
+  duration_ms: 1.555077
+  type: 'test'
+  ...
+# Subtest: the ordinary custom prelude waits for the inherited arena target before pressing Confirm
+ok 219 - the ordinary custom prelude waits for the inherited arena target before pressing Confirm
+  ---
+  duration_ms: 1.844249
+  type: 'test'
+  ...
+# Subtest: row0 GetHeartPos matching native sample is checked before playback
+ok 220 - row0 GetHeartPos matching native sample is checked before playback
+  ---
+  duration_ms: 62.566015
+  type: 'test'
+  ...
+# Subtest: row0 GetHeartPos post-teleport replacement is checked before playback
+ok 221 - row0 GetHeartPos post-teleport replacement is checked before playback
+  ---
+  duration_ms: 49.810518
+  type: 'test'
+  ...
+# Subtest: row0 GetHeartPos missing native sample is checked before playback
+ok 222 - row0 GetHeartPos missing native sample is checked before playback
+  ---
+  duration_ms: 21.542507
+  type: 'test'
+  ...
+# Subtest: row0 GetHeartPos matching native sample is checked before playback after a TLPlay-only tick
+ok 223 - row0 GetHeartPos matching native sample is checked before playback after a TLPlay-only tick
+  ---
+  duration_ms: 24.339353
+  type: 'test'
+  ...
+# Subtest: row0 GetHeartPos post-teleport replacement is checked before playback after a TLPlay-only tick
+ok 224 - row0 GetHeartPos post-teleport replacement is checked before playback after a TLPlay-only tick
+  ---
+  duration_ms: 20.75576
+  type: 'test'
+  ...
+# Subtest: row0 GetHeartPos missing native sample is checked before playback after a TLPlay-only tick
+ok 225 - row0 GetHeartPos missing native sample is checked before playback after a TLPlay-only tick
+  ---
+  duration_ms: 21.316659
+  type: 'test'
+  ...
+# Subtest: only target TLPlay and its first committed Timeline tick become frame0
+ok 226 - only target TLPlay and its first committed Timeline tick become frame0
+  ---
+  duration_ms: 27.676716
+  type: 'test'
+  ...
+# Subtest: row0 resize sends the environment before target TLPlay and keeps the observed player boundary
+ok 227 - row0 resize sends the environment before target TLPlay and keeps the observed player boundary
+  ---
+  duration_ms: 25.137252
+  type: 'test'
+  ...
+# Subtest: arena capture preserves native targets, dimensions and callback without deriving or rounding them
+ok 228 - arena capture preserves native targets, dimensions and callback without deriving or rounding them
+  ---
+  duration_ms: 2.035936
+  type: 'test'
+  ...
+# Subtest: row0 forwards the complete pre-TLPlay arena even when automatic entry changes it
+ok 229 - row0 forwards the complete pre-TLPlay arena even when automatic entry changes it
+  ---
+  duration_ms: 32.873333
+  type: 'test'
+  ...
+# Subtest: a candidate with changed initial arena target is rejected before native playback
+ok 230 - a candidate with changed initial arena target is rejected before native playback
+  ---
+  duration_ms: 33.601994
+  type: 'test'
+  ...
+# Subtest: a candidate with changed initial arena size is rejected before native playback
+ok 231 - a candidate with changed initial arena size is rejected before native playback
+  ---
+  duration_ms: 30.354733
+  type: 'test'
+  ...
+# Subtest: a candidate with changed initial arena speed is rejected before native playback
+ok 232 - a candidate with changed initial arena speed is rejected before native playback
+  ---
+  duration_ms: 20.62904
+  type: 'test'
+  ...
+# Subtest: a candidate with changed initial arena callback is rejected before native playback
+ok 233 - a candidate with changed initial arena callback is rejected before native playback
+  ---
+  duration_ms: 22.092896
+  type: 'test'
+  ...
+# Subtest: a candidate missing its initial arena is rejected before native playback
+ok 234 - a candidate missing its initial arena is rejected before native playback
+  ---
+  duration_ms: 23.486026
+  type: 'test'
+  ...
+# Subtest: a plan rebuilt one resize tick ahead is rejected before native playback
+ok 235 - a plan rebuilt one resize tick ahead is rejected before native playback
+  ---
+  duration_ms: 24.242147
+  type: 'test'
+  ...
+# Subtest: fetch pauses the same runtime; actions and Confirm each reach one actual next tick
+ok 236 - fetch pauses the same runtime; actions and Confirm each reach one actual next tick
+  ---
+  duration_ms: 23.247979
+  type: 'test'
+  ...
+# Subtest: held Confirm and a later release are preserved, not synthesized from frame rate
+ok 237 - held Confirm and a later release are preserved, not synthesized from frame rate
+  ---
+  duration_ms: 24.505812
+  type: 'test'
+  ...
+# Subtest: unknown remains paused and publishes no playback even after attempted native ticks
+ok 238 - unknown remains paused and publishes no playback even after attempted native ticks
+  ---
+  duration_ms: 26.762638
+  type: 'test'
+  ...
+# Subtest: candidate extending beyond the requested clock never resumes the native runtime
+ok 239 - candidate extending beyond the requested clock never resumes the native runtime
+  ---
+  duration_ms: 2.513582
+  type: 'test'
+  ...
+# Subtest: candidate consuming exactly the requested clock still completes in the native runtime
+ok 240 - candidate consuming exactly the requested clock still completes in the native runtime
+  ---
+  duration_ms: 2.815964
+  type: 'test'
+  ...
+# Subtest: malformed hash plan never resumes the native runtime
+ok 241 - malformed hash plan never resumes the native runtime
+  ---
+  duration_ms: 19.838447
+  type: 'test'
+  ...
+# Subtest: malformed initial plan never resumes the native runtime
+ok 242 - malformed initial plan never resumes the native runtime
+  ---
+  duration_ms: 21.590699
+  type: 'test'
+  ...
+# Subtest: malformed dt plan never resumes the native runtime
+ok 243 - malformed dt plan never resumes the native runtime
+  ---
+  duration_ms: 23.072496
+  type: 'test'
+  ...
+# Subtest: malformed Confirm plan never resumes the native runtime
+ok 244 - malformed Confirm plan never resumes the native runtime
+  ---
+  duration_ms: 21.576408
+  type: 'test'
+  ...
+# Subtest: malformed Cancel plan never resumes the native runtime
+ok 245 - malformed Cancel plan never resumes the native runtime
+  ---
+  duration_ms: 23.38925
+  type: 'test'
+  ...
+# Subtest: malformed initial Confirm plan never resumes the native runtime
+ok 246 - malformed initial Confirm plan never resumes the native runtime
+  ---
+  duration_ms: 25.164307
+  type: 'test'
+  ...
+# Subtest: malformed request identity plan never resumes the native runtime
+ok 247 - malformed request identity plan never resumes the native runtime
+  ---
+  duration_ms: 24.120466
+  type: 'test'
+  ...
+# Subtest: malformed fresh computation plan never resumes the native runtime
+ok 248 - malformed fresh computation plan never resumes the native runtime
+  ---
+  duration_ms: 20.90982
+  type: 'test'
+  ...
+# Subtest: malformed cached route plan never resumes the native runtime
+ok 249 - malformed cached route plan never resumes the native runtime
+  ---
+  duration_ms: 22.312519
+  type: 'test'
+  ...
+# Subtest: malformed full clock hash plan never resumes the native runtime
+ok 250 - malformed full clock hash plan never resumes the native runtime
+  ---
+  duration_ms: 22.616344
+  type: 'test'
+  ...
+# Subtest: malformed full clock length plan never resumes the native runtime
+ok 251 - malformed full clock length plan never resumes the native runtime
+  ---
+  duration_ms: 22.069846
+  type: 'test'
+  ...
+# Subtest: changed paused boundary invalidates a delayed response
+ok 252 - changed paused boundary invalidates a delayed response
+  ---
+  duration_ms: 22.240291
+  type: 'test'
+  ...
+# Subtest: changing only paused SimulatorMode invalidates a delayed response
+ok 253 - changing only paused SimulatorMode invalidates a delayed response
+  ---
+  duration_ms: 24.021717
+  type: 'test'
+  ...
+# Subtest: changing only paused SingleAttack invalidates a delayed response
+ok 254 - changing only paused SingleAttack invalidates a delayed response
+  ---
+  duration_ms: 23.353157
+  type: 'test'
+  ...
+# Subtest: changing only paused SimulatorMode rejects an unknown retry before another request
+ok 255 - changing only paused SimulatorMode rejects an unknown retry before another request
+  ---
+  duration_ms: 22.169796
+  type: 'test'
+  ...
+# Subtest: changing only paused SingleAttack rejects an unknown retry before another request
+ok 256 - changing only paused SingleAttack rejects an unknown retry before another request
+  ---
+  duration_ms: 22.92784
+  type: 'test'
+  ...
+# Subtest: changing only paused arena target invalidates a delayed response
+ok 257 - changing only paused arena target invalidates a delayed response
+  ---
+  duration_ms: 38.564199
+  type: 'test'
+  ...
+# Subtest: changing only paused arena size invalidates a delayed response
+ok 258 - changing only paused arena size invalidates a delayed response
+  ---
+  duration_ms: 39.481
+  type: 'test'
+  ...
+# Subtest: changing only paused arena speed invalidates a delayed response
+ok 259 - changing only paused arena speed invalidates a delayed response
+  ---
+  duration_ms: 27.149647
+  type: 'test'
+  ...
+# Subtest: changing only paused arena callback invalidates a delayed response
+ok 260 - changing only paused arena callback invalidates a delayed response
+  ---
+  duration_ms: 25.331587
+  type: 'test'
+  ...
+# Subtest: changed candidate previous Confirm false is rejected
+ok 261 - changed candidate previous Confirm false is rejected
+  ---
+  duration_ms: 24.41807
+  type: 'test'
+  ...
+# Subtest: changed candidate previous Confirm true is rejected
+ok 262 - changed candidate previous Confirm true is rejected
+  ---
+  duration_ms: 21.378692
+  type: 'test'
+  ...
+# Subtest: a candidate missing previous Confirm is rejected
+ok 263 - a candidate missing previous Confirm is rejected
+  ---
+  duration_ms: 22.245058
+  type: 'test'
+  ...
+# Subtest: cancel invalidates in-flight response and clears both Confirm aliases
+ok 264 - cancel invalidates in-flight response and clears both Confirm aliases
+  ---
+  duration_ms: 2.146182
+  type: 'test'
+  ...
+# Subtest: dt fails permanently at the first native step
+ok 265 - dt fails permanently at the first native step
+  ---
+  duration_ms: 23.165656
+  type: 'test'
+  ...
+# Subtest: sampled input fails permanently at the first native step
+ok 266 - sampled input fails permanently at the first native step
+  ---
+  duration_ms: 28.481305
+  type: 'test'
+  ...
+# Subtest: tick gap fails permanently at the first native step
+ok 267 - tick gap fails permanently at the first native step
+  ---
+  duration_ms: 30.061885
+  type: 'test'
+  ...
+# Subtest: player drift fails permanently at the first native step
+ok 268 - player drift fails permanently at the first native step
+  ---
+  duration_ms: 25.772387
+  type: 'test'
+  ...
+# Subtest: early EndAttack fails permanently at the first native step
+ok 269 - early EndAttack fails permanently at the first native step
+  ---
+  duration_ms: 22.989803
+  type: 'test'
+  ...
+# Subtest: restored damage fails permanently at the first native step
+ok 270 - restored damage fails permanently at the first native step
+  ---
+  duration_ms: 24.524739
+  type: 'test'
+  ...
+# Subtest: plan exhaustion without EndAttack stops before any neutral extra tick
+ok 271 - plan exhaustion without EndAttack stops before any neutral extra tick
+  ---
+  duration_ms: 29.742958
+  type: 'test'
+  ...
+# Subtest: native-clamped 30Hz scheduler keeps exact dt through catch-up and solve pause
+ok 272 - native-clamped 30Hz scheduler keeps exact dt through catch-up and solve pause
+  ---
+  duration_ms: 22.907549
+  type: 'test'
+  ...
+# Subtest: 60Hz native timestamp schedule remains nonuniform and continuous across a solve pause
+ok 273 - 60Hz native timestamp schedule remains nonuniform and continuous across a solve pause
+  ---
+  duration_ms: 22.921951
+  type: 'test'
+  ...
+# Subtest: 60Hz candidates rounded to uniform 1/60 are rejected before playback
+ok 274 - 60Hz candidates rounded to uniform 1/60 are rejected before playback
+  ---
+  duration_ms: 25.338087
+  type: 'test'
+  ...
+# Subtest: 60Hz native input ticks still require exact dt rather than nominal fps
+ok 275 - 60Hz native input ticks still require exact dt rather than nominal fps
+  ---
+  duration_ms: 23.283562
+  type: 'test'
+  ...
+# Subtest: an explicit 60Hz maximum tick count bounds the requested native schedule
+ok 276 - an explicit 60Hz maximum tick count bounds the requested native schedule
+  ---
+  duration_ms: 3.493187
+  type: 'test'
+  ...
+# Subtest: shared round exports the complete fresh request and exact future clock recipe
+ok 277 - shared round exports the complete fresh request and exact future clock recipe
+  ---
+  duration_ms: 2.820991
+  type: 'test'
+  ...
+# Subtest: page visibility cannot resume a stopped campaign or CSV round
+ok 278 - page visibility cannot resume a stopped campaign or CSV round
+  ---
+  duration_ms: 2.279361
+  type: 'test'
+  ...
+# Subtest: campaign ownership conflict is rejected before the source can run
+ok 279 - campaign ownership conflict is rejected before the source can run
+  ---
+  duration_ms: 0.878154
+  type: 'test'
+  ...
+# Subtest: custom and named URL attacks capture the native opening and CSV hash
+ok 280 - custom and named URL attacks capture the native opening and CSV hash
+  ---
+  duration_ms: 12.684211
+  type: 'test'
+  ...
+# Subtest: EOF with a zero-damage preheating laser is never counted as a stable empty tail
+ok 281 - EOF with a zero-damage preheating laser is never counted as a stable empty tail
+  ---
+  duration_ms: 7.833372
+  type: 'test'
+  ...
+# Subtest: first-tick damage and same-tick DamagePlayer restoration fail permanently
+ok 282 - first-tick damage and same-tick DamagePlayer restoration fail permanently
+  ---
+  duration_ms: 5.103647
+  type: 'test'
+  ...
+# Subtest: unrelated TLPlay does not select the custom observation
+ok 283 - unrelated TLPlay does not select the custom observation
+  ---
+  duration_ms: 1.260145
+  type: 'test'
+  ...
+# Subtest: real observer requires all 24 rounds and allows dialogue ticks between Win1 and Win2
+ok 284 - real observer requires all 24 rounds and allows dialogue ticks between Win1 and Win2
+  ---
+  duration_ms: 11.262484
+  type: 'test'
+  ...
+# Subtest: a direct Win2 with zero original rounds permanently fails
+ok 285 - a direct Win2 with zero original rounds permanently fails
+  ---
+  duration_ms: 1.708056
+  type: 'test'
+  ...
+# Subtest: Win2 may remove battle objects after its observed terminal snapshot
+ok 286 - Win2 may remove battle objects after its observed terminal snapshot
+  ---
+  duration_ms: 4.021859
+  type: 'test'
+  ...
+# Subtest: damage at the opening function boundary survives same-tick healing
+ok 287 - damage at the opening function boundary survives same-tick healing
+  ---
+  duration_ms: 1.527516
+  type: 'test'
+  ...
+# Subtest: changing SimulatorMode after a valid opening fails on that same tick
+ok 288 - changing SimulatorMode after a valid opening fails on that same tick
+  ---
+  duration_ms: 1.629088
+  type: 'test'
+  ...
+# Subtest: HP loss and a DamagePlayer call cannot be hidden by later healing
+ok 289 - HP loss and a DamagePlayer call cannot be hidden by later healing
+  ---
+  duration_ms: 2.073352
+  type: 'test'
+  ...
+# Subtest: VPad Cancel and Confirm are recorded separately in the per-tick evidence
+ok 290 - VPad Cancel and Confirm are recorded separately in the per-tick evidence
+  ---
+  duration_ms: 1.295228
+  type: 'test'
+  ...
+# Subtest: a skipped native tick and an altered physics dt fail before victory
+ok 291 - a skipped native tick and an altered physics dt fail before victory
+  ---
+  duration_ms: 6.151005
+  type: 'test'
+  ...
+# Subtest: 160000 full native tick records survive lossless storage under each POST limit
+ok 292 - 160000 full native tick records survive lossless storage under each POST limit
+  ---
+  duration_ms: 1616.700512
+  type: 'test'
+  ...
+# Subtest: a single oversized event is preserved across byte parts without trimming
+ok 293 - a single oversized event is preserved across byte parts without trimming
+  ---
+  duration_ms: 432.358006
+  type: 'test'
+  ...
+# Subtest: a failed evidence part upload never publishes a success manifest
+ok 294 - a failed evidence part upload never publishes a success manifest
+  ---
+  duration_ms: 150.794705
+  type: 'test'
+  ...
+# Subtest: source, target reads and committed boundary are observed independently of campaign plans
+ok 295 - source, target reads and committed boundary are observed independently of campaign plans
+  ---
+  duration_ms: 4.571821
+  type: 'test'
+  ...
+# Subtest: nonuniform 240Hz native dt and complete player state are retained every tick
+ok 296 - nonuniform 240Hz native dt and complete player state are retained every tick
+  ---
+  duration_ms: 1.303761
+  type: 'test'
+  ...
+# Subtest: a one-ULP native dt error is preserved and fails the independent clock check
+ok 297 - a one-ULP native dt error is preserved and fails the independent clock check
+  ---
+  duration_ms: 0.848159
+  type: 'test'
+  ...
+# Subtest: CSV round evidence keeps Confirm, future clock recipe, trajectory and fresh provenance
+ok 298 - CSV round evidence keeps Confirm, future clock recipe, trajectory and fresh provenance
+  ---
+  duration_ms: 2.331399
+  type: 'test'
+  ...
+# Subtest: catch-up delivers every short press and release to the production runner
+ok 299 - catch-up delivers every short press and release to the production runner
+  ---
+  duration_ms: 7.777108
+  type: 'test'
+  ...
+# Subtest: batch limits retain all debt and eventually reproduce the unstalled inputs
+ok 300 - batch limits retain all debt and eventually reproduce the unstalled inputs
+  ---
+  duration_ms: 7.071622
+  type: 'test'
+  ...
+# Subtest: hidden interval is paused even when the browser emits no hidden RAF
+ok 301 - hidden interval is paused even when the browser emits no hidden RAF
+  ---
+  duration_ms: 1.968646
+  type: 'test'
+  ...
+# Subtest: native self-scheduled ticks cannot consume inputs outside the driver
+ok 302 - native self-scheduled ticks cannot consume inputs outside the driver
+  ---
+  duration_ms: 1.077362
+  type: 'test'
+  ...
+# Subtest: paused runtime resumes without a wall-time jump and keeps existing debt
+ok 303 - paused runtime resumes without a wall-time jump and keeps existing debt
+  ---
+  duration_ms: 2.663016
+  type: 'test'
+  ...
+# Subtest: native resume cannot change the exact logical timestamp used by a baked candidate
+ok 304 - native resume cannot change the exact logical timestamp used by a baked candidate
+  ---
+  duration_ms: 1.313816
+  type: 'test'
+  ...
+# Subtest: native input discovery releases all owned aliases while preserving unrelated keys
+ok 305 - native input discovery releases all owned aliases while preserving unrelated keys
+  ---
+  duration_ms: 1.156261
+  type: 'test'
+  ...
+# Subtest: actual step(rt) boundary reads exported sids and only returns normal keys
+ok 306 - actual step(rt) boundary reads exported sids and only returns normal keys
+  ---
+  duration_ms: 1.953353
+  type: 'test'
+  ...
+# Subtest: enemy-selection boundary releases prior Confirm then creates a fresh edge
+ok 307 - enemy-selection boundary releases prior Confirm then creates a fresh edge
+  ---
+  duration_ms: 0.506448
+  type: 'test'
+  ...
+# Subtest: a bone entering enemy cursor during release step postpones menu entry
+ok 308 - a bone entering enemy cursor during release step postpones menu entry
+  ---
+  duration_ms: 0.533479
+  type: 'test'
+  ...
+# Subtest: clear enemy cursor permits an immediate normal Confirm despite active bones
+ok 309 - clear enemy cursor permits an immediate normal Confirm despite active bones
+  ---
+  duration_ms: 0.237055
+  type: 'test'
+  ...
+# Subtest: bottom bone near selected button triggers ordinary navigation to a safe button
+ok 310 - bottom bone near selected button triggers ordinary navigation to a safe button
+  ---
+  duration_ms: 0.426779
+  type: 'test'
+  ...
+# Subtest: source menu-bone forecast uses current timer slowdown, not constant velocity
+ok 311 - source menu-bone forecast uses current timer slowdown, not constant velocity
+  ---
+  duration_ms: 0.196444
+  type: 'test'
+  ...
+# Subtest: bottom spawn advances newborn through native sequential movement blocks
+ok 312 - bottom spawn advances newborn through native sequential movement blocks
+  ---
+  duration_ms: 0.330915
+  type: 'test'
+  ...
+# Subtest: menu geometry includes touching original polygon edge
+ok 313 - menu geometry includes touching original polygon edge
+  ---
+  duration_ms: 0.131447
+  type: 'test'
+  ...
+# [A] Booting the real Construct 2 export
+#   ✓ jcw adapter exposes named plugin ABI
+#   ✓ real Runtime instantiated
+#   ✓ cr.runtime constructor exposed (runtime prototype hook source)
+#   ✓ engine runtime reachable as window.c2runtime
+#   ✓ data.js requested by the real loader
+#   ✓ real layout running
+#   ✓ exported type names are minified (t55/t14/t2 present)
+# 7/7 runtime boot checks passed
+# Subtest: tools/real_engine_test.mjs
+ok 15 - tools/real_engine_test.mjs
+  ---
+  duration_ms: 149.750256
+  type: 'test'
+  ...
+1..314
+# tests 314
+# suites 0
+# pass 314
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2621.268217

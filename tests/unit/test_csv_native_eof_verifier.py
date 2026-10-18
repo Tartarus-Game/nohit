@@ -164,6 +164,36 @@ def test_source_derived_closed_eof_schema_passes_without_endattack_or_win(blue):
     assert summary['compared_state_components']==33
 
 
+def static_blue_eof():
+    data=synthetic_eof()
+    proof=data['controller']['plan']['completion']['certificate']
+    proof['proof']='static-blue-release-fixed-point-v1'
+    proof['terminal_details'].update(active_bones=1,static_blue_bones=[[300.,300.,40.,10.,0.,0.,1.,0.]])
+    bone=dict(uid=500,typeSid=3019589746608161,x=300.,y=300.,width=40.,height=10.,angle=0.,vars=[0,0,1,6,1],behaviors=[])
+    facts=data['observer']['eofTerminal']
+    for value in (facts,facts['drain_snapshot']):
+        value['static_blue_bones']=[copy.deepcopy(bone)]
+        value['callback_contract']='original-custom-static-blue-eof-v1'
+        next(row for row in value['attack_types'] if row['sid']==bone['typeSid'])['count']=1
+    for row in data['observer']['ticks']:row[9]=1
+    for row in data['observer']['rows']:row['pending']=[copy.deepcopy(bone)]
+    data['observer']['eofSnapshot']['pending']=[copy.deepcopy(bone)]
+    data['finalSnapshot']['pending']=[copy.deepcopy(bone)]
+    return data
+
+
+def test_stationary_blue_inventory_can_close_an_infinite_neutral_tail():
+    data=static_blue_eof();result=verify_record(data)
+    assert result['passed'],result['errors']
+
+
+@pytest.mark.parametrize('column,value',[(1,100),(4,0),(4,2)])
+def test_blue_tail_rejects_native_movement_white_and_orange_bones(column,value):
+    data=static_blue_eof()
+    data['observer']['eofTerminal']['static_blue_bones'][0]['vars'][column]=value
+    assert not verify_record(data)['passed']
+
+
 def test_only_passive_original_ui_persists_while_its_clock_increases():
     data=synthetic_eof()
     facts=data['observer']['eofTerminal']

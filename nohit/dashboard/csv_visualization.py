@@ -335,11 +335,14 @@ def build_csv_visualization(path, result, *, initial_environment=None, initial_a
         raise ValueError('completion certificate or release execution mismatch')
     if eof:
         static=np.asarray(rebuilt['completion']['certificate']['static_environment']).copy()
+        blue=np.asarray([[min(x,x+w),min(y,y+h),max(x,x+w),max(y,y+h)]
+            for x,y,w,h,*_ in terminal['details'].get('static_blue_bones') or []],dtype=float).reshape(-1,4)
         for tick in range(drain+1,n+1):
             static[7]=expected_dt[tick]
             frame=SimpleNamespace(env=static.copy(),platforms=np.empty((0,9)),
-                white=np.empty((0,4)),blue=np.empty((0,4)),polygons=np.empty((0,8)))
+                white=np.empty((0,4)),blue=blue,polygons=np.empty((0,8)))
             step_mask_into(state,actions[tick-1],frame.env,frame.platforms,state)
+            if frame_collision(frame,state):raise ValueError('EOF release collided with stationary blue bone')
             if state.tobytes()!=trace[tick].tobytes():raise ValueError('EOF release replay mismatch')
             elapsed+=float(frame.env[7]);scenes.append(_scene(tick,elapsed,frame,state,confirms[tick-1]))
     if len(scenes)!=n+1:raise ValueError('scene tick count mismatch')

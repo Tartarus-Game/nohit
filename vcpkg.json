@@ -1,0 +1,9 @@
+{
+  "name": "nohit-native",
+  "version-string": "0.1.0",
+  "builtin-baseline": "bf19794383e8fb95eba5aa553235bc8ec2271688",
+  "dependencies": [
+    { "name": "highway", "version>=": "1.4.0" },
+    { "name": "pdqsort", "version>=": "2019-07-30#2" }
+  ]
+}

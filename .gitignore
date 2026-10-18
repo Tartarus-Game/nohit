@@ -4,6 +4,8 @@ __pycache__/
 *.py[cod]
 .pytest_cache/
 build/
+.xmake/
+vcpkg_installed/
 pytest-of-*/
 scratch/
 .uvcache/
@@ -30,3 +32,10 @@ Desktop.ini
 # Godot import caches
 .godot/
 .import/
+
+# Optional local Python VM accelerators
+nohit/engine/*.so
+nohit/engine/*.pyd
+nohit/engine/*.dylib
+nohit/engine/_native_frontier.dll
+nohit/engine/native-build.json

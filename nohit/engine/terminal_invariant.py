@@ -7,7 +7,12 @@ from numbers import Integral
 
 import numpy as np
 
-from .discrete_operator import clamp_to_arena, direction_xy, heart_solid, step_mask_into
+from .source_oracle import scalar_module
+from .static_blue_tail import valid_static_blue,blue_tail_collision
+
+_player = scalar_module('discrete_operator')
+clamp_to_arena, direction_xy = _player.clamp_to_arena, _player.direction_xy
+heart_solid, step_mask_into = _player.heart_solid, _player.step_mask_into
 
 
 EMPTY_PLATFORMS = np.zeros((0, 9), dtype=np.float64)
@@ -34,6 +39,7 @@ def _inputs(state, environment, details, *, stationary_environment=True):
         reasons.append('dialogue_exhaustion_unproven')
     for key in ('active_bones', 'active_stabs', 'active_blasters', 'active_platforms'):
         count = details.get(key)
+        if key=='active_bones' and valid_static_blue(details):continue
         if not isinstance(count, Integral) or isinstance(count, bool) or count != 0:
             reasons.append(key + '_not_zero')
     if details.get('arena_settled') is not True:
@@ -42,7 +48,11 @@ def _inputs(state, environment, details, *, stationary_environment=True):
         reasons.append('invalid_previous_input')
     if s[5] not in (0., 1.) or s[6] not in (0., 1.) or s[7] not in (0., 1., 2., 3.):
         reasons.append('unsupported_player_mode')
-    if s[8] < 0. or s[9] != 0. or s[10] != 0.:
+    # A configured future slam-damage flag cannot hurt an unslammed red heart:
+    # the exhausted source has no future mode/slam pulse, mask 0 sets both
+    # velocities to zero, and no collision-producing entities remain.
+    harmless_red_flag = s[6] == 0. and s[5] == 0. and s[9] == 1.
+    if s[8] < 0. or (s[9] != 0. and not harmless_red_flag) or s[10] != 0.:
         reasons.append('unsupported_fall_or_damage_state')
     if (s[6], s[7], s[8], s[9]) != (e[4], e[5], e[8], e[12]):
         reasons.append('state_environment_disagreement')
@@ -51,7 +61,10 @@ def _inputs(state, environment, details, *, stationary_environment=True):
     l, t, r, b = e[:4]
     if r-l < 26. or b-t < 26.:
         reasons.append('invalid_arena')
-    if not (l+13. <= s[0] <= r-13. and t+13. <= s[1] <= b-13.):
+    # The original clamp is conditional on overlap with the finite arena.
+    # Scripts may deliberately park a red heart wholly offscreen at EOF.
+    red_outside_fixed=(s[6]==0. and (s[0]+8.<l or s[0]-8.>r or s[1]+8.<t or s[1]-8.>b))
+    if not (l+13. <= s[0] <= r-13. and t+13. <= s[1] <= b-13.) and not red_outside_fixed:
         reasons.append('outside_arena_inner_bounds')
     if stationary_environment:
         if not np.array_equal(e[:4], e[14:18]) or not np.array_equal(e[:4], e[18:22]):
@@ -82,7 +95,7 @@ def certify_release_invariant(state, environment, terminal_details):
     invariant = s.copy()
     invariant[4] = 0.
     return {'status': 'proven', 'reasons': [], 'policy_mask': 0,
-            'proof': 'static-empty-release-fixed-point-v1',
+            'proof': 'static-blue-release-fixed-point-v1' if terminal_details.get('active_bones') else 'static-empty-release-fixed-point-v1',
             'invariant_state': invariant.tolist(),
             'input_release_only': bool(s[4] != 0.)}
 
@@ -128,7 +141,7 @@ def settle_release_to_invariant(state, final_environment, terminal_details, dt_s
         result['actions'].append(0)
         result['dt_sequence'].append(float(dts[tick]))
         result['states'].append(out.tolist())
-        if out[10] != 0. or not np.isfinite(out).all():
+        if out[10] != 0. or not np.isfinite(out).all() or blue_tail_collision(out,terminal_details):
             result['reasons'] = ['damage_or_invalid_transition']
             return result
         s = out

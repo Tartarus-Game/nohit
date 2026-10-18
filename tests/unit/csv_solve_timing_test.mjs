@@ -162,6 +162,15 @@ test('observation options stay omitted by default and preserve an explicit disab
     assert.equal(disabled.state.request_recipe.observation_goal_retries,false);
 });
 
+test('human-friendly mode and analysis switches survive native round handoff',async()=>{
+    for(const [flag,value] of [['true',true],['false',false],['1',true],['0',false]]) {
+        const g=boot({query:`max_ticks=20&objective=human_friendly&analyze_difficulty=${flag}`});await g.start();
+        assert.equal(g.requests[0].payload.objective,'human_friendly');
+        assert.equal(g.requests[0].payload.analyze_difficulty,value);
+        assert.equal(g.state.request_recipe.analyze_difficulty,value);
+    }
+});
+
 test('native HUD shows time before telemetry and keeps counting through unchanged server counters',async()=>{
     const gate=deferred(),entered=deferred(),snap={state:'running',phase:'compile',elapsed_seconds:.25,
         tick:0,ticks:100,alive_states:null,expanded_states:0,fraction:0,fraction_basis:'tick_horizon'};

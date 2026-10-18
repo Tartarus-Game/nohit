@@ -124,17 +124,23 @@ def verify_eof_completion(require, completion, plan, observer, final, controller
             'eof_release_controls', 'The public physical schedule must already contain the entire neutral bridge')
     certificate = obj(completion.get('certificate'), 'eof_certificate')
     require(certificate.get('status') == 'proven'
-            and certificate.get('proof') == 'static-empty-release-fixed-point-v1'
+            and certificate.get('proof') in ('static-empty-release-fixed-point-v1','static-blue-release-fixed-point-v1')
             and integer(certificate.get('policy_mask')) and certificate['policy_mask'] == 0
             and certificate.get('policy_confirm') is False,
             'eof_certificate', 'Unsupported model completion certificate')
     details = obj(certificate.get('terminal_details'), 'eof_certificate_details')
+    blue_proof=certificate.get('proof')=='static-blue-release-fixed-point-v1'
+    blue_rows=details.get('static_blue_bones')
+    blue_details=(blue_proof and integer(details.get('active_bones')) and details['active_bones']>0
+        and isinstance(blue_rows,list) and len(blue_rows)==details['active_bones']
+        and all(vector(row,8) and row[4]==row[5]==0 and row[6]==1 for row in blue_rows))
     require(details.get('timeline_exhausted') is True and details.get('pending_callbacks') == []
             and 'pending_dialogue' in details and details['pending_dialogue'] is None
             and details.get('arena_settled') is True and 'end_resize' in details and details['end_resize'] is None
             and isinstance(details.get('initial_callback_contract'), str)
+            and (blue_details or integer(details.get('active_bones')) and details['active_bones']==0)
             and all(integer(details.get(k)) and details[k] == 0 for k in
-                    ('active_bones', 'active_stabs', 'active_blasters', 'active_platforms')),
+                    ('active_stabs', 'active_blasters', 'active_platforms')),
             'eof_certificate_details', 'Model terminal obligations are incomplete')
     facts = obj(observer.get('eofTerminal'), 'eof_native_facts')
     drain = obj(facts.get('drain_snapshot'), 'eof_drain_snapshot')
@@ -171,14 +177,14 @@ def verify_eof_completion(require, completion, plan, observer, final, controller
         require(integer(value.get('schema_version')) and value['schema_version'] == 1 and value.get('capture_phase') == 'posttick'
                 and value.get('tick') == start + relative, 'eof_native_schema', 'Unsupported native EOF phase/schema')
         require(value.get('source_sha256') == EOF_SOURCE_HASHES
-                and value.get('callback_contract') == EOF_CALLBACK_CONTRACT,
+                and value.get('callback_contract') == ('original-custom-static-blue-eof-v1' if blue_proof else EOF_CALLBACK_CONTRACT),
                 'eof_source_contract', 'Native callback/geometry inventory is not bound to the audited original export')
         timeline = obj(value.get('timeline'), 'eof_timeline')
         native_row = raw[relative] if 0 <= relative < len(raw) else None
         require(width_ok and timeline.get('width') == width and timeline.get('width_field') == 'ra'
                 and timeline.get('list_sid') == 456555951765879 and native_row is not None
                 and integer(timeline.get('line')) and timeline['line'] > width
-                and timeline['line'] == physical.get('line') == native_row[6] and native_row[9] == 0,
+                and timeline['line'] == physical.get('line') == native_row[6] and native_row[9] == (details.get('active_bones') if blue_proof else 0),
                 'eof_timeline', 'Timeline is not natively exhausted with an empty entity inventory')
         families = indexed(value.get('attack_families'), set(EOF_FAMILIES), 'eof_attack_families')
         for sid, row in families.items():
@@ -187,7 +193,17 @@ def verify_eof_completion(require, completion, plan, observer, final, controller
                     and len(members) == len(EOF_FAMILIES[sid]) and set(members) == EOF_FAMILIES[sid],
                     'eof_attack_families', 'Original attack-family membership is incomplete')
         types = indexed(value.get('attack_types'), EOF_ATTACK_TYPES, 'eof_attack_types')
-        require(bool(types) and all(integer(t.get('count')) and t['count'] == 0 for t in types.values()),
+        blue=value.get('static_blue_bones',[])
+        bone_sids={3019589746608161,3868174782291034}
+        blue_ok=isinstance(blue,list) and len(blue)==(details.get('active_bones') if blue_proof else 0)
+        if blue_ok:
+            blue_ok=all(isinstance(row,dict) and row.get('typeSid') in bone_sids and integer(row.get('uid'))
+                and all(finite(row.get(k)) for k in ('x','y','width','height','angle')) and row['angle']==0
+                and vector(row.get('vars'),5) and row['vars'][1]==0 and row['vars'][4]==1 for row in blue)
+        if blue_proof and blue_ok:
+            observed=sorted(tuple(row[k] for k in ('x','y','width','height')) for row in blue)
+            blue_ok=observed==sorted(tuple(row[:4]) for row in details['static_blue_bones']) and len({row['uid'] for row in blue})==len(blue)
+        require(blue_ok and bool(types) and all(integer(t.get('count')) and t['count'] == (sum(row.get('typeSid')==sid for row in blue) if blue_ok and sid in bone_sids else 0) for sid,t in types.items()),
                 'eof_active_entities', 'Native heads/warnings/beams/bones/platforms must all be absent')
         rpg = obj(value.get('rpgtext_family'), 'eof_dialogue')
         members = rpg.get('members')
@@ -252,7 +268,7 @@ def verify_eof_completion(require, completion, plan, observer, final, controller
     require(env_ok and 0 < expected_env[7] <= DT and env[9] == expected_env[9] == 0
             and all(env[k] == expected_env[k] for k in range(22) if k not in (7, 10, 11)),
             'eof_environment', 'Native and model stationary environments differ; only dt and inactive teleport coordinates may differ')
-    require(final.get('pending') == [], 'eof_active_entities', 'Final native pending objects are not empty')
+    require(final.get('pending') == (facts.get('static_blue_bones') if blue_proof else []), 'eof_active_entities', 'Final native pending inventory differs from the proven static blue tail')
     if not vector(state, 11) or not env_ok:
         return {'proof': None, 'verified': False}
     l, t, r, b = env[:4]
@@ -262,7 +278,8 @@ def verify_eof_completion(require, completion, plan, observer, final, controller
             and final.get('endResize') == '', 'eof_arena', 'Final independent arena snapshots disagree')
     require(state[2:5] == [0, 0, 0] and state[5] in (0, 1) and state[6] in (0, 1)
             and state[7] in (0, 1, 2, 3) and state[8] >= 0 and state[9:11] == [0, 0]
-            and r-l >= 26 and b-t >= 26 and l+13 <= state[0] <= r-13 and t+13 <= state[1] <= b-13,
+            and r-l >= 26 and b-t >= 26 and ((l+13 <= state[0] <= r-13 and t+13 <= state[1] <= b-13) or
+                state[6]==0 and (state[0]+8<l or state[0]-8>r or state[1]+8<t or state[1]-8>b)),
             'eof_fixed_point', 'Native player is moving, damaged, outside the unchanged clamp or has unsupported state')
     heart = obj(facts.get('heart_geometry'), 'eof_geometry')
     square = [state[0]-8, state[1]-8, state[0]+8, state[1]+8]
@@ -294,7 +311,7 @@ def verify_eof_completion(require, completion, plan, observer, final, controller
         require(state[7] == 1 and borders_ok and min(state[0]+8, r)-max(state[0]-8, l) > 1e-7
                 and min(state[1]+8+.2, b)-max(state[1]-8+.2, b-5) > 1e-7,
                 'eof_blue_support', 'Native downward border support is unproven; other blue directions are unsupported')
-    return {'proof': 'original-native-static-empty-release-v1', 'source_sha256': EOF_SOURCE_HASHES,
+    return {'proof': 'original-native-static-blue-release-v1' if blue_proof else 'original-native-static-empty-release-v1', 'source_sha256': EOF_SOURCE_HASHES,
             'eof_tick': e, 'drain_tick': d, 'release_ticks': n-d,
             'mode': 'red' if state[6] == 0 else 'blue_down_border', 'input_policy': 'all_owned_keys_released',
             'rpgtext_policy': 'original-passive-ui-v1'}

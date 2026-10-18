@@ -1,0 +1,116 @@
+[
+  {
+    "name": "world-idle-0-0",
+    "options": {
+      "width": 128,
+      "workers": 1,
+      "observation_chunk_ticks": 240,
+      "observation_preview_ticks": 60,
+      "observation_goal_style": 16
+    },
+    "status": "candidate_found",
+    "verified": true,
+    "reached": 27953,
+    "seconds": 7.22636019499987,
+    "search_seconds": 1.3553236029995333,
+    "verify_seconds": 1.386797794999893,
+    "expanded": 9297441,
+    "calls": 0,
+    "ticks": 0
+  },
+  {
+    "name": "world-idle-1-0",
+    "options": {
+      "width": 128,
+      "workers": 1,
+      "observation_chunk_ticks": 240,
+      "observation_preview_ticks": 60,
+      "observation_goal_style": 16
+    },
+    "status": "candidate_found",
+    "verified": true,
+    "reached": 27953,
+    "seconds": 6.984352974000103,
+    "search_seconds": 1.351979147998236,
+    "verify_seconds": 1.356090451,
+    "expanded": 9270179,
+    "calls": 1238,
+    "ticks": 13670
+  },
+  {
+    "name": "world-idle-0-1",
+    "options": {
+      "width": 128,
+      "workers": 1,
+      "observation_chunk_ticks": 240,
+      "observation_preview_ticks": 60,
+      "observation_goal_style": 16
+    },
+    "status": "candidate_found",
+    "verified": true,
+    "reached": 27953,
+    "seconds": 7.030192498000133,
+    "search_seconds": 1.3653812740019475,
+    "verify_seconds": 1.3926616190001369,
+    "expanded": 9267262,
+    "calls": 0,
+    "ticks": 0
+  },
+  {
+    "name": "world-idle-1-1",
+    "options": {
+      "width": 128,
+      "workers": 1,
+      "observation_chunk_ticks": 240,
+      "observation_preview_ticks": 60,
+      "observation_goal_style": 16
+    },
+    "status": "candidate_found",
+    "verified": true,
+    "reached": 27953,
+    "seconds": 7.229564345999961,
+    "search_seconds": 1.3954699170028562,
+    "verify_seconds": 1.3610334330001024,
+    "expanded": 9328042,
+    "calls": 1238,
+    "ticks": 13670
+  },
+  {
+    "name": "world-idle-0-2",
+    "options": {
+      "width": 128,
+      "workers": 1,
+      "observation_chunk_ticks": 240,
+      "observation_preview_ticks": 60,
+      "observation_goal_style": 16
+    },
+    "status": "candidate_found",
+    "verified": true,
+    "reached": 27953,
+    "seconds": 7.34165102299994,
+    "search_seconds": 1.3607800720005798,
+    "verify_seconds": 1.2849232800001573,
+    "expanded": 9249416,
+    "calls": 0,
+    "ticks": 0
+  },
+  {
+    "name": "world-idle-1-2",
+    "options": {
+      "width": 128,
+      "workers": 1,
+      "observation_chunk_ticks": 240,
+      "observation_preview_ticks": 60,
+      "observation_goal_style": 16
+    },
+    "status": "candidate_found",
+    "verified": true,
+    "reached": 27953,
+    "seconds": 6.836754694000092,
+    "search_seconds": 1.3618003349984065,
+    "verify_seconds": 1.242502985000101,
+    "expanded": 9296682,
+    "calls": 1238,
+    "ticks": 13670
+  }
+]

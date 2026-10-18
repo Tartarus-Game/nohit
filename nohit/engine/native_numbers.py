@@ -45,12 +45,12 @@ def native_local_number(value):
     return float(match.group(0)) if match is not None else math.nan
 
 
-def native_parameter_in_range(value, lower, upper):
-    """Function.CompareParam with numeric >= / <= guards, before int(P0).
+def native_parameter_number(value):
+    """ECMAScript ToNumber for a raw Function parameter in numeric expressions.
 
     JS relational comparison ToNumbers a string against these numeric bounds.
-    Unlike parseFloat, the whole string must be numeric. This narrow helper is
-    only used by BoneStab's two original entry conditions.
+    Unlike parseFloat/int, the entire string must be numeric. Empty text is
+    zero, and unsigned hexadecimal, binary and octal prefixes are accepted.
     """
     if isinstance(value, str):
         value = value.strip(_JS_WHITESPACE)
@@ -67,7 +67,12 @@ def native_parameter_in_range(value, lower, upper):
             number = math.nan
     else:
         number = float(value)
-    return lower <= number <= upper
+    return number
+
+
+def native_parameter_in_range(value, lower, upper):
+    """Original Function.CompareParam numeric >= / <= entry guards."""
+    return lower <= native_parameter_number(value) <= upper
 
 
 def native_for_count_indices(count):

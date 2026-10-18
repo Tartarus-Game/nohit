@@ -26,6 +26,16 @@ def main():
     parser.add_argument('--search-strategy', choices=('auto','native'), default='auto')
     parser.add_argument('--workers', type=int)
     parser.add_argument('--memory-mb', type=int, default=64)
+    parser.add_argument('--objective',choices=('balanced','fewest_operations','human_friendly'),default='balanced')
+    difficulty=parser.add_mutually_exclusive_group()
+    difficulty.add_argument('--analyze-difficulty',action='store_true',default=None,
+        help='Report route clearance and bounded actual-source timing probes; automatic in human_friendly mode')
+    difficulty.add_argument('--no-analyze-difficulty',action='store_false',dest='analyze_difficulty',default=None,
+        help='Skip the optional difficulty replay, including in human_friendly mode')
+    parser.add_argument('--operation-weight',type=int)
+    parser.add_argument('--held-weight',type=int)
+    parser.add_argument('--diagnostic-routes',type=int,default=32,
+                        help='export up to 1..256 independently replayed failure-prefix routes')
     parser.add_argument('--allow-scripted-healing', action='store_true',
                         help='opt in to physical-only literal healing; native HP/KR replay is still required')
     parser.add_argument('--allow-scripted-damage',action='store_true',
@@ -50,6 +60,9 @@ def main():
         dt_schedule=captured.get('dt_schedule',[1/args.fps]*args.max_ticks), max_ticks=args.max_ticks,
         width=args.width, seconds=args.seconds,
         seed=args.seed, search_strategy=args.search_strategy, workers=args.workers, memory_mb=args.memory_mb,
+        objective=args.objective,operation_weight=args.operation_weight,held_weight=args.held_weight,
+        analyze_difficulty=args.analyze_difficulty,
+        diagnostic_routes=args.diagnostic_routes,
         allow_scripted_healing=args.allow_scripted_healing,allow_scripted_damage=args.allow_scripted_damage,
         initial_arena=captured.get('initial_arena',captured.get('arena')),
         initial_confirm=captured.get('initial_confirm',False), previous_confirm=captured.get('previous_confirm',False),
@@ -65,7 +78,16 @@ def main():
     args.out.write_text(json.dumps(result, ensure_ascii=False, allow_nan=False), encoding='utf-8')
     keys = ('status', 'reason', 'reached_tick', 'verified', 'wall_seconds',
             'game_seconds', 'physics_hz', 'original_replay_passed')
-    print(json.dumps({key: result[key] for key in keys if key in result}, indent=2))
+    summary={key:result[key] for key in keys if key in result}
+    if result.get('difficulty',{}).get('status')=='analyzed':
+        d=result['difficulty']
+        summary['difficulty']={k:d[k] for k in ('score','label','minimum_clearance_px','operations','human_feasibility','timing_coverage')}
+        summary['difficulty']['hard_points']=[{k:p[k] for k in ('tick','seconds','clearance_px','csv')} for p in d['hard_points'][:3]]
+    print(json.dumps(summary,ensure_ascii=False,indent=2))
+    if result.get('failure_diagnostics'):
+        diagnostic=result['failure_diagnostics']
+        print(json.dumps({key:diagnostic.get(key) for key in
+            ('last_safe_tick','last_safe_seconds','failure','routes_truncated')},ensure_ascii=False,indent=2))
     return 0 if result['status'] == 'candidate_found' else 2
 
 

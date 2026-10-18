@@ -66,6 +66,56 @@ function entryCandidate() {
   return result;
 }
 
+test('failed solve locates CSV/tick/seconds and replays a separate incomplete route',()=>{
+  const p=page(),route={actions:[2,0],confirm_sequence:[false,true],
+    trajectory:[[320,304,0,0,0,0,0,1,750,0,0],[321,304,0,0,0,0,0,1,750,0,0],[322,304,0,0,0,0,0,1,750,0,0]],
+    dt_sequence:[.04,.04,.06],prefix_verified:true,complete:false,reached_tick:2,input_cost:{churn:2}};
+  const result={status:'unknown',verified:false,actions:[],confirm_sequence:[],reason:'native_search_limited',
+    failure_diagnostics:{last_safe_tick:2,last_safe_seconds:.1,reason:'native_search_limited',
+      failure:{tick:3,seconds:.14,kind:'retained_frontier_collision',csv:{line:12,column:2,row:['0','BoneV']}},routes:[route]}};
+  p.result(result);
+  assert.equal(p.element('failure-dialog').hidden,false);assert.match(p.element('failure-location').textContent,/tick 3.*0.140 秒/);
+  assert.match(p.element('failure-location').textContent,/第 12 行/);assert.equal(p.element('prefix-routes').hidden,false);
+  assert.equal(p.element('timeline').max,2);assert.equal(p.keys.find(k=>k.dataset.bit==='32').active,true);
+  assert.equal(result.actions.length,0);assert.match(p.element('visualization-warning').textContent,/尚未完成/);
+  p.element('failure-close').events.click();assert.equal(p.element('failure-dialog').hidden,true);
+});
+
+test('unverified failure route cannot enable playback',()=>{
+  const p=page();p.result({status:'unknown',verified:false,actions:[],failure_diagnostics:{routes:[{prefix_verified:false,complete:false}]}});
+  assert.equal(p.element('play').disabled,true);assert.equal(p.element('prefix-routes').hidden,true);
+});
+
+test('fewest-operation preference is sent to the solver request',async()=>{
+  const p=page();p.element('csv-path').value='test.csv';p.element('objective').value='fewest_operations';
+  const request=await p.submit({status:'unknown',verified:false});
+  assert.equal(request.payload.objective,'fewest_operations');
+});
+
+test('human-friendly selection enables difficulty analysis and preserves the request mode',async()=>{
+  const p=page();p.element('csv-path').value='test.csv';p.element('objective').value='human_friendly';
+  p.element('objective').events.change();
+  const request=await p.submit({status:'unknown',verified:false});
+  assert.equal(request.payload.objective,'human_friendly');assert.equal(request.payload.analyze_difficulty,true);
+});
+
+test('difficulty reports per-side pixels, timing limits, CSV cursor and never claims human impossibility',()=>{
+  const p=page(),result=candidate();result.difficulty={status:'analyzed',score:90,label:'极限',minimum_clearance_px:3,
+    operations:{arrow_changes:2,confirm_presses:1},timing_coverage:{tested_events:1,total_events:2},
+    human_feasibility:{estimate:'manual_play_extremely_demanding',flags:['帧级操作']},
+    hard_points:[{tick:1,seconds:.04,clearance_px:3,csv:{line:12}}],
+    timing_events:[{tick:1,seconds:.04,kind:'arrows',csv:{line:12},early_safe_ticks_tested:0,late_safe_ticks_tested:0,
+      early_safe_ms_tested:0,late_safe_ms_tested:0,frame_exact_locally:true}]};
+  p.result(result);
+  assert.equal(p.element('difficulty-panel').hidden,false);
+  assert.match(p.element('difficulty-summary').textContent,/最小单侧余量 3/);
+  assert.match(p.element('difficulty-details').textContent,/CSV 执行游标第 12 行/);
+  assert.match(p.element('difficulty-details').textContent,/±1 tick 均碰撞/);
+  assert.match(p.element('difficulty-scope').textContent,/不证明其他路线/);
+  p.element('difficulty-seek').value='1';p.element('difficulty-seek').events.change();
+  assert.equal(Number(p.element('timeline').value),1);
+});
+
 test('Dashboard solving is a main entry and defaults to light preview without budget tuning',async()=>{
   const advanced=html.slice(html.indexOf('<details id="advanced-settings"'),html.indexOf('</form>'));
   assert.doesNotMatch(advanced,/id="solve-button"/);

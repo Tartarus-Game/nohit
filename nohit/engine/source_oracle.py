@@ -9,12 +9,18 @@ from functools import lru_cache
 from pathlib import Path
 from types import ModuleType
 import sys
+import importlib
+import importlib.util
+import os
 
 
 @lru_cache(maxsize=3)
 def scalar_module(name):
     if name not in ('discrete_operator', 'cspace', 'joint_transition'):
         raise ValueError('unknown scalar source module')
+    compiled='nohit.engine._scalar_'+name
+    if os.environ.get('NOHIT_SCALAR_PYTHON')!='1' and importlib.util.find_spec(compiled) is not None:
+        return importlib.import_module(compiled)
     path = Path(__file__).with_name(name + '.py')
     tree = ast.parse(path.read_text(), filename=str(path))
     tree.body = [node for node in tree.body

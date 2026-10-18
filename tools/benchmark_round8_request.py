@@ -5,6 +5,7 @@ model verification does not imply original-game acceptance.
 """
 import argparse
 import ctypes
+import gzip
 import hashlib
 import json
 import math
@@ -55,6 +56,12 @@ def child(args):
     from nohit.engine import native_backend
 
     entry = json.loads(args.entry.read_text(encoding='utf-8-sig'))
+    implementation = {p.name: hashlib.sha256(p.read_bytes()).hexdigest()
+        for p in (ROOT / 'nohit/engine').iterdir() if p.suffix in ('.py', '.cpp')}
+    accelerator_files={p.name:hashlib.sha256(p.read_bytes()).hexdigest()
+        for p in (ROOT/'nohit/engine').iterdir() if p.suffix in ('.so','.pyd','.dylib')}
+    accelerator_manifest=ROOT/'build/accelerated/manifest.json'
+    accelerator_metadata=json.loads(accelerator_manifest.read_text()) if accelerator_files and accelerator_manifest.exists() else None
     began, cpu = time.perf_counter(), time.process_time()
     result = solve_csv(args.csv, entry['initial'],
         initial_environment=entry.get('initial_environment'),
@@ -74,17 +81,30 @@ def child(args):
         observation_goal_style=args.observation_goal_style,
         observation_goal_retries=args.observation_goal_retries)
     elapsed, cpu = time.perf_counter() - began, time.process_time() - cpu
+    after = {p.name: hashlib.sha256(p.read_bytes()).hexdigest()
+        for p in (ROOT / 'nohit/engine').iterdir() if p.suffix in ('.py', '.cpp')}
+    if after != implementation:
+        raise RuntimeError('Solver sources changed during benchmark; discard this measurement')
+    if accelerator_files!={p.name:hashlib.sha256(p.read_bytes()).hexdigest()
+            for p in (ROOT/'nohit/engine').iterdir() if p.suffix in ('.so','.pyd','.dylib')}:
+        raise RuntimeError('Compiled VM changed during benchmark; discard this measurement')
     witness = {key: result.get(key) for key in
                ('actions', 'confirm_sequence', 'trajectory', 'dt_sequence', 'target_history', 'completion')}
     record = dict(status=result['status'], reason=result.get('reason'),
         verified=result['verified'], solve_seconds=elapsed, solve_cpu_seconds=cpu,
         effective_solve_cores=cpu / elapsed, peak_rss_bytes=peak_rss_bytes(),
         search_stats=result.get('search_stats'),
-        source_sha256=hashlib.sha256(native_backend._SOURCE.read_bytes()).hexdigest(),
+        source_sha256=implementation['native_frontier.cpp'],
+        implementation_sha256=hashlib.sha256(json.dumps(implementation, sort_keys=True).encode()).hexdigest(),
         fingerprint=hashlib.sha256(json.dumps(witness, sort_keys=True).encode()).hexdigest(),
         csv_sha256=result['csv_sha256'], entry_sha256=hashlib.sha256(args.entry.read_bytes()).hexdigest(),
         original_replay_passed=result['original_replay_passed'],
+        python_accelerators=accelerator_metadata,accelerator_binary_sha256=accelerator_files,
         numba_imported='numba' in sys.modules, route_cache=False, environment_cache=False)
+    if args.witness_out is not None:
+        args.witness_out.parent.mkdir(parents=True,exist_ok=True)
+        with gzip.open(args.witness_out,'wt',encoding='utf-8') as output:
+            json.dump(result,output)
     print(json.dumps(record))
 
 
@@ -93,6 +113,7 @@ def main():
     parser.add_argument('csv', type=Path)
     parser.add_argument('--entry', type=Path, required=True)
     parser.add_argument('--out', type=Path, required=True)
+    parser.add_argument('--witness-out', type=Path, help='Save the resulting witness after the timed solve')
     parser.add_argument('--workers', type=int, default=8)
     parser.add_argument('--width', type=int, default=8192)
     parser.add_argument('--seconds', type=float, default=45)
@@ -124,6 +145,8 @@ def main():
         command += ['--' + name.replace('_', '-'), str(getattr(args, name))]
     if args.observation_goal_style is not None:
         command += ['--observation-goal-style', str(args.observation_goal_style)]
+    if args.witness_out is not None:
+        command += ['--witness-out',str(args.witness_out.resolve())]
     for name in ('allow_scripted_healing', 'allow_scripted_damage', 'observation_goal_retries'):
         if getattr(args, name):
             command.append('--' + name.replace('_', '-'))

@@ -228,7 +228,7 @@ def test_default_cpu_workers_respect_affinity_quota_and_api_limit(monkeypatch):
     assert backend.available_cpu_workers()==3
 
 
-def test_pathological_integer_frontier_rehashes_without_merging_source_states(tmp_path):
+def test_integer_frontier_is_mixed_without_rebuilds_or_merging_source_states(tmp_path):
     from nohit.engine.native_backend import search
     from nohit.engine.parametric_environment import ParametricEnvironment
     path=tmp_path/'integer.csv';path.write_text('0,HeartMode,0\n0.6,EndAttack\n')
@@ -236,7 +236,8 @@ def test_pathological_integer_frontier_rehashes_without_merging_source_states(tm
     initial=np.array([320.,304.,0.,0.,0.,0.,0.,1.,750.,0.,0.])
     table=np.tile(np.arange(16,dtype=np.int64),(len(wave.env_schedule)-1,1));counts=np.full(len(table),16,np.int64)
     results=[search(initial,wave,table,counts,[512],[42],workers,5,terminal_target=[320.,300.]) for workers in (1,4)]
-    assert all(r[0]==0 and r[4]['state_hash_rebuilds']>0 for r in results)
+    assert all(r[0]==0 and r[4]['state_hash_rebuilds']==0 for r in results)
+    assert all(r[4]['state_hash_mode']=='avalanche-full-bit-equality' for r in results)
     assert results[0][1].tobytes()==results[1][1].tobytes()
     assert results[0][2].tobytes()==results[1][2].tobytes()
     player=scalar_module('discrete_operator');state=initial.copy()

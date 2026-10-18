@@ -1,0 +1,5971 @@
+[
+  {
+    "id": "sans_bluebone",
+    "wave": "sans_bluebone",
+    "passed": true,
+    "target_history_matches": true,
+    "target_history": [],
+    "scripted_healing_admitted": false,
+    "scripted_damage_admitted": false,
+    "expected_scripted_damage": [],
+    "starting_HP": 92,
+    "health_contract": "constant initial HP, KR0, no DamagePlayer call",
+    "protocol": "unchanged-c2-event-engine-with-dom-audio-render-stubs",
+    "clock": "60hz-explicit-native-dt",
+    "checkpoint_used": false,
+    "native_search_used": false,
+    "csv_sha256": "d698d3a883b1409eacf159b4fe3b663dd1f5521998f82f1e74ded150552b46f7",
+    "runtime_sha256": "664b5d93dbd5159976d490663ac64c49c8eb7dc68c9aac92fba940b6fa2a3de9",
+    "data_sha256": "9f70e7179fe4260002321a75e5170e96583439bb39988b92ed93da42a0a402c7",
+    "plan_sha256": "b4a8564f415a2de2bc429f260b0873c788df593e0b31ee0c8953b604a44a9475",
+    "solver_sha256": {
+      "__init__.py": "9a6b413a365d0ba53f8dcb37a5a857cdfe23fcc06c9dc9fd584af9dc66f80163",
+      "compact_types.py": "b53e36aa708581625286f8a05914e1a40f1134863c21e4aaad76596ed0136569",
+      "compact_wave.py": "68cd30fd14b10e58535cd4131a2d1121800c587342f9d623b5561cb052ae819a",
+      "control_quotient.py": "6c0e8edc886333ad62f880f8151b52f75a6d61d3b67260d3de0d8b5ebb284b7f",
+      "cspace.py": "12d99f204161d045e61eaa80b1e1f8b771fc6ca8eb0220bca14d9868be764766",
+      "csv_completion.py": "9f45c6eb0c3b957cb1d902e0e9eba414b9ca0e09ac6765d094ea163b9c15bddf",
+      "csv_preparation.py": "6f4e35b70346c4ce7d8d94281956ad86569809b61c7bee014c2f6d7c130456c8",
+      "csv_solver.py": "76036e69f4b761d48526bb366dc16178595e264f24f656212fe8dfd58c6ec9f9",
+      "csv_warmup.py": "1401a93bb3b554dd49e5de5f4e4c23b43e16e8ef0924c7f20eb54ced1a226c61",
+      "dialogue_operator.py": "4f1a80015fc7a59c24fb97e4780e0522d66ae6ca8c2a4f6007b2cc798d62a2aa",
+      "discrete_operator.py": "3f5c2a53b9bba6cdc9b581ca231acac965e411dbb0cdd1d37863d91dec4af51f",
+      "environment_state_key.py": "dc42e54e55b26a4145f51ec6c357121c11312beeee2fdaa79129c584c1da8b99",
+      "execution_schedule.py": "a8d4c90fc01d416f801a107b942fdfc035a584055ad6d24ed140921eae0eb8af",
+      "initial_target_history.py": "04765436cd965122e72c6267511acf570c0da3da3ae7016076fdb4d49ca243af",
+      "joint_transition.py": "5f627c440ea4d8139c778d7a856435bb100253b575d8a1819bb91f2153052957",
+      "lazy_jit.py": "81054a6b087a713bb0250212fec924fecc5b4b57fe50b3816d9faea6085bb8de",
+      "native_backend.py": "9e7c3f8281829d263254211b2442f9b446539b5e65ee816a6d8b9a8c11225613",
+      "native_candidate.py": "710d633d2f82824a9d8820c30d729268838dd2c185c969dbdbb31830f171bfa2",
+      "native_dynamic.py": "cfd662bd1b355dc41739abf621ccb1ecf2b81cbc0207466098a263ac52b41ee5",
+      "native_frontier.cpp": "c4bbcb809ecbf604d7904e8f3d900e4ec54e5abb0450a9f8a65c97f4110f8dc8",
+      "native_function_dispatch.py": "d437bd560d7efe95ef6ca6a6f3bbba38549b00c2e128a0e2178bc5ec68133f98",
+      "native_math.py": "1ddc633a2e53d42beba7a4ed09f024930653cd1636a7350e3f082a9944c1ae4d",
+      "native_numbers.py": "a6650e285ce4981bd29ac762ff1af792e71032232470ddffd33d6182175d41a6",
+      "parametric_environment.py": "ace67956d70c64438bd447c39b41e8d81b1eeb17e4134ea162aa499f62be5159",
+      "reference_numeric.py": "ac6fed97bff975ca374d73fad4b33d4b391866ade464456ad1cd6f0b17c986e6",
+      "resumable_wave.py": "d9549f1c003382ee2d951a4d032f0bfc2764b66873b019da94840d5bafb6ce2b",
+      "source_contract.py": "92f37967aaa7b96d422c721869283b79d7f82fe99ae6ec1c10cc6ba9f3988f6f",
+      "source_oracle.py": "cca219fa8a6527574c214efce3826cf9f6f54718f093f7ada75805da2748018f",
+      "source_policy.py": "2b56828d1b84aa40cf12c9876d2b6c1dc1cbd69a3bd42484a095807205cf909e",
+      "source_verification.py": "c1117e105c90aab9c40ce56778401748cfb1233dcc42e2db1c680adab7d91378",
+      "terminal_completion.py": "fcfc171b48550798ef1a9667fae53773aab0c6a9fabe886cebdc78faaf790cce",
+      "terminal_invariant.py": "4a1ebff2c0c7f82a50bf2a0fc4243a74d273c1c830acfa95dcec186ee1b8812c",
+      "timeline_csv.py": "bfc32b4220b56da03017b9ed10cead0890459f4a22d0136287e135768a6a8632"
+    },
+    "model_wall_seconds": 0.06327591100034624,
+    "process_wall_seconds": 0.17219408799999997,
+    "checked_nonterminal_components": 4334,
+    "terminal_scope": "native EndAttack resets player to menu, final states recorded separately",
+    "terminal_actual": [
+      47.99999949336052,
+      453,
+      0,
+      3.0000000000558797,
+      0,
+      0,
+      1,
+      1,
+      750,
+      0,
+      0
+    ],
+    "terminal_model": [
+      420.0000000018622,
+      377.95833333785487,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      750,
+      0,
+      0
+    ],
+    "events": [
+      {
+        "tick": 565,
+        "fn": "tlplay"
+      },
+      {
+        "tick": 566,
+        "fn": "tlpause"
+      },
+      {
+        "tick": 578,
+        "fn": "tlresume"
+      },
+      {
+        "tick": 961,
+        "fn": "endattack"
+      }
+    ],
+    "damage": [],
+    "mismatches": []
+  },
+  {
+    "id": "sans_bonegap1",
+    "wave": "sans_bonegap1",
+    "passed": true,
+    "target_history_matches": true,
+    "target_history": [],
+    "scripted_healing_admitted": false,
+    "scripted_damage_admitted": false,
+    "expected_scripted_damage": [],
+    "starting_HP": 92,
+    "health_contract": "constant initial HP, KR0, no DamagePlayer call",
+    "protocol": "unchanged-c2-event-engine-with-dom-audio-render-stubs",
+    "clock": "60hz-explicit-native-dt",
+    "checkpoint_used": false,
+    "native_search_used": false,
+    "csv_sha256": "90441ab0083ed99eb7e501f2284aae7246aecfc3af7a293cc7da4a911c758306",
+    "runtime_sha256": "664b5d93dbd5159976d490663ac64c49c8eb7dc68c9aac92fba940b6fa2a3de9",
+    "data_sha256": "9f70e7179fe4260002321a75e5170e96583439bb39988b92ed93da42a0a402c7",
+    "plan_sha256": "18fda5d4abc8e9f833aa02ec4e663b75aa071eb96ada34f27c51df4e2a7c9e97",
+    "solver_sha256": {
+      "__init__.py": "9a6b413a365d0ba53f8dcb37a5a857cdfe23fcc06c9dc9fd584af9dc66f80163",
+      "compact_types.py": "b53e36aa708581625286f8a05914e1a40f1134863c21e4aaad76596ed0136569",
+      "compact_wave.py": "68cd30fd14b10e58535cd4131a2d1121800c587342f9d623b5561cb052ae819a",
+      "control_quotient.py": "6c0e8edc886333ad62f880f8151b52f75a6d61d3b67260d3de0d8b5ebb284b7f",
+      "cspace.py": "12d99f204161d045e61eaa80b1e1f8b771fc6ca8eb0220bca14d9868be764766",
+      "csv_completion.py": "9f45c6eb0c3b957cb1d902e0e9eba414b9ca0e09ac6765d094ea163b9c15bddf",
+      "csv_preparation.py": "6f4e35b70346c4ce7d8d94281956ad86569809b61c7bee014c2f6d7c130456c8",
+      "csv_solver.py": "76036e69f4b761d48526bb366dc16178595e264f24f656212fe8dfd58c6ec9f9",
+      "csv_warmup.py": "1401a93bb3b554dd49e5de5f4e4c23b43e16e8ef0924c7f20eb54ced1a226c61",
+      "dialogue_operator.py": "4f1a80015fc7a59c24fb97e4780e0522d66ae6ca8c2a4f6007b2cc798d62a2aa",
+      "discrete_operator.py": "3f5c2a53b9bba6cdc9b581ca231acac965e411dbb0cdd1d37863d91dec4af51f",
+      "environment_state_key.py": "dc42e54e55b26a4145f51ec6c357121c11312beeee2fdaa79129c584c1da8b99",
+      "execution_schedule.py": "a8d4c90fc01d416f801a107b942fdfc035a584055ad6d24ed140921eae0eb8af",
+      "initial_target_history.py": "04765436cd965122e72c6267511acf570c0da3da3ae7016076fdb4d49ca243af",
+      "joint_transition.py": "5f627c440ea4d8139c778d7a856435bb100253b575d8a1819bb91f2153052957",
+      "lazy_jit.py": "81054a6b087a713bb0250212fec924fecc5b4b57fe50b3816d9faea6085bb8de",
+      "native_backend.py": "9e7c3f8281829d263254211b2442f9b446539b5e65ee816a6d8b9a8c11225613",
+      "native_candidate.py": "710d633d2f82824a9d8820c30d729268838dd2c185c969dbdbb31830f171bfa2",
+      "native_dynamic.py": "cfd662bd1b355dc41739abf621ccb1ecf2b81cbc0207466098a263ac52b41ee5",
+      "native_frontier.cpp": "c4bbcb809ecbf604d7904e8f3d900e4ec54e5abb0450a9f8a65c97f4110f8dc8",
+      "native_function_dispatch.py": "d437bd560d7efe95ef6ca6a6f3bbba38549b00c2e128a0e2178bc5ec68133f98",
+      "native_math.py": "1ddc633a2e53d42beba7a4ed09f024930653cd1636a7350e3f082a9944c1ae4d",
+      "native_numbers.py": "a6650e285ce4981bd29ac762ff1af792e71032232470ddffd33d6182175d41a6",
+      "parametric_environment.py": "ace67956d70c64438bd447c39b41e8d81b1eeb17e4134ea162aa499f62be5159",
+      "reference_numeric.py": "ac6fed97bff975ca374d73fad4b33d4b391866ade464456ad1cd6f0b17c986e6",
+      "resumable_wave.py": "d9549f1c003382ee2d951a4d032f0bfc2764b66873b019da94840d5bafb6ce2b",
+      "source_contract.py": "92f37967aaa7b96d422c721869283b79d7f82fe99ae6ec1c10cc6ba9f3988f6f",
+      "source_oracle.py": "cca219fa8a6527574c214efce3826cf9f6f54718f093f7ada75805da2748018f",
+      "source_policy.py": "2b56828d1b84aa40cf12c9876d2b6c1dc1cbd69a3bd42484a095807205cf909e",
+      "source_verification.py": "c1117e105c90aab9c40ce56778401748cfb1233dcc42e2db1c680adab7d91378",
+      "terminal_completion.py": "fcfc171b48550798ef1a9667fae53773aab0c6a9fabe886cebdc78faaf790cce",
+      "terminal_invariant.py": "4a1ebff2c0c7f82a50bf2a0fc4243a74d273c1c830acfa95dcec186ee1b8812c",
+      "timeline_csv.py": "bfc32b4220b56da03017b9ed10cead0890459f4a22d0136287e135768a6a8632"
+    },
+    "model_wall_seconds": 0.0887573110003359,
+    "process_wall_seconds": 0.19846667900000012,
+    "checked_nonterminal_components": 4488,
+    "terminal_scope": "native EndAttack resets player to menu, final states recorded separately",
+    "terminal_actual": [
+      47.99999949336052,
+      453,
+      0,
+      115.50000000271012,
+      0,
+      0,
+      1,
+      1,
+      750,
+      0,
+      0
+    ],
+    "terminal_model": [
+      259.9999999988827,
+      366.69166667273,
+      0,
+      115.50000000271012,
+      0,
+      0,
+      1,
+      1,
+      750,
+      0,
+      0
+    ],
+    "events": [
+      {
+        "tick": 565,
+        "fn": "tlplay"
+      },
+      {
+        "tick": 566,
+        "fn": "tlpause"
+      },
+      {
+        "tick": 578,
+        "fn": "tlresume"
+      },
+      {
+        "tick": 975,
+        "fn": "endattack"
+      }
+    ],
+    "damage": [],
+    "mismatches": []
+  },
+  {
+    "id": "sans_bonegap1fast",
+    "wave": "sans_bonegap1fast",
+    "passed": true,
+    "target_history_matches": true,
+    "target_history": [],
+    "scripted_healing_admitted": false,
+    "scripted_damage_admitted": false,
+    "expected_scripted_damage": [],
+    "starting_HP": 92,
+    "health_contract": "constant initial HP, KR0, no DamagePlayer call",
+    "protocol": "unchanged-c2-event-engine-with-dom-audio-render-stubs",
+    "clock": "60hz-explicit-native-dt",
+    "checkpoint_used": false,
+    "native_search_used": false,
+    "csv_sha256": "148ac1aa095564326aa7a071f838e15f713ff5add1aef72f63c01f9281a4bfc4",
+    "runtime_sha256": "664b5d93dbd5159976d490663ac64c49c8eb7dc68c9aac92fba940b6fa2a3de9",
+    "data_sha256": "9f70e7179fe4260002321a75e5170e96583439bb39988b92ed93da42a0a402c7",
+    "plan_sha256": "a1c849c94d7292261e59aaecf26c14742bc7138232b31ad05fed1679e6caf358",
+    "solver_sha256": {
+      "__init__.py": "9a6b413a365d0ba53f8dcb37a5a857cdfe23fcc06c9dc9fd584af9dc66f80163",
+      "compact_types.py": "b53e36aa708581625286f8a05914e1a40f1134863c21e4aaad76596ed0136569",
+      "compact_wave.py": "68cd30fd14b10e58535cd4131a2d1121800c587342f9d623b5561cb052ae819a",
+      "control_quotient.py": "6c0e8edc886333ad62f880f8151b52f75a6d61d3b67260d3de0d8b5ebb284b7f",
+      "cspace.py": "12d99f204161d045e61eaa80b1e1f8b771fc6ca8eb0220bca14d9868be764766",
+      "csv_completion.py": "9f45c6eb0c3b957cb1d902e0e9eba414b9ca0e09ac6765d094ea163b9c15bddf",
+      "csv_preparation.py": "6f4e35b70346c4ce7d8d94281956ad86569809b61c7bee014c2f6d7c130456c8",
+      "csv_solver.py": "76036e69f4b761d48526bb366dc16178595e264f24f656212fe8dfd58c6ec9f9",
+      "csv_warmup.py": "1401a93bb3b554dd49e5de5f4e4c23b43e16e8ef0924c7f20eb54ced1a226c61",
+      "dialogue_operator.py": "4f1a80015fc7a59c24fb97e4780e0522d66ae6ca8c2a4f6007b2cc798d62a2aa",
+      "discrete_operator.py": "3f5c2a53b9bba6cdc9b581ca231acac965e411dbb0cdd1d37863d91dec4af51f",
+      "environment_state_key.py": "dc42e54e55b26a4145f51ec6c357121c11312beeee2fdaa79129c584c1da8b99",
+      "execution_schedule.py": "a8d4c90fc01d416f801a107b942fdfc035a584055ad6d24ed140921eae0eb8af",
+      "initial_target_history.py": "04765436cd965122e72c6267511acf570c0da3da3ae7016076fdb4d49ca243af",
+      "joint_transition.py": "5f627c440ea4d8139c778d7a856435bb100253b575d8a1819bb91f2153052957",
+      "lazy_jit.py": "81054a6b087a713bb0250212fec924fecc5b4b57fe50b3816d9faea6085bb8de",
+      "native_backend.py": "9e7c3f8281829d263254211b2442f9b446539b5e65ee816a6d8b9a8c11225613",
+      "native_candidate.py": "710d633d2f82824a9d8820c30d729268838dd2c185c969dbdbb31830f171bfa2",
+      "native_dynamic.py": "cfd662bd1b355dc41739abf621ccb1ecf2b81cbc0207466098a263ac52b41ee5",
+      "native_frontier.cpp": "c4bbcb809ecbf604d7904e8f3d900e4ec54e5abb0450a9f8a65c97f4110f8dc8",
+      "native_function_dispatch.py": "d437bd560d7efe95ef6ca6a6f3bbba38549b00c2e128a0e2178bc5ec68133f98",
+      "native_math.py": "1ddc633a2e53d42beba7a4ed09f024930653cd1636a7350e3f082a9944c1ae4d",
+      "native_numbers.py": "a6650e285ce4981bd29ac762ff1af792e71032232470ddffd33d6182175d41a6",
+      "parametric_environment.py": "ace67956d70c64438bd447c39b41e8d81b1eeb17e4134ea162aa499f62be5159",
+      "reference_numeric.py": "ac6fed97bff975ca374d73fad4b33d4b391866ade464456ad1cd6f0b17c986e6",
+      "resumable_wave.py": "d9549f1c003382ee2d951a4d032f0bfc2764b66873b019da94840d5bafb6ce2b",
+      "source_contract.py": "92f37967aaa7b96d422c721869283b79d7f82fe99ae6ec1c10cc6ba9f3988f6f",
+      "source_oracle.py": "cca219fa8a6527574c214efce3826cf9f6f54718f093f7ada75805da2748018f",
+      "source_policy.py": "2b56828d1b84aa40cf12c9876d2b6c1dc1cbd69a3bd42484a095807205cf909e",
+      "source_verification.py": "c1117e105c90aab9c40ce56778401748cfb1233dcc42e2db1c680adab7d91378",
+      "terminal_completion.py": "fcfc171b48550798ef1a9667fae53773aab0c6a9fabe886cebdc78faaf790cce",
+      "terminal_invariant.py": "4a1ebff2c0c7f82a50bf2a0fc4243a74d273c1c830acfa95dcec186ee1b8812c",
+      "timeline_csv.py": "bfc32b4220b56da03017b9ed10cead0890459f4a22d0136287e135768a6a8632"
+    },
+    "model_wall_seconds": 0.0879773530004968,
+    "process_wall_seconds": 0.19543081399999981,
+    "checked_nonterminal_components": 4356,
+    "terminal_scope": "native EndAttack resets player to menu, final states recorded separately",
+    "terminal_actual": [
+      47.99999949336052,
+      453,
+      0,
+      3.0000000000558797,
+      0,
+      0,
+      1,
+      1,
+      750,
+      0,
+      0
+    ],
+    "terminal_model": [
+      340.00000000037244,
+      377.97500000581954,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      750,
+      0,
+      0
+    ],
+    "events": [
+      {
+        "tick": 565,
+        "fn": "tlplay"
+      },
+      {
+        "tick": 566,
+        "fn": "tlpause"
+      },
+      {
+        "tick": 578,
+        "fn": "tlresume"
+      },
+      {
+        "tick": 963,
+        "fn": "endattack"
+      }
+    ],
+    "damage": [],
+    "mismatches": []
+  },
+  {
+    "id": "sans_bonegap2",
+    "wave": "sans_bonegap2",
+    "passed": true,
+    "target_history_matches": true,
+    "target_history": [],
+    "scripted_healing_admitted": false,
+    "scripted_damage_admitted": false,
+    "expected_scripted_damage": [],
+    "starting_HP": 92,
+    "health_contract": "constant initial HP, KR0, no DamagePlayer call",
+    "protocol": "unchanged-c2-event-engine-with-dom-audio-render-stubs",
+    "clock": "60hz-explicit-native-dt",
+    "checkpoint_used": false,
+    "native_search_used": false,
+    "csv_sha256": "4f864f4bd431ecdd712453947338358471715acc15c3e76ca98b1f76a3cc727d",
+    "runtime_sha256": "664b5d93dbd5159976d490663ac64c49c8eb7dc68c9aac92fba940b6fa2a3de9",
+    "data_sha256": "9f70e7179fe4260002321a75e5170e96583439bb39988b92ed93da42a0a402c7",
+    "plan_sha256": "dff9a7a7a5c5a7dbd3ddd2a330ea39c58074911892688231198548ab5d0f0a6b",
+    "solver_sha256": {
+      "__init__.py": "9a6b413a365d0ba53f8dcb37a5a857cdfe23fcc06c9dc9fd584af9dc66f80163",
+      "compact_types.py": "b53e36aa708581625286f8a05914e1a40f1134863c21e4aaad76596ed0136569",
+      "compact_wave.py": "68cd30fd14b10e58535cd4131a2d1121800c587342f9d623b5561cb052ae819a",
+      "control_quotient.py": "6c0e8edc886333ad62f880f8151b52f75a6d61d3b67260d3de0d8b5ebb284b7f",
+      "cspace.py": "12d99f204161d045e61eaa80b1e1f8b771fc6ca8eb0220bca14d9868be764766",
+      "csv_completion.py": "9f45c6eb0c3b957cb1d902e0e9eba414b9ca0e09ac6765d094ea163b9c15bddf",
+      "csv_preparation.py": "6f4e35b70346c4ce7d8d94281956ad86569809b61c7bee014c2f6d7c130456c8",
+      "csv_solver.py": "76036e69f4b761d48526bb366dc16178595e264f24f656212fe8dfd58c6ec9f9",
+      "csv_warmup.py": "1401a93bb3b554dd49e5de5f4e4c23b43e16e8ef0924c7f20eb54ced1a226c61",
+      "dialogue_operator.py": "4f1a80015fc7a59c24fb97e4780e0522d66ae6ca8c2a4f6007b2cc798d62a2aa",
+      "discrete_operator.py": "3f5c2a53b9bba6cdc9b581ca231acac965e411dbb0cdd1d37863d91dec4af51f",
+      "environment_state_key.py": "dc42e54e55b26a4145f51ec6c357121c11312beeee2fdaa79129c584c1da8b99",
+      "execution_schedule.py": "a8d4c90fc01d416f801a107b942fdfc035a584055ad6d24ed140921eae0eb8af",
+      "initial_target_history.py": "04765436cd965122e72c6267511acf570c0da3da3ae7016076fdb4d49ca243af",
+      "joint_transition.py": "5f627c440ea4d8139c778d7a856435bb100253b575d8a1819bb91f2153052957",
+      "lazy_jit.py": "81054a6b087a713bb0250212fec924fecc5b4b57fe50b3816d9faea6085bb8de",
+      "native_backend.py": "9e7c3f8281829d263254211b2442f9b446539b5e65ee816a6d8b9a8c11225613",
+      "native_candidate.py": "710d633d2f82824a9d8820c30d729268838dd2c185c969dbdbb31830f171bfa2",
+      "native_dynamic.py": "cfd662bd1b355dc41739abf621ccb1ecf2b81cbc0207466098a263ac52b41ee5",
+      "native_frontier.cpp": "c4bbcb809ecbf604d7904e8f3d900e4ec54e5abb0450a9f8a65c97f4110f8dc8",
+      "native_function_dispatch.py": "d437bd560d7efe95ef6ca6a6f3bbba38549b00c2e128a0e2178bc5ec68133f98",
+      "native_math.py": "1ddc633a2e53d42beba7a4ed09f024930653cd1636a7350e3f082a9944c1ae4d",
+      "native_numbers.py": "a6650e285ce4981bd29ac762ff1af792e71032232470ddffd33d6182175d41a6",
+      "parametric_environment.py": "ace67956d70c64438bd447c39b41e8d81b1eeb17e4134ea162aa499f62be5159",
+      "reference_numeric.py": "ac6fed97bff975ca374d73fad4b33d4b391866ade464456ad1cd6f0b17c986e6",
+      "resumable_wave.py": "d9549f1c003382ee2d951a4d032f0bfc2764b66873b019da94840d5bafb6ce2b",
+      "source_contract.py": "92f37967aaa7b96d422c721869283b79d7f82fe99ae6ec1c10cc6ba9f3988f6f",
+      "source_oracle.py": "cca219fa8a6527574c214efce3826cf9f6f54718f093f7ada75805da2748018f",
+      "source_policy.py": "2b56828d1b84aa40cf12c9876d2b6c1dc1cbd69a3bd42484a095807205cf909e",
+      "source_verification.py": "c1117e105c90aab9c40ce56778401748cfb1233dcc42e2db1c680adab7d91378",
+      "terminal_completion.py": "fcfc171b48550798ef1a9667fae53773aab0c6a9fabe886cebdc78faaf790cce",
+      "terminal_invariant.py": "4a1ebff2c0c7f82a50bf2a0fc4243a74d273c1c830acfa95dcec186ee1b8812c",
+      "timeline_csv.py": "bfc32b4220b56da03017b9ed10cead0890459f4a22d0136287e135768a6a8632"
+    },
+    "model_wall_seconds": 0.07908814000074926,
+    "process_wall_seconds": 0.1864996630000005,
+    "checked_nonterminal_components": 4752,
+    "terminal_scope": "native EndAttack resets player to menu, final states recorded separately",
+    "terminal_actual": [
+      47.99999949336052,
+      453,
+      0,
+      187.50000000405117,
+      0,
+      0,
+      1,
+      1,
+      750,
+      0,
+      0
+    ],
+    "terminal_model": [
+      279.9999999992551,
+      365.8625000076175,
+      0,
+      187.50000000405117,
+      0,
+      0,
+      1,
+      1,
+      750,
+      0,
+      0
+    ],
+    "events": [
+      {
+        "tick": 565,
+        "fn": "tlplay"
+      },
+      {
+        "tick": 566,
+        "fn": "tlpause"
+      },
+      {
+        "tick": 578,
+        "fn": "tlresume"
+      },
+      {
+        "tick": 999,
+        "fn": "endattack"
+      }
+    ],
+    "damage": [],
+    "mismatches": []
+  },
+  {
+    "id": "sans_boneslideh",
+    "wave": "sans_boneslideh",
+    "passed": true,
+    "target_history_matches": true,
+    "target_history": [],
+    "scripted_healing_admitted": false,
+    "scripted_damage_admitted": false,
+    "expected_scripted_damage": [],
+    "starting_HP": 92,
+    "health_contract": "constant initial HP, KR0, no DamagePlayer call",
+    "protocol": "unchanged-c2-event-engine-with-dom-audio-render-stubs",
+    "clock": "60hz-explicit-native-dt",
+    "checkpoint_used": false,
+    "native_search_used": false,
+    "csv_sha256": "5aae574bff05f236e7cdb0f9a2b6dc68cde4f449a0bff772adac290c455f26ce",
+    "runtime_sha256": "664b5d93dbd5159976d490663ac64c49c8eb7dc68c9aac92fba940b6fa2a3de9",
+    "data_sha256": "9f70e7179fe4260002321a75e5170e96583439bb39988b92ed93da42a0a402c7",
+    "plan_sha256": "049550fd134d0b4d642167b263540a1379c7968a5161ff070e71bd4be657f58f",
+    "solver_sha256": {
+      "__init__.py": "9a6b413a365d0ba53f8dcb37a5a857cdfe23fcc06c9dc9fd584af9dc66f80163",
+      "compact_types.py": "b53e36aa708581625286f8a05914e1a40f1134863c21e4aaad76596ed0136569",
+      "compact_wave.py": "68cd30fd14b10e58535cd4131a2d1121800c587342f9d623b5561cb052ae819a",
+      "control_quotient.py": "6c0e8edc886333ad62f880f8151b52f75a6d61d3b67260d3de0d8b5ebb284b7f",
+      "cspace.py": "12d99f204161d045e61eaa80b1e1f8b771fc6ca8eb0220bca14d9868be764766",
+      "csv_completion.py": "9f45c6eb0c3b957cb1d902e0e9eba414b9ca0e09ac6765d094ea163b9c15bddf",
+      "csv_preparation.py": "6f4e35b70346c4ce7d8d94281956ad86569809b61c7bee014c2f6d7c130456c8",
+      "csv_solver.py": "76036e69f4b761d48526bb366dc16178595e264f24f656212fe8dfd58c6ec9f9",
+      "csv_warmup.py": "1401a93bb3b554dd49e5de5f4e4c23b43e16e8ef0924c7f20eb54ced1a226c61",
+      "dialogue_operator.py": "4f1a80015fc7a59c24fb97e4780e0522d66ae6ca8c2a4f6007b2cc798d62a2aa",
+      "discrete_operator.py": "3f5c2a53b9bba6cdc9b581ca231acac965e411dbb0cdd1d37863d91dec4af51f",
+      "environment_state_key.py": "dc42e54e55b26a4145f51ec6c357121c11312beeee2fdaa79129c584c1da8b99",
+      "execution_schedule.py": "a8d4c90fc01d416f801a107b942fdfc035a584055ad6d24ed140921eae0eb8af",
+      "initial_target_history.py": "04765436cd965122e72c6267511acf570c0da3da3ae7016076fdb4d49ca243af",
+      "joint_transition.py": "5f627c440ea4d8139c778d7a856435bb100253b575d8a1819bb91f2153052957",
+      "lazy_jit.py": "81054a6b087a713bb0250212fec924fecc5b4b57fe50b3816d9faea6085bb8de",
+      "native_backend.py": "9e7c3f8281829d263254211b2442f9b446539b5e65ee816a6d8b9a8c11225613",
+      "native_candidate.py": "710d633d2f82824a9d8820c30d729268838dd2c185c969dbdbb31830f171bfa2",
+      "native_dynamic.py": "cfd662bd1b355dc41739abf621ccb1ecf2b81cbc0207466098a263ac52b41ee5",
+      "native_frontier.cpp": "c4bbcb809ecbf604d7904e8f3d900e4ec54e5abb0450a9f8a65c97f4110f8dc8",
+      "native_function_dispatch.py": "d437bd560d7efe95ef6ca6a6f3bbba38549b00c2e128a0e2178bc5ec68133f98",
+      "native_math.py": "1ddc633a2e53d42beba7a4ed09f024930653cd1636a7350e3f082a9944c1ae4d",
+      "native_numbers.py": "a6650e285ce4981bd29ac762ff1af792e71032232470ddffd33d6182175d41a6",
+      "parametric_environment.py": "ace67956d70c64438bd447c39b41e8d81b1eeb17e4134ea162aa499f62be5159",
+      "reference_numeric.py": "ac6fed97bff975ca374d73fad4b33d4b391866ade464456ad1cd6f0b17c986e6",
+      "resumable_wave.py": "d9549f1c003382ee2d951a4d032f0bfc2764b66873b019da94840d5bafb6ce2b",
+      "source_contract.py": "92f37967aaa7b96d422c721869283b79d7f82fe99ae6ec1c10cc6ba9f3988f6f",
+      "source_oracle.py": "cca219fa8a6527574c214efce3826cf9f6f54718f093f7ada75805da2748018f",
+      "source_policy.py": "2b56828d1b84aa40cf12c9876d2b6c1dc1cbd69a3bd42484a095807205cf909e",
+      "source_verification.py": "c1117e105c90aab9c40ce56778401748cfb1233dcc42e2db1c680adab7d91378",
+      "terminal_completion.py": "fcfc171b48550798ef1a9667fae53773aab0c6a9fabe886cebdc78faaf790cce",
+      "terminal_invariant.py": "4a1ebff2c0c7f82a50bf2a0fc4243a74d273c1c830acfa95dcec186ee1b8812c",
+      "timeline_csv.py": "bfc32b4220b56da03017b9ed10cead0890459f4a22d0136287e135768a6a8632"
+    },
+    "model_wall_seconds": 0.08834782800022367,
+    "process_wall_seconds": 0.19667387099999997,
+    "checked_nonterminal_components": 5214,
+    "terminal_scope": "native EndAttack resets player to menu, final states recorded separately",
+    "terminal_actual": [
+      47.99999949336052,
+      453,
+      0,
+      3.0000000000558797,
+      0,
+      0,
+      1,
+      1,
+      750,
+      0,
+      0
+    ],
+    "terminal_model": [
+      159.9999999970205,
+      377.9500000084961,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      750,
+      0,
+      0
+    ],
+    "events": [
+      {
+        "tick": 565,
+        "fn": "tlplay"
+      },
+      {
+        "tick": 566,
+        "fn": "tlpause"
+      },
+      {
+        "tick": 578,
+        "fn": "tlresume"
+      },
+      {
+        "tick": 1041,
+        "fn": "endattack"
+      }
+    ],
+    "damage": [],
+    "mismatches": []
+  },
+  {
+    "id": "sans_boneslidev",
+    "wave": "sans_boneslidev",
+    "passed": true,
+    "target_history_matches": true,
+    "target_history": [],
+    "scripted_healing_admitted": false,
+    "scripted_damage_admitted": false,
+    "expected_scripted_damage": [],
+    "starting_HP": 92,
+    "health_contract": "constant initial HP, KR0, no DamagePlayer call",
+    "protocol": "unchanged-c2-event-engine-with-dom-audio-render-stubs",
+    "clock": "60hz-explicit-native-dt",
+    "checkpoint_used": false,
+    "native_search_used": false,
+    "csv_sha256": "917ffe49cba653e25fa62f5e960fec262bc96eec5097efdee7de4609a5d12d35",
+    "runtime_sha256": "664b5d93dbd5159976d490663ac64c49c8eb7dc68c9aac92fba940b6fa2a3de9",
+    "data_sha256": "9f70e7179fe4260002321a75e5170e96583439bb39988b92ed93da42a0a402c7",
+    "plan_sha256": "d04822f3e0f5837fa1be9e959f328c724e841f845ee1785a679b7f91df13e67a",
+    "solver_sha256": {
+      "__init__.py": "9a6b413a365d0ba53f8dcb37a5a857cdfe23fcc06c9dc9fd584af9dc66f80163",
+      "compact_types.py": "b53e36aa708581625286f8a05914e1a40f1134863c21e4aaad76596ed0136569",
+      "compact_wave.py": "68cd30fd14b10e58535cd4131a2d1121800c587342f9d623b5561cb052ae819a",
+      "control_quotient.py": "6c0e8edc886333ad62f880f8151b52f75a6d61d3b67260d3de0d8b5ebb284b7f",
+      "cspace.py": "12d99f204161d045e61eaa80b1e1f8b771fc6ca8eb0220bca14d9868be764766",
+      "csv_completion.py": "9f45c6eb0c3b957cb1d902e0e9eba414b9ca0e09ac6765d094ea163b9c15bddf",
+      "csv_preparation.py": "6f4e35b70346c4ce7d8d94281956ad86569809b61c7bee014c2f6d7c130456c8",
+      "csv_solver.py": "76036e69f4b761d48526bb366dc16178595e264f24f656212fe8dfd58c6ec9f9",
+      "csv_warmup.py": "1401a93bb3b554dd49e5de5f4e4c23b43e16e8ef0924c7f20eb54ced1a226c61",
+      "dialogue_operator.py": "4f1a80015fc7a59c24fb97e4780e0522d66ae6ca8c2a4f6007b2cc798d62a2aa",
+      "discrete_operator.py": "3f5c2a53b9bba6cdc9b581ca231acac965e411dbb0cdd1d37863d91dec4af51f",
+      "environment_state_key.py": "dc42e54e55b26a4145f51ec6c357121c11312beeee2fdaa79129c584c1da8b99",
+      "execution_schedule.py": "a8d4c90fc01d416f801a107b942fdfc035a584055ad6d24ed140921eae0eb8af",
+      "initial_target_history.py": "04765436cd965122e72c6267511acf570c0da3da3ae7016076fdb4d49ca243af",
+      "joint_transition.py": "5f627c440ea4d8139c778d7a856435bb100253b575d8a1819bb91f2153052957",
+      "lazy_jit.py": "81054a6b087a713bb0250212fec924fecc5b4b57fe50b3816d9faea6085bb8de",
+      "native_backend.py": "9e7c3f8281829d263254211b2442f9b446539b5e65ee816a6d8b9a8c11225613",
+      "native_candidate.py": "710d633d2f82824a9d8820c30d729268838dd2c185c969dbdbb31830f171bfa2",
+      "native_dynamic.py": "cfd662bd1b355dc41739abf621ccb1ecf2b81cbc0207466098a263ac52b41ee5",
+      "native_frontier.cpp": "c4bbcb809ecbf604d7904e8f3d900e4ec54e5abb0450a9f8a65c97f4110f8dc8",
+      "native_function_dispatch.py": "d437bd560d7efe95ef6ca6a6f3bbba38549b00c2e128a0e2178bc5ec68133f98",
+      "native_math.py": "1ddc633a2e53d42beba7a4ed09f024930653cd1636a7350e3f082a9944c1ae4d",
+      "native_numbers.py": "a6650e285ce4981bd29ac762ff1af792e71032232470ddffd33d6182175d41a6",
+      "parametric_environment.py": "ace67956d70c64438bd447c39b41e8d81b1eeb17e4134ea162aa499f62be5159",
+      "reference_numeric.py": "ac6fed97bff975ca374d73fad4b33d4b391866ade464456ad1cd6f0b17c986e6",
+      "resumable_wave.py": "d9549f1c003382ee2d951a4d032f0bfc2764b66873b019da94840d5bafb6ce2b",
+      "source_contract.py": "92f37967aaa7b96d422c721869283b79d7f82fe99ae6ec1c10cc6ba9f3988f6f",
+      "source_oracle.py": "cca219fa8a6527574c214efce3826cf9f6f54718f093f7ada75805da2748018f",
+      "source_policy.py": "2b56828d1b84aa40cf12c9876d2b6c1dc1cbd69a3bd42484a095807205cf909e",
+      "source_verification.py": "c1117e105c90aab9c40ce56778401748cfb1233dcc42e2db1c680adab7d91378",
+      "terminal_completion.py": "fcfc171b48550798ef1a9667fae53773aab0c6a9fabe886cebdc78faaf790cce",
+      "terminal_invariant.py": "4a1ebff2c0c7f82a50bf2a0fc4243a74d273c1c830acfa95dcec186ee1b8812c",
+      "timeline_csv.py": "bfc32b4220b56da03017b9ed10cead0890459f4a22d0136287e135768a6a8632"
+    },
+    "model_wall_seconds": 0.06155656999999337,
+    "process_wall_seconds": 0.18677385700000013,
+    "checked_nonterminal_components": 4213,
+    "terminal_scope": "native EndAttack resets player to menu, final states recorded separately",
+    "terminal_actual": [
+      47.99999949336052,
+      453,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      750,
+      0,
+      0
+    ],
+    "terminal_model": [
+      360.0000000007449,
+      377.3333333346989,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      750,
+      0,
+      0
+    ],
+    "events": [
+      {
+        "tick": 565,
+        "fn": "tlplay"
+      },
+      {
+        "tick": 566,
+        "fn": "tlpause"
+      },
+      {
+        "tick": 591,
+        "fn": "tlresume"
+      },
+      {
+        "tick": 950,
+        "fn": "endattack"
+      }
+    ],
+    "damage": [],
+    "mismatches": []
+  },
+  {
+    "id": "sans_bonestab1",
+    "wave": "sans_bonestab1",
+    "passed": true,
+    "target_history_matches": true,
+    "target_history": [],
+    "scripted_healing_admitted": false,
+    "scripted_damage_admitted": false,
+    "expected_scripted_damage": [],
+    "starting_HP": 92,
+    "health_contract": "constant initial HP, KR0, no DamagePlayer call",
+    "protocol": "unchanged-c2-event-engine-with-dom-audio-render-stubs",
+    "clock": "60hz-explicit-native-dt",
+    "checkpoint_used": false,
+    "native_search_used": false,
+    "csv_sha256": "e8a7bd5ced93fe826cd00baba0518aeb9b3a593e8cf635633e74aa7da9cc95b1",
+    "runtime_sha256": "664b5d93dbd5159976d490663ac64c49c8eb7dc68c9aac92fba940b6fa2a3de9",
+    "data_sha256": "9f70e7179fe4260002321a75e5170e96583439bb39988b92ed93da42a0a402c7",
+    "plan_sha256": "03b0e9f6f5e2df9b5c10f8763bed1db1b5d30bec948eae667d3aa37ea2cf8cbe",
+    "solver_sha256": {
+      "__init__.py": "9a6b413a365d0ba53f8dcb37a5a857cdfe23fcc06c9dc9fd584af9dc66f80163",
+      "compact_types.py": "b53e36aa708581625286f8a05914e1a40f1134863c21e4aaad76596ed0136569",
+      "compact_wave.py": "68cd30fd14b10e58535cd4131a2d1121800c587342f9d623b5561cb052ae819a",
+      "control_quotient.py": "6c0e8edc886333ad62f880f8151b52f75a6d61d3b67260d3de0d8b5ebb284b7f",
+      "cspace.py": "12d99f204161d045e61eaa80b1e1f8b771fc6ca8eb0220bca14d9868be764766",
+      "csv_completion.py": "9f45c6eb0c3b957cb1d902e0e9eba414b9ca0e09ac6765d094ea163b9c15bddf",
+      "csv_preparation.py": "6f4e35b70346c4ce7d8d94281956ad86569809b61c7bee014c2f6d7c130456c8",
+      "csv_solver.py": "76036e69f4b761d48526bb366dc16178595e264f24f656212fe8dfd58c6ec9f9",
+      "csv_warmup.py": "1401a93bb3b554dd49e5de5f4e4c23b43e16e8ef0924c7f20eb54ced1a226c61",
+      "dialogue_operator.py": "4f1a80015fc7a59c24fb97e4780e0522d66ae6ca8c2a4f6007b2cc798d62a2aa",
+      "discrete_operator.py": "3f5c2a53b9bba6cdc9b581ca231acac965e411dbb0cdd1d37863d91dec4af51f",
+      "environment_state_key.py": "dc42e54e55b26a4145f51ec6c357121c11312beeee2fdaa79129c584c1da8b99",
+      "execution_schedule.py": "a8d4c90fc01d416f801a107b942fdfc035a584055ad6d24ed140921eae0eb8af",
+      "initial_target_history.py": "04765436cd965122e72c6267511acf570c0da3da3ae7016076fdb4d49ca243af",
+      "joint_transition.py": "5f627c440ea4d8139c778d7a856435bb100253b575d8a1819bb91f2153052957",
+      "lazy_jit.py": "81054a6b087a713bb0250212fec924fecc5b4b57fe50b3816d9faea6085bb8de",
+      "native_backend.py": "9e7c3f8281829d263254211b2442f9b446539b5e65ee816a6d8b9a8c11225613",
+      "native_candidate.py": "710d633d2f82824a9d8820c30d729268838dd2c185c969dbdbb31830f171bfa2",
+      "native_dynamic.py": "cfd662bd1b355dc41739abf621ccb1ecf2b81cbc0207466098a263ac52b41ee5",
+      "native_frontier.cpp": "c4bbcb809ecbf604d7904e8f3d900e4ec54e5abb0450a9f8a65c97f4110f8dc8",
+      "native_function_dispatch.py": "d437bd560d7efe95ef6ca6a6f3bbba38549b00c2e128a0e2178bc5ec68133f98",
+      "native_math.py": "1ddc633a2e53d42beba7a4ed09f024930653cd1636a7350e3f082a9944c1ae4d",
+      "native_numbers.py": "a6650e285ce4981bd29ac762ff1af792e71032232470ddffd33d6182175d41a6",
+      "parametric_environment.py": "ace67956d70c64438bd447c39b41e8d81b1eeb17e4134ea162aa499f62be5159",
+      "reference_numeric.py": "ac6fed97bff975ca374d73fad4b33d4b391866ade464456ad1cd6f0b17c986e6",
+      "resumable_wave.py": "d9549f1c003382ee2d951a4d032f0bfc2764b66873b019da94840d5bafb6ce2b",
+      "source_contract.py": "92f37967aaa7b96d422c721869283b79d7f82fe99ae6ec1c10cc6ba9f3988f6f",
+      "source_oracle.py": "cca219fa8a6527574c214efce3826cf9f6f54718f093f7ada75805da2748018f",
+      "source_policy.py": "2b56828d1b84aa40cf12c9876d2b6c1dc1cbd69a3bd42484a095807205cf909e",
+      "source_verification.py": "c1117e105c90aab9c40ce56778401748cfb1233dcc42e2db1c680adab7d91378",
+      "terminal_completion.py": "fcfc171b48550798ef1a9667fae53773aab0c6a9fabe886cebdc78faaf790cce",
+      "terminal_invariant.py": "4a1ebff2c0c7f82a50bf2a0fc4243a74d273c1c830acfa95dcec186ee1b8812c",
+      "timeline_csv.py": "bfc32b4220b56da03017b9ed10cead0890459f4a22d0136287e135768a6a8632"
+    },
+    "model_wall_seconds": 0.05394794499989075,
+    "process_wall_seconds": 0.176954162,
+    "checked_nonterminal_components": 6611,
+    "terminal_scope": "native EndAttack resets player to menu, final states recorded separately",
+    "terminal_actual": [
+      47.99999949336052,
+      453,
+      150,
+      3.0000000000558797,
+      2,
+      0,
+      1,
+      1,
+      750,
+      0,
+      0
+    ],
+    "terminal_model": [
+      317.5423076911789,
+      293.74615384125815,
+      -6.000000003464453,
+      0,
+      2,
+      0,
+      1,
+      2,
+      750,
+      0,
+      0
+    ],
+    "events": [
+      {
+        "tick": 565,
+        "fn": "tlplay"
+      },
+      {
+        "tick": 566,
+        "fn": "tlpause"
+      },
+      {
+        "tick": 591,
+        "fn": "tlresume"
+      },
+      {
+        "tick": 1168,
+        "fn": "endattack"
+      }
+    ],
+    "damage": [],
+    "mismatches": []
+  },
+  {
+    "id": "sans_bonestab2",
+    "wave": "sans_bonestab2",
+    "passed": true,
+    "target_history_matches": true,
+    "target_history": [],
+    "scripted_healing_admitted": false,
+    "scripted_damage_admitted": false,
+    "expected_scripted_damage": [],
+    "starting_HP": 92,
+    "health_contract": "constant initial HP, KR0, no DamagePlayer call",
+    "protocol": "unchanged-c2-event-engine-with-dom-audio-render-stubs",
+    "clock": "60hz-explicit-native-dt",
+    "checkpoint_used": false,
+    "native_search_used": false,
+    "csv_sha256": "b3546228167bda3dc452935117055c946fb3801d238a0eb45051e23b61b28bce",
+    "runtime_sha256": "664b5d93dbd5159976d490663ac64c49c8eb7dc68c9aac92fba940b6fa2a3de9",
+    "data_sha256": "9f70e7179fe4260002321a75e5170e96583439bb39988b92ed93da42a0a402c7",
+    "plan_sha256": "f084c12f9b81d07c10de9623b483d4689b947e4970132f4ced76a8308d2e182c",
+    "solver_sha256": {
+      "__init__.py": "9a6b413a365d0ba53f8dcb37a5a857cdfe23fcc06c9dc9fd584af9dc66f80163",
+      "compact_types.py": "b53e36aa708581625286f8a05914e1a40f1134863c21e4aaad76596ed0136569",
+      "compact_wave.py": "68cd30fd14b10e58535cd4131a2d1121800c587342f9d623b5561cb052ae819a",
+      "control_quotient.py": "6c0e8edc886333ad62f880f8151b52f75a6d61d3b67260d3de0d8b5ebb284b7f",
+      "cspace.py": "12d99f204161d045e61eaa80b1e1f8b771fc6ca8eb0220bca14d9868be764766",
+      "csv_completion.py": "9f45c6eb0c3b957cb1d902e0e9eba414b9ca0e09ac6765d094ea163b9c15bddf",
+      "csv_preparation.py": "6f4e35b70346c4ce7d8d94281956ad86569809b61c7bee014c2f6d7c130456c8",
+      "csv_solver.py": "76036e69f4b761d48526bb366dc16178595e264f24f656212fe8dfd58c6ec9f9",
+      "csv_warmup.py": "1401a93bb3b554dd49e5de5f4e4c23b43e16e8ef0924c7f20eb54ced1a226c61",
+      "dialogue_operator.py": "4f1a80015fc7a59c24fb97e4780e0522d66ae6ca8c2a4f6007b2cc798d62a2aa",
+      "discrete_operator.py": "3f5c2a53b9bba6cdc9b581ca231acac965e411dbb0cdd1d37863d91dec4af51f",
+      "environment_state_key.py": "dc42e54e55b26a4145f51ec6c357121c11312beeee2fdaa79129c584c1da8b99",
+      "execution_schedule.py": "a8d4c90fc01d416f801a107b942fdfc035a584055ad6d24ed140921eae0eb8af",
+      "initial_target_history.py": "04765436cd965122e72c6267511acf570c0da3da3ae7016076fdb4d49ca243af",
+      "joint_transition.py": "5f627c440ea4d8139c778d7a856435bb100253b575d8a1819bb91f2153052957",
+      "lazy_jit.py": "81054a6b087a713bb0250212fec924fecc5b4b57fe50b3816d9faea6085bb8de",
+      "native_backend.py": "9e7c3f8281829d263254211b2442f9b446539b5e65ee816a6d8b9a8c11225613",
+      "native_candidate.py": "710d633d2f82824a9d8820c30d729268838dd2c185c969dbdbb31830f171bfa2",
+      "native_dynamic.py": "cfd662bd1b355dc41739abf621ccb1ecf2b81cbc0207466098a263ac52b41ee5",
+      "native_frontier.cpp": "c4bbcb809ecbf604d7904e8f3d900e4ec54e5abb0450a9f8a65c97f4110f8dc8",
+      "native_function_dispatch.py": "d437bd560d7efe95ef6ca6a6f3bbba38549b00c2e128a0e2178bc5ec68133f98",
+      "native_math.py": "1ddc633a2e53d42beba7a4ed09f024930653cd1636a7350e3f082a9944c1ae4d",
+      "native_numbers.py": "a6650e285ce4981bd29ac762ff1af792e71032232470ddffd33d6182175d41a6",
+      "parametric_environment.py": "ace67956d70c64438bd447c39b41e8d81b1eeb17e4134ea162aa499f62be5159",
+      "reference_numeric.py": "ac6fed97bff975ca374d73fad4b33d4b391866ade464456ad1cd6f0b17c986e6",
+      "resumable_wave.py": "d9549f1c003382ee2d951a4d032f0bfc2764b66873b019da94840d5bafb6ce2b",
+      "source_contract.py": "92f37967aaa7b96d422c721869283b79d7f82fe99ae6ec1c10cc6ba9f3988f6f",
+      "source_oracle.py": "cca219fa8a6527574c214efce3826cf9f6f54718f093f7ada75805da2748018f",
+      "source_policy.py": "2b56828d1b84aa40cf12c9876d2b6c1dc1cbd69a3bd42484a095807205cf909e",
+      "source_verification.py": "c1117e105c90aab9c40ce56778401748cfb1233dcc42e2db1c680adab7d91378",
+      "terminal_completion.py": "fcfc171b48550798ef1a9667fae53773aab0c6a9fabe886cebdc78faaf790cce",
+      "terminal_invariant.py": "4a1ebff2c0c7f82a50bf2a0fc4243a74d273c1c830acfa95dcec186ee1b8812c",
+      "timeline_csv.py": "bfc32b4220b56da03017b9ed10cead0890459f4a22d0136287e135768a6a8632"
+    },
+    "model_wall_seconds": 0.04706471800000145,
+    "process_wall_seconds": 0.15276428900000064,
+    "checked_nonterminal_components": 5621,
+    "terminal_scope": "native EndAttack resets player to menu, final states recorded separately",
+    "terminal_actual": [
+      47.99999949336052,
+      453,
+      150,
+      3.0000000000558797,
+      2,
+      0,
+      1,
+      1,
+      750,
+      0,
+      0
+    ],
+    "terminal_model": [
+      319.7942307687805,
+      304.6576923048802,
+      37.49999999734581,
+      0,
+      2,
+      0,
+      1,
+      2,
+      750,
+      0,
+      0
+    ],
+    "events": [
+      {
+        "tick": 569,
+        "fn": "tlplay"
+      },
+      {
+        "tick": 570,
+        "fn": "tlpause"
+      },
+      {
+        "tick": 595,
+        "fn": "tlresume"
+      },
+      {
+        "tick": 1082,
+        "fn": "endattack"
+      }
+    ],
+    "damage": [],
+    "mismatches": []
+  },
+  {
+    "id": "sans_bonestab3",
+    "wave": "sans_bonestab3",
+    "passed": true,
+    "target_history_matches": true,
+    "target_history": [],
+    "scripted_healing_admitted": false,
+    "scripted_damage_admitted": false,
+    "expected_scripted_damage": [],
+    "starting_HP": 92,
+    "health_contract": "constant initial HP, KR0, no DamagePlayer call",
+    "protocol": "unchanged-c2-event-engine-with-dom-audio-render-stubs",
+    "clock": "60hz-explicit-native-dt",
+    "checkpoint_used": false,
+    "native_search_used": false,
+    "csv_sha256": "8785c4ab0687ce091a329cecca3fb49045fc0a0815eb0508de8188925b7bccc5",
+    "runtime_sha256": "664b5d93dbd5159976d490663ac64c49c8eb7dc68c9aac92fba940b6fa2a3de9",
+    "data_sha256": "9f70e7179fe4260002321a75e5170e96583439bb39988b92ed93da42a0a402c7",
+    "plan_sha256": "fc3380da91bc940321bb08dbb2d891b016642c0a5f065eb84f7362a41e5c7989",
+    "solver_sha256": {
+      "__init__.py": "9a6b413a365d0ba53f8dcb37a5a857cdfe23fcc06c9dc9fd584af9dc66f80163",
+      "compact_types.py": "b53e36aa708581625286f8a05914e1a40f1134863c21e4aaad76596ed0136569",
+      "compact_wave.py": "68cd30fd14b10e58535cd4131a2d1121800c587342f9d623b5561cb052ae819a",
+      "control_quotient.py": "6c0e8edc886333ad62f880f8151b52f75a6d61d3b67260d3de0d8b5ebb284b7f",
+      "cspace.py": "12d99f204161d045e61eaa80b1e1f8b771fc6ca8eb0220bca14d9868be764766",
+      "csv_completion.py": "9f45c6eb0c3b957cb1d902e0e9eba414b9ca0e09ac6765d094ea163b9c15bddf",
+      "csv_preparation.py": "6f4e35b70346c4ce7d8d94281956ad86569809b61c7bee014c2f6d7c130456c8",
+      "csv_solver.py": "76036e69f4b761d48526bb366dc16178595e264f24f656212fe8dfd58c6ec9f9",
+      "csv_warmup.py": "1401a93bb3b554dd49e5de5f4e4c23b43e16e8ef0924c7f20eb54ced1a226c61",
+      "dialogue_operator.py": "4f1a80015fc7a59c24fb97e4780e0522d66ae6ca8c2a4f6007b2cc798d62a2aa",
+      "discrete_operator.py": "3f5c2a53b9bba6cdc9b581ca231acac965e411dbb0cdd1d37863d91dec4af51f",
+      "environment_state_key.py": "dc42e54e55b26a4145f51ec6c357121c11312beeee2fdaa79129c584c1da8b99",
+      "execution_schedule.py": "a8d4c90fc01d416f801a107b942fdfc035a584055ad6d24ed140921eae0eb8af",
+      "initial_target_history.py": "04765436cd965122e72c6267511acf570c0da3da3ae7016076fdb4d49ca243af",
+      "joint_transition.py": "5f627c440ea4d8139c778d7a856435bb100253b575d8a1819bb91f2153052957",
+      "lazy_jit.py": "81054a6b087a713bb0250212fec924fecc5b4b57fe50b3816d9faea6085bb8de",
+      "native_backend.py": "9e7c3f8281829d263254211b2442f9b446539b5e65ee816a6d8b9a8c11225613",
+      "native_candidate.py": "710d633d2f82824a9d8820c30d729268838dd2c185c969dbdbb31830f171bfa2",
+      "native_dynamic.py": "cfd662bd1b355dc41739abf621ccb1ecf2b81cbc0207466098a263ac52b41ee5",
+      "native_frontier.cpp": "c4bbcb809ecbf604d7904e8f3d900e4ec54e5abb0450a9f8a65c97f4110f8dc8",
+      "native_function_dispatch.py": "d437bd560d7efe95ef6ca6a6f3bbba38549b00c2e128a0e2178bc5ec68133f98",
+      "native_math.py": "1ddc633a2e53d42beba7a4ed09f024930653cd1636a7350e3f082a9944c1ae4d",
+      "native_numbers.py": "a6650e285ce4981bd29ac762ff1af792e71032232470ddffd33d6182175d41a6",
+      "parametric_environment.py": "ace67956d70c64438bd447c39b41e8d81b1eeb17e4134ea162aa499f62be5159",
+      "reference_numeric.py": "ac6fed97bff975ca374d73fad4b33d4b391866ade464456ad1cd6f0b17c986e6",
+      "resumable_wave.py": "d9549f1c003382ee2d951a4d032f0bfc2764b66873b019da94840d5bafb6ce2b",
+      "source_contract.py": "92f37967aaa7b96d422c721869283b79d7f82fe99ae6ec1c10cc6ba9f3988f6f",
+      "source_oracle.py": "cca219fa8a6527574c214efce3826cf9f6f54718f093f7ada75805da2748018f",
+      "source_policy.py": "2b56828d1b84aa40cf12c9876d2b6c1dc1cbd69a3bd42484a095807205cf909e",
+      "source_verification.py": "c1117e105c90aab9c40ce56778401748cfb1233dcc42e2db1c680adab7d91378",
+      "terminal_completion.py": "fcfc171b48550798ef1a9667fae53773aab0c6a9fabe886cebdc78faaf790cce",
+      "terminal_invariant.py": "4a1ebff2c0c7f82a50bf2a0fc4243a74d273c1c830acfa95dcec186ee1b8812c",
+      "timeline_csv.py": "bfc32b4220b56da03017b9ed10cead0890459f4a22d0136287e135768a6a8632"
+    },
+    "model_wall_seconds": 0.05317180299971369,
+    "process_wall_seconds": 0.1653723340000015,
+    "checked_nonterminal_components": 4433,
+    "terminal_scope": "native EndAttack resets player to menu, final states recorded separately",
+    "terminal_actual": [
+      47.99999949336052,
+      453,
+      150,
+      3.0000000000558797,
+      2,
+      0,
+      1,
+      1,
+      750,
+      0,
+      0
+    ],
+    "terminal_model": [
+      301.11538461483735,
+      304.87692307529676,
+      112.49999999874277,
+      0,
+      2,
+      0,
+      1,
+      2,
+      750,
+      0,
+      0
+    ],
+    "events": [
+      {
+        "tick": 565,
+        "fn": "tlplay"
+      },
+      {
+        "tick": 566,
+        "fn": "tlpause"
+      },
+      {
+        "tick": 591,
+        "fn": "tlresume"
+      },
+      {
+        "tick": 970,
+        "fn": "endattack"
+      }
+    ],
+    "damage": [],
+    "mismatches": []
+  },
+  {
+    "id": "sans_final",
+    "wave": "sans_final",
+    "passed": true,
+    "target_history_matches": true,
+    "target_history": [
+      [
+        494,
+        43,
+        44.03269230270644,
+        303.1865384614433
+      ]
+    ],
+    "scripted_healing_admitted": false,
+    "scripted_damage_admitted": false,
+    "expected_scripted_damage": [],
+    "starting_HP": 92,
+    "health_contract": "constant initial HP, KR0, no DamagePlayer call",
+    "protocol": "unchanged-c2-event-engine-with-dom-audio-render-stubs",
+    "clock": "60hz-explicit-native-dt",
+    "checkpoint_used": false,
+    "native_search_used": false,
+    "csv_sha256": "ff3d6f0c1b2c2f3bdb290109086ec3c9f7c3f6e628809512ac943dc7408c1078",
+    "runtime_sha256": "664b5d93dbd5159976d490663ac64c49c8eb7dc68c9aac92fba940b6fa2a3de9",
+    "data_sha256": "9f70e7179fe4260002321a75e5170e96583439bb39988b92ed93da42a0a402c7",
+    "plan_sha256": "c77329d5d2f583a5b5011446f8daa63e6f5a37234fe7d79fb7cf82cb748b492f",
+    "solver_sha256": {
+      "__init__.py": "9a6b413a365d0ba53f8dcb37a5a857cdfe23fcc06c9dc9fd584af9dc66f80163",
+      "compact_types.py": "b53e36aa708581625286f8a05914e1a40f1134863c21e4aaad76596ed0136569",
+      "compact_wave.py": "68cd30fd14b10e58535cd4131a2d1121800c587342f9d623b5561cb052ae819a",
+      "control_quotient.py": "6c0e8edc886333ad62f880f8151b52f75a6d61d3b67260d3de0d8b5ebb284b7f",
+      "cspace.py": "12d99f204161d045e61eaa80b1e1f8b771fc6ca8eb0220bca14d9868be764766",
+      "csv_completion.py": "9f45c6eb0c3b957cb1d902e0e9eba414b9ca0e09ac6765d094ea163b9c15bddf",
+      "csv_preparation.py": "6f4e35b70346c4ce7d8d94281956ad86569809b61c7bee014c2f6d7c130456c8",
+      "csv_solver.py": "76036e69f4b761d48526bb366dc16178595e264f24f656212fe8dfd58c6ec9f9",
+      "csv_warmup.py": "1401a93bb3b554dd49e5de5f4e4c23b43e16e8ef0924c7f20eb54ced1a226c61",
+      "dialogue_operator.py": "4f1a80015fc7a59c24fb97e4780e0522d66ae6ca8c2a4f6007b2cc798d62a2aa",
+      "discrete_operator.py": "3f5c2a53b9bba6cdc9b581ca231acac965e411dbb0cdd1d37863d91dec4af51f",
+      "environment_state_key.py": "dc42e54e55b26a4145f51ec6c357121c11312beeee2fdaa79129c584c1da8b99",
+      "execution_schedule.py": "a8d4c90fc01d416f801a107b942fdfc035a584055ad6d24ed140921eae0eb8af",
+      "initial_target_history.py": "04765436cd965122e72c6267511acf570c0da3da3ae7016076fdb4d49ca243af",
+      "joint_transition.py": "5f627c440ea4d8139c778d7a856435bb100253b575d8a1819bb91f2153052957",
+      "lazy_jit.py": "81054a6b087a713bb0250212fec924fecc5b4b57fe50b3816d9faea6085bb8de",
+      "native_backend.py": "9e7c3f8281829d263254211b2442f9b446539b5e65ee816a6d8b9a8c11225613",
+      "native_candidate.py": "710d633d2f82824a9d8820c30d729268838dd2c185c969dbdbb31830f171bfa2",
+      "native_dynamic.py": "cfd662bd1b355dc41739abf621ccb1ecf2b81cbc0207466098a263ac52b41ee5",
+      "native_frontier.cpp": "c4bbcb809ecbf604d7904e8f3d900e4ec54e5abb0450a9f8a65c97f4110f8dc8",
+      "native_function_dispatch.py": "d437bd560d7efe95ef6ca6a6f3bbba38549b00c2e128a0e2178bc5ec68133f98",
+      "native_math.py": "1ddc633a2e53d42beba7a4ed09f024930653cd1636a7350e3f082a9944c1ae4d",
+      "native_numbers.py": "a6650e285ce4981bd29ac762ff1af792e71032232470ddffd33d6182175d41a6",
+      "parametric_environment.py": "ace67956d70c64438bd447c39b41e8d81b1eeb17e4134ea162aa499f62be5159",
+      "reference_numeric.py": "ac6fed97bff975ca374d73fad4b33d4b391866ade464456ad1cd6f0b17c986e6",
+      "resumable_wave.py": "d9549f1c003382ee2d951a4d032f0bfc2764b66873b019da94840d5bafb6ce2b",
+      "source_contract.py": "92f37967aaa7b96d422c721869283b79d7f82fe99ae6ec1c10cc6ba9f3988f6f",
+      "source_oracle.py": "cca219fa8a6527574c214efce3826cf9f6f54718f093f7ada75805da2748018f",
+      "source_policy.py": "2b56828d1b84aa40cf12c9876d2b6c1dc1cbd69a3bd42484a095807205cf909e",
+      "source_verification.py": "c1117e105c90aab9c40ce56778401748cfb1233dcc42e2db1c680adab7d91378",
+      "terminal_completion.py": "fcfc171b48550798ef1a9667fae53773aab0c6a9fabe886cebdc78faaf790cce",
+      "terminal_invariant.py": "4a1ebff2c0c7f82a50bf2a0fc4243a74d273c1c830acfa95dcec186ee1b8812c",
+      "timeline_csv.py": "bfc32b4220b56da03017b9ed10cead0890459f4a22d0136287e135768a6a8632"
+    },
+    "model_wall_seconds": 0.6940790720000223,
+    "process_wall_seconds": 0.8015215829999998,
+    "checked_nonterminal_components": 34683,
+    "terminal_scope": "native EndAttack resets player to menu, final states recorded separately",
+    "terminal_actual": [
+      47.99999949336052,
+      453,
+      0,
+      69.00000000016763,
+      4,
+      0,
+      1,
+      1,
+      750,
+      0,
+      0
+    ],
+    "terminal_model": [
+      390.8083333360161,
+      315.24166667067817,
+      0,
+      60,
+      4,
+      0,
+      1,
+      1,
+      60,
+      1,
+      0
+    ],
+    "events": [
+      {
+        "tick": 565,
+        "fn": "tlplay"
+      },
+      {
+        "tick": 566,
+        "fn": "tlpause"
+      },
+      {
+        "tick": 591,
+        "fn": "tlresume"
+      },
+      {
+        "tick": 3720,
+        "fn": "endattack"
+      }
+    ],
+    "damage": [],
+    "mismatches": []
+  },
+  {
+    "id": "sans_intro",
+    "wave": "sans_intro",
+    "passed": true,
+    "target_history_matches": true,
+    "target_history": [],
+    "scripted_healing_admitted": false,
+    "scripted_damage_admitted": false,
+    "expected_scripted_damage": [],
+    "starting_HP": 92,
+    "health_contract": "constant initial HP, KR0, no DamagePlayer call",
+    "protocol": "unchanged-c2-event-engine-with-dom-audio-render-stubs",
+    "clock": "60hz-explicit-native-dt",
+    "checkpoint_used": false,
+    "native_search_used": false,
+    "csv_sha256": "d3e7e6a448e358a6f9eb70621c8dcea84a6b39b9506916fbec2ee5a0bb193620",
+    "runtime_sha256": "664b5d93dbd5159976d490663ac64c49c8eb7dc68c9aac92fba940b6fa2a3de9",
+    "data_sha256": "9f70e7179fe4260002321a75e5170e96583439bb39988b92ed93da42a0a402c7",
+    "plan_sha256": "06266fca9193f1f113aaae1255eb450079863522f1d89f0d38ce1c67c5e54902",
+    "solver_sha256": {
+      "__init__.py": "9a6b413a365d0ba53f8dcb37a5a857cdfe23fcc06c9dc9fd584af9dc66f80163",
+      "compact_types.py": "b53e36aa708581625286f8a05914e1a40f1134863c21e4aaad76596ed0136569",
+      "compact_wave.py": "68cd30fd14b10e58535cd4131a2d1121800c587342f9d623b5561cb052ae819a",
+      "control_quotient.py": "6c0e8edc886333ad62f880f8151b52f75a6d61d3b67260d3de0d8b5ebb284b7f",
+      "cspace.py": "12d99f204161d045e61eaa80b1e1f8b771fc6ca8eb0220bca14d9868be764766",
+      "csv_completion.py": "9f45c6eb0c3b957cb1d902e0e9eba414b9ca0e09ac6765d094ea163b9c15bddf",
+      "csv_preparation.py": "6f4e35b70346c4ce7d8d94281956ad86569809b61c7bee014c2f6d7c130456c8",
+      "csv_solver.py": "76036e69f4b761d48526bb366dc16178595e264f24f656212fe8dfd58c6ec9f9",
+      "csv_warmup.py": "1401a93bb3b554dd49e5de5f4e4c23b43e16e8ef0924c7f20eb54ced1a226c61",
+      "dialogue_operator.py": "4f1a80015fc7a59c24fb97e4780e0522d66ae6ca8c2a4f6007b2cc798d62a2aa",
+      "discrete_operator.py": "3f5c2a53b9bba6cdc9b581ca231acac965e411dbb0cdd1d37863d91dec4af51f",
+      "environment_state_key.py": "dc42e54e55b26a4145f51ec6c357121c11312beeee2fdaa79129c584c1da8b99",
+      "execution_schedule.py": "a8d4c90fc01d416f801a107b942fdfc035a584055ad6d24ed140921eae0eb8af",
+      "initial_target_history.py": "04765436cd965122e72c6267511acf570c0da3da3ae7016076fdb4d49ca243af",
+      "joint_transition.py": "5f627c440ea4d8139c778d7a856435bb100253b575d8a1819bb91f2153052957",
+      "lazy_jit.py": "81054a6b087a713bb0250212fec924fecc5b4b57fe50b3816d9faea6085bb8de",
+      "native_backend.py": "9e7c3f8281829d263254211b2442f9b446539b5e65ee816a6d8b9a8c11225613",
+      "native_candidate.py": "710d633d2f82824a9d8820c30d729268838dd2c185c969dbdbb31830f171bfa2",
+      "native_dynamic.py": "cfd662bd1b355dc41739abf621ccb1ecf2b81cbc0207466098a263ac52b41ee5",
+      "native_frontier.cpp": "c4bbcb809ecbf604d7904e8f3d900e4ec54e5abb0450a9f8a65c97f4110f8dc8",
+      "native_function_dispatch.py": "d437bd560d7efe95ef6ca6a6f3bbba38549b00c2e128a0e2178bc5ec68133f98",
+      "native_math.py": "1ddc633a2e53d42beba7a4ed09f024930653cd1636a7350e3f082a9944c1ae4d",
+      "native_numbers.py": "a6650e285ce4981bd29ac762ff1af792e71032232470ddffd33d6182175d41a6",
+      "parametric_environment.py": "ace67956d70c64438bd447c39b41e8d81b1eeb17e4134ea162aa499f62be5159",
+      "reference_numeric.py": "ac6fed97bff975ca374d73fad4b33d4b391866ade464456ad1cd6f0b17c986e6",
+      "resumable_wave.py": "d9549f1c003382ee2d951a4d032f0bfc2764b66873b019da94840d5bafb6ce2b",
+      "source_contract.py": "92f37967aaa7b96d422c721869283b79d7f82fe99ae6ec1c10cc6ba9f3988f6f",
+      "source_oracle.py": "cca219fa8a6527574c214efce3826cf9f6f54718f093f7ada75805da2748018f",
+      "source_policy.py": "2b56828d1b84aa40cf12c9876d2b6c1dc1cbd69a3bd42484a095807205cf909e",
+      "source_verification.py": "c1117e105c90aab9c40ce56778401748cfb1233dcc42e2db1c680adab7d91378",
+      "terminal_completion.py": "fcfc171b48550798ef1a9667fae53773aab0c6a9fabe886cebdc78faaf790cce",
+      "terminal_invariant.py": "4a1ebff2c0c7f82a50bf2a0fc4243a74d273c1c830acfa95dcec186ee1b8812c",
+      "timeline_csv.py": "bfc32b4220b56da03017b9ed10cead0890459f4a22d0136287e135768a6a8632"
+    },
+    "model_wall_seconds": 0.097399760999906,
+    "process_wall_seconds": 0.21853988299999763,
+    "checked_nonterminal_components": 6270,
+    "terminal_scope": "native EndAttack resets player to menu, final states recorded separately",
+    "terminal_actual": [
+      47.99999949336052,
+      453,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      750,
+      0,
+      0
+    ],
+    "terminal_model": [
+      320,
+      361.8769230789844,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      750,
+      0,
+      0
+    ],
+    "events": [
+      {
+        "tick": 565,
+        "fn": "tlplay"
+      },
+      {
+        "tick": 566,
+        "fn": "tlpause"
+      },
+      {
+        "tick": 578,
+        "fn": "tlresume"
+      },
+      {
+        "tick": 1115,
+        "fn": "tlpause"
+      },
+      {
+        "tick": 1136,
+        "fn": "tlresume"
+      },
+      {
+        "tick": 1137,
+        "fn": "endattack"
+      }
+    ],
+    "damage": [],
+    "mismatches": []
+  },
+  {
+    "id": "sans_multi1",
+    "wave": "sans_multi1",
+    "passed": true,
+    "target_history_matches": true,
+    "target_history": [],
+    "scripted_healing_admitted": false,
+    "scripted_damage_admitted": false,
+    "expected_scripted_damage": [],
+    "starting_HP": 92,
+    "health_contract": "constant initial HP, KR0, no DamagePlayer call",
+    "protocol": "unchanged-c2-event-engine-with-dom-audio-render-stubs",
+    "clock": "60hz-explicit-native-dt",
+    "checkpoint_used": false,
+    "native_search_used": false,
+    "csv_sha256": "ca68aee9438e7f6615566468290cb5888b975ecd51ada1a5a2292ccff9317303",
+    "runtime_sha256": "664b5d93dbd5159976d490663ac64c49c8eb7dc68c9aac92fba940b6fa2a3de9",
+    "data_sha256": "9f70e7179fe4260002321a75e5170e96583439bb39988b92ed93da42a0a402c7",
+    "plan_sha256": "cbd8964439b5ca7579215a3f555998cf964e3b0258a82ecf03f8d65431193a54",
+    "solver_sha256": {
+      "__init__.py": "9a6b413a365d0ba53f8dcb37a5a857cdfe23fcc06c9dc9fd584af9dc66f80163",
+      "compact_types.py": "b53e36aa708581625286f8a05914e1a40f1134863c21e4aaad76596ed0136569",
+      "compact_wave.py": "68cd30fd14b10e58535cd4131a2d1121800c587342f9d623b5561cb052ae819a",
+      "control_quotient.py": "6c0e8edc886333ad62f880f8151b52f75a6d61d3b67260d3de0d8b5ebb284b7f",
+      "cspace.py": "12d99f204161d045e61eaa80b1e1f8b771fc6ca8eb0220bca14d9868be764766",
+      "csv_completion.py": "9f45c6eb0c3b957cb1d902e0e9eba414b9ca0e09ac6765d094ea163b9c15bddf",
+      "csv_preparation.py": "6f4e35b70346c4ce7d8d94281956ad86569809b61c7bee014c2f6d7c130456c8",
+      "csv_solver.py": "76036e69f4b761d48526bb366dc16178595e264f24f656212fe8dfd58c6ec9f9",
+      "csv_warmup.py": "1401a93bb3b554dd49e5de5f4e4c23b43e16e8ef0924c7f20eb54ced1a226c61",
+      "dialogue_operator.py": "4f1a80015fc7a59c24fb97e4780e0522d66ae6ca8c2a4f6007b2cc798d62a2aa",
+      "discrete_operator.py": "3f5c2a53b9bba6cdc9b581ca231acac965e411dbb0cdd1d37863d91dec4af51f",
+      "environment_state_key.py": "dc42e54e55b26a4145f51ec6c357121c11312beeee2fdaa79129c584c1da8b99",
+      "execution_schedule.py": "a8d4c90fc01d416f801a107b942fdfc035a584055ad6d24ed140921eae0eb8af",
+      "initial_target_history.py": "04765436cd965122e72c6267511acf570c0da3da3ae7016076fdb4d49ca243af",
+      "joint_transition.py": "5f627c440ea4d8139c778d7a856435bb100253b575d8a1819bb91f2153052957",
+      "lazy_jit.py": "81054a6b087a713bb0250212fec924fecc5b4b57fe50b3816d9faea6085bb8de",
+      "native_backend.py": "9e7c3f8281829d263254211b2442f9b446539b5e65ee816a6d8b9a8c11225613",
+      "native_candidate.py": "710d633d2f82824a9d8820c30d729268838dd2c185c969dbdbb31830f171bfa2",
+      "native_dynamic.py": "cfd662bd1b355dc41739abf621ccb1ecf2b81cbc0207466098a263ac52b41ee5",
+      "native_frontier.cpp": "c4bbcb809ecbf604d7904e8f3d900e4ec54e5abb0450a9f8a65c97f4110f8dc8",
+      "native_function_dispatch.py": "d437bd560d7efe95ef6ca6a6f3bbba38549b00c2e128a0e2178bc5ec68133f98",
+      "native_math.py": "1ddc633a2e53d42beba7a4ed09f024930653cd1636a7350e3f082a9944c1ae4d",
+      "native_numbers.py": "a6650e285ce4981bd29ac762ff1af792e71032232470ddffd33d6182175d41a6",
+      "parametric_environment.py": "ace67956d70c64438bd447c39b41e8d81b1eeb17e4134ea162aa499f62be5159",
+      "reference_numeric.py": "ac6fed97bff975ca374d73fad4b33d4b391866ade464456ad1cd6f0b17c986e6",
+      "resumable_wave.py": "d9549f1c003382ee2d951a4d032f0bfc2764b66873b019da94840d5bafb6ce2b",
+      "source_contract.py": "92f37967aaa7b96d422c721869283b79d7f82fe99ae6ec1c10cc6ba9f3988f6f",
+      "source_oracle.py": "cca219fa8a6527574c214efce3826cf9f6f54718f093f7ada75805da2748018f",
+      "source_policy.py": "2b56828d1b84aa40cf12c9876d2b6c1dc1cbd69a3bd42484a095807205cf909e",
+      "source_verification.py": "c1117e105c90aab9c40ce56778401748cfb1233dcc42e2db1c680adab7d91378",
+      "terminal_completion.py": "fcfc171b48550798ef1a9667fae53773aab0c6a9fabe886cebdc78faaf790cce",
+      "terminal_invariant.py": "4a1ebff2c0c7f82a50bf2a0fc4243a74d273c1c830acfa95dcec186ee1b8812c",
+      "timeline_csv.py": "bfc32b4220b56da03017b9ed10cead0890459f4a22d0136287e135768a6a8632"
+    },
+    "model_wall_seconds": 0.06991909099997429,
+    "process_wall_seconds": 0.17105332400000042,
+    "checked_nonterminal_components": 5742,
+    "terminal_scope": "native EndAttack resets player to menu, final states recorded separately",
+    "terminal_actual": [
+      47.99999949336052,
+      453,
+      0,
+      133.5000000030454,
+      0,
+      0,
+      1,
+      1,
+      750,
+      0,
+      0
+    ],
+    "terminal_model": [
+      320,
+      369.6500000004526,
+      0,
+      133.5000000030454,
+      0,
+      0,
+      1,
+      1,
+      750,
+      0,
+      0
+    ],
+    "events": [
+      {
+        "tick": 565,
+        "fn": "tlplay"
+      },
+      {
+        "tick": 566,
+        "fn": "tlpause"
+      },
+      {
+        "tick": 578,
+        "fn": "tlresume"
+      },
+      {
+        "tick": 1089,
+        "fn": "endattack"
+      }
+    ],
+    "damage": [],
+    "mismatches": []
+  },
+  {
+    "id": "sans_multi2",
+    "wave": "sans_multi2",
+    "passed": true,
+    "target_history_matches": true,
+    "target_history": [],
+    "scripted_healing_admitted": false,
+    "scripted_damage_admitted": false,
+    "expected_scripted_damage": [],
+    "starting_HP": 92,
+    "health_contract": "constant initial HP, KR0, no DamagePlayer call",
+    "protocol": "unchanged-c2-event-engine-with-dom-audio-render-stubs",
+    "clock": "60hz-explicit-native-dt",
+    "checkpoint_used": false,
+    "native_search_used": false,
+    "csv_sha256": "676f7b979a5abab4986eeadd9bc836995d5ad10e370377fb406889523b117e29",
+    "runtime_sha256": "664b5d93dbd5159976d490663ac64c49c8eb7dc68c9aac92fba940b6fa2a3de9",
+    "data_sha256": "9f70e7179fe4260002321a75e5170e96583439bb39988b92ed93da42a0a402c7",
+    "plan_sha256": "afec758e7064ef4779acbdc76959ed9207345db4c3bee80d61e2e108056431e6",
+    "solver_sha256": {
+      "__init__.py": "9a6b413a365d0ba53f8dcb37a5a857cdfe23fcc06c9dc9fd584af9dc66f80163",
+      "compact_types.py": "b53e36aa708581625286f8a05914e1a40f1134863c21e4aaad76596ed0136569",
+      "compact_wave.py": "68cd30fd14b10e58535cd4131a2d1121800c587342f9d623b5561cb052ae819a",
+      "control_quotient.py": "6c0e8edc886333ad62f880f8151b52f75a6d61d3b67260d3de0d8b5ebb284b7f",
+      "cspace.py": "12d99f204161d045e61eaa80b1e1f8b771fc6ca8eb0220bca14d9868be764766",
+      "csv_completion.py": "9f45c6eb0c3b957cb1d902e0e9eba414b9ca0e09ac6765d094ea163b9c15bddf",
+      "csv_preparation.py": "6f4e35b70346c4ce7d8d94281956ad86569809b61c7bee014c2f6d7c130456c8",
+      "csv_solver.py": "76036e69f4b761d48526bb366dc16178595e264f24f656212fe8dfd58c6ec9f9",
+      "csv_warmup.py": "1401a93bb3b554dd49e5de5f4e4c23b43e16e8ef0924c7f20eb54ced1a226c61",
+      "dialogue_operator.py": "4f1a80015fc7a59c24fb97e4780e0522d66ae6ca8c2a4f6007b2cc798d62a2aa",
+      "discrete_operator.py": "3f5c2a53b9bba6cdc9b581ca231acac965e411dbb0cdd1d37863d91dec4af51f",
+      "environment_state_key.py": "dc42e54e55b26a4145f51ec6c357121c11312beeee2fdaa79129c584c1da8b99",
+      "execution_schedule.py": "a8d4c90fc01d416f801a107b942fdfc035a584055ad6d24ed140921eae0eb8af",
+      "initial_target_history.py": "04765436cd965122e72c6267511acf570c0da3da3ae7016076fdb4d49ca243af",
+      "joint_transition.py": "5f627c440ea4d8139c778d7a856435bb100253b575d8a1819bb91f2153052957",
+      "lazy_jit.py": "81054a6b087a713bb0250212fec924fecc5b4b57fe50b3816d9faea6085bb8de",
+      "native_backend.py": "9e7c3f8281829d263254211b2442f9b446539b5e65ee816a6d8b9a8c11225613",
+      "native_candidate.py": "710d633d2f82824a9d8820c30d729268838dd2c185c969dbdbb31830f171bfa2",
+      "native_dynamic.py": "cfd662bd1b355dc41739abf621ccb1ecf2b81cbc0207466098a263ac52b41ee5",
+      "native_frontier.cpp": "c4bbcb809ecbf604d7904e8f3d900e4ec54e5abb0450a9f8a65c97f4110f8dc8",
+      "native_function_dispatch.py": "d437bd560d7efe95ef6ca6a6f3bbba38549b00c2e128a0e2178bc5ec68133f98",
+      "native_math.py": "1ddc633a2e53d42beba7a4ed09f024930653cd1636a7350e3f082a9944c1ae4d",
+      "native_numbers.py": "a6650e285ce4981bd29ac762ff1af792e71032232470ddffd33d6182175d41a6",
+      "parametric_environment.py": "ace67956d70c64438bd447c39b41e8d81b1eeb17e4134ea162aa499f62be5159",
+      "reference_numeric.py": "ac6fed97bff975ca374d73fad4b33d4b391866ade464456ad1cd6f0b17c986e6",
+      "resumable_wave.py": "d9549f1c003382ee2d951a4d032f0bfc2764b66873b019da94840d5bafb6ce2b",
+      "source_contract.py": "92f37967aaa7b96d422c721869283b79d7f82fe99ae6ec1c10cc6ba9f3988f6f",
+      "source_oracle.py": "cca219fa8a6527574c214efce3826cf9f6f54718f093f7ada75805da2748018f",
+      "source_policy.py": "2b56828d1b84aa40cf12c9876d2b6c1dc1cbd69a3bd42484a095807205cf909e",
+      "source_verification.py": "c1117e105c90aab9c40ce56778401748cfb1233dcc42e2db1c680adab7d91378",
+      "terminal_completion.py": "fcfc171b48550798ef1a9667fae53773aab0c6a9fabe886cebdc78faaf790cce",
+      "terminal_invariant.py": "4a1ebff2c0c7f82a50bf2a0fc4243a74d273c1c830acfa95dcec186ee1b8812c",
+      "timeline_csv.py": "bfc32b4220b56da03017b9ed10cead0890459f4a22d0136287e135768a6a8632"
+    },
+    "model_wall_seconds": 0.08581555799992202,
+    "process_wall_seconds": 0.2056465470000003,
+    "checked_nonterminal_components": 7183,
+    "terminal_scope": "native EndAttack resets player to menu, final states recorded separately",
+    "terminal_actual": [
+      47.99999949336052,
+      453,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      750,
+      0,
+      0
+    ],
+    "terminal_model": [
+      387.00000000223463,
+      264,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      750,
+      0,
+      0
+    ],
+    "events": [
+      {
+        "tick": 565,
+        "fn": "tlplay"
+      },
+      {
+        "tick": 1220,
+        "fn": "endattack"
+      }
+    ],
+    "damage": [],
+    "mismatches": []
+  },
+  {
+    "id": "sans_multi3",
+    "wave": "sans_multi3",
+    "passed": true,
+    "target_history_matches": true,
+    "target_history": [],
+    "scripted_healing_admitted": false,
+    "scripted_damage_admitted": false,
+    "expected_scripted_damage": [],
+    "starting_HP": 92,
+    "health_contract": "constant initial HP, KR0, no DamagePlayer call",
+    "protocol": "unchanged-c2-event-engine-with-dom-audio-render-stubs",
+    "clock": "60hz-explicit-native-dt",
+    "checkpoint_used": false,
+    "native_search_used": false,
+    "csv_sha256": "022250e25db3cd25104fd1c1d78603db8d6edc14beafad60360b65d290a79f92",
+    "runtime_sha256": "664b5d93dbd5159976d490663ac64c49c8eb7dc68c9aac92fba940b6fa2a3de9",
+    "data_sha256": "9f70e7179fe4260002321a75e5170e96583439bb39988b92ed93da42a0a402c7",
+    "plan_sha256": "150c7ce94a7fdac39bb0d5e4679c2d2bbb3a3821457972f58d6a10e19432bb3c",
+    "solver_sha256": {
+      "__init__.py": "9a6b413a365d0ba53f8dcb37a5a857cdfe23fcc06c9dc9fd584af9dc66f80163",
+      "compact_types.py": "b53e36aa708581625286f8a05914e1a40f1134863c21e4aaad76596ed0136569",
+      "compact_wave.py": "68cd30fd14b10e58535cd4131a2d1121800c587342f9d623b5561cb052ae819a",
+      "control_quotient.py": "6c0e8edc886333ad62f880f8151b52f75a6d61d3b67260d3de0d8b5ebb284b7f",
+      "cspace.py": "12d99f204161d045e61eaa80b1e1f8b771fc6ca8eb0220bca14d9868be764766",
+      "csv_completion.py": "9f45c6eb0c3b957cb1d902e0e9eba414b9ca0e09ac6765d094ea163b9c15bddf",
+      "csv_preparation.py": "6f4e35b70346c4ce7d8d94281956ad86569809b61c7bee014c2f6d7c130456c8",
+      "csv_solver.py": "76036e69f4b761d48526bb366dc16178595e264f24f656212fe8dfd58c6ec9f9",
+      "csv_warmup.py": "1401a93bb3b554dd49e5de5f4e4c23b43e16e8ef0924c7f20eb54ced1a226c61",
+      "dialogue_operator.py": "4f1a80015fc7a59c24fb97e4780e0522d66ae6ca8c2a4f6007b2cc798d62a2aa",
+      "discrete_operator.py": "3f5c2a53b9bba6cdc9b581ca231acac965e411dbb0cdd1d37863d91dec4af51f",
+      "environment_state_key.py": "dc42e54e55b26a4145f51ec6c357121c11312beeee2fdaa79129c584c1da8b99",
+      "execution_schedule.py": "a8d4c90fc01d416f801a107b942fdfc035a584055ad6d24ed140921eae0eb8af",
+      "initial_target_history.py": "04765436cd965122e72c6267511acf570c0da3da3ae7016076fdb4d49ca243af",
+      "joint_transition.py": "5f627c440ea4d8139c778d7a856435bb100253b575d8a1819bb91f2153052957",
+      "lazy_jit.py": "81054a6b087a713bb0250212fec924fecc5b4b57fe50b3816d9faea6085bb8de",
+      "native_backend.py": "9e7c3f8281829d263254211b2442f9b446539b5e65ee816a6d8b9a8c11225613",
+      "native_candidate.py": "710d633d2f82824a9d8820c30d729268838dd2c185c969dbdbb31830f171bfa2",
+      "native_dynamic.py": "cfd662bd1b355dc41739abf621ccb1ecf2b81cbc0207466098a263ac52b41ee5",
+      "native_frontier.cpp": "c4bbcb809ecbf604d7904e8f3d900e4ec54e5abb0450a9f8a65c97f4110f8dc8",
+      "native_function_dispatch.py": "d437bd560d7efe95ef6ca6a6f3bbba38549b00c2e128a0e2178bc5ec68133f98",
+      "native_math.py": "1ddc633a2e53d42beba7a4ed09f024930653cd1636a7350e3f082a9944c1ae4d",
+      "native_numbers.py": "a6650e285ce4981bd29ac762ff1af792e71032232470ddffd33d6182175d41a6",
+      "parametric_environment.py": "ace67956d70c64438bd447c39b41e8d81b1eeb17e4134ea162aa499f62be5159",
+      "reference_numeric.py": "ac6fed97bff975ca374d73fad4b33d4b391866ade464456ad1cd6f0b17c986e6",
+      "resumable_wave.py": "d9549f1c003382ee2d951a4d032f0bfc2764b66873b019da94840d5bafb6ce2b",
+      "source_contract.py": "92f37967aaa7b96d422c721869283b79d7f82fe99ae6ec1c10cc6ba9f3988f6f",
+      "source_oracle.py": "cca219fa8a6527574c214efce3826cf9f6f54718f093f7ada75805da2748018f",
+      "source_policy.py": "2b56828d1b84aa40cf12c9876d2b6c1dc1cbd69a3bd42484a095807205cf909e",
+      "source_verification.py": "c1117e105c90aab9c40ce56778401748cfb1233dcc42e2db1c680adab7d91378",
+      "terminal_completion.py": "fcfc171b48550798ef1a9667fae53773aab0c6a9fabe886cebdc78faaf790cce",
+      "terminal_invariant.py": "4a1ebff2c0c7f82a50bf2a0fc4243a74d273c1c830acfa95dcec186ee1b8812c",
+      "timeline_csv.py": "bfc32b4220b56da03017b9ed10cead0890459f4a22d0136287e135768a6a8632"
+    },
+    "model_wall_seconds": 0.07288859700020112,
+    "process_wall_seconds": 0.1789182630000032,
+    "checked_nonterminal_components": 5753,
+    "terminal_scope": "native EndAttack resets player to menu, final states recorded separately",
+    "terminal_actual": [
+      47.99999949336052,
+      453,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      750,
+      0,
+      0
+    ],
+    "terminal_model": [
+      261.99999999776537,
+      264,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      750,
+      0,
+      0
+    ],
+    "events": [
+      {
+        "tick": 569,
+        "fn": "tlplay"
+      },
+      {
+        "tick": 570,
+        "fn": "tlpause"
+      },
+      {
+        "tick": 595,
+        "fn": "tlresume"
+      },
+      {
+        "tick": 1094,
+        "fn": "endattack"
+      }
+    ],
+    "damage": [],
+    "mismatches": []
+  },
+  {
+    "id": "sans_platformblaster",
+    "wave": "sans_platformblaster",
+    "passed": true,
+    "target_history_matches": true,
+    "target_history": [],
+    "scripted_healing_admitted": false,
+    "scripted_damage_admitted": false,
+    "expected_scripted_damage": [],
+    "starting_HP": 92,
+    "health_contract": "constant initial HP, KR0, no DamagePlayer call",
+    "protocol": "unchanged-c2-event-engine-with-dom-audio-render-stubs",
+    "clock": "60hz-explicit-native-dt",
+    "checkpoint_used": false,
+    "native_search_used": false,
+    "csv_sha256": "52795a976149141383a148fd69526ffbbab233a978a1b77627f4162a3c8ae197",
+    "runtime_sha256": "664b5d93dbd5159976d490663ac64c49c8eb7dc68c9aac92fba940b6fa2a3de9",
+    "data_sha256": "9f70e7179fe4260002321a75e5170e96583439bb39988b92ed93da42a0a402c7",
+    "plan_sha256": "824a53fa3de326b887d99ee40698c97f5b9cb0857db43d657eb6070d2e772e6d",
+    "solver_sha256": {
+      "__init__.py": "9a6b413a365d0ba53f8dcb37a5a857cdfe23fcc06c9dc9fd584af9dc66f80163",
+      "compact_types.py": "b53e36aa708581625286f8a05914e1a40f1134863c21e4aaad76596ed0136569",
+      "compact_wave.py": "68cd30fd14b10e58535cd4131a2d1121800c587342f9d623b5561cb052ae819a",
+      "control_quotient.py": "6c0e8edc886333ad62f880f8151b52f75a6d61d3b67260d3de0d8b5ebb284b7f",
+      "cspace.py": "12d99f204161d045e61eaa80b1e1f8b771fc6ca8eb0220bca14d9868be764766",
+      "csv_completion.py": "9f45c6eb0c3b957cb1d902e0e9eba414b9ca0e09ac6765d094ea163b9c15bddf",
+      "csv_preparation.py": "6f4e35b70346c4ce7d8d94281956ad86569809b61c7bee014c2f6d7c130456c8",
+      "csv_solver.py": "76036e69f4b761d48526bb366dc16178595e264f24f656212fe8dfd58c6ec9f9",
+      "csv_warmup.py": "1401a93bb3b554dd49e5de5f4e4c23b43e16e8ef0924c7f20eb54ced1a226c61",
+      "dialogue_operator.py": "4f1a80015fc7a59c24fb97e4780e0522d66ae6ca8c2a4f6007b2cc798d62a2aa",
+      "discrete_operator.py": "3f5c2a53b9bba6cdc9b581ca231acac965e411dbb0cdd1d37863d91dec4af51f",
+      "environment_state_key.py": "dc42e54e55b26a4145f51ec6c357121c11312beeee2fdaa79129c584c1da8b99",
+      "execution_schedule.py": "a8d4c90fc01d416f801a107b942fdfc035a584055ad6d24ed140921eae0eb8af",
+      "initial_target_history.py": "04765436cd965122e72c6267511acf570c0da3da3ae7016076fdb4d49ca243af",
+      "joint_transition.py": "5f627c440ea4d8139c778d7a856435bb100253b575d8a1819bb91f2153052957",
+      "lazy_jit.py": "81054a6b087a713bb0250212fec924fecc5b4b57fe50b3816d9faea6085bb8de",
+      "native_backend.py": "9e7c3f8281829d263254211b2442f9b446539b5e65ee816a6d8b9a8c11225613",
+      "native_candidate.py": "710d633d2f82824a9d8820c30d729268838dd2c185c969dbdbb31830f171bfa2",
+      "native_dynamic.py": "cfd662bd1b355dc41739abf621ccb1ecf2b81cbc0207466098a263ac52b41ee5",
+      "native_frontier.cpp": "c4bbcb809ecbf604d7904e8f3d900e4ec54e5abb0450a9f8a65c97f4110f8dc8",
+      "native_function_dispatch.py": "d437bd560d7efe95ef6ca6a6f3bbba38549b00c2e128a0e2178bc5ec68133f98",
+      "native_math.py": "1ddc633a2e53d42beba7a4ed09f024930653cd1636a7350e3f082a9944c1ae4d",
+      "native_numbers.py": "a6650e285ce4981bd29ac762ff1af792e71032232470ddffd33d6182175d41a6",
+      "parametric_environment.py": "ace67956d70c64438bd447c39b41e8d81b1eeb17e4134ea162aa499f62be5159",
+      "reference_numeric.py": "ac6fed97bff975ca374d73fad4b33d4b391866ade464456ad1cd6f0b17c986e6",
+      "resumable_wave.py": "d9549f1c003382ee2d951a4d032f0bfc2764b66873b019da94840d5bafb6ce2b",
+      "source_contract.py": "92f37967aaa7b96d422c721869283b79d7f82fe99ae6ec1c10cc6ba9f3988f6f",
+      "source_oracle.py": "cca219fa8a6527574c214efce3826cf9f6f54718f093f7ada75805da2748018f",
+      "source_policy.py": "2b56828d1b84aa40cf12c9876d2b6c1dc1cbd69a3bd42484a095807205cf909e",
+      "source_verification.py": "c1117e105c90aab9c40ce56778401748cfb1233dcc42e2db1c680adab7d91378",
+      "terminal_completion.py": "fcfc171b48550798ef1a9667fae53773aab0c6a9fabe886cebdc78faaf790cce",
+      "terminal_invariant.py": "4a1ebff2c0c7f82a50bf2a0fc4243a74d273c1c830acfa95dcec186ee1b8812c",
+      "timeline_csv.py": "bfc32b4220b56da03017b9ed10cead0890459f4a22d0136287e135768a6a8632"
+    },
+    "model_wall_seconds": 0.09505238400015514,
+    "process_wall_seconds": 0.21216861499999867,
+    "checked_nonterminal_components": 6072,
+    "terminal_scope": "native EndAttack resets player to menu, final states recorded separately",
+    "terminal_actual": [
+      47.99999949336052,
+      453,
+      0,
+      3.0000000000558944,
+      0,
+      0,
+      1,
+      1,
+      750,
+      0,
+      0
+    ],
+    "terminal_model": [
+      474.00000000286747,
+      336.95,
+      0,
+      3.0000000000558944,
+      0,
+      0,
+      1,
+      1,
+      750,
+      0,
+      0
+    ],
+    "events": [
+      {
+        "tick": 569,
+        "fn": "tlplay"
+      },
+      {
+        "tick": 570,
+        "fn": "tlpause"
+      },
+      {
+        "tick": 582,
+        "fn": "tlresume"
+      },
+      {
+        "tick": 1123,
+        "fn": "endattack"
+      }
+    ],
+    "damage": [],
+    "mismatches": []
+  },
+  {
+    "id": "sans_platformblasterfast",
+    "wave": "sans_platformblasterfast",
+    "passed": true,
+    "target_history_matches": true,
+    "target_history": [],
+    "scripted_healing_admitted": false,
+    "scripted_damage_admitted": false,
+    "expected_scripted_damage": [],
+    "starting_HP": 92,
+    "health_contract": "constant initial HP, KR0, no DamagePlayer call",
+    "protocol": "unchanged-c2-event-engine-with-dom-audio-render-stubs",
+    "clock": "60hz-explicit-native-dt",
+    "checkpoint_used": false,
+    "native_search_used": false,
+    "csv_sha256": "0312ef3aec4f170844e72a7cef4cf8b30f41a6c1703489cb8dcf64506f10e35a",
+    "runtime_sha256": "664b5d93dbd5159976d490663ac64c49c8eb7dc68c9aac92fba940b6fa2a3de9",
+    "data_sha256": "9f70e7179fe4260002321a75e5170e96583439bb39988b92ed93da42a0a402c7",
+    "plan_sha256": "67c197b54ab84ef0a9a0efc7a653c738c7211b6e4cef83c9ab52fdeefc08aa63",
+    "solver_sha256": {
+      "__init__.py": "9a6b413a365d0ba53f8dcb37a5a857cdfe23fcc06c9dc9fd584af9dc66f80163",
+      "compact_types.py": "b53e36aa708581625286f8a05914e1a40f1134863c21e4aaad76596ed0136569",
+      "compact_wave.py": "68cd30fd14b10e58535cd4131a2d1121800c587342f9d623b5561cb052ae819a",
+      "control_quotient.py": "6c0e8edc886333ad62f880f8151b52f75a6d61d3b67260d3de0d8b5ebb284b7f",
+      "cspace.py": "12d99f204161d045e61eaa80b1e1f8b771fc6ca8eb0220bca14d9868be764766",
+      "csv_completion.py": "9f45c6eb0c3b957cb1d902e0e9eba414b9ca0e09ac6765d094ea163b9c15bddf",
+      "csv_preparation.py": "6f4e35b70346c4ce7d8d94281956ad86569809b61c7bee014c2f6d7c130456c8",
+      "csv_solver.py": "76036e69f4b761d48526bb366dc16178595e264f24f656212fe8dfd58c6ec9f9",
+      "csv_warmup.py": "1401a93bb3b554dd49e5de5f4e4c23b43e16e8ef0924c7f20eb54ced1a226c61",
+      "dialogue_operator.py": "4f1a80015fc7a59c24fb97e4780e0522d66ae6ca8c2a4f6007b2cc798d62a2aa",
+      "discrete_operator.py": "3f5c2a53b9bba6cdc9b581ca231acac965e411dbb0cdd1d37863d91dec4af51f",
+      "environment_state_key.py": "dc42e54e55b26a4145f51ec6c357121c11312beeee2fdaa79129c584c1da8b99",
+      "execution_schedule.py": "a8d4c90fc01d416f801a107b942fdfc035a584055ad6d24ed140921eae0eb8af",
+      "initial_target_history.py": "04765436cd965122e72c6267511acf570c0da3da3ae7016076fdb4d49ca243af",
+      "joint_transition.py": "5f627c440ea4d8139c778d7a856435bb100253b575d8a1819bb91f2153052957",
+      "lazy_jit.py": "81054a6b087a713bb0250212fec924fecc5b4b57fe50b3816d9faea6085bb8de",
+      "native_backend.py": "9e7c3f8281829d263254211b2442f9b446539b5e65ee816a6d8b9a8c11225613",
+      "native_candidate.py": "710d633d2f82824a9d8820c30d729268838dd2c185c969dbdbb31830f171bfa2",
+      "native_dynamic.py": "cfd662bd1b355dc41739abf621ccb1ecf2b81cbc0207466098a263ac52b41ee5",
+      "native_frontier.cpp": "c4bbcb809ecbf604d7904e8f3d900e4ec54e5abb0450a9f8a65c97f4110f8dc8",
+      "native_function_dispatch.py": "d437bd560d7efe95ef6ca6a6f3bbba38549b00c2e128a0e2178bc5ec68133f98",
+      "native_math.py": "1ddc633a2e53d42beba7a4ed09f024930653cd1636a7350e3f082a9944c1ae4d",
+      "native_numbers.py": "a6650e285ce4981bd29ac762ff1af792e71032232470ddffd33d6182175d41a6",
+      "parametric_environment.py": "ace67956d70c64438bd447c39b41e8d81b1eeb17e4134ea162aa499f62be5159",
+      "reference_numeric.py": "ac6fed97bff975ca374d73fad4b33d4b391866ade464456ad1cd6f0b17c986e6",
+      "resumable_wave.py": "d9549f1c003382ee2d951a4d032f0bfc2764b66873b019da94840d5bafb6ce2b",
+      "source_contract.py": "92f37967aaa7b96d422c721869283b79d7f82fe99ae6ec1c10cc6ba9f3988f6f",
+      "source_oracle.py": "cca219fa8a6527574c214efce3826cf9f6f54718f093f7ada75805da2748018f",
+      "source_policy.py": "2b56828d1b84aa40cf12c9876d2b6c1dc1cbd69a3bd42484a095807205cf909e",
+      "source_verification.py": "c1117e105c90aab9c40ce56778401748cfb1233dcc42e2db1c680adab7d91378",
+      "terminal_completion.py": "fcfc171b48550798ef1a9667fae53773aab0c6a9fabe886cebdc78faaf790cce",
+      "terminal_invariant.py": "4a1ebff2c0c7f82a50bf2a0fc4243a74d273c1c830acfa95dcec186ee1b8812c",
+      "timeline_csv.py": "bfc32b4220b56da03017b9ed10cead0890459f4a22d0136287e135768a6a8632"
+    },
+    "model_wall_seconds": 0.086009747999924,
+    "process_wall_seconds": 0.20115597600000182,
+    "checked_nonterminal_components": 5676,
+    "terminal_scope": "native EndAttack resets player to menu, final states recorded separately",
+    "terminal_actual": [
+      47.99999949336052,
+      453,
+      0,
+      3.0000000000558944,
+      0,
+      0,
+      1,
+      1,
+      750,
+      0,
+      0
+    ],
+    "terminal_model": [
+      386.00000000122867,
+      336.95,
+      0,
+      3.0000000000558944,
+      0,
+      0,
+      1,
+      1,
+      750,
+      0,
+      0
+    ],
+    "events": [
+      {
+        "tick": 565,
+        "fn": "tlplay"
+      },
+      {
+        "tick": 566,
+        "fn": "tlpause"
+      },
+      {
+        "tick": 578,
+        "fn": "tlresume"
+      },
+      {
+        "tick": 1083,
+        "fn": "endattack"
+      }
+    ],
+    "damage": [],
+    "mismatches": []
+  },
+  {
+    "id": "sans_platforms1",
+    "wave": "sans_platforms1",
+    "passed": true,
+    "target_history_matches": true,
+    "target_history": [],
+    "scripted_healing_admitted": false,
+    "scripted_damage_admitted": false,
+    "expected_scripted_damage": [],
+    "starting_HP": 92,
+    "health_contract": "constant initial HP, KR0, no DamagePlayer call",
+    "protocol": "unchanged-c2-event-engine-with-dom-audio-render-stubs",
+    "clock": "60hz-explicit-native-dt",
+    "checkpoint_used": false,
+    "native_search_used": false,
+    "csv_sha256": "adae77d891d7b97a870c3dded34a07c2f82d67ca3d75326eeb7d64aa6148409f",
+    "runtime_sha256": "664b5d93dbd5159976d490663ac64c49c8eb7dc68c9aac92fba940b6fa2a3de9",
+    "data_sha256": "9f70e7179fe4260002321a75e5170e96583439bb39988b92ed93da42a0a402c7",
+    "plan_sha256": "03eb5bb929fa04573010fe0d0018f265d65b2602a553601e2c11b14674d2f381",
+    "solver_sha256": {
+      "__init__.py": "9a6b413a365d0ba53f8dcb37a5a857cdfe23fcc06c9dc9fd584af9dc66f80163",
+      "compact_types.py": "b53e36aa708581625286f8a05914e1a40f1134863c21e4aaad76596ed0136569",
+      "compact_wave.py": "68cd30fd14b10e58535cd4131a2d1121800c587342f9d623b5561cb052ae819a",
+      "control_quotient.py": "6c0e8edc886333ad62f880f8151b52f75a6d61d3b67260d3de0d8b5ebb284b7f",
+      "cspace.py": "12d99f204161d045e61eaa80b1e1f8b771fc6ca8eb0220bca14d9868be764766",
+      "csv_completion.py": "9f45c6eb0c3b957cb1d902e0e9eba414b9ca0e09ac6765d094ea163b9c15bddf",
+      "csv_preparation.py": "6f4e35b70346c4ce7d8d94281956ad86569809b61c7bee014c2f6d7c130456c8",
+      "csv_solver.py": "76036e69f4b761d48526bb366dc16178595e264f24f656212fe8dfd58c6ec9f9",
+      "csv_warmup.py": "1401a93bb3b554dd49e5de5f4e4c23b43e16e8ef0924c7f20eb54ced1a226c61",
+      "dialogue_operator.py": "4f1a80015fc7a59c24fb97e4780e0522d66ae6ca8c2a4f6007b2cc798d62a2aa",
+      "discrete_operator.py": "3f5c2a53b9bba6cdc9b581ca231acac965e411dbb0cdd1d37863d91dec4af51f",
+      "environment_state_key.py": "dc42e54e55b26a4145f51ec6c357121c11312beeee2fdaa79129c584c1da8b99",
+      "execution_schedule.py": "a8d4c90fc01d416f801a107b942fdfc035a584055ad6d24ed140921eae0eb8af",
+      "initial_target_history.py": "04765436cd965122e72c6267511acf570c0da3da3ae7016076fdb4d49ca243af",
+      "joint_transition.py": "5f627c440ea4d8139c778d7a856435bb100253b575d8a1819bb91f2153052957",
+      "lazy_jit.py": "81054a6b087a713bb0250212fec924fecc5b4b57fe50b3816d9faea6085bb8de",
+      "native_backend.py": "9e7c3f8281829d263254211b2442f9b446539b5e65ee816a6d8b9a8c11225613",
+      "native_candidate.py": "710d633d2f82824a9d8820c30d729268838dd2c185c969dbdbb31830f171bfa2",
+      "native_dynamic.py": "cfd662bd1b355dc41739abf621ccb1ecf2b81cbc0207466098a263ac52b41ee5",
+      "native_frontier.cpp": "c4bbcb809ecbf604d7904e8f3d900e4ec54e5abb0450a9f8a65c97f4110f8dc8",
+      "native_function_dispatch.py": "d437bd560d7efe95ef6ca6a6f3bbba38549b00c2e128a0e2178bc5ec68133f98",
+      "native_math.py": "1ddc633a2e53d42beba7a4ed09f024930653cd1636a7350e3f082a9944c1ae4d",
+      "native_numbers.py": "a6650e285ce4981bd29ac762ff1af792e71032232470ddffd33d6182175d41a6",
+      "parametric_environment.py": "ace67956d70c64438bd447c39b41e8d81b1eeb17e4134ea162aa499f62be5159",
+      "reference_numeric.py": "ac6fed97bff975ca374d73fad4b33d4b391866ade464456ad1cd6f0b17c986e6",
+      "resumable_wave.py": "d9549f1c003382ee2d951a4d032f0bfc2764b66873b019da94840d5bafb6ce2b",
+      "source_contract.py": "92f37967aaa7b96d422c721869283b79d7f82fe99ae6ec1c10cc6ba9f3988f6f",
+      "source_oracle.py": "cca219fa8a6527574c214efce3826cf9f6f54718f093f7ada75805da2748018f",
+      "source_policy.py": "2b56828d1b84aa40cf12c9876d2b6c1dc1cbd69a3bd42484a095807205cf909e",
+      "source_verification.py": "c1117e105c90aab9c40ce56778401748cfb1233dcc42e2db1c680adab7d91378",
+      "terminal_completion.py": "fcfc171b48550798ef1a9667fae53773aab0c6a9fabe886cebdc78faaf790cce",
+      "terminal_invariant.py": "4a1ebff2c0c7f82a50bf2a0fc4243a74d273c1c830acfa95dcec186ee1b8812c",
+      "timeline_csv.py": "bfc32b4220b56da03017b9ed10cead0890459f4a22d0136287e135768a6a8632"
+    },
+    "model_wall_seconds": 0.13504629999988538,
+    "process_wall_seconds": 0.23717482699999892,
+    "checked_nonterminal_components": 5610,
+    "terminal_scope": "native EndAttack resets player to menu, final states recorded separately",
+    "terminal_actual": [
+      47.99999949336052,
+      453,
+      0,
+      3.0000000000558797,
+      0,
+      0,
+      1,
+      1,
+      750,
+      0,
+      0
+    ],
+    "terminal_model": [
+      349.00000000053916,
+      377.95000000621144,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      750,
+      0,
+      0
+    ],
+    "events": [
+      {
+        "tick": 565,
+        "fn": "tlplay"
+      },
+      {
+        "tick": 566,
+        "fn": "tlpause"
+      },
+      {
+        "tick": 578,
+        "fn": "tlresume"
+      },
+      {
+        "tick": 1077,
+        "fn": "endattack"
+      }
+    ],
+    "damage": [],
+    "mismatches": []
+  },
+  {
+    "id": "sans_platforms2",
+    "wave": "sans_platforms2",
+    "passed": true,
+    "target_history_matches": true,
+    "target_history": [],
+    "scripted_healing_admitted": false,
+    "scripted_damage_admitted": false,
+    "expected_scripted_damage": [],
+    "starting_HP": 92,
+    "health_contract": "constant initial HP, KR0, no DamagePlayer call",
+    "protocol": "unchanged-c2-event-engine-with-dom-audio-render-stubs",
+    "clock": "60hz-explicit-native-dt",
+    "checkpoint_used": false,
+    "native_search_used": false,
+    "csv_sha256": "964b43f2d03eec8d28493f051e6553120b1f8468f11a2069868c51568e999171",
+    "runtime_sha256": "664b5d93dbd5159976d490663ac64c49c8eb7dc68c9aac92fba940b6fa2a3de9",
+    "data_sha256": "9f70e7179fe4260002321a75e5170e96583439bb39988b92ed93da42a0a402c7",
+    "plan_sha256": "b880870cd4ce6395d8cd8c40f3921e25a0081adf99b5ce34ba2a0296075075cb",
+    "solver_sha256": {
+      "__init__.py": "9a6b413a365d0ba53f8dcb37a5a857cdfe23fcc06c9dc9fd584af9dc66f80163",
+      "compact_types.py": "b53e36aa708581625286f8a05914e1a40f1134863c21e4aaad76596ed0136569",
+      "compact_wave.py": "68cd30fd14b10e58535cd4131a2d1121800c587342f9d623b5561cb052ae819a",
+      "control_quotient.py": "6c0e8edc886333ad62f880f8151b52f75a6d61d3b67260d3de0d8b5ebb284b7f",
+      "cspace.py": "12d99f204161d045e61eaa80b1e1f8b771fc6ca8eb0220bca14d9868be764766",
+      "csv_completion.py": "9f45c6eb0c3b957cb1d902e0e9eba414b9ca0e09ac6765d094ea163b9c15bddf",
+      "csv_preparation.py": "6f4e35b70346c4ce7d8d94281956ad86569809b61c7bee014c2f6d7c130456c8",
+      "csv_solver.py": "76036e69f4b761d48526bb366dc16178595e264f24f656212fe8dfd58c6ec9f9",
+      "csv_warmup.py": "1401a93bb3b554dd49e5de5f4e4c23b43e16e8ef0924c7f20eb54ced1a226c61",
+      "dialogue_operator.py": "4f1a80015fc7a59c24fb97e4780e0522d66ae6ca8c2a4f6007b2cc798d62a2aa",
+      "discrete_operator.py": "3f5c2a53b9bba6cdc9b581ca231acac965e411dbb0cdd1d37863d91dec4af51f",
+      "environment_state_key.py": "dc42e54e55b26a4145f51ec6c357121c11312beeee2fdaa79129c584c1da8b99",
+      "execution_schedule.py": "a8d4c90fc01d416f801a107b942fdfc035a584055ad6d24ed140921eae0eb8af",
+      "initial_target_history.py": "04765436cd965122e72c6267511acf570c0da3da3ae7016076fdb4d49ca243af",
+      "joint_transition.py": "5f627c440ea4d8139c778d7a856435bb100253b575d8a1819bb91f2153052957",
+      "lazy_jit.py": "81054a6b087a713bb0250212fec924fecc5b4b57fe50b3816d9faea6085bb8de",
+      "native_backend.py": "9e7c3f8281829d263254211b2442f9b446539b5e65ee816a6d8b9a8c11225613",
+      "native_candidate.py": "710d633d2f82824a9d8820c30d729268838dd2c185c969dbdbb31830f171bfa2",
+      "native_dynamic.py": "cfd662bd1b355dc41739abf621ccb1ecf2b81cbc0207466098a263ac52b41ee5",
+      "native_frontier.cpp": "c4bbcb809ecbf604d7904e8f3d900e4ec54e5abb0450a9f8a65c97f4110f8dc8",
+      "native_function_dispatch.py": "d437bd560d7efe95ef6ca6a6f3bbba38549b00c2e128a0e2178bc5ec68133f98",
+      "native_math.py": "1ddc633a2e53d42beba7a4ed09f024930653cd1636a7350e3f082a9944c1ae4d",
+      "native_numbers.py": "a6650e285ce4981bd29ac762ff1af792e71032232470ddffd33d6182175d41a6",
+      "parametric_environment.py": "ace67956d70c64438bd447c39b41e8d81b1eeb17e4134ea162aa499f62be5159",
+      "reference_numeric.py": "ac6fed97bff975ca374d73fad4b33d4b391866ade464456ad1cd6f0b17c986e6",
+      "resumable_wave.py": "d9549f1c003382ee2d951a4d032f0bfc2764b66873b019da94840d5bafb6ce2b",
+      "source_contract.py": "92f37967aaa7b96d422c721869283b79d7f82fe99ae6ec1c10cc6ba9f3988f6f",
+      "source_oracle.py": "cca219fa8a6527574c214efce3826cf9f6f54718f093f7ada75805da2748018f",
+      "source_policy.py": "2b56828d1b84aa40cf12c9876d2b6c1dc1cbd69a3bd42484a095807205cf909e",
+      "source_verification.py": "c1117e105c90aab9c40ce56778401748cfb1233dcc42e2db1c680adab7d91378",
+      "terminal_completion.py": "fcfc171b48550798ef1a9667fae53773aab0c6a9fabe886cebdc78faaf790cce",
+      "terminal_invariant.py": "4a1ebff2c0c7f82a50bf2a0fc4243a74d273c1c830acfa95dcec186ee1b8812c",
+      "timeline_csv.py": "bfc32b4220b56da03017b9ed10cead0890459f4a22d0136287e135768a6a8632"
+    },
+    "model_wall_seconds": 0.12837019900052837,
+    "process_wall_seconds": 0.23497978900000088,
+    "checked_nonterminal_components": 6600,
+    "terminal_scope": "native EndAttack resets player to menu, final states recorded separately",
+    "terminal_actual": [
+      47.99999949336052,
+      453,
+      0,
+      3.0000000000558797,
+      0,
+      0,
+      1,
+      1,
+      750,
+      0,
+      0
+    ],
+    "terminal_model": [
+      411.6666666683737,
+      377.80000000453566,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      750,
+      0,
+      0
+    ],
+    "events": [
+      {
+        "tick": 565,
+        "fn": "tlplay"
+      },
+      {
+        "tick": 566,
+        "fn": "tlpause"
+      },
+      {
+        "tick": 578,
+        "fn": "tlresume"
+      },
+      {
+        "tick": 1167,
+        "fn": "endattack"
+      }
+    ],
+    "damage": [],
+    "mismatches": []
+  },
+  {
+    "id": "sans_platforms3",
+    "wave": "sans_platforms3",
+    "passed": true,
+    "target_history_matches": true,
+    "target_history": [],
+    "scripted_healing_admitted": false,
+    "scripted_damage_admitted": false,
+    "expected_scripted_damage": [],
+    "starting_HP": 92,
+    "health_contract": "constant initial HP, KR0, no DamagePlayer call",
+    "protocol": "unchanged-c2-event-engine-with-dom-audio-render-stubs",
+    "clock": "60hz-explicit-native-dt",
+    "checkpoint_used": false,
+    "native_search_used": false,
+    "csv_sha256": "853d2bcb8fb9f0cb09eac8355fe1cc23d0d8558682e451ade592f5546eec9a7d",
+    "runtime_sha256": "664b5d93dbd5159976d490663ac64c49c8eb7dc68c9aac92fba940b6fa2a3de9",
+    "data_sha256": "9f70e7179fe4260002321a75e5170e96583439bb39988b92ed93da42a0a402c7",
+    "plan_sha256": "20608b243f4231942dee9d0dd5518b7ddd9e096d8ee0b0214b2fa9db79c360e2",
+    "solver_sha256": {
+      "__init__.py": "9a6b413a365d0ba53f8dcb37a5a857cdfe23fcc06c9dc9fd584af9dc66f80163",
+      "compact_types.py": "b53e36aa708581625286f8a05914e1a40f1134863c21e4aaad76596ed0136569",
+      "compact_wave.py": "68cd30fd14b10e58535cd4131a2d1121800c587342f9d623b5561cb052ae819a",
+      "control_quotient.py": "6c0e8edc886333ad62f880f8151b52f75a6d61d3b67260d3de0d8b5ebb284b7f",
+      "cspace.py": "12d99f204161d045e61eaa80b1e1f8b771fc6ca8eb0220bca14d9868be764766",
+      "csv_completion.py": "9f45c6eb0c3b957cb1d902e0e9eba414b9ca0e09ac6765d094ea163b9c15bddf",
+      "csv_preparation.py": "6f4e35b70346c4ce7d8d94281956ad86569809b61c7bee014c2f6d7c130456c8",
+      "csv_solver.py": "76036e69f4b761d48526bb366dc16178595e264f24f656212fe8dfd58c6ec9f9",
+      "csv_warmup.py": "1401a93bb3b554dd49e5de5f4e4c23b43e16e8ef0924c7f20eb54ced1a226c61",
+      "dialogue_operator.py": "4f1a80015fc7a59c24fb97e4780e0522d66ae6ca8c2a4f6007b2cc798d62a2aa",
+      "discrete_operator.py": "3f5c2a53b9bba6cdc9b581ca231acac965e411dbb0cdd1d37863d91dec4af51f",
+      "environment_state_key.py": "dc42e54e55b26a4145f51ec6c357121c11312beeee2fdaa79129c584c1da8b99",
+      "execution_schedule.py": "a8d4c90fc01d416f801a107b942fdfc035a584055ad6d24ed140921eae0eb8af",
+      "initial_target_history.py": "04765436cd965122e72c6267511acf570c0da3da3ae7016076fdb4d49ca243af",
+      "joint_transition.py": "5f627c440ea4d8139c778d7a856435bb100253b575d8a1819bb91f2153052957",
+      "lazy_jit.py": "81054a6b087a713bb0250212fec924fecc5b4b57fe50b3816d9faea6085bb8de",
+      "native_backend.py": "9e7c3f8281829d263254211b2442f9b446539b5e65ee816a6d8b9a8c11225613",
+      "native_candidate.py": "710d633d2f82824a9d8820c30d729268838dd2c185c969dbdbb31830f171bfa2",
+      "native_dynamic.py": "cfd662bd1b355dc41739abf621ccb1ecf2b81cbc0207466098a263ac52b41ee5",
+      "native_frontier.cpp": "c4bbcb809ecbf604d7904e8f3d900e4ec54e5abb0450a9f8a65c97f4110f8dc8",
+      "native_function_dispatch.py": "d437bd560d7efe95ef6ca6a6f3bbba38549b00c2e128a0e2178bc5ec68133f98",
+      "native_math.py": "1ddc633a2e53d42beba7a4ed09f024930653cd1636a7350e3f082a9944c1ae4d",
+      "native_numbers.py": "a6650e285ce4981bd29ac762ff1af792e71032232470ddffd33d6182175d41a6",
+      "parametric_environment.py": "ace67956d70c64438bd447c39b41e8d81b1eeb17e4134ea162aa499f62be5159",
+      "reference_numeric.py": "ac6fed97bff975ca374d73fad4b33d4b391866ade464456ad1cd6f0b17c986e6",
+      "resumable_wave.py": "d9549f1c003382ee2d951a4d032f0bfc2764b66873b019da94840d5bafb6ce2b",
+      "source_contract.py": "92f37967aaa7b96d422c721869283b79d7f82fe99ae6ec1c10cc6ba9f3988f6f",
+      "source_oracle.py": "cca219fa8a6527574c214efce3826cf9f6f54718f093f7ada75805da2748018f",
+      "source_policy.py": "2b56828d1b84aa40cf12c9876d2b6c1dc1cbd69a3bd42484a095807205cf909e",
+      "source_verification.py": "c1117e105c90aab9c40ce56778401748cfb1233dcc42e2db1c680adab7d91378",
+      "terminal_completion.py": "fcfc171b48550798ef1a9667fae53773aab0c6a9fabe886cebdc78faaf790cce",
+      "terminal_invariant.py": "4a1ebff2c0c7f82a50bf2a0fc4243a74d273c1c830acfa95dcec186ee1b8812c",
+      "timeline_csv.py": "bfc32b4220b56da03017b9ed10cead0890459f4a22d0136287e135768a6a8632"
+    },
+    "model_wall_seconds": 0.12759253900003387,
+    "process_wall_seconds": 0.2512273979999991,
+    "checked_nonterminal_components": 5412,
+    "terminal_scope": "native EndAttack resets player to menu, final states recorded separately",
+    "terminal_actual": [
+      47.99999949336052,
+      453,
+      0,
+      87.00000000162052,
+      0,
+      0,
+      1,
+      1,
+      750,
+      0,
+      0
+    ],
+    "terminal_model": [
+      146.99999999677817,
+      343.65000000024963,
+      0,
+      87.00000000162052,
+      0,
+      0,
+      1,
+      1,
+      750,
+      0,
+      0
+    ],
+    "events": [
+      {
+        "tick": 569,
+        "fn": "tlplay"
+      },
+      {
+        "tick": 570,
+        "fn": "tlpause"
+      },
+      {
+        "tick": 582,
+        "fn": "tlresume"
+      },
+      {
+        "tick": 1063,
+        "fn": "endattack"
+      }
+    ],
+    "damage": [],
+    "mismatches": []
+  },
+  {
+    "id": "sans_platforms4",
+    "wave": "sans_platforms4",
+    "passed": true,
+    "target_history_matches": true,
+    "target_history": [],
+    "scripted_healing_admitted": false,
+    "scripted_damage_admitted": false,
+    "expected_scripted_damage": [],
+    "starting_HP": 92,
+    "health_contract": "constant initial HP, KR0, no DamagePlayer call",
+    "protocol": "unchanged-c2-event-engine-with-dom-audio-render-stubs",
+    "clock": "60hz-explicit-native-dt",
+    "checkpoint_used": false,
+    "native_search_used": false,
+    "csv_sha256": "3fb7dfa8347f5a6f493dc56fda62142e0b985d431e91085600aa0918d19a549d",
+    "runtime_sha256": "664b5d93dbd5159976d490663ac64c49c8eb7dc68c9aac92fba940b6fa2a3de9",
+    "data_sha256": "9f70e7179fe4260002321a75e5170e96583439bb39988b92ed93da42a0a402c7",
+    "plan_sha256": "3fe7d58189ff694c4ddac06890b4c2065643229026293c0df1be7c59e0caf059",
+    "solver_sha256": {
+      "__init__.py": "9a6b413a365d0ba53f8dcb37a5a857cdfe23fcc06c9dc9fd584af9dc66f80163",
+      "compact_types.py": "b53e36aa708581625286f8a05914e1a40f1134863c21e4aaad76596ed0136569",
+      "compact_wave.py": "68cd30fd14b10e58535cd4131a2d1121800c587342f9d623b5561cb052ae819a",
+      "control_quotient.py": "6c0e8edc886333ad62f880f8151b52f75a6d61d3b67260d3de0d8b5ebb284b7f",
+      "cspace.py": "12d99f204161d045e61eaa80b1e1f8b771fc6ca8eb0220bca14d9868be764766",
+      "csv_completion.py": "9f45c6eb0c3b957cb1d902e0e9eba414b9ca0e09ac6765d094ea163b9c15bddf",
+      "csv_preparation.py": "6f4e35b70346c4ce7d8d94281956ad86569809b61c7bee014c2f6d7c130456c8",
+      "csv_solver.py": "76036e69f4b761d48526bb366dc16178595e264f24f656212fe8dfd58c6ec9f9",
+      "csv_warmup.py": "1401a93bb3b554dd49e5de5f4e4c23b43e16e8ef0924c7f20eb54ced1a226c61",
+      "dialogue_operator.py": "4f1a80015fc7a59c24fb97e4780e0522d66ae6ca8c2a4f6007b2cc798d62a2aa",
+      "discrete_operator.py": "3f5c2a53b9bba6cdc9b581ca231acac965e411dbb0cdd1d37863d91dec4af51f",
+      "environment_state_key.py": "dc42e54e55b26a4145f51ec6c357121c11312beeee2fdaa79129c584c1da8b99",
+      "execution_schedule.py": "a8d4c90fc01d416f801a107b942fdfc035a584055ad6d24ed140921eae0eb8af",
+      "initial_target_history.py": "04765436cd965122e72c6267511acf570c0da3da3ae7016076fdb4d49ca243af",
+      "joint_transition.py": "5f627c440ea4d8139c778d7a856435bb100253b575d8a1819bb91f2153052957",
+      "lazy_jit.py": "81054a6b087a713bb0250212fec924fecc5b4b57fe50b3816d9faea6085bb8de",
+      "native_backend.py": "9e7c3f8281829d263254211b2442f9b446539b5e65ee816a6d8b9a8c11225613",
+      "native_candidate.py": "710d633d2f82824a9d8820c30d729268838dd2c185c969dbdbb31830f171bfa2",
+      "native_dynamic.py": "cfd662bd1b355dc41739abf621ccb1ecf2b81cbc0207466098a263ac52b41ee5",
+      "native_frontier.cpp": "c4bbcb809ecbf604d7904e8f3d900e4ec54e5abb0450a9f8a65c97f4110f8dc8",
+      "native_function_dispatch.py": "d437bd560d7efe95ef6ca6a6f3bbba38549b00c2e128a0e2178bc5ec68133f98",
+      "native_math.py": "1ddc633a2e53d42beba7a4ed09f024930653cd1636a7350e3f082a9944c1ae4d",
+      "native_numbers.py": "a6650e285ce4981bd29ac762ff1af792e71032232470ddffd33d6182175d41a6",
+      "parametric_environment.py": "ace67956d70c64438bd447c39b41e8d81b1eeb17e4134ea162aa499f62be5159",
+      "reference_numeric.py": "ac6fed97bff975ca374d73fad4b33d4b391866ade464456ad1cd6f0b17c986e6",
+      "resumable_wave.py": "d9549f1c003382ee2d951a4d032f0bfc2764b66873b019da94840d5bafb6ce2b",
+      "source_contract.py": "92f37967aaa7b96d422c721869283b79d7f82fe99ae6ec1c10cc6ba9f3988f6f",
+      "source_oracle.py": "cca219fa8a6527574c214efce3826cf9f6f54718f093f7ada75805da2748018f",
+      "source_policy.py": "2b56828d1b84aa40cf12c9876d2b6c1dc1cbd69a3bd42484a095807205cf909e",
+      "source_verification.py": "c1117e105c90aab9c40ce56778401748cfb1233dcc42e2db1c680adab7d91378",
+      "terminal_completion.py": "fcfc171b48550798ef1a9667fae53773aab0c6a9fabe886cebdc78faaf790cce",
+      "terminal_invariant.py": "4a1ebff2c0c7f82a50bf2a0fc4243a74d273c1c830acfa95dcec186ee1b8812c",
+      "timeline_csv.py": "bfc32b4220b56da03017b9ed10cead0890459f4a22d0136287e135768a6a8632"
+    },
+    "model_wall_seconds": 0.1461307890003809,
+    "process_wall_seconds": 0.24682129500000155,
+    "checked_nonterminal_components": 4917,
+    "terminal_scope": "native EndAttack resets player to menu, final states recorded separately",
+    "terminal_actual": [
+      47.99999949336052,
+      453,
+      0,
+      3.000000000055891,
+      0,
+      0,
+      1,
+      1,
+      750,
+      0,
+      0
+    ],
+    "terminal_model": [
+      235.25000000112135,
+      327.95,
+      0,
+      3.000000000055891,
+      0,
+      0,
+      1,
+      1,
+      750,
+      0,
+      0
+    ],
+    "events": [
+      {
+        "tick": 565,
+        "fn": "tlplay"
+      },
+      {
+        "tick": 566,
+        "fn": "tlpause"
+      },
+      {
+        "tick": 575,
+        "fn": "tlresume"
+      },
+      {
+        "tick": 1014,
+        "fn": "endattack"
+      }
+    ],
+    "damage": [],
+    "mismatches": []
+  },
+  {
+    "id": "sans_platforms4hard",
+    "wave": "sans_platforms4hard",
+    "passed": true,
+    "target_history_matches": true,
+    "target_history": [],
+    "scripted_healing_admitted": false,
+    "scripted_damage_admitted": false,
+    "expected_scripted_damage": [],
+    "starting_HP": 92,
+    "health_contract": "constant initial HP, KR0, no DamagePlayer call",
+    "protocol": "unchanged-c2-event-engine-with-dom-audio-render-stubs",
+    "clock": "60hz-explicit-native-dt",
+    "checkpoint_used": false,
+    "native_search_used": false,
+    "csv_sha256": "2c23db06eccc8f7eda2341abafb4ebfe9162f3e7ed5bfe026f73f4ea19a42cd2",
+    "runtime_sha256": "664b5d93dbd5159976d490663ac64c49c8eb7dc68c9aac92fba940b6fa2a3de9",
+    "data_sha256": "9f70e7179fe4260002321a75e5170e96583439bb39988b92ed93da42a0a402c7",
+    "plan_sha256": "4a29a68211c64306d603d4a484fe1f053472bab2e28508c1a26e07ef805880b3",
+    "solver_sha256": {
+      "__init__.py": "9a6b413a365d0ba53f8dcb37a5a857cdfe23fcc06c9dc9fd584af9dc66f80163",
+      "compact_types.py": "b53e36aa708581625286f8a05914e1a40f1134863c21e4aaad76596ed0136569",
+      "compact_wave.py": "68cd30fd14b10e58535cd4131a2d1121800c587342f9d623b5561cb052ae819a",
+      "control_quotient.py": "6c0e8edc886333ad62f880f8151b52f75a6d61d3b67260d3de0d8b5ebb284b7f",
+      "cspace.py": "12d99f204161d045e61eaa80b1e1f8b771fc6ca8eb0220bca14d9868be764766",
+      "csv_completion.py": "9f45c6eb0c3b957cb1d902e0e9eba414b9ca0e09ac6765d094ea163b9c15bddf",
+      "csv_preparation.py": "6f4e35b70346c4ce7d8d94281956ad86569809b61c7bee014c2f6d7c130456c8",
+      "csv_solver.py": "76036e69f4b761d48526bb366dc16178595e264f24f656212fe8dfd58c6ec9f9",
+      "csv_warmup.py": "1401a93bb3b554dd49e5de5f4e4c23b43e16e8ef0924c7f20eb54ced1a226c61",
+      "dialogue_operator.py": "4f1a80015fc7a59c24fb97e4780e0522d66ae6ca8c2a4f6007b2cc798d62a2aa",
+      "discrete_operator.py": "3f5c2a53b9bba6cdc9b581ca231acac965e411dbb0cdd1d37863d91dec4af51f",
+      "environment_state_key.py": "dc42e54e55b26a4145f51ec6c357121c11312beeee2fdaa79129c584c1da8b99",
+      "execution_schedule.py": "a8d4c90fc01d416f801a107b942fdfc035a584055ad6d24ed140921eae0eb8af",
+      "initial_target_history.py": "04765436cd965122e72c6267511acf570c0da3da3ae7016076fdb4d49ca243af",
+      "joint_transition.py": "5f627c440ea4d8139c778d7a856435bb100253b575d8a1819bb91f2153052957",
+      "lazy_jit.py": "81054a6b087a713bb0250212fec924fecc5b4b57fe50b3816d9faea6085bb8de",
+      "native_backend.py": "9e7c3f8281829d263254211b2442f9b446539b5e65ee816a6d8b9a8c11225613",
+      "native_candidate.py": "710d633d2f82824a9d8820c30d729268838dd2c185c969dbdbb31830f171bfa2",
+      "native_dynamic.py": "cfd662bd1b355dc41739abf621ccb1ecf2b81cbc0207466098a263ac52b41ee5",
+      "native_frontier.cpp": "c4bbcb809ecbf604d7904e8f3d900e4ec54e5abb0450a9f8a65c97f4110f8dc8",
+      "native_function_dispatch.py": "d437bd560d7efe95ef6ca6a6f3bbba38549b00c2e128a0e2178bc5ec68133f98",
+      "native_math.py": "1ddc633a2e53d42beba7a4ed09f024930653cd1636a7350e3f082a9944c1ae4d",
+      "native_numbers.py": "a6650e285ce4981bd29ac762ff1af792e71032232470ddffd33d6182175d41a6",
+      "parametric_environment.py": "ace67956d70c64438bd447c39b41e8d81b1eeb17e4134ea162aa499f62be5159",
+      "reference_numeric.py": "ac6fed97bff975ca374d73fad4b33d4b391866ade464456ad1cd6f0b17c986e6",
+      "resumable_wave.py": "d9549f1c003382ee2d951a4d032f0bfc2764b66873b019da94840d5bafb6ce2b",
+      "source_contract.py": "92f37967aaa7b96d422c721869283b79d7f82fe99ae6ec1c10cc6ba9f3988f6f",
+      "source_oracle.py": "cca219fa8a6527574c214efce3826cf9f6f54718f093f7ada75805da2748018f",
+      "source_policy.py": "2b56828d1b84aa40cf12c9876d2b6c1dc1cbd69a3bd42484a095807205cf909e",
+      "source_verification.py": "c1117e105c90aab9c40ce56778401748cfb1233dcc42e2db1c680adab7d91378",
+      "terminal_completion.py": "fcfc171b48550798ef1a9667fae53773aab0c6a9fabe886cebdc78faaf790cce",
+      "terminal_invariant.py": "4a1ebff2c0c7f82a50bf2a0fc4243a74d273c1c830acfa95dcec186ee1b8812c",
+      "timeline_csv.py": "bfc32b4220b56da03017b9ed10cead0890459f4a22d0136287e135768a6a8632"
+    },
+    "model_wall_seconds": 0.1430691140003546,
+    "process_wall_seconds": 0.2490675889999984,
+    "checked_nonterminal_components": 4917,
+    "terminal_scope": "native EndAttack resets player to menu, final states recorded separately",
+    "terminal_actual": [
+      47.99999949336052,
+      453,
+      0,
+      34.500000001201414,
+      0,
+      0,
+      1,
+      1,
+      750,
+      0,
+      0
+    ],
+    "terminal_model": [
+      346.00000000318244,
+      286.4749999994886,
+      0,
+      34.500000001201414,
+      0,
+      0,
+      1,
+      1,
+      750,
+      0,
+      0
+    ],
+    "events": [
+      {
+        "tick": 569,
+        "fn": "tlplay"
+      },
+      {
+        "tick": 570,
+        "fn": "tlpause"
+      },
+      {
+        "tick": 579,
+        "fn": "tlresume"
+      },
+      {
+        "tick": 1018,
+        "fn": "endattack"
+      }
+    ],
+    "damage": [],
+    "mismatches": []
+  },
+  {
+    "id": "sans_randomblaster1",
+    "wave": "sans_randomblaster1",
+    "passed": true,
+    "target_history_matches": true,
+    "target_history": [
+      [
+        41,
+        14,
+        320,
+        304
+      ],
+      [
+        73,
+        14,
+        320,
+        304
+      ],
+      [
+        105,
+        14,
+        320,
+        344.0000000007449
+      ],
+      [
+        137,
+        14,
+        320,
+        344.0000000007449
+      ],
+      [
+        169,
+        14,
+        360.0000000007449,
+        344.0000000007449
+      ],
+      [
+        201,
+        14,
+        440.00000000223463,
+        344.0000000007449
+      ],
+      [
+        233,
+        14,
+        512.5000000035848,
+        344.0000000007449
+      ],
+      [
+        265,
+        14,
+        472.5000000028399,
+        344.0000000007449
+      ],
+      [
+        297,
+        14,
+        472.5000000028399,
+        344.0000000007449
+      ],
+      [
+        329,
+        14,
+        512.5000000035848,
+        304
+      ],
+      [
+        361,
+        14,
+        512.5000000035848,
+        304
+      ],
+      [
+        393,
+        14,
+        472.5000000028399,
+        304
+      ],
+      [
+        425,
+        14,
+        392.50000000135014,
+        304
+      ],
+      [
+        457,
+        14,
+        352.50000000060527,
+        304
+      ],
+      [
+        489,
+        14,
+        352.50000000060527,
+        304
+      ]
+    ],
+    "scripted_healing_admitted": false,
+    "scripted_damage_admitted": false,
+    "expected_scripted_damage": [],
+    "starting_HP": 92,
+    "health_contract": "constant initial HP, KR0, no DamagePlayer call",
+    "protocol": "unchanged-c2-event-engine-with-dom-audio-render-stubs",
+    "clock": "60hz-explicit-native-dt",
+    "checkpoint_used": false,
+    "native_search_used": false,
+    "csv_sha256": "f880224de616df00f44a583706223eee3378692e1b1554440b3b2de2a1a8627a",
+    "runtime_sha256": "664b5d93dbd5159976d490663ac64c49c8eb7dc68c9aac92fba940b6fa2a3de9",
+    "data_sha256": "9f70e7179fe4260002321a75e5170e96583439bb39988b92ed93da42a0a402c7",
+    "plan_sha256": "8be330fc6860fd8dd0212e3bea09e2bd34c30cc57d93f3008e04c79033dbe6ec",
+    "solver_sha256": {
+      "__init__.py": "9a6b413a365d0ba53f8dcb37a5a857cdfe23fcc06c9dc9fd584af9dc66f80163",
+      "compact_types.py": "b53e36aa708581625286f8a05914e1a40f1134863c21e4aaad76596ed0136569",
+      "compact_wave.py": "68cd30fd14b10e58535cd4131a2d1121800c587342f9d623b5561cb052ae819a",
+      "control_quotient.py": "6c0e8edc886333ad62f880f8151b52f75a6d61d3b67260d3de0d8b5ebb284b7f",
+      "cspace.py": "12d99f204161d045e61eaa80b1e1f8b771fc6ca8eb0220bca14d9868be764766",
+      "csv_completion.py": "9f45c6eb0c3b957cb1d902e0e9eba414b9ca0e09ac6765d094ea163b9c15bddf",
+      "csv_preparation.py": "6f4e35b70346c4ce7d8d94281956ad86569809b61c7bee014c2f6d7c130456c8",
+      "csv_solver.py": "76036e69f4b761d48526bb366dc16178595e264f24f656212fe8dfd58c6ec9f9",
+      "csv_warmup.py": "1401a93bb3b554dd49e5de5f4e4c23b43e16e8ef0924c7f20eb54ced1a226c61",
+      "dialogue_operator.py": "4f1a80015fc7a59c24fb97e4780e0522d66ae6ca8c2a4f6007b2cc798d62a2aa",
+      "discrete_operator.py": "3f5c2a53b9bba6cdc9b581ca231acac965e411dbb0cdd1d37863d91dec4af51f",
+      "environment_state_key.py": "dc42e54e55b26a4145f51ec6c357121c11312beeee2fdaa79129c584c1da8b99",
+      "execution_schedule.py": "a8d4c90fc01d416f801a107b942fdfc035a584055ad6d24ed140921eae0eb8af",
+      "initial_target_history.py": "04765436cd965122e72c6267511acf570c0da3da3ae7016076fdb4d49ca243af",
+      "joint_transition.py": "5f627c440ea4d8139c778d7a856435bb100253b575d8a1819bb91f2153052957",
+      "lazy_jit.py": "81054a6b087a713bb0250212fec924fecc5b4b57fe50b3816d9faea6085bb8de",
+      "native_backend.py": "9e7c3f8281829d263254211b2442f9b446539b5e65ee816a6d8b9a8c11225613",
+      "native_candidate.py": "710d633d2f82824a9d8820c30d729268838dd2c185c969dbdbb31830f171bfa2",
+      "native_dynamic.py": "cfd662bd1b355dc41739abf621ccb1ecf2b81cbc0207466098a263ac52b41ee5",
+      "native_frontier.cpp": "c4bbcb809ecbf604d7904e8f3d900e4ec54e5abb0450a9f8a65c97f4110f8dc8",
+      "native_function_dispatch.py": "d437bd560d7efe95ef6ca6a6f3bbba38549b00c2e128a0e2178bc5ec68133f98",
+      "native_math.py": "1ddc633a2e53d42beba7a4ed09f024930653cd1636a7350e3f082a9944c1ae4d",
+      "native_numbers.py": "a6650e285ce4981bd29ac762ff1af792e71032232470ddffd33d6182175d41a6",
+      "parametric_environment.py": "ace67956d70c64438bd447c39b41e8d81b1eeb17e4134ea162aa499f62be5159",
+      "reference_numeric.py": "ac6fed97bff975ca374d73fad4b33d4b391866ade464456ad1cd6f0b17c986e6",
+      "resumable_wave.py": "d9549f1c003382ee2d951a4d032f0bfc2764b66873b019da94840d5bafb6ce2b",
+      "source_contract.py": "92f37967aaa7b96d422c721869283b79d7f82fe99ae6ec1c10cc6ba9f3988f6f",
+      "source_oracle.py": "cca219fa8a6527574c214efce3826cf9f6f54718f093f7ada75805da2748018f",
+      "source_policy.py": "2b56828d1b84aa40cf12c9876d2b6c1dc1cbd69a3bd42484a095807205cf909e",
+      "source_verification.py": "c1117e105c90aab9c40ce56778401748cfb1233dcc42e2db1c680adab7d91378",
+      "terminal_completion.py": "fcfc171b48550798ef1a9667fae53773aab0c6a9fabe886cebdc78faaf790cce",
+      "terminal_invariant.py": "4a1ebff2c0c7f82a50bf2a0fc4243a74d273c1c830acfa95dcec186ee1b8812c",
+      "timeline_csv.py": "bfc32b4220b56da03017b9ed10cead0890459f4a22d0136287e135768a6a8632"
+    },
+    "model_wall_seconds": 0.21857188400008454,
+    "process_wall_seconds": 0.3334218980000005,
+    "checked_nonterminal_components": 5720,
+    "terminal_scope": "native EndAttack resets player to menu, final states recorded separately",
+    "terminal_actual": [
+      47.99999949336052,
+      453,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      750,
+      0,
+      0
+    ],
+    "terminal_model": [
+      312.4999999998604,
+      304,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      750,
+      0,
+      0
+    ],
+    "events": [
+      {
+        "tick": 569,
+        "fn": "tlplay"
+      },
+      {
+        "tick": 570,
+        "fn": "tlpause"
+      },
+      {
+        "tick": 580,
+        "fn": "tlresume"
+      },
+      {
+        "tick": 1091,
+        "fn": "endattack"
+      }
+    ],
+    "damage": [],
+    "mismatches": []
+  },
+  {
+    "id": "sans_randomblaster2",
+    "wave": "sans_randomblaster2",
+    "passed": true,
+    "target_history_matches": true,
+    "target_history": [
+      [
+        35,
+        14,
+        320,
+        304
+      ],
+      [
+        75,
+        14,
+        320,
+        304
+      ],
+      [
+        115,
+        14,
+        279.9999999992551,
+        344.0000000007449
+      ],
+      [
+        155,
+        14,
+        279.9999999992551,
+        344.0000000007449
+      ],
+      [
+        195,
+        14,
+        224.99999999823092,
+        377.3333333346989
+      ],
+      [
+        235,
+        14,
+        149.99999999683428,
+        377.3333333346989
+      ],
+      [
+        275,
+        14,
+        149.99999999683428,
+        377.3333333346989
+      ],
+      [
+        315,
+        14,
+        229.99999999832403,
+        377.3333333346989
+      ],
+      [
+        355,
+        14,
+        330.0000000001862,
+        377.3333333346989
+      ],
+      [
+        395,
+        14,
+        385.0000000012104,
+        377.3333333346989
+      ],
+      [
+        435,
+        14,
+        385.0000000012104,
+        377.3333333346989
+      ],
+      [
+        475,
+        14,
+        425.0000000019553,
+        337.33333333395404
+      ]
+    ],
+    "scripted_healing_admitted": false,
+    "scripted_damage_admitted": false,
+    "expected_scripted_damage": [],
+    "starting_HP": 92,
+    "health_contract": "constant initial HP, KR0, no DamagePlayer call",
+    "protocol": "unchanged-c2-event-engine-with-dom-audio-render-stubs",
+    "clock": "60hz-explicit-native-dt",
+    "checkpoint_used": false,
+    "native_search_used": false,
+    "csv_sha256": "431246d750826a061a1bfd1668ab7f2f3e43a3d30c2ed5e51a2c76e253690e90",
+    "runtime_sha256": "664b5d93dbd5159976d490663ac64c49c8eb7dc68c9aac92fba940b6fa2a3de9",
+    "data_sha256": "9f70e7179fe4260002321a75e5170e96583439bb39988b92ed93da42a0a402c7",
+    "plan_sha256": "a78f11f8db1d97c6a36391f7929637f6e6e600fdd278e69294a10664b4cfe4d1",
+    "solver_sha256": {
+      "__init__.py": "9a6b413a365d0ba53f8dcb37a5a857cdfe23fcc06c9dc9fd584af9dc66f80163",
+      "compact_types.py": "b53e36aa708581625286f8a05914e1a40f1134863c21e4aaad76596ed0136569",
+      "compact_wave.py": "68cd30fd14b10e58535cd4131a2d1121800c587342f9d623b5561cb052ae819a",
+      "control_quotient.py": "6c0e8edc886333ad62f880f8151b52f75a6d61d3b67260d3de0d8b5ebb284b7f",
+      "cspace.py": "12d99f204161d045e61eaa80b1e1f8b771fc6ca8eb0220bca14d9868be764766",
+      "csv_completion.py": "9f45c6eb0c3b957cb1d902e0e9eba414b9ca0e09ac6765d094ea163b9c15bddf",
+      "csv_preparation.py": "6f4e35b70346c4ce7d8d94281956ad86569809b61c7bee014c2f6d7c130456c8",
+      "csv_solver.py": "76036e69f4b761d48526bb366dc16178595e264f24f656212fe8dfd58c6ec9f9",
+      "csv_warmup.py": "1401a93bb3b554dd49e5de5f4e4c23b43e16e8ef0924c7f20eb54ced1a226c61",
+      "dialogue_operator.py": "4f1a80015fc7a59c24fb97e4780e0522d66ae6ca8c2a4f6007b2cc798d62a2aa",
+      "discrete_operator.py": "3f5c2a53b9bba6cdc9b581ca231acac965e411dbb0cdd1d37863d91dec4af51f",
+      "environment_state_key.py": "dc42e54e55b26a4145f51ec6c357121c11312beeee2fdaa79129c584c1da8b99",
+      "execution_schedule.py": "a8d4c90fc01d416f801a107b942fdfc035a584055ad6d24ed140921eae0eb8af",
+      "initial_target_history.py": "04765436cd965122e72c6267511acf570c0da3da3ae7016076fdb4d49ca243af",
+      "joint_transition.py": "5f627c440ea4d8139c778d7a856435bb100253b575d8a1819bb91f2153052957",
+      "lazy_jit.py": "81054a6b087a713bb0250212fec924fecc5b4b57fe50b3816d9faea6085bb8de",
+      "native_backend.py": "9e7c3f8281829d263254211b2442f9b446539b5e65ee816a6d8b9a8c11225613",
+      "native_candidate.py": "710d633d2f82824a9d8820c30d729268838dd2c185c969dbdbb31830f171bfa2",
+      "native_dynamic.py": "cfd662bd1b355dc41739abf621ccb1ecf2b81cbc0207466098a263ac52b41ee5",
+      "native_frontier.cpp": "c4bbcb809ecbf604d7904e8f3d900e4ec54e5abb0450a9f8a65c97f4110f8dc8",
+      "native_function_dispatch.py": "d437bd560d7efe95ef6ca6a6f3bbba38549b00c2e128a0e2178bc5ec68133f98",
+      "native_math.py": "1ddc633a2e53d42beba7a4ed09f024930653cd1636a7350e3f082a9944c1ae4d",
+      "native_numbers.py": "a6650e285ce4981bd29ac762ff1af792e71032232470ddffd33d6182175d41a6",
+      "parametric_environment.py": "ace67956d70c64438bd447c39b41e8d81b1eeb17e4134ea162aa499f62be5159",
+      "reference_numeric.py": "ac6fed97bff975ca374d73fad4b33d4b391866ade464456ad1cd6f0b17c986e6",
+      "resumable_wave.py": "d9549f1c003382ee2d951a4d032f0bfc2764b66873b019da94840d5bafb6ce2b",
+      "source_contract.py": "92f37967aaa7b96d422c721869283b79d7f82fe99ae6ec1c10cc6ba9f3988f6f",
+      "source_oracle.py": "cca219fa8a6527574c214efce3826cf9f6f54718f093f7ada75805da2748018f",
+      "source_policy.py": "2b56828d1b84aa40cf12c9876d2b6c1dc1cbd69a3bd42484a095807205cf909e",
+      "source_verification.py": "c1117e105c90aab9c40ce56778401748cfb1233dcc42e2db1c680adab7d91378",
+      "terminal_completion.py": "fcfc171b48550798ef1a9667fae53773aab0c6a9fabe886cebdc78faaf790cce",
+      "terminal_invariant.py": "4a1ebff2c0c7f82a50bf2a0fc4243a74d273c1c830acfa95dcec186ee1b8812c",
+      "timeline_csv.py": "bfc32b4220b56da03017b9ed10cead0890459f4a22d0136287e135768a6a8632"
+    },
+    "model_wall_seconds": 0.18805528600023536,
+    "process_wall_seconds": 0.31200708499999746,
+    "checked_nonterminal_components": 5654,
+    "terminal_scope": "native EndAttack resets player to menu, final states recorded separately",
+    "terminal_actual": [
+      47.99999949336052,
+      453,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      750,
+      0,
+      0
+    ],
+    "terminal_model": [
+      425.0000000019553,
+      337.33333333395404,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      750,
+      0,
+      0
+    ],
+    "events": [
+      {
+        "tick": 569,
+        "fn": "tlplay"
+      },
+      {
+        "tick": 570,
+        "fn": "tlpause"
+      },
+      {
+        "tick": 580,
+        "fn": "tlresume"
+      },
+      {
+        "tick": 1085,
+        "fn": "endattack"
+      }
+    ],
+    "damage": [],
+    "mismatches": []
+  },
+  {
+    "id": "sans_spare",
+    "wave": "sans_spare",
+    "passed": true,
+    "target_history_matches": true,
+    "target_history": [],
+    "scripted_healing_admitted": false,
+    "scripted_damage_admitted": false,
+    "expected_scripted_damage": [],
+    "starting_HP": 92,
+    "health_contract": "constant initial HP, KR0, no DamagePlayer call",
+    "protocol": "unchanged-c2-event-engine-with-dom-audio-render-stubs",
+    "clock": "60hz-explicit-native-dt",
+    "checkpoint_used": false,
+    "native_search_used": false,
+    "csv_sha256": "bed1eb8e0b97bcba6478183b58f435f605e3754469eb8d80a24b40afe7ebba8e",
+    "runtime_sha256": "664b5d93dbd5159976d490663ac64c49c8eb7dc68c9aac92fba940b6fa2a3de9",
+    "data_sha256": "9f70e7179fe4260002321a75e5170e96583439bb39988b92ed93da42a0a402c7",
+    "plan_sha256": "36ee1660cf504aef36141f824c1b380905a9ba50b7c8f6a1957de7a79111c8bc",
+    "solver_sha256": {
+      "__init__.py": "9a6b413a365d0ba53f8dcb37a5a857cdfe23fcc06c9dc9fd584af9dc66f80163",
+      "compact_types.py": "b53e36aa708581625286f8a05914e1a40f1134863c21e4aaad76596ed0136569",
+      "compact_wave.py": "68cd30fd14b10e58535cd4131a2d1121800c587342f9d623b5561cb052ae819a",
+      "control_quotient.py": "6c0e8edc886333ad62f880f8151b52f75a6d61d3b67260d3de0d8b5ebb284b7f",
+      "cspace.py": "12d99f204161d045e61eaa80b1e1f8b771fc6ca8eb0220bca14d9868be764766",
+      "csv_completion.py": "9f45c6eb0c3b957cb1d902e0e9eba414b9ca0e09ac6765d094ea163b9c15bddf",
+      "csv_preparation.py": "6f4e35b70346c4ce7d8d94281956ad86569809b61c7bee014c2f6d7c130456c8",
+      "csv_solver.py": "76036e69f4b761d48526bb366dc16178595e264f24f656212fe8dfd58c6ec9f9",
+      "csv_warmup.py": "1401a93bb3b554dd49e5de5f4e4c23b43e16e8ef0924c7f20eb54ced1a226c61",
+      "dialogue_operator.py": "4f1a80015fc7a59c24fb97e4780e0522d66ae6ca8c2a4f6007b2cc798d62a2aa",
+      "discrete_operator.py": "3f5c2a53b9bba6cdc9b581ca231acac965e411dbb0cdd1d37863d91dec4af51f",
+      "environment_state_key.py": "dc42e54e55b26a4145f51ec6c357121c11312beeee2fdaa79129c584c1da8b99",
+      "execution_schedule.py": "a8d4c90fc01d416f801a107b942fdfc035a584055ad6d24ed140921eae0eb8af",
+      "initial_target_history.py": "04765436cd965122e72c6267511acf570c0da3da3ae7016076fdb4d49ca243af",
+      "joint_transition.py": "5f627c440ea4d8139c778d7a856435bb100253b575d8a1819bb91f2153052957",
+      "lazy_jit.py": "81054a6b087a713bb0250212fec924fecc5b4b57fe50b3816d9faea6085bb8de",
+      "native_backend.py": "9e7c3f8281829d263254211b2442f9b446539b5e65ee816a6d8b9a8c11225613",
+      "native_candidate.py": "710d633d2f82824a9d8820c30d729268838dd2c185c969dbdbb31830f171bfa2",
+      "native_dynamic.py": "cfd662bd1b355dc41739abf621ccb1ecf2b81cbc0207466098a263ac52b41ee5",
+      "native_frontier.cpp": "c4bbcb809ecbf604d7904e8f3d900e4ec54e5abb0450a9f8a65c97f4110f8dc8",
+      "native_function_dispatch.py": "d437bd560d7efe95ef6ca6a6f3bbba38549b00c2e128a0e2178bc5ec68133f98",
+      "native_math.py": "1ddc633a2e53d42beba7a4ed09f024930653cd1636a7350e3f082a9944c1ae4d",
+      "native_numbers.py": "a6650e285ce4981bd29ac762ff1af792e71032232470ddffd33d6182175d41a6",
+      "parametric_environment.py": "ace67956d70c64438bd447c39b41e8d81b1eeb17e4134ea162aa499f62be5159",
+      "reference_numeric.py": "ac6fed97bff975ca374d73fad4b33d4b391866ade464456ad1cd6f0b17c986e6",
+      "resumable_wave.py": "d9549f1c003382ee2d951a4d032f0bfc2764b66873b019da94840d5bafb6ce2b",
+      "source_contract.py": "92f37967aaa7b96d422c721869283b79d7f82fe99ae6ec1c10cc6ba9f3988f6f",
+      "source_oracle.py": "cca219fa8a6527574c214efce3826cf9f6f54718f093f7ada75805da2748018f",
+      "source_policy.py": "2b56828d1b84aa40cf12c9876d2b6c1dc1cbd69a3bd42484a095807205cf909e",
+      "source_verification.py": "c1117e105c90aab9c40ce56778401748cfb1233dcc42e2db1c680adab7d91378",
+      "terminal_completion.py": "fcfc171b48550798ef1a9667fae53773aab0c6a9fabe886cebdc78faaf790cce",
+      "terminal_invariant.py": "4a1ebff2c0c7f82a50bf2a0fc4243a74d273c1c830acfa95dcec186ee1b8812c",
+      "timeline_csv.py": "bfc32b4220b56da03017b9ed10cead0890459f4a22d0136287e135768a6a8632"
+    },
+    "model_wall_seconds": 0.028816562999963935,
+    "process_wall_seconds": 0.14888139500000397,
+    "checked_nonterminal_components": 330,
+    "terminal_scope": "native EndAttack resets player to menu, final states recorded separately",
+    "terminal_actual": [
+      47.99999949336052,
+      453,
+      0,
+      -23.99999999709432,
+      4,
+      0,
+      1,
+      1,
+      750,
+      0,
+      0
+    ],
+    "terminal_model": [
+      320,
+      335.14999999987526,
+      0,
+      -23.99999999709432,
+      4,
+      0,
+      1,
+      1,
+      750,
+      0,
+      0
+    ],
+    "events": [
+      {
+        "tick": 569,
+        "fn": "tlplay"
+      },
+      {
+        "tick": 570,
+        "fn": "tlpause"
+      },
+      {
+        "tick": 582,
+        "fn": "tlresume"
+      },
+      {
+        "tick": 601,
+        "fn": "endattack"
+      }
+    ],
+    "damage": [],
+    "mismatches": []
+  },
+  {
+    "id": "part4",
+    "wave": "sans_bonegap1",
+    "passed": true,
+    "target_history_matches": true,
+    "target_history": [
+      [
+        3507,
+        253,
+        277.49999999920857,
+        306.64423077022764
+      ]
+    ],
+    "scripted_healing_admitted": false,
+    "scripted_damage_admitted": false,
+    "expected_scripted_damage": [],
+    "starting_HP": 92,
+    "health_contract": "constant initial HP, KR0, no DamagePlayer call",
+    "protocol": "unchanged-c2-event-engine-with-dom-audio-render-stubs",
+    "clock": "60hz-explicit-native-dt",
+    "checkpoint_used": false,
+    "native_search_used": false,
+    "csv_sha256": "5ff983750eacf0e5e5dd38b50b6e25a4ae2ff4a88779770cb66720d3ac7bb9e3",
+    "runtime_sha256": "664b5d93dbd5159976d490663ac64c49c8eb7dc68c9aac92fba940b6fa2a3de9",
+    "data_sha256": "9f70e7179fe4260002321a75e5170e96583439bb39988b92ed93da42a0a402c7",
+    "plan_sha256": "db7670b72b9baa88f946a7cb8409879ae5ad3d74f638eaeff76323571ef13185",
+    "solver_sha256": {
+      "__init__.py": "9a6b413a365d0ba53f8dcb37a5a857cdfe23fcc06c9dc9fd584af9dc66f80163",
+      "compact_types.py": "b53e36aa708581625286f8a05914e1a40f1134863c21e4aaad76596ed0136569",
+      "compact_wave.py": "68cd30fd14b10e58535cd4131a2d1121800c587342f9d623b5561cb052ae819a",
+      "control_quotient.py": "6c0e8edc886333ad62f880f8151b52f75a6d61d3b67260d3de0d8b5ebb284b7f",
+      "cspace.py": "12d99f204161d045e61eaa80b1e1f8b771fc6ca8eb0220bca14d9868be764766",
+      "csv_completion.py": "9f45c6eb0c3b957cb1d902e0e9eba414b9ca0e09ac6765d094ea163b9c15bddf",
+      "csv_preparation.py": "6f4e35b70346c4ce7d8d94281956ad86569809b61c7bee014c2f6d7c130456c8",
+      "csv_solver.py": "76036e69f4b761d48526bb366dc16178595e264f24f656212fe8dfd58c6ec9f9",
+      "csv_warmup.py": "1401a93bb3b554dd49e5de5f4e4c23b43e16e8ef0924c7f20eb54ced1a226c61",
+      "dialogue_operator.py": "4f1a80015fc7a59c24fb97e4780e0522d66ae6ca8c2a4f6007b2cc798d62a2aa",
+      "discrete_operator.py": "3f5c2a53b9bba6cdc9b581ca231acac965e411dbb0cdd1d37863d91dec4af51f",
+      "environment_state_key.py": "dc42e54e55b26a4145f51ec6c357121c11312beeee2fdaa79129c584c1da8b99",
+      "execution_schedule.py": "a8d4c90fc01d416f801a107b942fdfc035a584055ad6d24ed140921eae0eb8af",
+      "initial_target_history.py": "04765436cd965122e72c6267511acf570c0da3da3ae7016076fdb4d49ca243af",
+      "joint_transition.py": "5f627c440ea4d8139c778d7a856435bb100253b575d8a1819bb91f2153052957",
+      "lazy_jit.py": "81054a6b087a713bb0250212fec924fecc5b4b57fe50b3816d9faea6085bb8de",
+      "native_backend.py": "9e7c3f8281829d263254211b2442f9b446539b5e65ee816a6d8b9a8c11225613",
+      "native_candidate.py": "710d633d2f82824a9d8820c30d729268838dd2c185c969dbdbb31830f171bfa2",
+      "native_dynamic.py": "cfd662bd1b355dc41739abf621ccb1ecf2b81cbc0207466098a263ac52b41ee5",
+      "native_frontier.cpp": "c4bbcb809ecbf604d7904e8f3d900e4ec54e5abb0450a9f8a65c97f4110f8dc8",
+      "native_function_dispatch.py": "d437bd560d7efe95ef6ca6a6f3bbba38549b00c2e128a0e2178bc5ec68133f98",
+      "native_math.py": "1ddc633a2e53d42beba7a4ed09f024930653cd1636a7350e3f082a9944c1ae4d",
+      "native_numbers.py": "a6650e285ce4981bd29ac762ff1af792e71032232470ddffd33d6182175d41a6",
+      "parametric_environment.py": "ace67956d70c64438bd447c39b41e8d81b1eeb17e4134ea162aa499f62be5159",
+      "reference_numeric.py": "ac6fed97bff975ca374d73fad4b33d4b391866ade464456ad1cd6f0b17c986e6",
+      "resumable_wave.py": "d9549f1c003382ee2d951a4d032f0bfc2764b66873b019da94840d5bafb6ce2b",
+      "source_contract.py": "92f37967aaa7b96d422c721869283b79d7f82fe99ae6ec1c10cc6ba9f3988f6f",
+      "source_oracle.py": "cca219fa8a6527574c214efce3826cf9f6f54718f093f7ada75805da2748018f",
+      "source_policy.py": "2b56828d1b84aa40cf12c9876d2b6c1dc1cbd69a3bd42484a095807205cf909e",
+      "source_verification.py": "c1117e105c90aab9c40ce56778401748cfb1233dcc42e2db1c680adab7d91378",
+      "terminal_completion.py": "fcfc171b48550798ef1a9667fae53773aab0c6a9fabe886cebdc78faaf790cce",
+      "terminal_invariant.py": "4a1ebff2c0c7f82a50bf2a0fc4243a74d273c1c830acfa95dcec186ee1b8812c",
+      "timeline_csv.py": "bfc32b4220b56da03017b9ed10cead0890459f4a22d0136287e135768a6a8632"
+    },
+    "model_wall_seconds": 4.949216714000613,
+    "process_wall_seconds": 5.118745426,
+    "checked_nonterminal_components": 68662,
+    "terminal_scope": "native EndAttack resets player to menu, final states recorded separately",
+    "terminal_actual": [
+      47.99999949336052,
+      453,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      750,
+      0,
+      0
+    ],
+    "terminal_model": [
+      320,
+      304,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      330,
+      0,
+      0
+    ],
+    "events": [
+      {
+        "tick": 565,
+        "fn": "tlplay"
+      },
+      {
+        "tick": 566,
+        "fn": "tlpause"
+      },
+      {
+        "tick": 584,
+        "fn": "tlresume"
+      },
+      {
+        "tick": 6092,
+        "fn": "tlpause"
+      },
+      {
+        "tick": 6104,
+        "fn": "tlresume"
+      },
+      {
+        "tick": 6777,
+        "fn": "tlpause"
+      },
+      {
+        "tick": 6800,
+        "fn": "tlresume"
+      },
+      {
+        "tick": 6801,
+        "fn": "tlpause"
+      },
+      {
+        "tick": 6808,
+        "fn": "tlresume"
+      },
+      {
+        "tick": 6809,
+        "fn": "endattack"
+      }
+    ],
+    "damage": [],
+    "mismatches": []
+  },
+  {
+    "id": "weakened",
+    "wave": "sans_bonegap1",
+    "passed": true,
+    "target_history_matches": true,
+    "target_history": [
+      [
+        4736,
+        617,
+        380.0000000011173,
+        298.9999999999069
+      ],
+      [
+        4748,
+        619,
+        380.0000000011173,
+        298.9999999999069
+      ],
+      [
+        4772,
+        622,
+        370.0000000009311,
+        298.9999999999069
+      ],
+      [
+        4784,
+        624,
+        340.00000000037244,
+        298.9999999999069
+      ],
+      [
+        4808,
+        627,
+        340.00000000037244,
+        339.00000000065177
+      ],
+      [
+        4820,
+        629,
+        340.00000000037244,
+        339.00000000065177
+      ],
+      [
+        4844,
+        632,
+        340.00000000037244,
+        319.00000000027933
+      ],
+      [
+        4856,
+        634,
+        370.0000000009311,
+        288.99999999972067
+      ],
+      [
+        4880,
+        637,
+        350.00000000055866,
+        309.0000000000931
+      ],
+      [
+        4892,
+        639,
+        350.00000000055866,
+        309.0000000000931
+      ],
+      [
+        4916,
+        642,
+        370.0000000009311,
+        329.00000000046555
+      ],
+      [
+        4928,
+        644,
+        370.0000000009311,
+        329.00000000046555
+      ],
+      [
+        4952,
+        647,
+        370.0000000009311,
+        329.00000000046555
+      ],
+      [
+        4964,
+        649,
+        370.0000000009311,
+        329.00000000046555
+      ],
+      [
+        4988,
+        652,
+        350.00000000055866,
+        309.0000000000931
+      ],
+      [
+        5000,
+        654,
+        350.00000000055866,
+        309.0000000000931
+      ],
+      [
+        5024,
+        657,
+        350.00000000055866,
+        309.0000000000931
+      ],
+      [
+        5036,
+        659,
+        320,
+        309.0000000000931
+      ],
+      [
+        5060,
+        662,
+        309.9999999998138,
+        329.00000000046555
+      ],
+      [
+        5072,
+        664,
+        309.9999999998138,
+        329.00000000046555
+      ],
+      [
+        5096,
+        667,
+        309.9999999998138,
+        329.00000000046555
+      ],
+      [
+        5108,
+        669,
+        299.99999999962756,
+        319.00000000027933
+      ],
+      [
+        5132,
+        672,
+        279.9999999992551,
+        298.9999999999069
+      ],
+      [
+        5144,
+        674,
+        279.9999999992551,
+        298.9999999999069
+      ],
+      [
+        5168,
+        677,
+        309.9999999998138,
+        298.9999999999069
+      ],
+      [
+        5180,
+        679,
+        340.00000000037244,
+        298.9999999999069
+      ],
+      [
+        5204,
+        682,
+        340.00000000037244,
+        349.000000000838
+      ],
+      [
+        5216,
+        684,
+        340.00000000037244,
+        349.000000000838
+      ],
+      [
+        5240,
+        687,
+        340.00000000037244,
+        334.00000000055866
+      ],
+      [
+        5252,
+        689,
+        330.0000000001862,
+        344.0000000007449
+      ],
+      [
+        5276,
+        692,
+        309.9999999998138,
+        324.00000000037244
+      ],
+      [
+        5282,
+        694,
+        309.9999999998138,
+        324.00000000037244
+      ],
+      [
+        5306,
+        697,
+        309.9999999998138,
+        324.00000000037244
+      ],
+      [
+        5318,
+        699,
+        309.9999999998138,
+        334.00000000055866
+      ],
+      [
+        5342,
+        702,
+        289.99999999944134,
+        304
+      ],
+      [
+        5354,
+        704,
+        320,
+        304
+      ],
+      [
+        5378,
+        707,
+        360.0000000007449,
+        304
+      ],
+      [
+        5390,
+        709,
+        350.00000000055866,
+        314.0000000001862
+      ],
+      [
+        5414,
+        712,
+        340.00000000037244,
+        324.00000000037244
+      ],
+      [
+        5426,
+        714,
+        340.00000000037244,
+        324.00000000037244
+      ],
+      [
+        5450,
+        717,
+        340.00000000037244,
+        344.0000000007449
+      ],
+      [
+        5462,
+        719,
+        350.00000000055866,
+        314.0000000001862
+      ],
+      [
+        5486,
+        722,
+        370.0000000009311,
+        293.9999999998138
+      ],
+      [
+        5498,
+        724,
+        370.0000000009311,
+        293.9999999998138
+      ],
+      [
+        5522,
+        727,
+        360.0000000007449,
+        304
+      ],
+      [
+        5534,
+        729,
+        330.0000000001862,
+        314.0000000001862
+      ],
+      [
+        5558,
+        732,
+        309.9999999998138,
+        344.0000000007449
+      ],
+      [
+        5570,
+        734,
+        309.9999999998138,
+        344.0000000007449
+      ],
+      [
+        5594,
+        737,
+        309.9999999998138,
+        329.00000000046555
+      ],
+      [
+        5606,
+        739,
+        320,
+        359.0000000010242
+      ],
+      [
+        5630,
+        742,
+        360.0000000007449,
+        319.00000000027933
+      ],
+      [
+        5642,
+        744,
+        360.0000000007449,
+        319.00000000027933
+      ],
+      [
+        5666,
+        747,
+        309.9999999998138,
+        319.00000000027933
+      ],
+      [
+        5678,
+        749,
+        294.99999999953445,
+        319.00000000027933
+      ],
+      [
+        5702,
+        752,
+        274.999999999162,
+        298.9999999999069
+      ],
+      [
+        5714,
+        754,
+        274.999999999162,
+        298.9999999999069
+      ],
+      [
+        5738,
+        757,
+        274.999999999162,
+        298.9999999999069
+      ],
+      [
+        5750,
+        759,
+        294.99999999953445,
+        319.00000000027933
+      ],
+      [
+        5774,
+        762,
+        294.99999999953445,
+        319.00000000027933
+      ],
+      [
+        5786,
+        764,
+        294.99999999953445,
+        319.00000000027933
+      ],
+      [
+        5810,
+        767,
+        284.99999999934823,
+        298.9999999999069
+      ],
+      [
+        5822,
+        769,
+        314.9999999999069,
+        298.9999999999069
+      ],
+      [
+        5846,
+        772,
+        314.9999999999069,
+        298.9999999999069
+      ],
+      [
+        5858,
+        774,
+        314.9999999999069,
+        298.9999999999069
+      ],
+      [
+        5882,
+        777,
+        335.00000000027933,
+        319.00000000027933
+      ],
+      [
+        5894,
+        779,
+        335.00000000027933,
+        319.00000000027933
+      ],
+      [
+        5918,
+        782,
+        335.00000000027933,
+        319.00000000027933
+      ],
+      [
+        5930,
+        784,
+        365.000000000838,
+        288.99999999972067
+      ],
+      [
+        5954,
+        787,
+        345.00000000046555,
+        309.0000000000931
+      ],
+      [
+        5966,
+        789,
+        314.9999999999069,
+        309.0000000000931
+      ],
+      [
+        5990,
+        792,
+        274.999999999162,
+        309.0000000000931
+      ],
+      [
+        6002,
+        794,
+        274.999999999162,
+        309.0000000000931
+      ],
+      [
+        6026,
+        797,
+        274.999999999162,
+        329.00000000046555
+      ],
+      [
+        6032,
+        799,
+        279.9999999992551,
+        324.00000000037244
+      ],
+      [
+        6056,
+        802,
+        330.0000000001862,
+        263.9999999992551
+      ],
+      [
+        6068,
+        804,
+        330.0000000001862,
+        263.9999999992551
+      ],
+      [
+        6092,
+        807,
+        330.0000000001862,
+        263.9999999992551
+      ],
+      [
+        6104,
+        809,
+        320,
+        273.99999999944134
+      ],
+      [
+        6128,
+        812,
+        309.9999999998138,
+        283.99999999962756
+      ],
+      [
+        6140,
+        814,
+        309.9999999998138,
+        283.99999999962756
+      ],
+      [
+        6164,
+        817,
+        309.9999999998138,
+        239.8333333321384
+      ],
+      [
+        6176,
+        819,
+        314.9999999999069,
+        244.83333333223152
+      ],
+      [
+        6200,
+        822,
+        330.0000000001862,
+        259.83333333251085
+      ],
+      [
+        6212,
+        824,
+        330.0000000001862,
+        259.83333333251085
+      ],
+      [
+        6236,
+        827,
+        330.0000000001862,
+        279.8333333328833
+      ],
+      [
+        6248,
+        829,
+        309.9999999998138,
+        279.8333333328833
+      ],
+      [
+        6272,
+        832,
+        304.99999999972067,
+        319.83333333362816
+      ],
+      [
+        6284,
+        834,
+        304.99999999972067,
+        319.83333333362816
+      ],
+      [
+        6308,
+        837,
+        314.9999999999069,
+        319.83333333362816
+      ],
+      [
+        6320,
+        839,
+        345.00000000046555,
+        319.83333333362816
+      ],
+      [
+        6344,
+        842,
+        345.00000000046555,
+        279.8333333328833
+      ],
+      [
+        6356,
+        844,
+        345.00000000046555,
+        279.8333333328833
+      ],
+      [
+        6380,
+        847,
+        345.00000000046555,
+        279.8333333328833
+      ],
+      [
+        6392,
+        849,
+        330.0000000001862,
+        264.83333333260396
+      ],
+      [
+        6416,
+        852,
+        304.99999999972067,
+        239.8333333321384
+      ],
+      [
+        6428,
+        854,
+        304.99999999972067,
+        254.83333333241774
+      ],
+      [
+        6452,
+        857,
+        325.0000000000931,
+        259.83333333251085
+      ],
+      [
+        6464,
+        859,
+        345.00000000046555,
+        279.8333333328833
+      ],
+      [
+        6488,
+        862,
+        345.00000000046555,
+        279.8333333328833
+      ],
+      [
+        6500,
+        864,
+        345.00000000046555,
+        289.8333333330695
+      ],
+      [
+        6524,
+        867,
+        345.00000000046555,
+        319.83333333362816
+      ],
+      [
+        6536,
+        869,
+        314.9999999999069,
+        319.83333333362816
+      ],
+      [
+        6560,
+        872,
+        274.999999999162,
+        319.83333333362816
+      ],
+      [
+        6572,
+        874,
+        284.99999999934823,
+        309.83333333344194
+      ],
+      [
+        6596,
+        877,
+        304.99999999972067,
+        289.8333333330695
+      ],
+      [
+        6608,
+        879,
+        304.99999999972067,
+        289.8333333330695
+      ],
+      [
+        16030,
+        2577,
+        87.53076922552401,
+        377.30801282303725
+      ],
+      [
+        16030,
+        2581,
+        40,
+        377
+      ],
+      [
+        16030,
+        2584,
+        40,
+        377
+      ],
+      [
+        16042,
+        2587,
+        40,
+        377
+      ],
+      [
+        16054,
+        2590,
+        40,
+        377
+      ],
+      [
+        16078,
+        2593,
+        40,
+        356.99999999962756
+      ],
+      [
+        16078,
+        2596,
+        40,
+        356.99999999962756
+      ],
+      [
+        16090,
+        2599,
+        40,
+        326.9999999990689
+      ],
+      [
+        16102,
+        2602,
+        40,
+        306.99999999869647
+      ],
+      [
+        16126,
+        2607,
+        40,
+        306.99999999869647
+      ],
+      [
+        19551,
+        6252,
+        294.66666666613907,
+        239.6666666653942
+      ],
+      [
+        19551,
+        6255,
+        294.66666666613907,
+        239.6666666653942
+      ],
+      [
+        19551,
+        6259,
+        294.66666666613907,
+        239.6666666653942
+      ],
+      [
+        19551,
+        6262,
+        294.66666666613907,
+        239.6666666653942
+      ],
+      [
+        19551,
+        6266,
+        294.66666666613907,
+        239.6666666653942
+      ],
+      [
+        19551,
+        6269,
+        294.66666666613907,
+        239.6666666653942
+      ],
+      [
+        19551,
+        6273,
+        294.66666666613907,
+        239.6666666653942
+      ],
+      [
+        19551,
+        6276,
+        294.66666666613907,
+        239.6666666653942
+      ],
+      [
+        19611,
+        6280,
+        174.66666666390444,
+        279.66666666613907
+      ],
+      [
+        19611,
+        6283,
+        174.66666666390444,
+        279.66666666613907
+      ],
+      [
+        19611,
+        6287,
+        174.66666666390444,
+        279.66666666613907
+      ],
+      [
+        19611,
+        6290,
+        174.66666666390444,
+        279.66666666613907
+      ],
+      [
+        19611,
+        6294,
+        174.66666666390444,
+        279.66666666613907
+      ],
+      [
+        19611,
+        6297,
+        174.66666666390444,
+        279.66666666613907
+      ],
+      [
+        19611,
+        6301,
+        174.66666666390444,
+        279.66666666613907
+      ],
+      [
+        19611,
+        6304,
+        174.66666666390444,
+        279.66666666613907
+      ],
+      [
+        19671,
+        6308,
+        254.6666666653942,
+        239.6666666653942
+      ],
+      [
+        19671,
+        6311,
+        254.6666666653942,
+        239.6666666653942
+      ],
+      [
+        19671,
+        6315,
+        254.6666666653942,
+        239.6666666653942
+      ],
+      [
+        19671,
+        6318,
+        254.6666666653942,
+        239.6666666653942
+      ],
+      [
+        19671,
+        6322,
+        254.6666666653942,
+        239.6666666653942
+      ],
+      [
+        19671,
+        6325,
+        254.6666666653942,
+        239.6666666653942
+      ],
+      [
+        19671,
+        6329,
+        254.6666666653942,
+        239.6666666653942
+      ],
+      [
+        19671,
+        6332,
+        254.6666666653942,
+        239.6666666653942
+      ],
+      [
+        19731,
+        6336,
+        214.6666666646493,
+        319.66666666688394
+      ],
+      [
+        19731,
+        6339,
+        214.6666666646493,
+        319.66666666688394
+      ],
+      [
+        19731,
+        6343,
+        214.6666666646493,
+        319.66666666688394
+      ],
+      [
+        19731,
+        6346,
+        214.6666666646493,
+        319.66666666688394
+      ],
+      [
+        19731,
+        6350,
+        214.6666666646493,
+        319.66666666688394
+      ],
+      [
+        19731,
+        6353,
+        214.6666666646493,
+        319.66666666688394
+      ],
+      [
+        19731,
+        6357,
+        214.6666666646493,
+        319.66666666688394
+      ],
+      [
+        19731,
+        6360,
+        214.6666666646493,
+        319.66666666688394
+      ],
+      [
+        19791,
+        6364,
+        294.66666666613907,
+        279.66666666613907
+      ],
+      [
+        19791,
+        6367,
+        294.66666666613907,
+        279.66666666613907
+      ],
+      [
+        19791,
+        6371,
+        294.66666666613907,
+        279.66666666613907
+      ],
+      [
+        19791,
+        6374,
+        294.66666666613907,
+        279.66666666613907
+      ],
+      [
+        19791,
+        6378,
+        294.66666666613907,
+        279.66666666613907
+      ],
+      [
+        19791,
+        6381,
+        294.66666666613907,
+        279.66666666613907
+      ],
+      [
+        19791,
+        6385,
+        294.66666666613907,
+        279.66666666613907
+      ],
+      [
+        19791,
+        6388,
+        294.66666666613907,
+        279.66666666613907
+      ],
+      [
+        19851,
+        6392,
+        254.6666666653942,
+        359.6666666676288
+      ],
+      [
+        19851,
+        6395,
+        254.6666666653942,
+        359.6666666676288
+      ],
+      [
+        19851,
+        6399,
+        254.6666666653942,
+        359.6666666676288
+      ],
+      [
+        19851,
+        6402,
+        254.6666666653942,
+        359.6666666676288
+      ],
+      [
+        19851,
+        6406,
+        254.6666666653942,
+        359.6666666676288
+      ],
+      [
+        19851,
+        6409,
+        254.6666666653942,
+        359.6666666676288
+      ],
+      [
+        19851,
+        6413,
+        254.6666666653942,
+        359.6666666676288
+      ],
+      [
+        19851,
+        6416,
+        254.6666666653942,
+        359.6666666676288
+      ],
+      [
+        19911,
+        6420,
+        214.6666666646493,
+        439.66666666911857
+      ],
+      [
+        19911,
+        6423,
+        214.6666666646493,
+        439.66666666911857
+      ],
+      [
+        19911,
+        6427,
+        214.6666666646493,
+        439.66666666911857
+      ],
+      [
+        19911,
+        6430,
+        214.6666666646493,
+        439.66666666911857
+      ],
+      [
+        19911,
+        6434,
+        214.6666666646493,
+        439.66666666911857
+      ],
+      [
+        19911,
+        6437,
+        214.6666666646493,
+        439.66666666911857
+      ],
+      [
+        19911,
+        6441,
+        214.6666666646493,
+        439.66666666911857
+      ],
+      [
+        19911,
+        6444,
+        214.6666666646493,
+        439.66666666911857
+      ],
+      [
+        19971,
+        6448,
+        294.66666666613907,
+        399.6666666683737
+      ],
+      [
+        19971,
+        6451,
+        294.66666666613907,
+        399.6666666683737
+      ],
+      [
+        19971,
+        6455,
+        294.66666666613907,
+        399.6666666683737
+      ],
+      [
+        19971,
+        6458,
+        294.66666666613907,
+        399.6666666683737
+      ],
+      [
+        19971,
+        6462,
+        294.66666666613907,
+        399.6666666683737
+      ],
+      [
+        19971,
+        6465,
+        294.66666666613907,
+        399.6666666683737
+      ],
+      [
+        19971,
+        6469,
+        294.66666666613907,
+        399.6666666683737
+      ],
+      [
+        19971,
+        6472,
+        294.66666666613907,
+        399.6666666683737
+      ],
+      [
+        20031,
+        6476,
+        254.6666666653942,
+        479.66666666986345
+      ],
+      [
+        20031,
+        6479,
+        254.6666666653942,
+        479.66666666986345
+      ],
+      [
+        20031,
+        6483,
+        254.6666666653942,
+        479.66666666986345
+      ],
+      [
+        20031,
+        6486,
+        254.6666666653942,
+        479.66666666986345
+      ],
+      [
+        20031,
+        6490,
+        254.6666666653942,
+        479.66666666986345
+      ],
+      [
+        20031,
+        6493,
+        254.6666666653942,
+        479.66666666986345
+      ],
+      [
+        20031,
+        6497,
+        254.6666666653942,
+        479.66666666986345
+      ],
+      [
+        20031,
+        6500,
+        254.6666666653942,
+        479.66666666986345
+      ],
+      [
+        20091,
+        6504,
+        174.66666666390444,
+        446.3333333359094
+      ],
+      [
+        20091,
+        6507,
+        174.66666666390444,
+        446.3333333359094
+      ],
+      [
+        20091,
+        6511,
+        174.66666666390444,
+        446.3333333359094
+      ],
+      [
+        20091,
+        6514,
+        174.66666666390444,
+        446.3333333359094
+      ],
+      [
+        20091,
+        6518,
+        174.66666666390444,
+        446.3333333359094
+      ],
+      [
+        20091,
+        6521,
+        174.66666666390444,
+        446.3333333359094
+      ],
+      [
+        20091,
+        6525,
+        174.66666666390444,
+        446.3333333359094
+      ],
+      [
+        20091,
+        6528,
+        174.66666666390444,
+        446.3333333359094
+      ],
+      [
+        20151,
+        6532,
+        54.66666666166938,
+        486.3333333366543
+      ],
+      [
+        20151,
+        6535,
+        54.66666666166938,
+        486.3333333366543
+      ],
+      [
+        20151,
+        6539,
+        54.66666666166938,
+        486.3333333366543
+      ],
+      [
+        20151,
+        6542,
+        54.66666666166938,
+        486.3333333366543
+      ],
+      [
+        20151,
+        6546,
+        54.66666666166938,
+        486.3333333366543
+      ],
+      [
+        20151,
+        6549,
+        54.66666666166938,
+        486.3333333366543
+      ],
+      [
+        20151,
+        6553,
+        54.66666666166938,
+        486.3333333366543
+      ],
+      [
+        20151,
+        6556,
+        54.66666666166938,
+        486.3333333366543
+      ],
+      [
+        20211,
+        6561,
+        3.8333333273891843,
+        336.333333333861
+      ],
+      [
+        20211,
+        6564,
+        3.8333333273891843,
+        336.333333333861
+      ],
+      [
+        20211,
+        6568,
+        3.8333333273891843,
+        336.333333333861
+      ],
+      [
+        20211,
+        6571,
+        3.8333333273891843,
+        336.333333333861
+      ],
+      [
+        20211,
+        6575,
+        3.8333333273891843,
+        336.333333333861
+      ],
+      [
+        20211,
+        6578,
+        3.8333333273891843,
+        336.333333333861
+      ],
+      [
+        20211,
+        6582,
+        3.8333333273891843,
+        336.333333333861
+      ],
+      [
+        20211,
+        6585,
+        3.8333333273891843,
+        336.333333333861
+      ],
+      [
+        20271,
+        6589,
+        83.83333332887935,
+        296.3333333331161
+      ],
+      [
+        20271,
+        6592,
+        83.83333332887935,
+        296.3333333331161
+      ],
+      [
+        20271,
+        6596,
+        83.83333332887935,
+        296.3333333331161
+      ],
+      [
+        20271,
+        6599,
+        83.83333332887935,
+        296.3333333331161
+      ],
+      [
+        20271,
+        6603,
+        83.83333332887935,
+        296.3333333331161
+      ],
+      [
+        20271,
+        6606,
+        83.83333332887935,
+        296.3333333331161
+      ],
+      [
+        20271,
+        6610,
+        83.83333332887935,
+        296.3333333331161
+      ],
+      [
+        20271,
+        6613,
+        83.83333332887935,
+        296.3333333331161
+      ],
+      [
+        20331,
+        6617,
+        196.33333333097457,
+        326.3333333336748
+      ],
+      [
+        20331,
+        6620,
+        196.33333333097457,
+        326.3333333336748
+      ],
+      [
+        20331,
+        6624,
+        196.33333333097457,
+        326.3333333336748
+      ],
+      [
+        20331,
+        6627,
+        196.33333333097457,
+        326.3333333336748
+      ],
+      [
+        20331,
+        6631,
+        196.33333333097457,
+        326.3333333336748
+      ],
+      [
+        20331,
+        6634,
+        196.33333333097457,
+        326.3333333336748
+      ],
+      [
+        20331,
+        6638,
+        196.33333333097457,
+        326.3333333336748
+      ],
+      [
+        20331,
+        6641,
+        196.33333333097457,
+        326.3333333336748
+      ],
+      [
+        20391,
+        6645,
+        346.3333333337679,
+        396.3333333349783
+      ],
+      [
+        20391,
+        6648,
+        346.3333333337679,
+        396.3333333349783
+      ],
+      [
+        20391,
+        6652,
+        346.3333333337679,
+        396.3333333349783
+      ],
+      [
+        20391,
+        6655,
+        346.3333333337679,
+        396.3333333349783
+      ],
+      [
+        20391,
+        6659,
+        346.3333333337679,
+        396.3333333349783
+      ],
+      [
+        20391,
+        6662,
+        346.3333333337679,
+        396.3333333349783
+      ],
+      [
+        20391,
+        6666,
+        346.3333333337679,
+        396.3333333349783
+      ],
+      [
+        20391,
+        6669,
+        346.3333333337679,
+        396.3333333349783
+      ],
+      [
+        20391,
+        6675,
+        346.3333333337679,
+        396.3333333349783
+      ],
+      [
+        20445,
+        6692,
+        426.33333333525763,
+        261.33333333246435
+      ],
+      [
+        20445,
+        6695,
+        426.33333333525763,
+        261.33333333246435
+      ],
+      [
+        20445,
+        6699,
+        426.33333333525763,
+        261.33333333246435
+      ],
+      [
+        20445,
+        6702,
+        426.33333333525763,
+        261.33333333246435
+      ],
+      [
+        20445,
+        6706,
+        426.33333333525763,
+        261.33333333246435
+      ],
+      [
+        20445,
+        6709,
+        426.33333333525763,
+        261.33333333246435
+      ],
+      [
+        20445,
+        6713,
+        426.33333333525763,
+        261.33333333246435
+      ],
+      [
+        20445,
+        6716,
+        426.33333333525763,
+        261.33333333246435
+      ],
+      [
+        20449,
+        6720,
+        426.33333333525763,
+        253.83333333232468
+      ],
+      [
+        20490,
+        6738,
+        323.8333333333489,
+        311.33333333339544
+      ],
+      [
+        20490,
+        6742,
+        323.8333333333489,
+        311.33333333339544
+      ],
+      [
+        20490,
+        6746,
+        323.8333333333489,
+        311.33333333339544
+      ],
+      [
+        20490,
+        6750,
+        323.8333333333489,
+        311.33333333339544
+      ],
+      [
+        20529,
+        6755,
+        323.8333333333489,
+        253.83333333232468
+      ],
+      [
+        20529,
+        6758,
+        323.8333333333489,
+        253.83333333232468
+      ],
+      [
+        20529,
+        6761,
+        323.8333333333489,
+        253.83333333232468
+      ],
+      [
+        20529,
+        6764,
+        323.8333333333489,
+        253.83333333232468
+      ],
+      [
+        20568,
+        6768,
+        381.33333333441965,
+        311.33333333339544
+      ],
+      [
+        20568,
+        6772,
+        381.33333333441965,
+        311.33333333339544
+      ],
+      [
+        20568,
+        6776,
+        381.33333333441965,
+        311.33333333339544
+      ],
+      [
+        20568,
+        6780,
+        381.33333333441965,
+        311.33333333339544
+      ],
+      [
+        20607,
+        6785,
+        381.33333333441965,
+        231.3333333319057
+      ],
+      [
+        20607,
+        6788,
+        381.33333333441965,
+        231.3333333319057
+      ],
+      [
+        20607,
+        6791,
+        381.33333333441965,
+        231.3333333319057
+      ],
+      [
+        20607,
+        6794,
+        381.33333333441965,
+        231.3333333319057
+      ],
+      [
+        20643,
+        6797,
+        431.33333333535074,
+        181.3333333309746
+      ],
+      [
+        20643,
+        6801,
+        431.33333333535074,
+        181.3333333309746
+      ],
+      [
+        20643,
+        6805,
+        431.33333333535074,
+        181.3333333309746
+      ],
+      [
+        20643,
+        6809,
+        431.33333333535074,
+        181.3333333309746
+      ],
+      [
+        20682,
+        6814,
+        431.33333333535074,
+        238.83333333204536
+      ],
+      [
+        20682,
+        6817,
+        431.33333333535074,
+        238.83333333204536
+      ],
+      [
+        20682,
+        6820,
+        431.33333333535074,
+        238.83333333204536
+      ],
+      [
+        20682,
+        6823,
+        431.33333333535074,
+        238.83333333204536
+      ],
+      [
+        20721,
+        6827,
+        391.33333333460587,
+        198.83333333130048
+      ],
+      [
+        20721,
+        6831,
+        391.33333333460587,
+        198.83333333130048
+      ],
+      [
+        20721,
+        6835,
+        391.33333333460587,
+        198.83333333130048
+      ],
+      [
+        20721,
+        6839,
+        391.33333333460587,
+        198.83333333130048
+      ],
+      [
+        20760,
+        6844,
+        373.83333333428,
+        256.33333333237124
+      ],
+      [
+        20760,
+        6847,
+        373.83333333428,
+        256.33333333237124
+      ],
+      [
+        20760,
+        6850,
+        373.83333333428,
+        256.33333333237124
+      ],
+      [
+        20760,
+        6853,
+        373.83333333428,
+        256.33333333237124
+      ],
+      [
+        20799,
+        6857,
+        431.33333333535074,
+        313.833333333442
+      ],
+      [
+        20799,
+        6861,
+        431.33333333535074,
+        313.833333333442
+      ],
+      [
+        20799,
+        6865,
+        431.33333333535074,
+        313.833333333442
+      ],
+      [
+        20799,
+        6869,
+        431.33333333535074,
+        313.833333333442
+      ],
+      [
+        20838,
+        6874,
+        431.33333333535074,
+        233.83333333195225
+      ],
+      [
+        20838,
+        6877,
+        431.33333333535074,
+        233.83333333195225
+      ],
+      [
+        20838,
+        6880,
+        431.33333333535074,
+        233.83333333195225
+      ],
+      [
+        20838,
+        6883,
+        431.33333333535074,
+        233.83333333195225
+      ],
+      [
+        20877,
+        6887,
+        373.83333333428,
+        291.333333333023
+      ],
+      [
+        20877,
+        6891,
+        373.83333333428,
+        291.333333333023
+      ],
+      [
+        20877,
+        6895,
+        373.83333333428,
+        291.333333333023
+      ],
+      [
+        20877,
+        6899,
+        373.83333333428,
+        291.333333333023
+      ],
+      [
+        20916,
+        6904,
+        333.8333333335351,
+        371.33333333451276
+      ],
+      [
+        20916,
+        6907,
+        333.8333333335351,
+        371.33333333451276
+      ],
+      [
+        20916,
+        6910,
+        333.8333333335351,
+        371.33333333451276
+      ],
+      [
+        20916,
+        6913,
+        333.8333333335351,
+        371.33333333451276
+      ],
+      [
+        20952,
+        6916,
+        383.8333333344662,
+        421.33333333544385
+      ],
+      [
+        20952,
+        6920,
+        383.8333333344662,
+        421.33333333544385
+      ],
+      [
+        20952,
+        6924,
+        383.8333333344662,
+        421.33333333544385
+      ],
+      [
+        20952,
+        6928,
+        383.8333333344662,
+        421.33333333544385
+      ],
+      [
+        20991,
+        6933,
+        326.33333333339544,
+        421.33333333544385
+      ],
+      [
+        20991,
+        6936,
+        326.33333333339544,
+        421.33333333544385
+      ],
+      [
+        20991,
+        6939,
+        326.33333333339544,
+        421.33333333544385
+      ],
+      [
+        20991,
+        6942,
+        326.33333333339544,
+        421.33333333544385
+      ],
+      [
+        21030,
+        6946,
+        366.3333333341403,
+        381.333333334699
+      ],
+      [
+        21030,
+        6950,
+        366.3333333341403,
+        381.333333334699
+      ],
+      [
+        21030,
+        6954,
+        366.3333333341403,
+        381.333333334699
+      ],
+      [
+        21030,
+        6958,
+        366.3333333341403,
+        381.333333334699
+      ],
+      [
+        21069,
+        6963,
+        366.3333333341403,
+        438.83333333576974
+      ],
+      [
+        21069,
+        6966,
+        366.3333333341403,
+        438.83333333576974
+      ],
+      [
+        21069,
+        6969,
+        366.3333333341403,
+        438.83333333576974
+      ],
+      [
+        21069,
+        6972,
+        366.3333333341403,
+        438.83333333576974
+      ],
+      [
+        21108,
+        6976,
+        406.3333333348852,
+        398.83333333502486
+      ],
+      [
+        21108,
+        6980,
+        406.3333333348852,
+        398.83333333502486
+      ],
+      [
+        21123,
+        6985,
+        406.3333333348852,
+        398.83333333502486
+      ],
+      [
+        21123,
+        6989,
+        406.3333333348852,
+        398.83333333502486
+      ],
+      [
+        21147,
+        6994,
+        466.3333333360025,
+        398.83333333502486
+      ],
+      [
+        21147,
+        6997,
+        466.3333333360025,
+        398.83333333502486
+      ],
+      [
+        21162,
+        7001,
+        466.3333333360025,
+        398.83333333502486
+      ],
+      [
+        21162,
+        7004,
+        466.3333333360025,
+        398.83333333502486
+      ],
+      [
+        21186,
+        7008,
+        526.3333333371202,
+        458.8333333361422
+      ],
+      [
+        21186,
+        7012,
+        526.3333333371202,
+        458.8333333361422
+      ],
+      [
+        21201,
+        7017,
+        563.8333333378193,
+        421.33333333544385
+      ],
+      [
+        21201,
+        7021,
+        563.8333333378193,
+        421.33333333544385
+      ],
+      [
+        21225,
+        7026,
+        583.8333333381922,
+        421.33333333544385
+      ],
+      [
+        21225,
+        7029,
+        583.8333333381922,
+        421.33333333544385
+      ],
+      [
+        21240,
+        7033,
+        621.3333333388914,
+        421.33333333544385
+      ],
+      [
+        21240,
+        7036,
+        621.3333333388914,
+        421.33333333544385
+      ],
+      [
+        21264,
+        7040,
+        581.3333333381456,
+        461.33333333618873
+      ],
+      [
+        21264,
+        7044,
+        581.3333333381456,
+        461.33333333618873
+      ],
+      [
+        21279,
+        7049,
+        581.3333333381456,
+        461.33333333618873
+      ],
+      [
+        21279,
+        7053,
+        581.3333333381456,
+        461.33333333618873
+      ],
+      [
+        21303,
+        7058,
+        581.3333333381456,
+        401.3333333350714
+      ],
+      [
+        21303,
+        7061,
+        581.3333333381456,
+        401.3333333350714
+      ],
+      [
+        21318,
+        7065,
+        581.3333333381456,
+        401.3333333350714
+      ],
+      [
+        21318,
+        7068,
+        581.3333333381456,
+        401.3333333350714
+      ],
+      [
+        21342,
+        7072,
+        521.3333333370269,
+        341.3333333339541
+      ],
+      [
+        21342,
+        7076,
+        521.3333333370269,
+        341.3333333339541
+      ],
+      [
+        21357,
+        7081,
+        483.83333333632845,
+        378.8333333346524
+      ],
+      [
+        21357,
+        7085,
+        483.83333333632845,
+        378.8333333346524
+      ],
+      [
+        21381,
+        7090,
+        443.8333333355836,
+        338.83333333390755
+      ],
+      [
+        21381,
+        7093,
+        443.8333333355836,
+        338.83333333390755
+      ],
+      [
+        21396,
+        7097,
+        443.8333333355836,
+        338.83333333390755
+      ],
+      [
+        21396,
+        7100,
+        443.8333333355836,
+        338.83333333390755
+      ],
+      [
+        21420,
+        7104,
+        403.8333333348387,
+        298.83333333316267
+      ],
+      [
+        21420,
+        7108,
+        403.8333333348387,
+        298.83333333316267
+      ],
+      [
+        21435,
+        7113,
+        403.8333333348387,
+        298.83333333316267
+      ],
+      [
+        21435,
+        7117,
+        403.8333333348387,
+        298.83333333316267
+      ],
+      [
+        21459,
+        7122,
+        403.8333333348387,
+        238.83333333204536
+      ],
+      [
+        21459,
+        7125,
+        403.8333333348387,
+        238.83333333204536
+      ],
+      [
+        21474,
+        7129,
+        403.8333333348387,
+        201.33333333134703
+      ],
+      [
+        21474,
+        7132,
+        403.8333333348387,
+        201.33333333134703
+      ],
+      [
+        21498,
+        7136,
+        343.8333333337214,
+        261.33333333246435
+      ],
+      [
+        21498,
+        7140,
+        343.8333333337214,
+        261.33333333246435
+      ],
+      [
+        21513,
+        7145,
+        306.33333333302306,
+        298.83333333316267
+      ],
+      [
+        21513,
+        7149,
+        306.33333333302306,
+        298.83333333316267
+      ],
+      [
+        21537,
+        7154,
+        246.33333333190575,
+        318.8333333335351
+      ],
+      [
+        21537,
+        7157,
+        246.33333333190575,
+        318.8333333335351
+      ],
+      [
+        21552,
+        7161,
+        208.83333333120743,
+        281.3333333328368
+      ],
+      [
+        21552,
+        7164,
+        208.83333333120743,
+        281.3333333328368
+      ],
+      [
+        21576,
+        7168,
+        268.83333333232474,
+        221.33333333171947
+      ],
+      [
+        21576,
+        7172,
+        268.83333333232474,
+        221.33333333171947
+      ],
+      [
+        21591,
+        7177,
+        306.33333333302306,
+        183.83333333102115
+      ],
+      [
+        21591,
+        7181,
+        306.33333333302306,
+        183.83333333102115
+      ],
+      [
+        21612,
+        7186,
+        306.33333333302306,
+        131.3333333300435
+      ],
+      [
+        21612,
+        7189,
+        306.33333333302306,
+        131.3333333300435
+      ],
+      [
+        21633,
+        7192,
+        306.33333333302306,
+        78.83333332906557
+      ],
+      [
+        21633,
+        7195,
+        306.33333333302306,
+        78.83333332906557
+      ],
+      [
+        21654,
+        7199,
+        318.83333333325584,
+        26.33333332808763
+      ],
+      [
+        21654,
+        7203,
+        318.83333333325584,
+        26.33333332808763
+      ],
+      [
+        21669,
+        7208,
+        356.33333333395416,
+        -11.166666672610859
+      ],
+      [
+        21669,
+        7212,
+        356.33333333395416,
+        -11.166666672610859
+      ],
+      [
+        21690,
+        7217,
+        408.8333333349318,
+        -36.16666667307652
+      ],
+      [
+        21690,
+        7220,
+        408.8333333349318,
+        -36.16666667307652
+      ],
+      [
+        21690,
+        7223,
+        408.8333333349318,
+        -36.16666667307652
+      ],
+      [
+        21690,
+        7226,
+        408.8333333349318,
+        -36.16666667307652
+      ],
+      [
+        21711,
+        7230,
+        461.33333333590946,
+        16.333333327901364
+      ],
+      [
+        21711,
+        7234,
+        461.33333333590946,
+        16.333333327901364
+      ],
+      [
+        21726,
+        7239,
+        461.33333333590946,
+        16.333333327901364
+      ],
+      [
+        21726,
+        7243,
+        461.33333333590946,
+        16.333333327901364
+      ],
+      [
+        21747,
+        7248,
+        513.8333333368871,
+        16.333333327901364
+      ],
+      [
+        21747,
+        7251,
+        513.8333333368871,
+        16.333333327901364
+      ],
+      [
+        21768,
+        7254,
+        566.333333337866,
+        68.83333332887929
+      ],
+      [
+        21768,
+        7257,
+        566.333333337866,
+        68.83333332887929
+      ],
+      [
+        21789,
+        7261,
+        606.3333333386117,
+        121.33333332985724
+      ],
+      [
+        21789,
+        7265,
+        606.3333333386117,
+        121.33333332985724
+      ],
+      [
+        21810,
+        7270,
+        606.3333333386117,
+        173.83333333083493
+      ],
+      [
+        21810,
+        7274,
+        606.3333333386117,
+        173.83333333083493
+      ],
+      [
+        21831,
+        7279,
+        591.3333333383321,
+        226.33333333181258
+      ],
+      [
+        21831,
+        7282,
+        591.3333333383321,
+        226.33333333181258
+      ],
+      [
+        21852,
+        7285,
+        598.8333333384719,
+        278.83333333279023
+      ],
+      [
+        21852,
+        7288,
+        598.8333333384719,
+        278.83333333279023
+      ],
+      [
+        21873,
+        7292,
+        546.3333333374931,
+        331.3333333337679
+      ],
+      [
+        21873,
+        7296,
+        546.3333333374931,
+        331.3333333337679
+      ],
+      [
+        21894,
+        7301,
+        493.83333333651467,
+        338.83333333390755
+      ],
+      [
+        21894,
+        7305,
+        493.83333333651467,
+        338.83333333390755
+      ],
+      [
+        21915,
+        7310,
+        441.333333335537,
+        311.33333333339544
+      ],
+      [
+        21915,
+        7313,
+        441.333333335537,
+        311.33333333339544
+      ],
+      [
+        21915,
+        7316,
+        441.333333335537,
+        311.33333333339544
+      ],
+      [
+        21915,
+        7319,
+        441.333333335537,
+        311.33333333339544
+      ],
+      [
+        22064,
+        7367,
+        401.33333333479214,
+        302.60576922958603
+      ],
+      [
+        22109,
+        7369,
+        313.8333333331627,
+        360.1057692306568
+      ],
+      [
+        22154,
+        7374,
+        201.33333333106776,
+        327.09423076775755
+      ],
+      [
+        22199,
+        7379,
+        88.83333332897257,
+        314.144230768523
+      ],
+      [
+        22244,
+        7384,
+        126.3333333296711,
+        325.2865384600316
+      ],
+      [
+        22289,
+        7389,
+        238.83333333176608,
+        311.2596153838539
+      ],
+      [
+        22334,
+        7394,
+        351.33333333386105,
+        325.2865384600316
+      ],
+      [
+        22379,
+        7399,
+        463.833333335956,
+        311.2596153838539
+      ],
+      [
+        22424,
+        7404,
+        576.3333333380524,
+        325.2865384600316
+      ],
+      [
+        22469,
+        7409,
+        653.8333333394974,
+        311.2596153838539
+      ],
+      [
+        22514,
+        7414,
+        578.833333338099,
+        325.2865384600316
+      ],
+      [
+        22559,
+        7419,
+        466.33333333600257,
+        311.2596153838539
+      ],
+      [
+        22604,
+        7424,
+        353.8333333339076,
+        325.2865384600316
+      ],
+      [
+        22649,
+        7429,
+        241.33333333181264,
+        311.2596153838539
+      ],
+      [
+        22694,
+        7434,
+        128.83333332971768,
+        325.2865384600316
+      ],
+      [
+        22739,
+        7439,
+        241.33333333181264,
+        311.2596153838539
+      ],
+      [
+        22784,
+        7444,
+        353.8333333339076,
+        325.2865384600316
+      ],
+      [
+        22829,
+        7449,
+        466.33333333600257,
+        311.2596153838539
+      ],
+      [
+        22874,
+        7454,
+        578.833333338099,
+        325.2865384600316
+      ],
+      [
+        22919,
+        7459,
+        541.3333333373998,
+        311.2596153838539
+      ],
+      [
+        22964,
+        7464,
+        428.83333333530425,
+        325.2865384600316
+      ],
+      [
+        23009,
+        7469,
+        316.3333333332093,
+        311.2596153838539
+      ],
+      [
+        23054,
+        7474,
+        203.83333333111432,
+        325.2865384600316
+      ],
+      [
+        23099,
+        7479,
+        91.33333332901914,
+        311.2596153838539
+      ],
+      [
+        23144,
+        7484,
+        -6.166666672796998,
+        325.2865384600316
+      ],
+      [
+        23189,
+        7489,
+        68.83333332860002,
+        311.2596153838539
+      ],
+      [
+        23234,
+        7494,
+        181.33333333069533,
+        325.2865384600316
+      ],
+      [
+        23279,
+        7499,
+        293.8333333327903,
+        311.2596153838539
+      ],
+      [
+        23324,
+        7504,
+        406.33333333488525,
+        325.2865384600316
+      ],
+      [
+        23369,
+        7509,
+        518.8333333369803,
+        311.2596153838539
+      ],
+      [
+        23414,
+        7514,
+        481.3333333362819,
+        325.2865384600316
+      ],
+      [
+        23447,
+        7519,
+        398.8333333347456,
+        316.2096153833678
+      ],
+      [
+        23480,
+        7524,
+        316.3333333332093,
+        320.4788461522497
+      ],
+      [
+        23513,
+        7529,
+        233.83333333167297,
+        316.2096153833678
+      ],
+      [
+        23546,
+        7534,
+        151.33333333013667,
+        320.4788461522497
+      ],
+      [
+        23579,
+        7539,
+        68.83333332860002,
+        316.2096153833678
+      ],
+      [
+        23612,
+        7544,
+        -6.166666672796998,
+        318.0788461523
+      ],
+      [
+        23645,
+        7549,
+        8.8333333274824,
+        327.44423076804065
+      ],
+      [
+        23678,
+        7554,
+        91.33333332901914,
+        321.0499999983346
+      ],
+      [
+        23711,
+        7559,
+        173.83333333055566,
+        316.78076922945274
+      ],
+      [
+        23744,
+        7564,
+        256.33333333209197,
+        322.0884615368528
+      ],
+      [
+        23777,
+        7569,
+        338.8333333336283,
+        314.85769230633997
+      ],
+      [
+        23810,
+        7574,
+        421.3333333351646,
+        322.0884615368528
+      ],
+      [
+        23843,
+        7579,
+        503.8333333367009,
+        314.85769230633997
+      ],
+      [
+        23876,
+        7584,
+        586.3333333382388,
+        322.0884615368528
+      ],
+      [
+        23909,
+        7589,
+        548.8333333375397,
+        314.85769230633997
+      ],
+      [
+        23942,
+        7594,
+        466.33333333600257,
+        322.0884615368528
+      ],
+      [
+        23975,
+        7599,
+        383.83333333446626,
+        314.85769230633997
+      ],
+      [
+        24008,
+        7604,
+        301.33333333292995,
+        322.0884615368528
+      ],
+      [
+        24041,
+        7609,
+        218.83333333139365,
+        314.85769230633997
+      ],
+      [
+        24074,
+        7614,
+        136.33333332985734,
+        322.0884615368528
+      ],
+      [
+        24107,
+        7619,
+        53.833333328320606,
+        314.85769230633997
+      ],
+      [
+        24140,
+        7624,
+        -6.166666672796998,
+        322.0884615368528
+      ],
+      [
+        24173,
+        7629,
+        16.333333327622096,
+        333.65769230642564
+      ],
+      [
+        24206,
+        7634,
+        98.83333332915885,
+        319.6192307673115
+      ],
+      [
+        24239,
+        7639,
+        181.33333333069533,
+        316.31153845998597
+      ],
+      [
+        24272,
+        7644,
+        263.83333333223163,
+        320.58076922886784
+      ],
+      [
+        24305,
+        7649,
+        346.33333333376794,
+        316.31153845998597
+      ],
+      [
+        24338,
+        7654,
+        428.83333333530425,
+        320.58076922886784
+      ],
+      [
+        24371,
+        7659,
+        511.33333333684055,
+        316.31153845998597
+      ],
+      [
+        24404,
+        7664,
+        593.8333333383787,
+        320.58076922886784
+      ],
+      [
+        24437,
+        7669,
+        653.8333333394974,
+        316.31153845998597
+      ],
+      [
+        24470,
+        7674,
+        653.8333333394974,
+        291.38076922852514
+      ],
+      [
+        24503,
+        7679,
+        571.3333333379592,
+        317.29423076779295
+      ],
+      [
+        24536,
+        7684,
+        488.83333333642156,
+        320.60192307511846
+      ],
+      [
+        24569,
+        7689,
+        406.33333333488525,
+        316.3326923062366
+      ],
+      [
+        24602,
+        7694,
+        323.83333333334895,
+        320.60192307511846
+      ],
+      [
+        24635,
+        7699,
+        241.33333333181264,
+        316.3326923062366
+      ],
+      [
+        24668,
+        7704,
+        158.83333333027633,
+        320.60192307511846
+      ],
+      [
+        24701,
+        7709,
+        76.33333332873973,
+        316.3326923062366
+      ],
+      [
+        24734,
+        7714,
+        -6.166666672796998,
+        320.60192307511846
+      ]
+    ],
+    "scripted_healing_admitted": false,
+    "scripted_damage_admitted": false,
+    "expected_scripted_damage": [],
+    "starting_HP": 92,
+    "health_contract": "constant initial HP, KR0, no DamagePlayer call",
+    "protocol": "unchanged-c2-event-engine-with-dom-audio-render-stubs",
+    "clock": "60hz-explicit-native-dt",
+    "checkpoint_used": false,
+    "native_search_used": false,
+    "csv_sha256": "6fae36d1bdef87a5f9605080da045ed8121e7c867113bef5fc9c38f102775075",
+    "runtime_sha256": "664b5d93dbd5159976d490663ac64c49c8eb7dc68c9aac92fba940b6fa2a3de9",
+    "data_sha256": "9f70e7179fe4260002321a75e5170e96583439bb39988b92ed93da42a0a402c7",
+    "plan_sha256": "d727e7e3e7e55308f71d2fc6f70587f4bc5b6a0cf44f7b9feae601f10e64fbee",
+    "solver_sha256": {
+      "__init__.py": "9a6b413a365d0ba53f8dcb37a5a857cdfe23fcc06c9dc9fd584af9dc66f80163",
+      "compact_types.py": "b53e36aa708581625286f8a05914e1a40f1134863c21e4aaad76596ed0136569",
+      "compact_wave.py": "68cd30fd14b10e58535cd4131a2d1121800c587342f9d623b5561cb052ae819a",
+      "control_quotient.py": "6c0e8edc886333ad62f880f8151b52f75a6d61d3b67260d3de0d8b5ebb284b7f",
+      "cspace.py": "12d99f204161d045e61eaa80b1e1f8b771fc6ca8eb0220bca14d9868be764766",
+      "csv_completion.py": "9f45c6eb0c3b957cb1d902e0e9eba414b9ca0e09ac6765d094ea163b9c15bddf",
+      "csv_preparation.py": "6f4e35b70346c4ce7d8d94281956ad86569809b61c7bee014c2f6d7c130456c8",
+      "csv_solver.py": "76036e69f4b761d48526bb366dc16178595e264f24f656212fe8dfd58c6ec9f9",
+      "csv_warmup.py": "1401a93bb3b554dd49e5de5f4e4c23b43e16e8ef0924c7f20eb54ced1a226c61",
+      "dialogue_operator.py": "4f1a80015fc7a59c24fb97e4780e0522d66ae6ca8c2a4f6007b2cc798d62a2aa",
+      "discrete_operator.py": "3f5c2a53b9bba6cdc9b581ca231acac965e411dbb0cdd1d37863d91dec4af51f",
+      "environment_state_key.py": "dc42e54e55b26a4145f51ec6c357121c11312beeee2fdaa79129c584c1da8b99",
+      "execution_schedule.py": "a8d4c90fc01d416f801a107b942fdfc035a584055ad6d24ed140921eae0eb8af",
+      "initial_target_history.py": "04765436cd965122e72c6267511acf570c0da3da3ae7016076fdb4d49ca243af",
+      "joint_transition.py": "5f627c440ea4d8139c778d7a856435bb100253b575d8a1819bb91f2153052957",
+      "lazy_jit.py": "81054a6b087a713bb0250212fec924fecc5b4b57fe50b3816d9faea6085bb8de",
+      "native_backend.py": "9e7c3f8281829d263254211b2442f9b446539b5e65ee816a6d8b9a8c11225613",
+      "native_candidate.py": "710d633d2f82824a9d8820c30d729268838dd2c185c969dbdbb31830f171bfa2",
+      "native_dynamic.py": "cfd662bd1b355dc41739abf621ccb1ecf2b81cbc0207466098a263ac52b41ee5",
+      "native_frontier.cpp": "c4bbcb809ecbf604d7904e8f3d900e4ec54e5abb0450a9f8a65c97f4110f8dc8",
+      "native_function_dispatch.py": "d437bd560d7efe95ef6ca6a6f3bbba38549b00c2e128a0e2178bc5ec68133f98",
+      "native_math.py": "1ddc633a2e53d42beba7a4ed09f024930653cd1636a7350e3f082a9944c1ae4d",
+      "native_numbers.py": "a6650e285ce4981bd29ac762ff1af792e71032232470ddffd33d6182175d41a6",
+      "parametric_environment.py": "ace67956d70c64438bd447c39b41e8d81b1eeb17e4134ea162aa499f62be5159",
+      "reference_numeric.py": "ac6fed97bff975ca374d73fad4b33d4b391866ade464456ad1cd6f0b17c986e6",
+      "resumable_wave.py": "d9549f1c003382ee2d951a4d032f0bfc2764b66873b019da94840d5bafb6ce2b",
+      "source_contract.py": "92f37967aaa7b96d422c721869283b79d7f82fe99ae6ec1c10cc6ba9f3988f6f",
+      "source_oracle.py": "cca219fa8a6527574c214efce3826cf9f6f54718f093f7ada75805da2748018f",
+      "source_policy.py": "2b56828d1b84aa40cf12c9876d2b6c1dc1cbd69a3bd42484a095807205cf909e",
+      "source_verification.py": "c1117e105c90aab9c40ce56778401748cfb1233dcc42e2db1c680adab7d91378",
+      "terminal_completion.py": "fcfc171b48550798ef1a9667fae53773aab0c6a9fabe886cebdc78faaf790cce",
+      "terminal_invariant.py": "4a1ebff2c0c7f82a50bf2a0fc4243a74d273c1c830acfa95dcec186ee1b8812c",
+      "timeline_csv.py": "bfc32b4220b56da03017b9ed10cead0890459f4a22d0136287e135768a6a8632"
+    },
+    "model_wall_seconds": 8.622906297000554,
+    "process_wall_seconds": 8.808421786,
+    "checked_nonterminal_components": 283800,
+    "terminal_scope": "native EndAttack resets player to menu, final states recorded separately",
+    "terminal_actual": [
+      47.99999949336052,
+      453,
+      0,
+      750,
+      0,
+      1,
+      1,
+      1,
+      750,
+      0,
+      0
+    ],
+    "terminal_model": [
+      -306.16666667838496,
+      11462.732692514124,
+      0,
+      750,
+      0,
+      1,
+      1,
+      1,
+      750,
+      1,
+      0
+    ],
+    "events": [
+      {
+        "tick": 565,
+        "fn": "tlplay"
+      },
+      {
+        "tick": 566,
+        "fn": "tlresume"
+      },
+      {
+        "tick": 15593,
+        "fn": "tlpause"
+      },
+      {
+        "tick": 15610,
+        "fn": "tlresume"
+      },
+      {
+        "tick": 15611,
+        "fn": "tlpause"
+      },
+      {
+        "tick": 15702,
+        "fn": "tlresume"
+      },
+      {
+        "tick": 26367,
+        "fn": "endattack"
+      }
+    ],
+    "damage": [],
+    "mismatches": []
+  },
+  {
+    "id": "branch1",
+    "wave": "sans_bonegap1",
+    "passed": true,
+    "target_history_matches": true,
+    "target_history": [],
+    "scripted_healing_admitted": false,
+    "scripted_damage_admitted": false,
+    "expected_scripted_damage": [],
+    "starting_HP": 92,
+    "health_contract": "constant initial HP, KR0, no DamagePlayer call",
+    "protocol": "unchanged-c2-event-engine-with-dom-audio-render-stubs",
+    "clock": "60hz-explicit-native-dt",
+    "checkpoint_used": false,
+    "native_search_used": false,
+    "csv_sha256": "211be9878e22bc24d8186f2ebc508b70b6cb558eeec7eae49f27cadb3800faae",
+    "runtime_sha256": "664b5d93dbd5159976d490663ac64c49c8eb7dc68c9aac92fba940b6fa2a3de9",
+    "data_sha256": "9f70e7179fe4260002321a75e5170e96583439bb39988b92ed93da42a0a402c7",
+    "plan_sha256": "c7cb0a6c9f576c9116fd5fe0fd33dac696e596d015d21c70ee0f534fa5da5d75",
+    "solver_sha256": {
+      "__init__.py": "9a6b413a365d0ba53f8dcb37a5a857cdfe23fcc06c9dc9fd584af9dc66f80163",
+      "compact_types.py": "b53e36aa708581625286f8a05914e1a40f1134863c21e4aaad76596ed0136569",
+      "compact_wave.py": "68cd30fd14b10e58535cd4131a2d1121800c587342f9d623b5561cb052ae819a",
+      "control_quotient.py": "6c0e8edc886333ad62f880f8151b52f75a6d61d3b67260d3de0d8b5ebb284b7f",
+      "cspace.py": "12d99f204161d045e61eaa80b1e1f8b771fc6ca8eb0220bca14d9868be764766",
+      "csv_completion.py": "9f45c6eb0c3b957cb1d902e0e9eba414b9ca0e09ac6765d094ea163b9c15bddf",
+      "csv_preparation.py": "6f4e35b70346c4ce7d8d94281956ad86569809b61c7bee014c2f6d7c130456c8",
+      "csv_solver.py": "76036e69f4b761d48526bb366dc16178595e264f24f656212fe8dfd58c6ec9f9",
+      "csv_warmup.py": "1401a93bb3b554dd49e5de5f4e4c23b43e16e8ef0924c7f20eb54ced1a226c61",
+      "dialogue_operator.py": "4f1a80015fc7a59c24fb97e4780e0522d66ae6ca8c2a4f6007b2cc798d62a2aa",
+      "discrete_operator.py": "3f5c2a53b9bba6cdc9b581ca231acac965e411dbb0cdd1d37863d91dec4af51f",
+      "environment_state_key.py": "dc42e54e55b26a4145f51ec6c357121c11312beeee2fdaa79129c584c1da8b99",
+      "execution_schedule.py": "a8d4c90fc01d416f801a107b942fdfc035a584055ad6d24ed140921eae0eb8af",
+      "initial_target_history.py": "04765436cd965122e72c6267511acf570c0da3da3ae7016076fdb4d49ca243af",
+      "joint_transition.py": "5f627c440ea4d8139c778d7a856435bb100253b575d8a1819bb91f2153052957",
+      "lazy_jit.py": "81054a6b087a713bb0250212fec924fecc5b4b57fe50b3816d9faea6085bb8de",
+      "native_backend.py": "9e7c3f8281829d263254211b2442f9b446539b5e65ee816a6d8b9a8c11225613",
+      "native_candidate.py": "710d633d2f82824a9d8820c30d729268838dd2c185c969dbdbb31830f171bfa2",
+      "native_dynamic.py": "cfd662bd1b355dc41739abf621ccb1ecf2b81cbc0207466098a263ac52b41ee5",
+      "native_frontier.cpp": "c4bbcb809ecbf604d7904e8f3d900e4ec54e5abb0450a9f8a65c97f4110f8dc8",
+      "native_function_dispatch.py": "d437bd560d7efe95ef6ca6a6f3bbba38549b00c2e128a0e2178bc5ec68133f98",
+      "native_math.py": "1ddc633a2e53d42beba7a4ed09f024930653cd1636a7350e3f082a9944c1ae4d",
+      "native_numbers.py": "a6650e285ce4981bd29ac762ff1af792e71032232470ddffd33d6182175d41a6",
+      "parametric_environment.py": "ace67956d70c64438bd447c39b41e8d81b1eeb17e4134ea162aa499f62be5159",
+      "reference_numeric.py": "ac6fed97bff975ca374d73fad4b33d4b391866ade464456ad1cd6f0b17c986e6",
+      "resumable_wave.py": "d9549f1c003382ee2d951a4d032f0bfc2764b66873b019da94840d5bafb6ce2b",
+      "source_contract.py": "92f37967aaa7b96d422c721869283b79d7f82fe99ae6ec1c10cc6ba9f3988f6f",
+      "source_oracle.py": "cca219fa8a6527574c214efce3826cf9f6f54718f093f7ada75805da2748018f",
+      "source_policy.py": "2b56828d1b84aa40cf12c9876d2b6c1dc1cbd69a3bd42484a095807205cf909e",
+      "source_verification.py": "c1117e105c90aab9c40ce56778401748cfb1233dcc42e2db1c680adab7d91378",
+      "terminal_completion.py": "fcfc171b48550798ef1a9667fae53773aab0c6a9fabe886cebdc78faaf790cce",
+      "terminal_invariant.py": "4a1ebff2c0c7f82a50bf2a0fc4243a74d273c1c830acfa95dcec186ee1b8812c",
+      "timeline_csv.py": "bfc32b4220b56da03017b9ed10cead0890459f4a22d0136287e135768a6a8632"
+    },
+    "model_wall_seconds": 11.586148956000216,
+    "process_wall_seconds": 11.705554794,
+    "checked_nonterminal_components": 70290,
+    "terminal_scope": "native EndAttack resets player to menu, final states recorded separately",
+    "terminal_actual": [
+      47.99999949336052,
+      453,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      750,
+      0,
+      0
+    ],
+    "terminal_model": [
+      317.7070512820077,
+      352.0153846156815,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      750,
+      0,
+      0
+    ],
+    "events": [
+      {
+        "tick": 565,
+        "fn": "tlplay"
+      },
+      {
+        "tick": 566,
+        "fn": "tlpause"
+      },
+      {
+        "tick": 582,
+        "fn": "tlresume"
+      },
+      {
+        "tick": 6952,
+        "fn": "tlpause"
+      },
+      {
+        "tick": 6956,
+        "fn": "tlresume"
+      },
+      {
+        "tick": 6957,
+        "fn": "endattack"
+      }
+    ],
+    "damage": [],
+    "mismatches": []
+  },
+  {
+    "id": "parameter-guard",
+    "wave": "sans_bonegap1",
+    "passed": true,
+    "target_history_matches": true,
+    "target_history": [],
+    "scripted_healing_admitted": false,
+    "scripted_damage_admitted": false,
+    "expected_scripted_damage": [],
+    "starting_HP": 92,
+    "health_contract": "constant initial HP, KR0, no DamagePlayer call",
+    "protocol": "unchanged-c2-event-engine-with-dom-audio-render-stubs",
+    "clock": "60hz-explicit-native-dt",
+    "checkpoint_used": false,
+    "native_search_used": false,
+    "csv_sha256": "22a19425d0f7914b262daad3a5bfac84c105213a858eb225105957606349c1b7",
+    "runtime_sha256": "664b5d93dbd5159976d490663ac64c49c8eb7dc68c9aac92fba940b6fa2a3de9",
+    "data_sha256": "9f70e7179fe4260002321a75e5170e96583439bb39988b92ed93da42a0a402c7",
+    "plan_sha256": "35ec2875de24bdd0c65c0b8232886569d374cde587a3aed3f728f334ab42cebf",
+    "solver_sha256": {
+      "__init__.py": "9a6b413a365d0ba53f8dcb37a5a857cdfe23fcc06c9dc9fd584af9dc66f80163",
+      "compact_types.py": "b53e36aa708581625286f8a05914e1a40f1134863c21e4aaad76596ed0136569",
+      "compact_wave.py": "1e2201c6f7daa264d658db963aac598700c82e71181d0342164ef161aee1380c",
+      "control_quotient.py": "6c0e8edc886333ad62f880f8151b52f75a6d61d3b67260d3de0d8b5ebb284b7f",
+      "cspace.py": "12d99f204161d045e61eaa80b1e1f8b771fc6ca8eb0220bca14d9868be764766",
+      "csv_completion.py": "9f45c6eb0c3b957cb1d902e0e9eba414b9ca0e09ac6765d094ea163b9c15bddf",
+      "csv_preparation.py": "6f4e35b70346c4ce7d8d94281956ad86569809b61c7bee014c2f6d7c130456c8",
+      "csv_solver.py": "76036e69f4b761d48526bb366dc16178595e264f24f656212fe8dfd58c6ec9f9",
+      "csv_warmup.py": "1401a93bb3b554dd49e5de5f4e4c23b43e16e8ef0924c7f20eb54ced1a226c61",
+      "dialogue_operator.py": "4f1a80015fc7a59c24fb97e4780e0522d66ae6ca8c2a4f6007b2cc798d62a2aa",
+      "discrete_operator.py": "3f5c2a53b9bba6cdc9b581ca231acac965e411dbb0cdd1d37863d91dec4af51f",
+      "environment_state_key.py": "dc42e54e55b26a4145f51ec6c357121c11312beeee2fdaa79129c584c1da8b99",
+      "execution_schedule.py": "a8d4c90fc01d416f801a107b942fdfc035a584055ad6d24ed140921eae0eb8af",
+      "initial_target_history.py": "04765436cd965122e72c6267511acf570c0da3da3ae7016076fdb4d49ca243af",
+      "joint_transition.py": "5f627c440ea4d8139c778d7a856435bb100253b575d8a1819bb91f2153052957",
+      "lazy_jit.py": "81054a6b087a713bb0250212fec924fecc5b4b57fe50b3816d9faea6085bb8de",
+      "native_backend.py": "9e7c3f8281829d263254211b2442f9b446539b5e65ee816a6d8b9a8c11225613",
+      "native_candidate.py": "710d633d2f82824a9d8820c30d729268838dd2c185c969dbdbb31830f171bfa2",
+      "native_dynamic.py": "cfd662bd1b355dc41739abf621ccb1ecf2b81cbc0207466098a263ac52b41ee5",
+      "native_frontier.cpp": "c4bbcb809ecbf604d7904e8f3d900e4ec54e5abb0450a9f8a65c97f4110f8dc8",
+      "native_function_dispatch.py": "d437bd560d7efe95ef6ca6a6f3bbba38549b00c2e128a0e2178bc5ec68133f98",
+      "native_math.py": "1ddc633a2e53d42beba7a4ed09f024930653cd1636a7350e3f082a9944c1ae4d",
+      "native_numbers.py": "d8cabae83865c9a7c56387f445057a80b006315b61180fd0fe731109bff4a05d",
+      "parametric_environment.py": "ace67956d70c64438bd447c39b41e8d81b1eeb17e4134ea162aa499f62be5159",
+      "reference_numeric.py": "ac6fed97bff975ca374d73fad4b33d4b391866ade464456ad1cd6f0b17c986e6",
+      "resumable_wave.py": "654c6744e7c0524ce07e82ce1423d5dfbc2244bbc03649f1a074b3b23885c850",
+      "source_contract.py": "92f37967aaa7b96d422c721869283b79d7f82fe99ae6ec1c10cc6ba9f3988f6f",
+      "source_oracle.py": "cca219fa8a6527574c214efce3826cf9f6f54718f093f7ada75805da2748018f",
+      "source_policy.py": "2b56828d1b84aa40cf12c9876d2b6c1dc1cbd69a3bd42484a095807205cf909e",
+      "source_verification.py": "c1117e105c90aab9c40ce56778401748cfb1233dcc42e2db1c680adab7d91378",
+      "terminal_completion.py": "fcfc171b48550798ef1a9667fae53773aab0c6a9fabe886cebdc78faaf790cce",
+      "terminal_invariant.py": "4a1ebff2c0c7f82a50bf2a0fc4243a74d273c1c830acfa95dcec186ee1b8812c",
+      "timeline_csv.py": "bfc32b4220b56da03017b9ed10cead0890459f4a22d0136287e135768a6a8632"
+    },
+    "model_wall_seconds": 0.047504594000201905,
+    "process_wall_seconds": 0.1670260720000001,
+    "checked_nonterminal_components": 451,
+    "terminal_scope": "native EndAttack resets player to menu, final states recorded separately",
+    "terminal_actual": [
+      47.99999949336052,
+      453,
+      0,
+      3.0000000000558797,
+      0,
+      1,
+      1,
+      1,
+      750,
+      0,
+      0
+    ],
+    "terminal_model": [
+      127.77307691949363,
+      320,
+      750,
+      0,
+      0,
+      1,
+      1,
+      0,
+      750,
+      0,
+      0
+    ],
+    "events": [
+      {
+        "tick": 565,
+        "fn": "tlplay"
+      },
+      {
+        "tick": 608,
+        "fn": "endattack"
+      }
+    ],
+    "damage": [],
+    "mismatches": []
+  }
+]

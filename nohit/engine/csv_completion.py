@@ -30,6 +30,8 @@ def controlled_terminal(binding, template):
         callbacks.append(dict(function=state.dialogue_blocked_callback,status='execution_unproven'))
     details={name:len(data[name]) for name in
              ('active_bones','active_stabs','active_blasters','active_platforms')}
+    from .static_blue_tail import stationary_blue_rows
+    details['static_blue_bones']=stationary_blue_rows(data['active_bones'])
     details.update(timeline_exhausted=data['pc']>=len(state.program.parsed) and
                    data['loaded_line'] is None and state.request is None and pending_dialogue is None,
                    pending_dialogue=pending_dialogue,pending_callbacks=callbacks,
@@ -52,9 +54,11 @@ def csv_eof_tail(terminal, state, sequence, max_ticks):
     to the actual source terminal. Its returned tick coordinates are restored
     before publishing. No state latch is changed without a physical step.
     """
-    from .discrete_operator import step_mask_into
+    from .source_oracle import scalar_module
     from .terminal_completion import complete_eof_tail
     from .terminal_invariant import EMPTY_PLATFORMS, certify_release_invariant
+    from .static_blue_tail import blue_tail_collision
+    step_mask_into = scalar_module('discrete_operator').step_mask_into
     if terminal['reason']!='eof_hazards_drained':
         return None
     start=terminal['tick'];sequence=np.asarray(sequence,dtype=np.float64)
@@ -80,7 +84,7 @@ def csv_eof_tail(terminal, state, sequence, max_ticks):
             return dict(status='unknown',reasons=['neutral_release_clock_exhausted'])
         static[7]=local[index];following=np.empty(11,dtype=np.float64)
         step_mask_into(current,0,static,EMPTY_PLATFORMS,following)
-        if not np.isfinite(following).all() or following[10]!=0.:
+        if not np.isfinite(following).all() or following[10]!=0. or blue_tail_collision(following,terminal['details']):
             return dict(status='unknown',reasons=['invalid_neutral_release'])
         tail['actions'].append(0);tail['dt_sequence'].append(float(local[index]))
         tail['states'].append(following.tolist());current=following

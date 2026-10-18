@@ -34,6 +34,16 @@ Dashboard 导入与直接求解 API 默认清空 CSV 中显式 `DamagePlayer` �
 
 长谱可通过 `--observation-chunk-ticks 480 --observation-preview-ticks 480` 使用当前分段观察与前视方案；前视目标读取预算默认为 128。每段继续保留真实前缀、源时序与目标历史，并在返回候选前独立复验。`--fixed-prefix` 可保留同源、同入口与时钟下已验证的前缀，不能把另一份谱的路线直接拼入。
 
+## 失败位置与少操作目标
+
+失败结果的 `failure_diagnostics` 包含最后安全 `last_safe_tick` / `last_safe_seconds`、首个未解决转移的 `failure.tick` / `failure.seconds`，以及 `failure.csv` 的行、列、原始单元格和最近实际执行指令。秒数按本次精确 dt 累加，首帧为 tick 0、时间 0。资源边界无法取得下一帧时，`seconds_exact=false`，时间只代表已累计的边界时间。CSV 行是实际解释器游标，造成碰撞的物体可能在更早的指令生成；不把游标冒充致伤物的来源。
+
+`failure_diagnostics.routes` 保留独立复验后的安全输入、Confirm、轨迹、dt、目标读取和源哈希，始终标记 `complete=false`。失败的顶层 `actions` 仍为空，原版自动执行器只接收完整候选。Dashboard 会弹出位置、提供前缀选择和 JSON 导出。静态搜索导出最深保留前沿；观测搜索也保留回退前的不同分支，再按各分支自己的真实目标读取重新执行，截掉碰撞后的部分。默认上限 32 条，可用 API `diagnostic_routes` / CLI `--diagnostic-routes` 改为 1–256；诊断复验另有 200,000 个转移预算。达到上限会设置 `routes_truncated=true`，结果始终 `exhaustive=false`，不能证明全局无解。
+
+API `objective="fewest_operations"` / CLI `--objective fewest_operations` 按方向键组合的变化次数优先排序，长按计一次、释放或换方向再计一次。默认权重为换键 1000、持键帧 0；`balanced` 保留 12 / 1。可分别通过 `operation_weight` / `held_weight`（CLI `--operation-weight` / `--held-weight`）调整，范围 0–1000，不能同时为零。奖励为 `-(换键次数 × 换键权重 + 非零按键帧数 × 持键权重)`，初始按键锁存也计入。Confirm 的既定对话策略不属于这个方向键目标。少操作模式跳过提前返回的快速控制策略，保留完整上一帧掩码作为代价状态；有限宽度仍可能丢弃更优或可行路线，`optimality_proven=false`。
+
+少操作模式会继续运行预算内的其他 native 探针，在同一已解析搜索窗口内比较所有找到的完整路线，返回实际加权操作代价最低的一条。观测搜索仍按窗口提交，因此这也不是对整份 CSV 的全局最优证明。
+
 ## 独立原版复验
 
 浏览器执行保留完整输入、连续原生快照、函数事件、目标读取和源身份。保存后使用独立验收器：
@@ -57,6 +67,10 @@ node tools/native_optimized_replay.mjs sans_bonegap1
 完整战役浏览器记录使用 `tools.verify_full_game_acceptance` 验收；默认按 `tools/original_c2_sha256.json` 固定的原版运行时和攻击源身份比较，也可以显式提供 `--original-dir`。服务器保存的记录位于 `build/evidence/`，分块记录须保留完整 `campaign-evidence/` 相对路径，验收器会检查每块字节数与 SHA256 后重建。
 
 ## EOF 与结束
+
+兼容接口仍沿用 `eof_hazards_drained` 策略名。除空场证明外，原始模型和原版观察器现在可确认「只剩速度严格为零的蓝骨」的源准备边界，记录实际数量与几何；随后逐 tick 检查释放按键的桥段，再要求玩家速度为零、没有未来回调的固定点。该证书明确命名为 `static-blue-release-fixed-point-v1`，不会把蓝骨数量改成零；白骨、橙骨、运动蓝骨、平台和未耗尽的炮头等均不适用此证明。CSV 明确把红心传送到场外时，还可用原版有限场地 clamp 的不相交条件证明停住持续安全。
+
+BlackScreen 的同帧新建对象遵循实测 C2 选择语义：销毁本 tick 前已登记的攻击对象，保留本 tick 的待登记新对象。原版回放必须覆盖这类情况；只让两套模型共享错误生命周期不能完成验收。
 
 Custom CSV 读完不会自动触发 EndAttack，也不会自动清除遗留实体或回调。支持的 EOF 完成证据必须证明时间线耗尽、所有相关未来回调耗尽、场地与攻击实体满足终止前提，并在释放输入后进入持续安全的不变状态。有限时间空场或静止不足以证明完成。
 

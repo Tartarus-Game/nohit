@@ -93,9 +93,13 @@ def _run_budgeted_csv(path, initial, budget, reporter, **settings):
     selected = dict(budget['selected'])
     allocated = 0.
     started = time.perf_counter()
+    deepest_diagnostic=None
     for attempt in range(1, budget['max_attempts'] + 1):
         began = time.perf_counter()
         result = solve_csv(path, initial, **settings, **selected)
+        diagnostic=result.get('failure_diagnostics')
+        if diagnostic and (deepest_diagnostic is None or (diagnostic.get('last_safe_tick') or 0)>(deepest_diagnostic.get('last_safe_tick') or 0)):
+            deepest_diagnostic=diagnostic
         budget['attempts'].append(dict(selected, attempt=attempt, status=result['status'],
             reason=result.get('reason'), wall_seconds=time.perf_counter()-began))
         if budget['mode'] != 'auto':
@@ -116,6 +120,13 @@ def _run_budgeted_csv(path, initial, budget, reporter, **settings):
                 discarded_states=None, unique_states=None, _seconds_budget=selected['seconds'],
                 message='自动增加搜索预算并重新求解')
     result['budget_selection'] = budget
+    if result.get('status')=='unknown' and deepest_diagnostic is not None:
+        result['failure_diagnostics']=deepest_diagnostic
+        result['reached_tick']=deepest_diagnostic.get('last_safe_tick') or 0
+        if deepest_diagnostic.get('routes'):
+            best=deepest_diagnostic['routes'][0]
+            result['diagnostic_prefix_masks']=best['actions']
+            result['diagnostic_state']=best['trajectory'][-1] if best['trajectory'] else None
     return result
 
 
@@ -239,7 +250,10 @@ def _solve_csv_request(data, reporter):
             initial_confirm=data.get('initial_confirm',False),
             previous_confirm=data.get('previous_confirm',False),
             initial_target_history=data.get('initial_target_history'), progress=progress,
-            search_strategy=data.get('search_strategy','auto'),memory_mb=data.get('memory_mb',64))
+            search_strategy=data.get('search_strategy','auto'),memory_mb=data.get('memory_mb',64),
+            objective=data.get('objective','balanced'),operation_weight=data.get('operation_weight'),
+            analyze_difficulty=data.get('analyze_difficulty'),
+            held_weight=data.get('held_weight'),diagnostic_routes=data.get('diagnostic_routes',32))
         result['initial'] = initial.tolist()
         result['initial_environment'] = environment
         result['source_preparation'] = prepared['preparation']

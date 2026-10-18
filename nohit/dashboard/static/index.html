@@ -31,6 +31,8 @@
   <details id="advanced-settings" style="padding:15px 0 0;margin-top:18px"><summary>高级设置（可选）</summary>
   <div class="field"><label for="budget-mode">计算预算</label><select id="budget-mode"><option value="auto" selected>自动选择（推荐）</option><option value="manual">手动设置</option></select></div>
   <div class="field"><label for="fps">固定物理帧率 · <output id="fps-value">60</output> Hz</label><input id="fps" type="range" min="30" max="240" step="30" value="60"><p class="hint">原版入口支持 30 / 60 / 120 / 240。</p></div>
+  <div class="field"><label for="objective">路线偏好</label><select id="objective"><option value="balanced" selected>均衡：优先快速找到安全路线</option><option value="fewest_operations">尽量少操作：优先减少换键次数</option><option value="human_friendly">人类友好：优先容错，再减少换键</option></select><p class="hint">人类友好模式分档优先搜索更宽松的路线，对话完成后再确认。有限搜索不保证全局最优。</p></div>
+  <div class="field"><label class="check"><input id="analyze-difficulty" type="checkbox">分析空间余量、操作时序和重点难点</label><p class="hint">包含额外源程序回放和局部输入扰动，可能增加数秒。评分仅针对找到的路线，不能证明弹幕人类无解。</p></div>
   <div id="manual-budget-controls" hidden>
   <div class="field"><label for="seconds">搜索预算 · <output id="seconds-value">30</output> 秒</label><input id="seconds" type="range" min="0" max="300" step="5" value="30"></div>
   <div class="field"><label for="width">每层保留状态上限 · <output id="width-value">3000</output></label><input id="width" type="range" min="100" max="20000" step="100" value="3000"></div>
@@ -61,20 +63,24 @@
 </section>
 <section class="panel" aria-label="求解结果与轨迹">
   <div class="result"><div class="status-row"><div id="status" class="status" role="status" aria-live="polite">等待解算</div><span class="tag" id="scope-tag">有限搜索</span></div><p id="status-detail">导入 CSV，点击一键运行。</p><p id="budget-status" class="hint" hidden></p><div class="metrics"><div class="metric"><span>总求解耗时</span><strong id="wall-time">—</strong></div><div class="metric"><span>候选游戏时长</span><strong id="game-time">—</strong></div><div class="metric"><span>耗时 / 游戏时长</span><strong id="time-ratio">—</strong></div></div><p id="visualization-warning" class="vis-error" hidden></p></div>
+  <div id="difficulty-panel" class="result" hidden><h2>路线执行难度</h2><p id="difficulty-summary"></p><p id="difficulty-scope" class="hint"></p><label for="difficulty-seek">重点位置</label><select id="difficulty-seek"></select><pre id="difficulty-details"></pre></div>
   <div class="stage-wrap"><div class="stage"><canvas id="world" width="640" height="480" aria-label="原生 640 乘 480 坐标的逐帧轨迹与危险几何"></canvas><div id="empty-stage">模型中的逐帧验证候选将在这里显示
 方向输入与 Confirm 会同步显示</div></div><div class="legend"><span><i style="--swatch:#ff7188"></i>受伤判定框 4 × 4</span><span><i style="--swatch:#e7edf5"></i>白骨</span><span><i style="--swatch:#64c8ff"></i>蓝骨</span><span><i style="--swatch:#ff9c65"></i>激光四边形</span><span><i style="--swatch:#8be0b7"></i>平台</span></div></div>
   <div class="playback"><label class="sr-only" for="timeline">当前帧</label><input id="timeline" type="range" min="0" max="0" step="1" value="0" disabled><div class="transport"><div class="transport-left"><button id="previous" class="small-btn" type="button" title="上一帧" disabled>←</button><button id="play" class="small-btn" type="button" disabled>播放</button><button id="next" class="small-btn" type="button" title="下一帧" disabled>→</button><label class="sr-only" for="speed">播放速度</label><select id="speed"><option value="0.25">0.25 ×</option><option value="0.5">0.5 ×</option><option value="1" selected>1 ×</option><option value="2">2 ×</option><option value="4">4 ×</option></select></div><div id="frame-counter" class="counter">帧 — / — · — s</div></div><div class="options"><label class="check"><input id="show-trail" type="checkbox" checked>显示完整轨迹</label><div class="keys" aria-label="到达当前帧的输入"><span id="key-label" class="key-label">本帧输入</span><span class="key" data-bit="1">←</span><span class="key" data-bit="2">→</span><span class="key" data-bit="4">↑</span><span class="key" data-bit="8">↓</span><span class="key" data-bit="32">Confirm</span></div></div></div>
+  <div id="prefix-routes" class="result" hidden><label for="prefix-route">失败前的安全路线（未完成）</label><select id="prefix-route"></select><p id="prefix-note" class="hint"></p><button id="download-prefixes" class="small-btn" type="button">导出全部已保留路线 JSON</button></div>
   <p class="note">白骨始终危险；蓝骨按运动条件判伤。帧 0 是起点观测，后续每帧对应一次输入。此页显示源模型验证，不代表原版游戏验收或最优解。</p>
   <details><summary>当前帧精确状态</summary><pre id="frame-data">尚无候选。</pre></details>
   <details><summary>搜索记录与验证范围</summary><pre id="result-data">尚无结果。</pre></details>
 </section>
 </main>
+<dialog id="failure-dialog" aria-labelledby="failure-title" style="background:#171e29;color:#e7edf5;border:1px solid #637086;border-radius:9px;max-width:620px" hidden><h2 id="failure-title">解算未完成</h2><pre id="failure-location"></pre><button id="failure-close" class="small-btn" type="button">查看失败前路线</button></dialog>
 <script>
 'use strict';
 const $ = id => document.getElementById(id);
 const canvas = $('world'), ctx = canvas.getContext('2d');
 let inputMode = 'path', response = null, frames = [], frameIndex = 0, playing = false;
 let animationId = null, lastStamp = 0, playTime = 0, busy = false;
+let playbackControls = null;
 const finite = value => typeof value === 'number' && Number.isFinite(value);
 const numberText = value => finite(value) ? value.toFixed(3) : '—';
 function selectInput(mode) {
@@ -98,14 +104,18 @@ for (const id of ['fps', 'seconds', 'width']) {
 const PARAM_DEFAULTS = { fps: 60, seconds: 30, width: 3000 };
 function syncBudgetMode() { $('manual-budget-controls').hidden=$('budget-mode').value!=='manual'; }
 $('budget-mode').addEventListener('change',syncBudgetMode);syncBudgetMode();
+$('objective').addEventListener('change',()=>{if($('objective').value==='human_friendly')$('analyze-difficulty').checked=true;});
 function budgetSettings() {
-  if($('budget-mode').value!=='manual')return {budget_mode:'auto'};
+  const objective=['balanced','fewest_operations','human_friendly'].includes($('objective').value)?$('objective').value:'balanced';
+  const analyze_difficulty=$('analyze-difficulty').checked;
+  if($('budget-mode').value!=='manual')return {budget_mode:'auto',objective,analyze_difficulty};
   const seconds=Number($('seconds').value),width=Number($('width').value);
   if(!finite(seconds)||seconds<0||!Number.isInteger(width)||width<1)throw Error('请检查手动搜索预算，状态上限需为正整数。');
-  return {budget_mode:'manual',seconds,width};
+  return {budget_mode:'manual',seconds,width,objective,analyze_difficulty};
 }
 $('reset-params').addEventListener('click', () => {
   $('budget-mode').value='auto';syncBudgetMode();
+  $('objective').value='balanced';$('analyze-difficulty').checked=false;
   for (const id of Object.keys(PARAM_DEFAULTS)) {
     const slider = $(id); slider.value = String(PARAM_DEFAULTS[id]);
     const readout = $(id + '-value'); if (readout) readout.textContent = slider.value;
@@ -125,6 +135,8 @@ function pause() {
   animationId = null;
 }
 function resetView() {
+  $('difficulty-panel').hidden=true;
+  playbackControls=null;$('prefix-routes').hidden=true;$('failure-dialog').close?.();$('failure-dialog').hidden=true;
   pause(); frames = []; response = null; frameIndex = 0; playTime = 0;
   showSourceWarnings([]);
   $('budget-status').textContent='';$('budget-status').hidden=true;
@@ -182,7 +194,8 @@ function setFrame(value) {
   frameIndex = Math.max(0,Math.min(frames.length-1,value));
   const f = frames[frameIndex]; playTime = f.time_seconds; $('timeline').value = frameIndex;
   $('frame-counter').textContent = `帧 ${f.tick} / ${frames[frames.length-1].tick} · ${numberText(f.time_seconds)} s`;
-  const mask = frameIndex ? response.actions[frameIndex-1] | (response.confirm_sequence[frameIndex-1] ? 32 : 0) : 0;
+  const controls=playbackControls||response;
+  const mask = frameIndex ? controls.actions[frameIndex-1] | (controls.confirm_sequence[frameIndex-1] ? 32 : 0) : 0;
   $('key-label').textContent = frameIndex ? '本帧输入' : '起点观测'; updateKeys(mask);
   $('frame-data').textContent = JSON.stringify({tick:f.tick,time_seconds:f.time_seconds,dt:f.dt,player:f.player,bounds:f.bounds,input:frameIndex ? {arrows:mask&15,confirm:!!(mask&32)} : null,env:f.env,geometry_available:f.geometry_available!==false},null,2);
   draw();
@@ -299,8 +312,89 @@ function terminalProofText(reasons) {
   return codes.length?codes.map(code=>'• '+(labels[code]||`尚未分类的终点证明条件：${code}`)).join('\n')
     :'未返回具体终点原因，可查看原始记录。';
 }
+function selectPrefixRoute(index) {
+  const route=response?.failure_diagnostics?.routes?.[index];
+  if(!route?.prefix_verified || route.complete!==false || !Array.isArray(route.trajectory) ||
+      route.trajectory.length!==route.actions.length+1 || route.dt_sequence?.length!==route.trajectory.length ||
+      route.confirm_sequence?.length!==route.actions.length ||
+      !route.actions.every(mask=>Number.isInteger(mask)&&mask>=0&&mask<16) ||
+      !route.confirm_sequence.every(value=>typeof value==='boolean') ||
+      !route.dt_sequence.every(dt=>finite(dt)&&dt>0) ||
+      !route.trajectory.every(row=>Array.isArray(row)&&row.length===11&&row.every(finite)))return;
+  playing=false;playbackControls=route;let elapsed=0;
+  frames=route.trajectory.map((player,tick)=>{
+    if(tick)elapsed+=route.dt_sequence[tick];
+    return {tick,time_seconds:elapsed,dt:route.dt_sequence[tick],player,env:null,bounds:null,
+      white:[],blue:[],polygons:[],platforms:[],geometry_available:false};
+  });
+  $('timeline').max=frames.length-1;$('empty-stage').hidden=true;
+  for(const id of ['timeline','previous','play','next'])$(id).disabled=false;
+  $('visualization-warning').textContent='正在回放失败前的安全前缀，路线尚未完成。此视图只显示轨迹与输入，不含危险几何。';
+  $('visualization-warning').hidden=false;setFrame(frames.length-1);
+}
+function showFailure(diagnostic) {
+  if(!diagnostic)return;
+  const fail=diagnostic.failure,labels={retained_frontier_collision:'保留前沿的下一步全部碰撞',
+    search_budget:'搜索预算耗尽',physical_collision:'独立复验遇到碰撞',initial_collision:'起点碰撞',
+    committed_prefix:'已提交安全前缀后的未搜索位置',clock_budget:'时钟预算耗尽',tick_budget:'tick 预算耗尽'};
+  const line=fail?.csv?.line;
+  const text=[`最后安全位置：tick ${diagnostic.last_safe_tick??'未知'} · ${numberText(diagnostic.last_safe_seconds)} 秒`,
+    `停止／待解位置：tick ${fail?.tick??'未知'} · ${numberText(fail?.seconds)} 秒${fail?.seconds_exact===false?'（边界累计时间）':''}`,
+    `CSV：${Number.isInteger(line)?`第 ${line} 行，第 ${fail.csv.column||2} 列`:fail?.csv?.at_eof?'文件末尾':'位置未知'}`,
+    fail?.csv?.row?fail.csv.row.join(','):'',labels[fail?.kind]||diagnostic.reason||'未知原因',
+    'CSV 行是实际执行游标，致伤物可能在更早的行生成。',
+    `已保留 ${diagnostic.routes?.length||0} 条前缀${diagnostic.routes_truncated?'（达到导出上限）':''}；有限搜索不能证明全局无解。`].filter(Boolean).join('\n');
+  $('failure-location').textContent=text;$('status-detail').textContent+='\n'+text;
+  const routes=(diagnostic.routes||[]).filter(row=>row.prefix_verified);
+  if(routes.length) {
+    // Numeric labels only; CSV text is always inserted with textContent.
+    $('prefix-route').innerHTML=(diagnostic.routes||[]).map((row,index)=>row.prefix_verified?`<option value="${index}">路线 ${index+1} · tick ${row.reached_tick} · 换键 ${row.input_cost.churn} 次</option>`:'').join('');
+    $('prefix-routes').hidden=false;$('prefix-note').textContent=diagnostic.routes_truncated?'导出已截断；JSON 包含当前保留的路线与精确时钟。':'JSON 包含当前保留的路线与精确时钟；并非穷举所有可能输入。';
+    selectPrefixRoute(diagnostic.routes.findIndex(row=>row.prefix_verified));
+  }
+  $('failure-dialog').hidden=false;
+  if(!$('failure-dialog').open)$('failure-dialog').showModal?.();
+}
+$('prefix-route').addEventListener('change',()=>selectPrefixRoute(Number($('prefix-route').value)));
+$('failure-close').addEventListener('click',()=>{$('failure-dialog').close?.();$('failure-dialog').hidden=true;});
+$('download-prefixes').addEventListener('click',()=>{
+  if(!response?.failure_diagnostics)return;
+  const url=URL.createObjectURL(new Blob([JSON.stringify(response.failure_diagnostics)],{type:'application/json'}));
+  const link=document.createElement('a');link.href=url;link.download='nohit-failure-routes.json';link.click();URL.revokeObjectURL(url);
+});
+function showDifficulty(difficulty) {
+  $('difficulty-panel').hidden=!difficulty;
+  if(difficulty?.status==='unavailable'){
+    $('difficulty-summary').textContent='未获得可分析的完整路线，暂不评分。';
+    $('difficulty-scope').textContent='搜索失败不能证明人类无法通过。';
+    $('difficulty-details').textContent='';$('difficulty-seek').innerHTML='';return;
+  }
+  if(difficulty?.status!=='analyzed')return;
+  const d=difficulty,op=d.operations||{},coverage=d.timing_coverage||{};
+  const margin=finite(d.minimum_clearance_px)?`${numberText(d.minimum_clearance_px)} px`:'未遇到激活危险';
+  $('difficulty-summary').textContent=`${d.label} · ${d.score}/100（启发式） · 最小单侧余量 ${margin} · 方向换键 ${op.arrow_changes} 次 · Confirm ${op.confirm_presses} 次`;
+  const estimate={manual_play_extremely_demanding:'这条路线可能极难手动执行',manual_play_plausible_in_tested_windows:'抽测窗口未发现明显的人手执行障碍',uncertain:'人类可执行性仍不确定'}[d.human_feasibility?.estimate]||'人类可执行性仍不确定';
+  $('difficulty-scope').textContent=`${estimate}。抽测 ${coverage.tested_events||0}/${coverage.total_events||0} 个操作事件；仅验证局部后续，不保证扰动后全关通过。未验证真实人类通关，也不证明其他路线更难。`;
+  const spatial=(d.hard_points||[]).filter(p=>Number.isInteger(p.tick)&&finite(p.seconds));
+  const timing=(d.timing_events||[]).filter(p=>Number.isInteger(p.tick)&&finite(p.seconds));
+  const location=p=>`tick ${p.tick} · ${numberText(p.seconds)} 秒 · CSV 执行游标第 ${Number.isInteger(p.csv?.line)?p.csv.line:'—'} 行`;
+  const lines=[...(d.human_feasibility?.flags||[]),...spatial.map(p=>`${location(p)}：单侧余量 ${numberText(p.clearance_px)} px`),
+    ...timing.map(p=>`${location(p)}：${p.kind==='confirm'?'确认':'方向换键'}，局部提前 ${p.early_safe_ticks_tested} tick / ${numberText(p.early_safe_ms_tested)} ms、延后 ${p.late_safe_ticks_tested} tick / ${numberText(p.late_safe_ms_tested)} ms${p.frame_exact_locally?'；±1 tick 均碰撞':''}`)];
+  if(d.blue_motion_lock_ticks)lines.push(`有 ${d.blue_motion_lock_ticks} tick 与蓝骨重叠且必须保持不动；这不等同于零空间余量。`);
+  lines.push('CSV 位置是当时的执行游标，不一定是该危险实体的创建行。扰动后保持其他输入不变，不测试临场补救。0 tick 表示未测得连续安全偏移，不自动等于该方向必死。');
+  $('difficulty-details').textContent=lines.join('\n');
+  const points=[...timing,...spatial].slice(0,30);
+  $('difficulty-seek').innerHTML='<option value="">选择位置跳转预览</option>'+points.map(p=>`<option value="${p.tick}">tick ${p.tick} · ${p.seconds.toFixed(3)} 秒</option>`).join('');
+}
+$('difficulty-seek').addEventListener('change',()=>{
+  const value=$('difficulty-seek').value;if(value==='')return;
+  const index=frames.findIndex(frame=>frame.tick===Number(value));
+  if(index>=0){pause();setFrame(index);}
+  else $('difficulty-scope').textContent+=' 当前只有起点预览；启用完整几何后可跳转此 tick，JSON 中已保留完整报告。';
+});
 function showResult(result) {
   response=result;
+  showDifficulty(result.difficulty);
   showSourceWarnings(result.warnings);
   const budgetMode=result.budget_selection?.mode||($('budget-mode').value==='manual'?'manual':'auto');
   const profile={short:'短谱',medium:'中等长度',long:'长谱'}[result.budget_selection?.profile];
@@ -321,7 +415,7 @@ function showResult(result) {
     ? `操作代价 ${cost.total}（换键 ${cost.churn} × ${cost.churn_weight} + 按键帧 ${cost.held_frames} × ${cost.held_weight}，共 ${cost.frames} 帧）。` : '';
   $('status-detail').textContent=verified
     ? (kind==='eof_invariant'
-      ? `已证明 CSV 尾部危险耗尽（EOF 不变式），没有触发 EndAttack。${policyNote}${costNote}原版游戏尚未验收。`
+      ? `已证明 CSV 尾部持续安全（${result.completion?.certificate?.proof==='static-blue-release-fixed-point-v1'?'静止蓝骨＋释放输入不变式':'危险耗尽不变式'}），没有触发 EndAttack。${policyNote}${costNote}原版游戏尚未验收。`
       : `输入包含移动与 Confirm，已走到模型 EndAttack。${policyNote}${costNote}原版游戏尚未验收。`)
     : unsupported?unsupportedText(result.issues):terminalUnproven?
       '已找到有限范围内的避障候选，但尾部持续安全尚未证明，当前结果仍为未知。\n'+
@@ -330,9 +424,9 @@ function showResult(result) {
   $('wall-time').textContent=finite(result.wall_seconds)?`${numberText(result.wall_seconds)} s`:'—';
   $('game-time').textContent=finite(result.game_seconds)?`${numberText(result.game_seconds)} s`:'—';
   $('time-ratio').textContent=finite(result.wall_seconds)&&finite(result.game_seconds)&&result.game_seconds>0?`${(result.wall_seconds/result.game_seconds).toFixed(2)} ×`:'—';
-  const {trajectory,actions,confirm_sequence,unified_controls,dt_sequence,visualization,...summary}=result;
+  const {trajectory,actions,confirm_sequence,unified_controls,dt_sequence,visualization,failure_diagnostics,...summary}=result;
   $('result-data').textContent=JSON.stringify({...summary,action_count:actions?.length||0,visualization:visualization?{schema_version:visualization.schema_version,scope:visualization.scope,frame_count:visualization.frame_count}:null},null,2);
-  if(!verified) { $('empty-stage').textContent=unsupported?'脚本兼容性检查未通过\n请按具体行修改文件或使用兼容副本':terminalUnproven?'已有有限避障候选\n终点持续安全尚未证明，当前结果仍为未知':budgetMode==='auto'?'自动尝试后仍未找到完整路线，可重试/查看详情':'没有完整候选可播放\n可调整起点或计算预算后重试';return; }
+  if(!verified) { $('empty-stage').textContent=unsupported?'脚本兼容性检查未通过\n请按具体行修改文件或使用兼容副本':terminalUnproven?'已有有限避障候选\n终点持续安全尚未证明，当前结果仍为未知':budgetMode==='auto'?'自动尝试后仍未找到完整路线，可重试/查看详情':'没有完整候选可播放\n可调整起点或计算预算后重试';showFailure(failure_diagnostics);return; }
   try {
     $('visualization-warning').hidden=true;
     frames=validateVisualization(result);$('timeline').max=frames.length-1;$('empty-stage').hidden=true;
@@ -355,7 +449,7 @@ function showResult(result) {
 let progressTimer = null, progressId = null, progressBegan = 0, lastSnapshot = null;
 let progressGeneration = 0, snapshotStamp = 0, nativeWindow = null;
 const PHASE_TEXT = {prepare:'准备请求',compile:'编译 CSV 环境',bake:'烘焙精确 C-space',search:'展开前沿搜索',
-  dialogue:'对话阶段',completion:'终点证书',verify:'逐帧复核',visualization:'生成逐帧几何'};
+  dialogue:'对话阶段',completion:'终点证书',verify:'逐帧复核',difficulty:'分析人类执行难度',visualization:'生成逐帧几何'};
 const STATE_TEXT = {running:'解算中',done:'已结束',failed:'失败',cancelled:'已取消',unknown:'无实时记录'};
 function newProgressId() {
   if (globalThis.crypto && typeof globalThis.crypto.randomUUID === 'function') return globalThis.crypto.randomUUID();

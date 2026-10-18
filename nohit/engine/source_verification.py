@@ -9,8 +9,14 @@ from .source_oracle import scalar_module
 
 def _last_active(rows,polygons=False):
     if not rows.shape[1]:return np.zeros(len(rows),np.int64)
-    present=np.isfinite(rows[:,:,0]) if polygons else ~np.isnan(rows[:,:,0])
-    return np.where(present,np.arange(rows.shape[1])+1,0).max(axis=1)
+    # A long dense score can have millions of padded slots. Bound temporary
+    # masks/indices rather than allocating an int64 copy of the whole score.
+    result=np.empty(len(rows),np.int64);indices=np.arange(rows.shape[1])+1
+    for start in range(0,len(rows),256):
+        block=rows[start:start+256,:,0]
+        present=np.isfinite(block) if polygons else ~np.isnan(block)
+        result[start:start+256]=np.where(present,indices,0).max(axis=1)
+    return result
 
 
 def scalar_frame_collision(frame,state):
@@ -24,9 +30,9 @@ def scalar_frame_collision(frame,state):
             if np.any((x+2.>=boxes[:,0])&(x-2.<=boxes[:,2])&
                       (y+2.>=boxes[:,1])&(y-2.<=boxes[:,3])):return True
         else:
-            for box in boxes:
+            for box in boxes.tolist():
                 if source._rect_hit(box,x,y,2.):return True
-    for poly in frame.polygons:
+    for poly in frame.polygons.tolist():
         if source.quad_intersects_box(poly,x,y,2.,2.):return True
     return False
 
@@ -45,7 +51,7 @@ def scalar_collision_checker(wave):
     return check
 
 
-def compile_observed_prefix(path,settings,expected,initial_target_history):
+def compile_observed_prefix(path,settings,expected,initial_target_history,*,_frame_observer=None,_suspension_observer=None,_collision_bounds=None):
     """Monolithic source prefix sampled from this proposed physical trace."""
     player=scalar_module('discrete_operator')
     initial_rows=None if initial_target_history is None else iter(initial_target_history)
@@ -61,10 +67,12 @@ def compile_observed_prefix(path,settings,expected,initial_target_history):
         if tick==0:return tuple(expected[0,:2])
         dt,bounds,platforms=context
         environment=np.zeros(22);environment[7]=dt;environment[14:18]=bounds
-        return player.sample_position(expected[tick-1],environment,np.asarray(platforms,dtype=float).reshape(-1,9))
+        return player.sample_position(expected[tick-1].tolist(),environment.tolist(),platforms)
     # All observations come from this word's proposed states and the original
     # source sampling phase. The replay below independently checks every state.
-    wave=compile_wave(path,heart_samples=observe,allow_partial=True,**settings)
+    wave=compile_wave(path,heart_samples=observe,allow_partial=True,
+        include_combined_geometry=False,_frame_observer=_frame_observer,
+        _suspension_observer=_suspension_observer,_collision_bounds=_collision_bounds,**settings)
     if initial_rows is not None and next(initial_rows,None) is not None:return None
     return wave
 

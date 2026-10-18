@@ -47,7 +47,7 @@ def test_explicit_observation_segments_do_not_call_tick_exhaustion_a_wall_budget
     result=solve_csv(path,INITIAL,dt_schedule=(1/60,)*100,max_ticks=1,
         width=4,seconds=5,observation_chunk_ticks=6,observation_preview_ticks=6)
     assert result['status']=='unknown' and result['verified'] is False
-    assert result['reason']=='native_scope_or_resource_limit'
+    assert result['reason']=='tick_budget'
 
 
 def test_explicit_observation_segments_keep_unidentified_backend_scope_separate(tmp_path,monkeypatch):

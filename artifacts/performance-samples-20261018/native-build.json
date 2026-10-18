@@ -1,0 +1,28 @@
+{
+  "source_sha256": "85b4dcd63b29ea5c59e63609d11efecdcf991a78e08f07afe36a1279b346b1f5",
+  "code_identity": "b45e653954574f4a426b55624f96f65550cec86c5f001edde1b8622547d06921",
+  "compiled": true,
+  "compiler": [
+    "/usr/bin/g++"
+  ],
+  "compiler_flags": [
+    "-std=c++17",
+    "-O3",
+    "-march=native",
+    "-mtune=native",
+    "-ffp-contract=off",
+    "-fno-fast-math",
+    "-shared",
+    "-fPIC",
+    "-pthread"
+  ],
+  "cpu_target": "host",
+  "cpu_features_sha256": "4a66ef32a4c029c16fcfaba63af0933d0469367f1492b858801f5358e504fa44",
+  "bundled": false,
+  "binary_sha256": "901d39e6c2fb246b639b5c7f9cfca15561c333a97634fabb050af4ef579a8e25",
+  "kernel_load_seconds": 6.606065538000621,
+  "route_cache": false,
+  "environment_cache": false,
+  "system": "Linux",
+  "machine": "x86_64"
+}

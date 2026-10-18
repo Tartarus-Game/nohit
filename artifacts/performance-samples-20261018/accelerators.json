@@ -1,0 +1,31 @@
+{
+  "cython": "3.3.0",
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "platform": "linux-x86_64",
+  "compiler": "/usr/bin/gcc",
+  "generator_sha256": "058498da1f21bb88af1de0f3bc781e399228931eb68f77d3916af79e40a5b19c",
+  "sources": {
+    "discrete_operator": "3f5c2a53b9bba6cdc9b581ca231acac965e411dbb0cdd1d37863d91dec4af51f",
+    "cspace": "12d99f204161d045e61eaa80b1e1f8b771fc6ca8eb0220bca14d9868be764766",
+    "reference_numeric": "ac6fed97bff975ca374d73fad4b33d4b391866ade464456ad1cd6f0b17c986e6",
+    "compact_wave": "1e2201c6f7daa264d658db963aac598700c82e71181d0342164ef161aee1380c"
+  },
+  "directives": {
+    "language_level": 3,
+    "annotation_typing": false,
+    "binding": true
+  },
+  "flags": [
+    "-O2",
+    "-g0",
+    "-ffp-contract=off",
+    "-fno-fast-math"
+  ],
+  "identity": "c9570eec492175fa55874f3c5882834a545694b192b0d7d0efad6d2ebc209a40",
+  "binaries": {
+    "_scalar_discrete_operator": "c8c4026abf4eaa63ac05bf7ba4d54feef6145c86e49b17f1e68976a29f4a31a2",
+    "_scalar_cspace": "c2a8be7092bbedf6cd645b95546a1f8327587d2da9016750797c576e99c59c30",
+    "_scalar_entities": "4e97aeba8265843095a98880896ce143df9ee7c73857354f9503d93358d3e733",
+    "_scalar_reference_numeric": "080b84f7ceaed9638e97b1f7904ddcedb12af9d3e8a99933bb8ece08d5d39c07"
+  }
+}

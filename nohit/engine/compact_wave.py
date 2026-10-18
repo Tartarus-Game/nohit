@@ -8,6 +8,7 @@ from dataclasses import dataclass
 import hashlib
 import json
 import math
+import os
 import struct
 from collections.abc import Mapping
 from pathlib import Path
@@ -17,10 +18,31 @@ import numpy as np
 
 from .compact_types import CompiledWave, GeometryArray
 from .native_math import native_atan2
-from .native_numbers import (native_int, native_local_number,
+from .native_numbers import (native_int, native_local_number, native_parameter_number,
     native_parameter_in_range, native_for_count_indices)
 from .timeline_csv import read_timeline_rows
+from .static_blue_tail import stationary_blue_rows
 from .native_function_dispatch import call_arguments, audited_no_action_function, NO_ACTION_FUNCTION_AUDIT
+
+_reference_numeric = None
+if os.environ.get('NOHIT_SCALAR_PYTHON') != '1':
+    try:
+        from . import _scalar_reference_numeric as _reference_numeric
+    except ImportError:
+        pass
+_no_collision_bounds = np.empty(0, np.float64)
+
+
+def _discard_registered_prefix(entities,count):
+    """C2 family Destroy cannot select this tick's pending new instances."""
+    if hasattr(entities,'rows'):
+        keep=len(entities)-count
+        entities.rows[:keep]=entities.rows[count:len(entities)]
+        entities.count=keep
+        if hasattr(entities,'integer_directions'):
+            del entities.integer_directions[:count]
+            entities.has_reverse=bool(np.any(entities.rows[:keep,6]))
+    else:del entities[:count]
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -85,6 +107,60 @@ class _ActiveBone:
         next_y = self.y + self.vy * dt
         if self.x != next_x: self.x = next_x
         if self.y != next_y: self.y = next_y
+
+
+def _bounded_bone_rows(rows,bounds):
+    """Exact closed-box broad phase; keep original signed-size/NaN rules."""
+    if bounds is None or not len(rows):return rows
+    left,top,right,bottom=bounds
+    x=rows[:,0];end=x+rows[:,2]
+    keep=(np.where(end<x,end,x)<=right)&(np.where(end>x,end,x)>=left)
+    rows=rows[keep]
+    y=rows[:,1];end=y+rows[:,3]
+    keep=(np.where(end<y,end,y)<=bottom)&(np.where(end>y,end,y)>=top)
+    return rows[keep]
+
+
+class _ReferenceBoneBatch:
+    """NumPy evaluation of the scalar bone equations for streaming replay.
+
+    The ordinary materialized compiler below retains its scalar loops and is
+    the differential oracle. This path never loads the search kernel.
+    """
+    def __init__(self):
+        self.rows=np.empty((16,8),np.float64,order='F');self.count=0
+    def __len__(self):return self.count
+    def __iter__(self):
+        for row in self.rows[:self.count]:yield _ActiveBone(*row)
+    def append(self,bone):
+        if self.count==len(self.rows):
+            rows=np.empty((self.count*2,8),np.float64,order='F')
+            rows[:self.count]=self.rows;self.rows=rows
+        self.rows[self.count]=tuple(getattr(bone,key) for key in _ActiveBone.__slots__);self.count+=1
+    def clear(self):self.count=0
+    def advance(self,dt):
+        if not self.count:return
+        if _reference_numeric is not None:
+            self.count=_reference_numeric.advance_bones(self.rows,self.count,dt)
+            return
+        rows=self.rows[:self.count]
+        x=rows[:,0]+rows[:,4]*dt;y=rows[:,1]+rows[:,5]*dt
+        np.copyto(rows[:,0],x,where=rows[:,0]!=x);np.copyto(rows[:,1],y,where=rows[:,1]!=y)
+        gone=((rows[:,7]==0)&(rows[:,0]>640.))|((rows[:,7]==1)&(rows[:,1]>480.))
+        gone|=((rows[:,7]==2)&(rows[:,0]<-rows[:,2]))|((rows[:,7]==3)&(rows[:,1]<-rows[:,3]))
+        if gone.any():
+            kept=rows[~gone];self.count=len(kept);self.rows[:self.count]=kept
+    def geometry(self,bounds=None):
+        if _reference_numeric is not None:
+            white=np.empty((self.count,4),np.float64);blue=np.empty_like(white)
+            bounds=_no_collision_bounds if bounds is None else np.asarray(bounds,np.float64)
+            nw,nb=_reference_numeric.bone_geometry(self.rows,self.count,bounds,white,blue)
+            return white[:nw],blue[:nb]
+        rows=_bounded_bone_rows(self.rows[:self.count],bounds);boxes=np.empty((len(rows),4),np.float64)
+        right=rows[:,0]+rows[:,2];bottom=rows[:,1]+rows[:,3]
+        boxes[:,0]=np.where(right<rows[:,0],right,rows[:,0]);boxes[:,1]=np.where(bottom<rows[:,1],bottom,rows[:,1])
+        boxes[:,2]=np.where(right>rows[:,0],right,rows[:,0]);boxes[:,3]=np.where(bottom>rows[:,1],bottom,rows[:,1])
+        blue=rows[:,6]==1.;return boxes[~blue],boxes[blue]
 
 
 class _ActivePlatform:
@@ -192,6 +268,11 @@ def _resize_combat_zone(bounds, size, target, speed, dt):
     """Battle CombatZoneTick in original x/y/width/height assignment order."""
     x,y=bounds[0],bounds[1]
     width,height=size
+    if x==target[0] and y==target[1] and x+width==target[2] and y+height==target[3]:
+        # Still publish the original endpoint sums, including signed zero and
+        # a possibly inconsistent old bounds[2:4]. No resize branch can fire.
+        bounds[:]=[x,y,x+width,y+height]
+        return
     x1=min(speed*dt,abs(x-target[0]))
     y1=min(speed*dt,abs(y-target[1]))
     x2=min(speed*dt,abs(x+width-target[2]))
@@ -353,18 +434,27 @@ class _ActiveGasterBlaster:
                 ax+1000.*ux-uy*hw,ay+1000.*uy+ux*hw)
 
 
-def _build_geometry_packed(flat_w, counts_w, flat_b, counts_b, n, max_w, max_b, max_all):
+_StreamingGasterBlaster=_ActiveGasterBlaster
+if os.environ.get('NOHIT_SCALAR_PYTHON')!='1':
+    try:
+        from ._scalar_entities import _ActiveGasterBlaster as _StreamingGasterBlaster
+    except ModuleNotFoundError as error:
+        if error.name!=__package__+'._scalar_entities':raise
+
+
+def _build_geometry_packed(flat_w, counts_w, flat_b, counts_b, n, max_w, max_b, max_all, *, include_combined_geometry=True):
     """Pack source geometry using bounded array copies, without request-time JIT."""
     white = np.full((n, max_w, 4), np.nan, dtype=np.float64)
     blue = np.full((n, max_b, 4), np.nan, dtype=np.float64)
-    both = np.full((n, max_all, 4), np.nan, dtype=np.float64)
+    both = np.full((n, max_all if include_combined_geometry else 0, 4), np.nan, dtype=np.float64)
     iw = ib = 0
     for t in range(n):
         cw, cb = int(counts_w[t]), int(counts_b[t])
         white[t, :cw] = flat_w[iw:iw+cw]
         blue[t, :cb] = flat_b[ib:ib+cb]
-        both[t, :cw] = flat_w[iw:iw+cw]
-        both[t, cw:cw+cb] = flat_b[ib:ib+cb]
+        if include_combined_geometry:
+            both[t, :cw] = flat_w[iw:iw+cw]
+            both[t, cw:cw+cb] = flat_b[ib:ib+cb]
         iw += cw; ib += cb
     return white, blue, both
 
@@ -432,7 +522,8 @@ class TimelineVM:
         loaded_cmd=self.variable_key(resolve(cmd))
         return (float(self.eval_arg(resolve(d_tok))),loaded_cmd.lower(),tuple(resolve(a) for a in args))
 
-    def run(self, rows: list[list[str]], dt_nominal: float = 1.0 / 240.0) -> dict[str, Any]:
+    def run(self, rows: list[list[str]], dt_nominal: float = 1.0 / 240.0, *, include_combined_geometry=True,
+            _frame_observer=None, _suspension_observer=None, _collision_bounds=None) -> dict[str, Any]:
         # Pre-scan labels and initial environment state
         labels: dict[str, int] = {}
         has_end_attack = False
@@ -501,10 +592,11 @@ class TimelineVM:
         unproven_callbacks=[]
         callback_events=[]
 
-        active_bones: list[_ActiveBone] = []
+        active_bones = [] if _frame_observer is None else _ReferenceBoneBatch()
         active_platforms: list[_ActivePlatform] = []
         active_stabs: list[_ActiveBoneStab] = []
         active_blasters: list[_ActiveGasterBlaster] = []
+        blaster_type=_ActiveGasterBlaster if _frame_observer is None else _StreamingGasterBlaster
         environment_state_keys=[]
         if self.capture_state_keys:
             from .environment_state_key import encode_environment_state
@@ -578,6 +670,7 @@ class TimelineVM:
             teleport_pulse=mode_pulse=0.
             run_count = 0
             removed_platforms=[]
+            registered_counts=[len(active_bones),len(active_stabs),len(active_blasters),len(active_platforms)]
 
             # Execute bytecode instructions scheduled up to current time
             while running and pc < len(parsed_rows) and run_count < 1000:
@@ -594,6 +687,11 @@ class TimelineVM:
                 if time_acc < delay:
                     break
                 args=call_arguments(loaded_args)
+                if cmd_l=='sanstext' and _suspension_observer is not None:
+                    # Export the original VM before consuming the command or
+                    # advancing preview hazards. The verifier can continue
+                    # this exact transaction without replaying its prefix.
+                    _suspension_observer(self,locals())
                 # A taken self-jump must reload too. In native execution the
                 # next TLLoadLine occurs after the command and Line increment.
                 loaded_line=None
@@ -619,8 +717,10 @@ class TimelineVM:
                     break
                 elif cmd_l == "blackscreen" and int(self.eval_arg(args[0]))==1:
                     removed_platforms.extend((p.x+p.vx*dt_nominal,p.y+p.vy*dt_nominal,
-                        p.w,p.h,p.vx,p.vy,0.,1.,p.vy) for p in active_platforms if not p.born)
-                    active_bones.clear();active_stabs.clear();active_blasters.clear();active_platforms.clear()
+                        p.w,p.h,p.vx,p.vy,0.,1.,p.vy) for p in list(active_platforms)[:registered_counts[3]] if not p.born)
+                    for entities,count in zip((active_bones,active_stabs,active_blasters,active_platforms),registered_counts):
+                        _discard_registered_prefix(entities,count)
+                    registered_counts=[0,0,0,0]
                 elif cmd_l in ("tlpause", "tlresume"):
                     # A settled arena still resumes only at the later world
                     # callback phase; commands after TLPause wait a real tick.
@@ -766,12 +866,14 @@ class TimelineVM:
                     self.vars[self.variable_key(args[0])] = self.heart_pos[0]
                     self.vars[self.variable_key(args[1])] = self.heart_pos[1]
                 elif cmd_l == "sansslam":
-                    slam_dir = float(math.floor(self.eval_arg(args[0])))
-                    gravity_dir = slam_dir
-                    heart_mode = 1.0
-                    mode_pulse=1.
-                    self.vars["_last_slam_tick"] = tick
-                    self.vars["_last_slam_speed"] = max_fall_speed
+                    # The original handler first compares the raw parameter
+                    # against 0..3; invalid text (e.g. HandLeft) has no effect.
+                    if native_parameter_in_range(args[0], 0., 3.):
+                        gravity_dir = native_int(native_parameter_number(args[0]))
+                        heart_mode = 1.0
+                        mode_pulse=1.
+                        self.vars["_last_slam_tick"] = tick
+                        self.vars["_last_slam_speed"] = max_fall_speed
                 elif cmd_l in ("bonev", "boneh"):
                     active_bones.append(_bone_from_command(cmd_l == "boneh", args))
                 elif cmd_l in ("bonevrepeat", "bonehrepeat"):
@@ -821,7 +923,7 @@ class TimelineVM:
                     blast_t = float(self.eval_arg(args[7]))
                     # System.int distinguishes loaded literal/SET strings from
                     # numeric arithmetic results. Do not eval away that type.
-                    active_blasters.append(_ActiveGasterBlaster(*args[:6], timer, blast_t))
+                    active_blasters.append(blaster_type(*args[:6], timer, blast_t))
                 pc += 1
 
             if initial_heart_pos_captured is None:
@@ -830,14 +932,16 @@ class TimelineVM:
             middle_cz=list(cz)
 
             # Advance kinematics (inlined for high performance)
-            for b in active_bones:
-                next_x = b.x + b.vx * dt_nominal
-                next_y = b.y + b.vy * dt_nominal
-                if b.x != next_x: b.x = next_x
-                if b.y != next_y: b.y = next_y
-            active_bones=[b for b in active_bones if not
-                ((b.direction==0 and b.x>640.) or (b.direction==1 and b.y>480.) or
-                 (b.direction==2 and b.x<-b.w) or (b.direction==3 and b.y<-b.h))]
+            if isinstance(active_bones,_ReferenceBoneBatch):active_bones.advance(dt_nominal)
+            else:
+                for b in active_bones:
+                    next_x = b.x + b.vx * dt_nominal
+                    next_y = b.y + b.vy * dt_nominal
+                    if b.x != next_x: b.x = next_x
+                    if b.y != next_y: b.y = next_y
+                active_bones=[b for b in active_bones if not
+                    ((b.direction==0 and b.x>640.) or (b.direction==1 and b.y>480.) or
+                     (b.direction==2 and b.x<-b.w) or (b.direction==3 and b.y<-b.h))]
 
             cz_l = cz[0]
             cz_r = cz[2]
@@ -906,7 +1010,12 @@ class TimelineVM:
             # Collect hazard boxes for tick
             cw = 0
             cb = 0
-            for b in active_bones:
+            bone_white=bone_blue=None
+            if isinstance(active_bones,_ReferenceBoneBatch):
+                bounds=_collision_bounds
+                if getattr(bounds,'ndim',1)==2:bounds=bounds[tick] if tick<len(bounds) else None
+                bone_white,bone_blue=active_bones.geometry(bounds)
+            for b in (() if bone_white is not None else active_bones):
                 # C2 accepts signed sprite sizes and normalizes the resulting bbox.
                 # Do not clamp height: SineBones uses it again to position the gap.
                 box = (min(b.x, b.x + b.w), min(b.y, b.y + b.h),
@@ -928,11 +1037,11 @@ class TimelineVM:
 
             counts_white.append(cw)
             counts_blue.append(cb)
-            if cw > max_w:
+            if _frame_observer is None and cw > max_w:
                 max_w = cw
-            if cb > max_b:
+            if _frame_observer is None and cb > max_b:
                 max_b = cb
-            if cw + cb > max_all:
+            if _frame_observer is None and cw + cb > max_all:
                 max_all = cw + cb
 
             # The included Timeline sheet increments T before Battle's regular
@@ -947,6 +1056,20 @@ class TimelineVM:
             env_schedule[tick,0:4]=cz
             if pending_target is None and pending_dialogue is None:
                 finish_resize('post_timeline_combatzonetick')
+            if _frame_observer is not None:
+                # Independent verifier consumes the unchanged monolithic
+                # equations one frame at a time. No padded hazard history is
+                # retained after that frame has actually been checked.
+                white=np.asarray(flat_white_list,dtype=float).reshape(-1,4)
+                if len(white):white=np.concatenate((bone_white,white))
+                else:white=bone_white
+                _frame_observer(tick,env_schedule[tick],
+                    np.asarray(platform_frames[-1],dtype=float).reshape(-1,9),
+                    white,bone_blue,
+                    np.asarray(polygon_frames[-1],dtype=float).reshape(-1,8),
+                    pending_target is None and pending_dialogue is None)
+                flat_white_list.clear();flat_blue_list.clear()
+                counts_white[-1]=counts_blue[-1]=0;polygon_frames[-1]=[]
             tick += 1
 
             if pc>=len(parsed_rows) and not ended and pending_target is None and pending_dialogue is None:
@@ -955,7 +1078,7 @@ class TimelineVM:
                 # and warning stabs, not merely this tick's collision polygons.
                 # Platforms are passive supports, not damage-producing objects.
                 if (self.termination_policy=='eof_hazards_drained' and
-                    not active_bones and not active_stabs and not active_blasters and cz==tgt_cz):
+                    (not active_bones or (not active_platforms and stationary_blue_rows(active_bones) is not None)) and not active_stabs and not active_blasters and cz==tgt_cz):
                     ended=True
                     termination_reason='eof_hazards_drained'
 
@@ -998,7 +1121,8 @@ class TimelineVM:
         counts_b_arr = np.asarray(counts_blue, dtype=np.int32)
 
         geom_white, geom_blue, geom_all = _build_geometry_packed(
-            flat_w_arr, counts_w_arr, flat_b_arr, counts_b_arr, tick, max_w, max_b, max_all
+            flat_w_arr, counts_w_arr, flat_b_arr, counts_b_arr, tick, max_w, max_b, max_all,
+            include_combined_geometry=include_combined_geometry
         )
 
         if initial_heart_pos_captured is None:
@@ -1020,6 +1144,7 @@ class TimelineVM:
             "termination_reason": termination_reason,
             "eof_tick": eof_tick,
             "terminal_details": {'active_bones':len(active_bones),'active_stabs':len(active_stabs),
+                'static_blue_bones':stationary_blue_rows(active_bones),
                 'active_blasters':len(active_blasters),'active_platforms':len(active_platforms),
                 'arena_settled':cz==tgt_cz,'player_invariant_proven':False,'pending_dialogue':pending_dialogue,
                 'timeline_exhausted':pc>=len(parsed_rows) and loaded_line is None and pending_target is None and pending_dialogue is None,
@@ -1062,7 +1187,7 @@ def native_fixed_dt(clock_start_ms, count, initial_dt=None):
     return dt
 
 
-def compile_wave(path: str | Path, seed: int = 42, initial_environment=None, heart_samples=None, allow_partial=False, dt_schedule=None, clock_start_ms=None, termination_policy='endattack', max_ticks=40000,capture_state_keys=False,initial_arena=None) -> CompiledWave:
+def compile_wave(path: str | Path, seed: int = 42, initial_environment=None, heart_samples=None, allow_partial=False, dt_schedule=None, clock_start_ms=None, termination_policy='endattack', max_ticks=40000,capture_state_keys=False,initial_arena=None,include_combined_geometry=True,_frame_observer=None,_suspension_observer=None,_collision_bounds=None) -> CompiledWave:
     """Universal Wave Compiler compiling any canonical attack CSV into a CompiledWave object."""
     path = Path(path)
     if not path.exists():
@@ -1078,7 +1203,8 @@ def compile_wave(path: str | Path, seed: int = 42, initial_environment=None, hea
         initial_dt=(initial_environment[7] if initial_environment is not None and len(initial_environment)>7 else None)
         dt_schedule=native_fixed_dt(clock_start_ms,max_ticks,initial_dt)
     vm = TimelineVM(seed=seed,initial_environment=initial_environment,heart_samples=heart_samples,allow_partial=allow_partial,dt_schedule=dt_schedule,termination_policy=termination_policy,max_ticks=max_ticks,capture_state_keys=capture_state_keys,initial_arena=initial_arena)
-    sim = vm.run(rows, dt_nominal=dt_nominal)
+    sim = vm.run(rows, dt_nominal=dt_nominal,include_combined_geometry=include_combined_geometry,
+        _frame_observer=_frame_observer,_suspension_observer=_suspension_observer,_collision_bounds=_collision_bounds)
 
     env_schedule = sim["env_schedule"]
     platform_table = sim["platform_table"]

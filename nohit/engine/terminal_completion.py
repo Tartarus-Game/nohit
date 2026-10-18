@@ -2,8 +2,11 @@
 import numpy as np
 
 from .compact_wave import native_fixed_dt
-from .discrete_operator import step_mask_into
+from .source_oracle import scalar_module
 from .terminal_invariant import EMPTY_PLATFORMS, _inputs, settle_release_to_invariant
+from .static_blue_tail import blue_tail_collision
+
+step_mask_into = scalar_module('discrete_operator').step_mask_into
 
 
 def complete_eof_tail(wave, state, *, clock_start_ms=None, max_ticks=40000,
@@ -55,7 +58,7 @@ def complete_eof_tail(wave, state, *, clock_start_ms=None, max_ticks=40000,
                 result['actions'].append(int(last_mask))
                 result['dt_sequence'].append(float(future[i]))
                 result['states'].append(out.tolist())
-                if out[10]!=0. or not np.isfinite(out).all():
+                if out[10]!=0. or not np.isfinite(out).all() or blue_tail_collision(out,wave.terminal_details):
                     result['reasons']=['damage_or_invalid_control_grid_transition']
                     break
                 s=out

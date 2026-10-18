@@ -32,6 +32,19 @@ def test_red_stationary_interior_needs_no_support():
     assert certify_release_invariant(s,e,d)['status']=='proven'
 
 
+def test_unslammed_red_heart_with_enabled_slam_damage_remains_a_fixed_point():
+    s,e,d=fixture(mode=0,y=100.)
+    s[9]=e[12]=1.
+    proof=certify_release_invariant(s,e,d)
+    assert proof['status']=='proven'
+    expected=np.array(proof['invariant_state'])
+    for dt in [1/30,1/60,1/1000]*20:
+        e[7]=dt;out=np.empty(11)
+        step_mask_into(s,0,e,np.zeros((0,9)),out)
+        assert out.tobytes()==expected.tobytes()
+        s=out
+
+
 @pytest.mark.parametrize('change', ['preheat','callback','unknown_callbacks','platform','moving_arena','outside','falling','slam_damage','negative_fall','old_phase','pulse'])
 def test_empty_raster_is_not_a_terminal_certificate(change):
     s,e,d=fixture()
