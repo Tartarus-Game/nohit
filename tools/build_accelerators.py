@@ -161,12 +161,20 @@ def main():
         target=generated/('_scalar_'+name+'.py')
         target.write_text((entity_source if name=='entities' else scalar_source)(ENGINE/(source+'.py')),encoding='utf-8')
         if not (cache/'lib/nohit/engine'/('_scalar_'+name+suffix)).exists():
-            extensions.append(Extension('nohit.engine._scalar_'+name,[str(target)],extra_compile_args=options['flags']))
+            extensions.append(Extension('nohit.engine._scalar_'+name,[str(target.relative_to(cache))],extra_compile_args=options['flags']))
     if not all((cache/'lib/nohit/engine'/(name+suffix)).exists() for name in names):
-        extensions=cythonize(extensions,compiler_directives=options['directives'],
-            build_dir=str(generated/'cython'),quiet=True)
-        setup(name='nohit-local-accelerators',ext_modules=extensions,
-            script_args=['build_ext','--build-lib',str(cache/'lib'),'--build-temp',str(cache/'temp'),'-j',str(args.jobs)])
+        # MSVC still rejects very long compiler-generated paths. Work inside
+        # the cache with relative sources so Cython/setuptools do not repeat
+        # the complete absolute checkout path in C and object filenames.
+        previous_directory=Path.cwd()
+        try:
+            os.chdir(cache)
+            extensions=cythonize(extensions,compiler_directives=options['directives'],
+                build_dir='generated/cython',quiet=True)
+            setup(name='nohit-local-accelerators',ext_modules=extensions,
+                script_args=['build_ext','--build-lib','lib','--build-temp','temp','-j',str(args.jobs)])
+        finally:
+            os.chdir(previous_directory)
     binaries={}
     for name in names:
         built=cache/'lib/nohit/engine'/(name+suffix);installed=ENGINE/(name+suffix)
