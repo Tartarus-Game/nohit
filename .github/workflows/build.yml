@@ -25,6 +25,7 @@ jobs:
     timeout-minutes: 40
     env:
       NOHIT_NATIVE_TUNE: portable
+      PYTHONUTF8: '1'
       VCPKG_BINARY_SOURCES: clear;files,${{ github.workspace }}/build/vcpkg-cache,readwrite
     defaults:
       run:

@@ -46,7 +46,7 @@ def build(output, *, highway=True, pdqsort=True, installed=None, triplet=None, x
     if hasattr(os, 'geteuid') and os.geteuid() == 0:
         environment.setdefault('XMAKE_ROOT', 'y')
     version = re.sub(r'\x1b\[[0-9;]*m', '', subprocess.check_output(
-        [executable, '--version'], env=environment, text=True)).splitlines()[0]
+        [executable, '--version'], env=environment, text=True, encoding='utf-8', errors='replace')).splitlines()[0]
     with tempfile.TemporaryDirectory(prefix='nohit-xmake-', dir=output.parent) as temporary:
         staging = Path(temporary)
         (staging / 'nohit/engine').mkdir(parents=True)
@@ -62,7 +62,8 @@ def build(output, *, highway=True, pdqsort=True, installed=None, triplet=None, x
         if os.environ.get('CXX'):
             configure.append('--cxx=' + os.environ['CXX'])
         for command in (configure, [executable, '-y', '-P', str(staging), 'native_frontier']):
-            process = subprocess.run(command, cwd=staging, env=environment, capture_output=True, text=True, timeout=180)
+            process = subprocess.run(command, cwd=staging, env=environment, capture_output=True,
+                                     text=True, encoding='utf-8', errors='replace', timeout=180)
             if process.returncode:
                 raise RuntimeError('xmake native build failed:\n' + process.stdout[-6000:] + process.stderr[-6000:])
         candidates = [p for p in (staging / 'build').rglob('*native_frontier.*')

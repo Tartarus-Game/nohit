@@ -53,7 +53,8 @@ def main():
         if path.suffix in ('.py','.cpp','.hpp','.html','.js','.css'):
             command += ['--add-data', str(path)+':'+str(path.parent.relative_to(ROOT))]
     for relative in ('xmake.lua','vcpkg.json','nohit/engine/native-build.json',
-                     'build/accelerated/manifest.json','c2-sans-fight','third_party','data'):
+                     'build/accelerated/manifest.json','c2-sans-fight','third_party','data',
+                     'hrzq','start_dashboard.py','tools/distribution_entry.py'):
         path = ROOT/relative
         destination = str(path.parent.relative_to(ROOT)) if path.is_file() else relative
         command += ['--add-data', str(path)+':'+destination]

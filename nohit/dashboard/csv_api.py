@@ -2,6 +2,7 @@
 import hashlib
 import math
 import os
+import sys
 from pathlib import Path
 import tempfile
 import time
@@ -20,7 +21,8 @@ _ROOT = Path(__file__).resolve().parents[2]
 IMPLEMENTATION_PATHS = tuple(sorted(
     [path.relative_to(_ROOT).as_posix() for path in (_ROOT/'nohit/engine').glob('*.py')]
     + ['nohit/engine/native_frontier.cpp', 'nohit/__init__.py', 'nohit/dashboard/csv_api.py',
-       'nohit/dashboard/csv_source.py', 'nohit/dashboard/csv_visualization.py', 'nohit/dashboard/server.py', 'start_dashboard.py']))
+       'nohit/dashboard/csv_source.py', 'nohit/dashboard/csv_visualization.py', 'nohit/dashboard/server.py', 'start_dashboard.py']
+    + (['tools/distribution_entry.py'] if getattr(sys,'frozen',False) else [])))
 
 
 def implementation_hashes():

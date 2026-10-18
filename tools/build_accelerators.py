@@ -24,7 +24,7 @@ SCALARS={'discrete_operator':'discrete_operator','cspace':'cspace','entities':'c
 
 
 def entity_source(path):
-    tree=ast.parse(path.read_text())
+    tree=ast.parse(path.read_text(encoding='utf-8'))
     if path.stem=='compact_wave':
         for node in tree.body:
             if isinstance(node,ast.Assign) and any(isinstance(t,ast.Name) and t.id=='ROOT' for t in node.targets):
@@ -61,7 +61,7 @@ def entity_source(path):
 
 
 def scalar_source(path):
-    tree=ast.parse(path.read_text())
+    tree=ast.parse(path.read_text(encoding='utf-8'))
     tree.body=[node for node in tree.body if not (isinstance(node,ast.ImportFrom) and node.module=='numba')]
     for node in ast.walk(tree):
         if isinstance(node,(ast.FunctionDef,ast.AsyncFunctionDef)):
@@ -159,7 +159,7 @@ def main():
     extensions=[]
     for name,source in SCALARS.items():
         target=generated/('_scalar_'+name+'.py')
-        target.write_text((entity_source if name=='entities' else scalar_source)(ENGINE/(source+'.py')))
+        target.write_text((entity_source if name=='entities' else scalar_source)(ENGINE/(source+'.py')),encoding='utf-8')
         if not (cache/'lib/nohit/engine'/('_scalar_'+name+suffix)).exists():
             extensions.append(Extension('nohit.engine._scalar_'+name,[str(target)],extra_compile_args=options['flags']))
     if not all((cache/'lib/nohit/engine'/(name+suffix)).exists() for name in names):

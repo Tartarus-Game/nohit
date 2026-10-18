@@ -38,7 +38,27 @@ def self_test():
         assert result['verified'], result.get('reason')
         assert result['actions']
     server = start_server(port=0)
-    server.server_close()
+    import threading
+    import urllib.request
+    thread = threading.Thread(target=server.serve_forever,daemon=True)
+    thread.start()
+    address = f'http://127.0.0.1:{server.server_port}'
+    try:
+        for route in ('/','/game/','/api/runtime-status'):
+            with urllib.request.urlopen(address+route,timeout=10) as response:
+                assert response.status == 200 and response.read()
+        request = urllib.request.Request(address+'/api/solve-csv',
+            data=json.dumps(dict(custom_csv='0,HeartMode,0\n0.1,EndAttack\n',
+                initial=initial,dt_schedule=[1/60]*120,width=32,seconds=5,
+                objective='human_friendly',analyze_difficulty=True)).encode(),
+            headers={'Content-Type':'application/json'})
+        with urllib.request.urlopen(request,timeout=30) as response:
+            api_result = json.load(response)
+            assert api_result['verified'], api_result.get('reason')
+    finally:
+        server.shutdown()
+        server.server_close()
+        thread.join(timeout=10)
     root = Path(__import__('nohit').__file__).resolve().parents[1]
     assert (root/'nohit/dashboard/static/index.html').is_file()
     assert (root/'c2-sans-fight/c2runtime.js').is_file()

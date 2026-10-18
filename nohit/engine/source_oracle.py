@@ -22,7 +22,7 @@ def scalar_module(name):
     if os.environ.get('NOHIT_SCALAR_PYTHON')!='1' and importlib.util.find_spec(compiled) is not None:
         return importlib.import_module(compiled)
     path = Path(__file__).with_name(name + '.py')
-    tree = ast.parse(path.read_text(), filename=str(path))
+    tree = ast.parse(path.read_text(encoding='utf-8'), filename=str(path))
     tree.body = [node for node in tree.body
                  if not (isinstance(node, ast.ImportFrom) and node.module == 'numba')]
     for node in ast.walk(tree):
