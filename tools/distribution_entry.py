@@ -62,6 +62,8 @@ def self_test():
     root = Path(__import__('nohit').__file__).resolve().parents[1]
     assert (root/'nohit/dashboard/static/index.html').is_file()
     assert (root/'c2-sans-fight/c2runtime.js').is_file()
+    from nohit.engine.native_function_dispatch import _current_registry_matches
+    assert _current_registry_matches(), 'Original game source identity changed during packaging'
     assert 'numba' not in sys.modules
     print(json.dumps(dict(self_test='passed', bundled=True, compiler_required=False,
                           python_required=False, ticks=len(result['actions']))))

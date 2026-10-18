@@ -1,0 +1,3 @@
+# Game admission and solver bindings hash exact source bytes on every OS.
+# Preserve existing LF/CRLF bytes instead of applying checkout conversions.
+* -text
