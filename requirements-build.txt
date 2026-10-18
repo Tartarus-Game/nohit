@@ -1,0 +1,5 @@
+# Only the CI/build machine needs these; releases include their own runtime.
+numpy==2.3.5
+Cython==3.3.0
+setuptools==80.9.0
+pyinstaller==6.22.3

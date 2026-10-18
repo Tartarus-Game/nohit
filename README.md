@@ -3,6 +3,13 @@
 保留两条主线：**CSV 原游戏求解与验收**、**Godot / GameMaker 通用 Live SDK**。
 旧算法、旧页面和研究原型保存在分支 `codex/history-before-cleanup-20261017`；清理基线为 `codex/latest-only`。
 
+## 免编译 Windows / Linux 下载
+
+每次提交自动构建两个平台的独立运行包，内含 Python 与预编译 C++，用户设备无需配置编译环境。
+前往 [Actions 下载成功构建的 Artifact](https://github.com/Tartarus-Game/nohit/actions/workflows/build.yml)。
+Windows 解压后运行 `nohit.exe`；Linux 解开 `.tar.xz` 后运行 `nohit`，浏览器打开 `http://127.0.0.1:8080`。
+每个平台压缩包设有 20 MB 硬上限，详情见 [自动构建说明](docs/portable-builds.md)。
+
 ## CSV 真机流程
 
 Python 3.10+。从源码构建原生核心需要 C++17 编译器、xmake 和 vcpkg；第三方依赖由根目录 `vcpkg.json` 固定。多线程使用 `std::thread`，不依赖 OpenMP。详见 [原生构建说明](docs/native-build.md)。已有匹配源码及 CPU 的预编译镜像时，运行不需要这些构建工具。

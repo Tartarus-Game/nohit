@@ -763,7 +763,7 @@ static bool probe(const World& w,const State& initial,const int64_t* controls,co
         // IEEE positions often share all low mantissa bits (notably at 60 Hz).
         // Mix once before masking rather than first building a long linear
         // chain and then throwing the table away. Equality remains bit exact.
-        auto state_slot=[&](const State& state,size_t raw_slot) __attribute__((always_inline)) {
+        auto state_slot=[&](const State& state,size_t raw_slot) {
             size_t slot=raw_slot;
             while(table[slot]>=0 && !equal_state(state,edges[table[slot]].state,bit)) {
                 slot=(slot+1)&(active_capacity-1);

@@ -36,6 +36,7 @@ target("native_frontier")
     add_files("nohit/engine/native_frontier.cpp")
     add_headerfiles("nohit/engine/native_simd.hpp")
     if is_plat("windows") then
+        set_runtimes("MT")
         add_cxxflags("/O2", "/fp:strict", {force = true})
         add_rules("utils.symbols.export_all")
     else

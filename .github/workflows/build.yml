@@ -1,0 +1,79 @@
+name: Portable Windows and Linux
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  portable:
+    name: ${{ matrix.label }} portable
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-22.04
+            label: linux-x64
+            triplet: x64-linux
+          - os: windows-2022
+            label: windows-x64
+            triplet: x64-windows-static
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 40
+    env:
+      NOHIT_NATIVE_TUNE: portable
+      VCPKG_BINARY_SOURCES: clear;files,${{ github.workspace }}/build/vcpkg-cache,readwrite
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-build.txt
+      - uses: xmake-io/github-action-setup-xmake@v1
+        with:
+          xmake-version: '3.1.2'
+      - uses: ilammy/msvc-dev-cmd@v1
+        if: runner.os == 'Windows'
+        with:
+          arch: x64
+      - uses: actions/cache@v4
+        with:
+          path: build/vcpkg-cache
+          key: vcpkg-${{ matrix.label }}-${{ hashFiles('vcpkg.json') }}
+      - name: Install Python build dependencies
+        run: python -m pip install -r requirements-build.txt pytest
+      - name: Install pinned vcpkg dependencies
+        run: |
+          git clone https://github.com/microsoft/vcpkg.git build/vcpkg
+          git -C build/vcpkg checkout bf19794383e8fb95eba5aa553235bc8ec2271688
+          if [ "$RUNNER_OS" = Windows ]; then
+            cmd.exe //c 'build\vcpkg\bootstrap-vcpkg.bat -disableMetrics'
+            build/vcpkg/vcpkg.exe install --triplet ${{ matrix.triplet }} --x-install-root=build/vcpkg_installed
+          else
+            build/vcpkg/bootstrap-vcpkg.sh -disableMetrics
+            build/vcpkg/vcpkg install --triplet ${{ matrix.triplet }} --x-install-root=build/vcpkg_installed
+          fi
+      - name: Build portable C++ image with xmake
+        run: python -m tools.build_native --install --vcpkg-installed build/vcpkg_installed --triplet ${{ matrix.triplet }}
+      - name: Build independent scalar accelerators
+        run: python -m tools.build_accelerators
+      - name: Test solver and difficulty reports
+        run: python -m pytest -q tests/unit/test_failure_routes_and_objective.py tests/unit/test_human_friendly.py
+      - name: Freeze, extract, smoke-test and enforce 20 MB budget
+        run: python -m tools.package_portable --max-mb 20
+      - name: Upload runnable archive and checksum
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nohit-${{ matrix.label }}-${{ github.sha }}
+          path: build/releases/*
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 30

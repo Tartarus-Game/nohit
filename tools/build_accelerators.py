@@ -136,12 +136,13 @@ def main():
     from Cython.Build import cythonize
     from Cython import __version__ as cython_version
     from setuptools import Extension,setup
-    os.environ.setdefault('CC',shutil.which('gcc') or shutil.which('clang') or 'cc')
+    if os.name != 'nt':
+        os.environ.setdefault('CC',shutil.which('gcc') or shutil.which('clang') or 'cc')
     sources={name:hashlib.sha256((ENGINE/(name+'.py')).read_bytes()).hexdigest() for name in set(SCALARS.values())}
-    options=dict(cython=cython_version,python=sys.version,platform=sysconfig.get_platform(),compiler=os.environ['CC'],
+    options=dict(cython=cython_version,python=sys.version,platform=sysconfig.get_platform(),compiler=os.environ.get('CC','msvc'),
         generator_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         sources=sources,directives=dict(language_level=3,annotation_typing=False,binding=True),
-        flags=['-O2','-g0','-ffp-contract=off','-fno-fast-math'])
+        flags=['/O2','/fp:strict'] if os.name=='nt' else ['-O2','-g0','-ffp-contract=off','-fno-fast-math'])
     identity=hashlib.sha256(json.dumps(options,sort_keys=True).encode()).hexdigest()
     cache=ROOT/'build/accelerated'/identity
     generated=cache/'generated';generated.mkdir(parents=True,exist_ok=True)

@@ -89,7 +89,9 @@ def load_backend():
     began = time.perf_counter()
     from nohit.native_runtime import configure_native_runtime
     configure_native_runtime()
-    bundled=_bundled_binary() if not os.environ.get('CXX') else None
+    bundled=_bundled_binary() if not os.environ.get('CXX') or getattr(sys,'frozen',False) else None
+    if getattr(sys,'frozen',False) and bundled is None:
+        raise RuntimeError('Portable native image is missing or invalid; extract the complete release ZIP again')
     compiler = bundled[1]['compiler'] if bundled else shlex.split(os.environ['CXX']) if os.environ.get('CXX') else None
     if compiler is None:
         executable = shutil.which('g++') or shutil.which('clang++')
